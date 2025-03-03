@@ -8,6 +8,17 @@
 <style>
 table td{ padding:0px 10px 0px 10px;}
 .numeric{ text-align:right;}
+.pagebreak:last-child {
+            page-break-after: auto;
+        }
+        .pagebreak {
+          clear: both;
+          page-break-after: always;
+        }
+        html, body {
+          page-break-after: avoid;
+            page-break-before: avoid;
+    }
 
 </style>
 </head>
@@ -19,7 +30,7 @@ for($i=0; $i<$count; $i++ )
 {
 $this->load->model("common_model");
 ?>
-<div id="wrapper" style=" min-height:1300px;font-family:SolaimanLipi; margin:0 auto; width:750px;">
+<div id="wrapper" class="pagebreak" style=" min-height:1000px;font-family:SolaimanLipi; margin:0 auto; width:750px;">
 
 <div style="width:730px; border-bottom:3px solid #000;">
     <table width="730" cellpadding="3" style="font-family:SolaimanLipi;">
@@ -51,9 +62,9 @@ $this->load->model("common_model");
 <td>কার্ড নং</td>
 <td>:</td>
 <td><span style="font-family:'Times New Roman', Times, serif;"><?php echo $values["new_emp_id"][$i]; ?></span></td>
-<td>পরিবর্তিত কার্ড নং</td>
+<!-- <td>পরিবর্তিত কার্ড নং</td>
 <td>:</td>
-<td><span style="font-family:'Times New Roman', Times, serif;"><?php echo $values["new_emp_id"][$i]; ?></span></td>
+<td><span style="font-family:'Times New Roman', Times, serif;"><?php echo $values["new_emp_id"][$i]; ?></span></td> -->
 </tr>
 
 <tr>
@@ -79,7 +90,7 @@ $this->load->model("common_model");
 <td>যোগদানের তারিখ </td>
 <td>:</td><span style="font-family:'Times New Roman', Times, serif;">
 <?php $join_date = $this->db->where("emp_id",$values["new_emp_id"][$i])->get('pr_emp_com_info')->row()->emp_join_date; ?></span>
-<td><span style="font-family:'Times New Roman', Times, serif;"><?php echo $join_date; ?></span></td>
+<td><span style="font-family:'Times New Roman', Times, serif;"><?php echo date('d-m-Y', strtotime($join_date)); ?></span></td>
 </tr>
 </table>
 </br>
@@ -88,7 +99,7 @@ $this->load->model("common_model");
 
 <div style="; font-size:15px; border:0; width:730px; margin-bottom:30px;font-family:SolaimanLipi; text-align:justify;">
 
-কর্তৃপক্ষ অতি  আনন্দের সাথে জানাচ্ছে যে,আপনার বর্তমান মজুরী <span style="font-family:'sutonnyMJ'"><?php echo $values["prev_salary"][$i]; ?> </span> টাকার সাথে <span style="font-family:'sutonnyMJ'; font-weight:bold;"><?php echo $increment = $values["new_salary"][$i] - $values["prev_salary"][$i]; ?> </span>টাকা বৃদ্ধি করে সর্বমোট <span style="font-family:'sutonnyMJ'"><?php echo $values["new_salary"][$i]; ?> </span> টাকায় উন্নীত করেছেন । যাহা <span style="font-family:'sutonnyMJ'"><?php echo $values["effective_month"][$i]; ?> </span> ইং তারিখ থেকে কার্যকর হবে । সাথে সাথে বর্তমান পদ <span style="font-family:'Times New Roman', Times, serif;"><?php echo $values["prev_desig"][$i]; ?></span> হতে <span style="font-family:'Times New Roman', Times, serif;"><?php if($values["status"][$i]==2){ echo $values["new_desig"][$i];}else{echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";} ?> </span>পদে পদোন্নতি প্রদান করেছেন । 
+অতি  আনন্দের সাথে জানাচ্ছি যে, কর্তৃপক্ষ আপনার বর্তমান মজুরী <span style="font-family:'sutonnyMJ'"><?php echo $values["prev_salary"][$i]; ?> </span> টাকার সাথে <span style="font-family:'sutonnyMJ'; font-weight:bold;"><?php echo $increment = $values["new_salary"][$i] - $values["prev_salary"][$i]; ?> </span>টাকা বৃদ্ধি করে সর্বমোট <span style="font-family:'sutonnyMJ'"><?php echo $values["new_salary"][$i]; ?> </span> টাকায় উন্নীত করেছেন । যা <span style="font-family:'sutonnyMJ'"><?php $a= $values["effective_month"][$i]; echo date('d-n-Y',strtotime($a));  ?> </span> ইং তারিখ থেকে কার্যকর হবে । সাথে সাথে বর্তমান পদ <span style="font-family:'Times New Roman', Times, serif;"><?php echo $values["prev_desig"][$i]; ?></span> হতে <span style="font-family:'Times New Roman', Times, serif;"><?php if($values["status"][$i]==2){ echo $values["new_desig"][$i];}else{echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";} ?> </span>পদে পদোন্নতি প্রদান করেছেন । 
 
 <br/>
 <br/>
@@ -127,9 +138,9 @@ $this->load->model("common_model");
 
 <tr>
 <td>যাতায়াত ভাতা	</td>
-<td class="numeric"><span style="font-family:SutonnyMJ;"><?php echo $salary_structure_pre['trans_allaw']; ?></span></td>
+<td class="numeric"><span style="font-family:SutonnyMJ;"><?php echo $salary_structure_pre['trans_allow']; ?></span></td>
 <td>যাতায়াত ভাতা	</td>
-<td class="numeric"><span style="font-family:SutonnyMJ;"><?php echo $salary_structure_new['trans_allaw']; ?></span></td>
+<td class="numeric"><span style="font-family:SutonnyMJ;"><?php echo $salary_structure_new['trans_allow']; ?></span></td>
 </tr>
 
 <tr>
@@ -146,18 +157,20 @@ $this->load->model("common_model");
 <td class="numeric"><span style="font-family:SutonnyMJ;"><?php echo $values["new_salary"][$i]; ?></span></td>
 </tr>
 </table><br />
-আপনার ওভারটাইম হার (প্রতি ঘন্টা)<span style="font-family:SutonnyMJ; font-weight:bold; "> <?php 	echo $salary_structure_new['ot_rate'];?></span>&nbsp;&nbsp;টাকা।
+<!-- আপনার ওভারটাইম হার (প্রতি ঘন্টা)<span style="font-family:SutonnyMJ; font-weight:bold; "> <?php 	echo $salary_structure_new['ot_rate'];?></span>&nbsp;&nbsp;টাকা। -->
 
-<div style="border:0; width:800px; margin-top:100px;font-family:SolaimanLipi;">
+<div style="border:0; width:800px; margin-top:50px;font-family:SolaimanLipi;">
 <div  style="width:200px; margin-bottom:20px;font-size:15px; text-decoration: overline; float: left;">
-সেকশন হেড
+<!-- সেকশন হেড -->
+বিভাগীয় প্রধান(HR)  
 </div>
 <div  style="width:200px; margin-bottom:20px;font-size:15px; text-decoration: overline; float: left;">
-বিভাগীয় প্রধান(HR)                                        
+<!-- বিভাগীয় প্রধান(HR)    -->
+<!-- পত্র গ্রহণকারীর স্বাক্ষর                                       -->
 </div>
 
 <div  style="width:150px; margin-bottom:15px;font-size:15px; text-decoration: overline; float: left;">
-পরিচালক 
+<!-- পরিচালক  -->
 </div>
 <div  style="width:200px; margin-bottom:20px;font-size:15px; text-decoration: overline; float: left;">
 পত্র গ্রহণকারীর স্বাক্ষর 

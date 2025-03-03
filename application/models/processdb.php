@@ -1,19 +1,19 @@
 <?php
 class Processdb extends CI_Model{
-	
-	
+
+
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 		$this->load->model('log_model');
 		$this->load->model('common_model');
 	}
-	
+
 	//==================================Employee Information View==============================
 	//=========================================================================================
-	
+
 	function get_department_name()
 	{
 		//$get_session_user_unit = $this->common_model->get_session_unit_id_name();
@@ -23,7 +23,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('dept_name','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_section_name()
 	{
 		//$get_session_user_unit = $this->common_model->get_session_unit_id_name();
@@ -33,7 +33,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('sec_name','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_designation_name()
 	{
 		//$get_session_user_unit = $this->common_model->get_session_unit_id_name();
@@ -43,7 +43,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('desig_name','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_line_name()
 	{
 		//$get_session_user_unit = $this->common_model->get_session_unit_id_name();
@@ -87,15 +87,15 @@ class Processdb extends CI_Model{
 		$this->db->order_by('id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_position_name()
 	{
 		$this->db->select('posi_id, posi_name');
 		$this->db->from('pr_emp_position');
-		$this->db->order_by('posi_name','ASC');
+		$this->db->order_by('posi_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_operation_name()
 	{
 		$this->db->select('ope_id, ope_name');
@@ -103,7 +103,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('ope_name','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_status_name()
 	{
 		$this->db->select('stat_id, stat_type');
@@ -111,7 +111,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('stat_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_grade_name()
 	{
 		$this->db->select('gr_id, gr_name');
@@ -119,7 +119,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('gr_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_yes_no_asc()
 	{
 		$this->db->select('id, name');
@@ -127,7 +127,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('name','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_yes_no_desc()
 	{
 		$this->db->select('id, name');
@@ -136,7 +136,7 @@ class Processdb extends CI_Model{
 		$query = $this->db->get();
 		return $query;
 	}
-	
+
 	function get_shift_name()
 	{
 		$this->db->select('shift_id, shift_name');
@@ -152,7 +152,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_salary_type_name()
 	{
 		$this->db->select('sal_type_id, sal_type_name');
@@ -160,7 +160,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('sal_type_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_salary_withdraw_name()
 	{
 		$this->db->select('sal_withdraw_id, sal_withdraw_name');
@@ -168,7 +168,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('sal_withdraw_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_religion_name()
 	{
 		$this->db->select('religion_id, religion_name');
@@ -176,7 +176,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('religion_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_matital_status_name()
 	{
 		$this->db->select('marrital_status_id, marrital_status_name');
@@ -184,7 +184,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('marrital_status_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_sex_name()
 	{
 		$this->db->select('sex_id, sex_name');
@@ -192,7 +192,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('sex_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_blood_name()
 	{
 		$this->db->select('blood_id, blood_name');
@@ -200,7 +200,7 @@ class Processdb extends CI_Model{
 		$this->db->order_by('blood_id','ASC');
 		return $query = $this->db->get();
 	}
-	
+
 	function get_att_bonus_name()
 	{
 		$this->db->select('ab_id,ab_rule_name');
@@ -208,15 +208,26 @@ class Processdb extends CI_Model{
 		$this->db->order_by('ab_id','ASC');
 		return $query = $this->db->get();
 	}
+
+	function get_nomini_relation()
+	{
+		$this->db->select('*');
+		$this->db->from('pr_nomini_relation');
+		$this->db->order_by('id','ASC');
+		return $query = $this->db->get();
+	}
+
+
 	//================================End Employee Information View=================================
-		
-	function updatedb1()
+
+	function updatedb1_old_30_09_21()
+	// function updatedb1()
 	{
 		$id =  $this->input->post('empid');
 		$dob = $this->input->post('dob');
-		$dob = date("Y-m-d", strtotime($dob)); 
+		$dob = date("Y-m-d", strtotime($dob));
 		$ejd = $this->input->post('ejd');
-		$ejd = date("Y-m-d", strtotime($ejd)); 
+		$ejd = date("Y-m-d", strtotime($ejd));
 		if($_FILES["userfile"]["name"] != '')
 		{
 			$config['upload_path'] = './uploads/photo/';
@@ -225,7 +236,7 @@ class Processdb extends CI_Model{
 			$config['max_width']  = '500';
 			$config['max_height']  = '700';
 			$this->load->library('upload', $config);
-	
+
 			if ( ! $this->upload->do_upload())
 			{
 				$error = array('error' => $this->upload->display_errors());
@@ -246,10 +257,10 @@ class Processdb extends CI_Model{
 				  'emp_marital_status'=> $this->input->post('ms'),
 				  'emp_blood'		=> $this->input->post('bgroup'),
 				  'national_brn_id'	=> $this->input->post('nid'),
-				  'bank_ac_no'		=> $this->input->post('baccnt')
+				  'bank_ac_no'		=> $this->input->post('bank_ac_no')
 
 				);
-				
+
 			}
 			else
 			{
@@ -270,9 +281,9 @@ class Processdb extends CI_Model{
 				  'emp_blood'		=> $this->input->post('bgroup'),
 				  'img_source'		=> $img,
 				  'national_brn_id'	=> $this->input->post('nid'),
-				  'bank_ac_no'		=> $this->input->post('baccnt')
+				  'bank_ac_no'		=> $this->input->post('bank_ac_no')
 				);
-									
+
 				$result['image'] = $img;
 			}
 		}
@@ -292,7 +303,7 @@ class Processdb extends CI_Model{
 				'emp_marital_status'	=> $this->input->post('ms'),
 				'emp_blood'				=> $this->input->post('bgroup'),
 				'national_brn_id'	=> $this->input->post('nid'),
-				'bank_ac_no'		=> $this->input->post('baccnt')
+				'bank_ac_no'		=> $this->input->post('bank_ac_no')
 			);
 		}
 		$this->db->where('emp_id',$id);
@@ -320,7 +331,7 @@ class Processdb extends CI_Model{
 			'emp_desi_id'  		=> $this->input->post('desig'),
 			'emp_operation_id'	=> $this->input->post('operation'),
 			'emp_position_id'  	=> $this->input->post('position'),
-			'emp_sts_id'		=> $this->input->post('empsts'),
+			'emp_sts_id'		=> $this->input->post('emp_sts_id'),
 
 			'emp_sal_gra_id'	=> $this->input->post('salg'),
 			'emp_shift'  		=> $this->input->post('empshift'),
@@ -345,10 +356,10 @@ class Processdb extends CI_Model{
 				'emp_pass_yr' 	=> $this->input->post('text3'),
 				'emp_ins' 		=> $this->input->post('text4')
 				);
-		
+
 		$this->db->where('emp_id',$id);
 		$v4 =$this->db->update('pr_emp_edu', $data_edu);
-						
+
 		$data_skill = array(
 				'emp_skill'  	=> $this->input->post('text5'),
 				'emp_yr_skill' 	=> $this->input->post('text6'),
@@ -356,12 +367,12 @@ class Processdb extends CI_Model{
 			);
 		$this->db->where('emp_id',$id);
 		$v5= $this->db->update('pr_emp_skill', $data_skill);
-		
+
 		$pr_id_proxi = array('proxi_id'  => $this->input->post('idcard'));
 		$this->db->where('emp_id',$id);
 		$v6 = $this->db->update('pr_id_proxi', $pr_id_proxi);
-		
-		if( $v1 or $v2 or $v3 or $v4 or $v5 or $v6) 
+
+		if( $v1 or $v2 or $v3 or $v4 or $v5 or $v6)
 		{
 			// PROFILE LOG Generate
 			$log_username = $this->session->userdata('username');
@@ -376,6 +387,163 @@ class Processdb extends CI_Model{
 			return $result;
 		}
 	}
+
+	function updatedb1()
+	{
+		// echo "<pre>"; print_r($_FILES); exit;
+		$id =  $this->input->post('empid');
+		$dob = $this->input->post('dob');
+		$dob = date("Y-m-d", strtotime($dob));
+		$ejd = $this->input->post('ejd');
+		$ejd = date("Y-m-d", strtotime($ejd));
+		if($_FILES["userfile"]["name"] != '')
+		{
+			$config['upload_path'] = './uploads/photo/';
+			$config['allowed_types'] = '*';
+			$config['max_size']	= '4000';
+			$config['max_width']  = '5000';
+			$config['max_height']  = '7000';
+			$this->load->library('upload', $config);
+			// echo "<br> <pre>"; print_r($this->upload->data()); exit;
+
+			if ( ! $this->upload->do_upload())
+			{
+				$error = array('error' => $this->upload->display_errors());
+				$img_error =  $error["error"];
+				echo "<SCRIPT LANGUAGE=\"JavaScript\">alert($img_error);</SCRIPT>";
+				$data = array(
+					'emp_full_name' 	=> $this->input->post('name'),
+					'bangla_nam' 		=> $this->input->post('bname'),
+					'emp_mname' 		=> $this->input->post('mname'),
+					'emp_fname' 		=> $this->input->post('fname'),
+					'spouse_name' 		=> $this->input->post('sname'),
+					'emp_n_id'			=> $this->input->post('n_id'),
+					'emp_dob'  			=> $dob,
+					'emp_religion'  	=> $this->input->post('reli'),
+					'emp_sex'  			=> $this->input->post('sex'),
+					'emp_marital_status'=> $this->input->post('ms'),
+					'emp_blood'			=> $this->input->post('bgroup'),
+					// 'emp_nomini_name'	=> $this->input->post('emp_nomini_name'),
+					// 'nomini_relation'	=> $this->input->post('nomini_relation'),
+					// 'emp_child_no'		=> $this->input->post('emp_child_no')
+				);
+			}else{
+				$data_up = array('upload_data' => $this->upload->data());
+				//print_r($data);
+				$img = $data_up["upload_data"]["file_name"];
+				$data = array(
+					'emp_full_name' 	=> $this->input->post('name'),
+					'bangla_nam' 		=> $this->input->post('bname'),
+					'emp_mname' 		=> $this->input->post('mname'),
+					'emp_fname' 		=> $this->input->post('fname'),
+					'spouse_name' 		=> $this->input->post('sname'),
+					// 'emp_ident_mark'	=> $this->input->post('ident_marks'),
+					'emp_n_id'			=> $this->input->post('n_id'),
+					'bank_ac_no'  		=> $this->input->post('bank_ac_no'),
+					'emp_dob'  			=> $dob,
+					'emp_religion'  	=> $this->input->post('reli'),
+					'emp_sex'  			=> $this->input->post('sex'),
+					'emp_marital_status'=> $this->input->post('ms'),
+					'emp_blood'			=> $this->input->post('bgroup'),
+					// 'emp_nomini_name'	=> $this->input->post('emp_nomini_name'),
+					// 'nomini_relation'	=> $this->input->post('nomini_relation'),
+					// 'emp_child_no'		=> $this->input->post('emp_child_no'),
+					'img_source'		=> $img
+				);
+			}
+		}else{
+			$data = array(
+				'emp_full_name'  		=> $this->input->post('name'),
+				'bangla_nam' 			=> $this->input->post('bname'),
+				'emp_mname' 			=> $this->input->post('mname'),
+				'emp_fname' 			=> $this->input->post('fname'),
+				'spouse_name' 			=> $this->input->post('sname'),
+				// 'emp_ident_mark'		=> $this->input->post('ident_marks'),
+				'emp_n_id'				=> $this->input->post('n_id'),
+				'bank_ac_no'  			=> $this->input->post('bank_ac_no'),
+				'emp_dob'  				=> $dob,
+				'emp_religion'  		=> $this->input->post('reli'),
+				'emp_sex'  				=> $this->input->post('sex'),
+				'emp_marital_status'	=> $this->input->post('ms'),
+				'emp_blood'				=> $this->input->post('bgroup'),
+				// 'emp_nomini_name'		=> $this->input->post('nomini_name'),
+				// 'nomini_relation'		=> $this->input->post('nomini_relation'),
+				// 'emp_child_no'			=> $this->input->post('child_no')
+			);
+		}
+
+		//print_r($data);
+		$this->db->where('emp_id',$id);
+		$v1 = $this->db->update('pr_emp_per_info', $data);
+		$adddata = array(
+			'emp_pre_add' 	=> $this->input->post('padd'),
+			'emp_par_add'	=> $this->input->post('fadd'),
+			'mobile'	=> $this->input->post('mobile_no'),
+		);
+		//print_r(adddata);
+		$this->db->where('emp_id',$id);
+		$v2 = $this->db->update('pr_emp_add', $adddata);
+		$data2 = array(
+			'emp_dept_id'  		=> $this->input->post('dept'),
+			'emp_sec_id' 		=> $this->input->post('sec'),
+			'emp_line_id' 		=> $this->input->post('line'),
+			'emp_desi_id'  		=> $this->input->post('desig'),
+			'emp_operation_id'	=> $this->input->post('operation'),
+			'emp_position_id'  	=> $this->input->post('position'),
+			'floor_id'			=> $this->input->post('emp_floor'),
+			// 'emp_process'  		=> $this->input->post('process'),
+			// 'emp_process_qty'  	=> $this->input->post('process_qty'),
+			'emp_sal_gra_id'	=> $this->input->post('salg'),
+			'emp_sts_id'  		=> $this->input->post('emp_sts_id'),
+			'emp_shift'  		=> $this->input->post('empshift'),
+			'gross_sal'  		=> $this->input->post('text8'),
+			'ot_entitle'  		=> $this->input->post('otentitle'),
+			'transport'  		=> $this->input->post('transport'),
+			'lunch'  			=> $this->input->post('lunch'),
+			'att_bonus'  		=> $this->input->post('attbonus'),
+			'emp_join_date'		=> $ejd,
+			'salary_draw'		=> $this->input->post('saldraw'),
+			'salary_type'		=> $this->input->post('saltype'),
+			// 'district_id'		=> $this->input->post('emp_district'),
+			// 'zone_id'			=> $this->input->post('zone')
+		);
+
+		//print_r(data2);
+		//echo $this->input->post('emp_district');
+		$this->db->where('emp_id',$id);
+		$v3 = $this->db->update('pr_emp_com_info', $data2);
+
+		$data_edu = array(
+			'emp_degree'  => $this->input->post('text2'),
+			'emp_pass_yr' => $this->input->post('text3'),
+			'emp_ins' => $this->input->post('text4')
+		);
+		$this->db->where('emp_id',$id);
+		$v4 =$this->db->update('pr_emp_edu', $data_edu);
+		$data_skill = array(
+			'emp_skill'  => $this->input->post('text5'),
+			'emp_yr_skill' => $this->input->post('text6'),
+			'emp_com_name' => $this->input->post('text7')
+		);
+
+		//print_r(data_skill);
+		$this->db->where('emp_id',$id);
+		$v5= $this->db->update('pr_emp_skill', $data_skill);
+		$pr_id_proxi = array('proxi_id'  => $this->input->post('idcard'));
+		$this->db->where('emp_id',$id);
+		$v6 = $this->db->update('pr_id_proxi', $pr_id_proxi);
+		if( $v1 or $v2 or $v3 or $v4 or $v5 or $v6){
+			// PROFILE LOG Generate
+			$log_username = $this->session->userdata('username');
+			$log_emp_id   = $this->input->post('empid');
+			$this->log_model->log_profile_update($log_username, $log_emp_id);
+			//echo "Updated successfully";
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	function proxi_id_check_for_save($emp_id, $proxi_id)
 	{
 		$this->db->select('proxi_id');
@@ -391,7 +559,7 @@ class Processdb extends CI_Model{
 			return true;
 		}
 	}
-	
+
 	function proxi_id_check_for_edit($emp_id, $proxi_id)
 	{
 		$this->db->select('proxi_id');
@@ -418,6 +586,7 @@ class Processdb extends CI_Model{
 			}
 		}
 	}
+
 	function insertdb1()
 	{
 		if($this->input->post('empid') =='')
@@ -447,8 +616,9 @@ class Processdb extends CI_Model{
 		{
 			$img ="";
 		}
+
 		$dob = $this->input->post('dob');
-		$dob = date("Y-m-d", strtotime($dob)); 
+		$dob = date("Y-m-d", strtotime($dob));
 
 		$data = array(
 			'emp_id'			=> $this->input->post('empid'),
@@ -465,24 +635,24 @@ class Processdb extends CI_Model{
 			'emp_marital_status'=> $this->input->post('ms'),
 			'emp_blood'			=> $this->input->post('bgroup'),
 			'img_source'		=> $img,
-			'national_brn_id'	=> $this->input->post('nid'),
-			'bank_ac_no'		=> $this->input->post('baccnt')
+			'emp_n_id'			=> $this->input->post('n_id'),
+			'bank_ac_no'		=> $this->input->post('bank_ac_no')
 			);
 
 		$this->db->insert('pr_emp_per_info', $data);
-					
+
 		$adddata = array(
 			'emp_id'		=> $this->input->post('empid'),
 			'emp_pre_add'  	=> $this->input->post('padd'),
 			'emp_par_add'  	=> $this->input->post('fadd'),
 			'emp_pre_add_ban' => $this->input->post('preadd_bn'),
 			'emp_par_add_ban' => $this->input->post('peradd_bn'),
-			'mobile'		  => $this->input->post('text3')
+			'mobile'		  => $this->input->post('mobile_no')
 			);
 		$this->db->insert('pr_emp_add', $adddata) ;
 
 		$ejd = $this->input->post('ejd');
-		$ejd = date("Y-m-d", strtotime($ejd)); 
+		$ejd = date("Y-m-d", strtotime($ejd));
 
 		$data2 = array(
 			'emp_id'			=> $this->input->post('empid'),
@@ -493,7 +663,8 @@ class Processdb extends CI_Model{
 			'emp_desi_id'  		=> $this->input->post('desig'),
 			'emp_operation_id'	=> $this->input->post('operation'),
 			'emp_position_id'  	=> $this->input->post('position'),
-			'emp_sts_id'  		=> $this->input->post('emp_sts'),
+			'floor_id'			=> $this->input->post('emp_floor'),
+			'emp_sts_id'  		=> $this->input->post('emp_sts_id'),
 			'emp_sal_gra_id'	=> $this->input->post('salg'),
 			'emp_cat_id'  		=> $this->input->post('empstat'),
 			'emp_shift'  		=> $this->input->post('empshift'),
@@ -506,13 +677,11 @@ class Processdb extends CI_Model{
 			'emp_join_date'		=> $ejd,
 			'salary_draw'		=> $this->input->post('saldraw'),
 			'salary_type'		=> $this->input->post('saltype'),
-			'floor_id'			=> $this->input->post('floor_name'),
-			'emp_desi_id'		=> $this->input->post('desig_bn'),
 			'wk_type_id'		=> $this->input->post('working_type'),
 			'work_process_id'	=> $this->input->post('work_process'),
 			'ot_show_in'	    => $this->input->post('ot_define')
 
-			
+
 
 			);
 
@@ -530,7 +699,7 @@ class Processdb extends CI_Model{
 			'emp_ins' => $this->input->post('text4')
 			);
 		$this->db->insert('pr_emp_edu', $data_edu);
-								
+
 		$data_skill = array(
 			'emp_id'	=> $this->input->post('empid'),
 			'emp_skill'  => $this->input->post('text5'),
@@ -538,10 +707,10 @@ class Processdb extends CI_Model{
 			'emp_com_name' => $this->input->post('text7')
 			);
 		$this->db->insert('pr_emp_skill', $data_skill);
-						
+
 		if($this->db->insert('pr_emp_com_info', $data2) and $this->db->insert('pr_id_proxi', $pr_id_proxi) )
 		{
-			$this->load->dbforge();	
+			$this->load->dbforge();
 			$id = $this->input->post('empid');
 			$temp_table = "temp_$id";
 			$temp_fields = array(
@@ -558,7 +727,7 @@ class Processdb extends CI_Model{
 		$log_emp_id   = $this->input->post('empid');
 		$this->log_model->log_profile_insert($log_username, $log_emp_id);
 		echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Inserted Successfully.'); window.location='personal_info_view1';</SCRIPT>";
-		} 
+		}
 		else
 		{
 		  echo "FAILED" ;
@@ -570,8 +739,8 @@ class Processdb extends CI_Model{
 		$this->db->select('emp_id');
 		$this->db->where('emp_id',$emp_id);
 		$query = $this->db->get('pr_emp_com_info');
-		$num_rows = $query->num_rows(); 
-				
+		$num_rows = $query->num_rows();
+
 		if( $num_rows == 1)
 		{
 			return false;
@@ -613,7 +782,7 @@ class Processdb extends CI_Model{
 				{
 					echo "Delete failed";
 				}
-			} 
+			}
 			else
 			{
 				echo "Delete failed";
@@ -624,14 +793,14 @@ class Processdb extends CI_Model{
 		 	echo "Employee ID does not exist";
 		}
 	}
-	
+
 	function rename_empid()
 	{
-		$this->load->dbforge();	
+		$this->load->dbforge();
 		$this->db->select("emp_id");
 		//$this->db->where('emp_id', "OF0009");
 		$query = $this->db->get("pr_emp_per_info");
-		
+
 		$num_row = $query->num_rows();
 		foreach($query->result() as $rows)
 		{
@@ -643,22 +812,22 @@ class Processdb extends CI_Model{
                'emp_id' => $rename_id
             );
 			$this->db->where('emp_id',$id);
-			$this->db->update('pr_emp_com_info', $data); 
-			
+			$this->db->update('pr_emp_com_info', $data);
+
 			$this->db->where('emp_id',$id);
-			$this->db->update('pr_id_proxi', $data); 
-			
+			$this->db->update('pr_id_proxi', $data);
+
 			$this->db->where('emp_id',$id);
-			$this->db->update('pr_emp_edu', $data); 
-			
+			$this->db->update('pr_emp_edu', $data);
+
 			$this->db->where('emp_id',$id);
-			$this->db->update('pr_emp_skill', $data); 
-			
+			$this->db->update('pr_emp_skill', $data);
+
 			$this->db->where('emp_id',$id);
-			$this->db->update('pr_emp_add', $data); 
-			
+			$this->db->update('pr_emp_add', $data);
+
 			$this->db->where('emp_id',$id);
-			$this->db->update('pr_emp_per_info', $data); 
+			$this->db->update('pr_emp_per_info', $data);
 		}
 		$old_table_name = "temp_$id";
 		$new_table_name = "temp_$rename_id";
@@ -667,7 +836,7 @@ class Processdb extends CI_Model{
 
 	//==============================Employee Information Search=================================
 	//==========================================================================================
-	
+
 	function get_unit_id_name($unit_id)
 	{
 		$this->db->select('*');
@@ -684,7 +853,7 @@ class Processdb extends CI_Model{
 		{
 			$data1[] = $row->unit_id;
 			$data2[] = $row->unit_name;
-			
+
 		}
 		$unit_id = implode('***', $data1);
 		$unit_name = implode('***', $data2);
@@ -707,7 +876,7 @@ class Processdb extends CI_Model{
 		{
 			$data1[] = $row->id;
 			$data2[] = $row->floor_name;
-			
+
 		}
 		$id = implode('***', $data1);
 		$floor_name = implode('***', $data2);
@@ -726,15 +895,15 @@ class Processdb extends CI_Model{
 		{
 			$data1[] = $row->id;
 			$data2[] = $row->wk_type;
-			
+
 		}
 		$id = implode('***', $data1);
 		$wk_type = implode('***', $data2);
 		return $id."===".$wk_type;
 	}
 
-	
-	
+
+
 	function dept_search($unit_id)
 	{
 		$this->db->select('*');
@@ -748,13 +917,31 @@ class Processdb extends CI_Model{
 		{
 			$data1[] = $row->dept_id;
 			$data2[] = $row->dept_name;
-			
+
 		}
 		$dept_id = implode('***', $data1);
 		$dept_name = implode('***', $data2);
 		return $dept_id_name = "$dept_id===$dept_name";
 	}
-	
+
+	function blood_search()
+	{
+		$this->db->select('*');
+		$this->db->from('pr_emp_blood_groups');
+		$query = $this->db->get();
+		$data1 = array();
+		$data2 = array();
+		foreach ($query->result() as $row)
+		{
+			$data1[] = $row->blood_id;
+			$data2[] = $row->blood_name;
+
+		}
+		$blood_id = implode('***', $data1);
+		$blood_name = implode('***', $data2);
+		return $blood_id_name = "$blood_id===$blood_name";
+	}
+
 	function section_search($unit_id)
 	{
 		$this->db->select('pr_section.sec_id,pr_section.sec_name,pr_section.sec_bangla');
@@ -776,7 +963,7 @@ class Processdb extends CI_Model{
 		$sec_bangla = implode('***', $data3);
 		return $sec_id_name = "$sec_id===$sec_name===$sec_bangla";
 	}
-	
+
 	function line_search($unit_id)
 	{
 		$this->db->select('*');
@@ -790,13 +977,13 @@ class Processdb extends CI_Model{
 		{
 			$data1[] = $row->line_id;
 			$data2[] = $row->line_name;
-			
+
 		}
 		$line_id 	= implode('***', $data1);
 		$line_name 	= implode('***', $data2);
 		return $line_id."===".$line_name;
 	}
-	
+
 	function desig_search($unit_id)
 	{
 		$this->db->select('desig_id,desig_name,desig_bangla');
@@ -834,7 +1021,7 @@ class Processdb extends CI_Model{
 		$operation_name = implode('=*=', $data2);
 		return $operation_id_name = "$operation_id===$operation_name";
 	}
-		
+
 	function position_search()
 	{
 		$this->db->select('*');
@@ -846,13 +1033,13 @@ class Processdb extends CI_Model{
 		{
 			$data1[] = $row->posi_id ;
 			$data2[] = $row->posi_name ;
-			
+
 		}
 		$position_id = implode('=*=', $data1);
 		$position_name = implode('=*=', $data2);
 		return $position_id_name = "$position_id===$position_name";
 	}
-	
+
 	function grade_search()
 	{
 		$this->db->select('gr_id,gr_name');
@@ -869,7 +1056,7 @@ class Processdb extends CI_Model{
 		$grade_name = implode('***', $data2);
 		return $grade_id."===".$grade_name;
 	}
-		
+
 	function empstat_search()
 	{
 		$this->db->select('stat_id,stat_type');
@@ -886,7 +1073,7 @@ class Processdb extends CI_Model{
 		$empstat_name 	= implode('***', $data2);
 		return $empstat_id."===".$empstat_name;
 	}
-	
+
 	function attbonus_search()
 	{
 		$this->db->select('ab_id,ab_rule_name');
@@ -903,7 +1090,7 @@ class Processdb extends CI_Model{
 		$ab_rule_name = implode('***', $data2);
 		return $ab_id."===".$ab_rule_name;
 	}
-	
+
 	function shift_search($unit_id)
 	{
 		$this->db->select('*');
@@ -922,7 +1109,7 @@ class Processdb extends CI_Model{
 		return $shift_id."===".$shift_name;
 	}
 
-	function emp_sts_search($unit_id)
+	function emp_sts_search($unit_id = 0)
 	{
 		$this->db->select('*');
 		$this->db->from('pr_emp_sts');
@@ -939,7 +1126,7 @@ class Processdb extends CI_Model{
 		return $id."===".$emp_sts;
 	}
 
-	function work_process_search($unit_id)
+	function work_process_search($unit_id = 0)
 	{
 		$this->db->select('*');
 		$this->db->from('pr_work_process');
@@ -956,7 +1143,7 @@ class Processdb extends CI_Model{
 		return $id."===".$process;
 	}
 
-	function ot_show_in_search($unit_id)
+	function ot_show_in_search($unit_id = 0)
 	{
 		$this->db->select('*');
 		$this->db->from('pr_ot_show_or_not');
@@ -972,24 +1159,56 @@ class Processdb extends CI_Model{
 		$salary_name = implode('***', $data2);
 		return $id."===".$salary_name;
 	}
-	
+
 	function manual_atten_db()
 	{
-		echo $unit_id 		= $this->input->post('start');
-		$dept_id_name 	= $this->dept_search($unit_id);	
-		$sec_id_name 	= $this->section_search($unit_id);
+		// return "string"; die();
+		$unit_id 		= $this->input->post('start');
+		$dept_id_name 	= $this->dept_search($unit_id);
+		$sec_id_name 	= $this->section_search($unit_id); 
 		$line_id_name 	= $this->line_search($unit_id);
 		$desig_id_name 	= $this->desig_search($unit_id);
 		$status_id_name = $this->empstat_search();
 		return $alldata = $dept_id_name."$$$".$sec_id_name."$$$".$line_id_name."$$$".$desig_id_name."$$$".$status_id_name;
-			
-	}	
-	
+
+	}
+
 	function com_info_search1($emp_id)
 	{
 		$data = array();
-	// echo $emp_id;exit;
-		$this->db->select('pr_emp_com_info.emp_id as emp_id,pr_emp_com_info.unit_id as unit_id,pr_id_proxi.proxi_id as proxi_id,pr_units.unit_name as unit_name,pr_dept.dept_name as dept_name,pr_section.sec_name as sec_name,pr_section.sec_bangla,pr_line_num.line_name as line_name,pr_designation.desig_name,pr_designation.desig_bangla, pr_emp_operation.ope_name as ope_name, pr_emp_position.posi_name as posi_name, pr_grade.gr_name as gr_name,pr_emp_status.stat_type as stat_type, pr_emp_com_info.gross_sal as gross_sal, pr_emp_com_info.emp_join_date as emp_join_date,pr_emp_com_info.ot_entitle as ot_entitle,pr_emp_com_info.transport as transport,pr_emp_com_info.lunch as lunch,pr_emp_com_info.att_bonus as att_bonus, pr_emp_com_info.salary_draw as salary_draw, pr_emp_com_info.salary_type as salary_type, pr_emp_shift.shift_name as shift_name,pr_emp_com_info.com_gross_sal as com_gross_sal,pr_floor.floor_name,pr_emp_nid_wk_typ.wk_type,pr_emp_sts.*,pr_work_process.*,pr_ot_show_or_not.*');
+		// echo $emp_id;exit;
+		$this->db->select('
+				pr_emp_com_info.emp_id as emp_id,
+				pr_emp_com_info.unit_id as unit_id,
+				pr_id_proxi.proxi_id as proxi_id,
+				pr_units.unit_name as unit_name,
+				pr_dept.dept_name as dept_name,
+				pr_section.sec_name as sec_name,
+				pr_section.sec_bangla,
+				pr_line_num.line_name as line_name,
+				pr_designation.desig_name,
+				pr_designation.desig_bangla, 
+				pr_emp_operation.ope_name as ope_name, 
+				pr_emp_position.posi_name as posi_name, 
+				pr_grade.gr_name as gr_name,
+				pr_emp_status.stat_type as stat_type, 
+				pr_emp_com_info.gross_sal as gross_sal, 
+				pr_emp_com_info.emp_join_date as emp_join_date,
+				pr_emp_com_info.ot_entitle as ot_entitle,
+				pr_emp_com_info.transport as transport,
+				pr_emp_com_info.lunch as lunch,
+				pr_emp_com_info.att_bonus as att_bonus, 
+				pr_emp_com_info.salary_draw as salary_draw, 
+				pr_emp_com_info.salary_type as salary_type, 
+				pr_emp_shift.shift_name as shift_name,
+				pr_emp_com_info.com_gross_sal as com_gross_sal,
+				pr_emp_com_info.emp_sts_id,
+				pr_floor.floor_name,
+				pr_emp_nid_wk_typ.wk_type,
+				pr_emp_sts.*,
+				pr_work_process.*,
+				pr_ot_show_or_not.*
+			');
 		$this->db->from('pr_emp_com_info');
 
 		$this->db->join('pr_id_proxi','pr_id_proxi.emp_id = pr_emp_com_info.emp_id','LEFT');
@@ -1008,25 +1227,25 @@ class Processdb extends CI_Model{
 		$this->db->join('pr_emp_sts','pr_emp_sts.id = pr_emp_com_info.emp_sts_id','LEFT');
 		$this->db->join('pr_work_process','pr_work_process.id = pr_emp_com_info.work_process_id','LEFT');
 		$this->db->join('pr_ot_show_or_not','pr_ot_show_or_not.id = pr_emp_com_info.ot_show_in','LEFT');
-		
+
 		$this->db->where("pr_emp_com_info.emp_id", $emp_id);
 
 
 		$query = $this->db->get();
-		// print_r($query->result_array());exit;
+		// echo "<pre>"; print_r($data['dd'] = $query->result());exit;
 
 		$this->db->select('emp_id');
 		$this->db->where('emp_id',$emp_id);
 		$query1 = $this->db->get('pr_emp_com_info');
-		
-	
+
+
 		if($query1->num_rows() > 0 )
 		{
 			foreach ($query->result() as $row)
 			{
 				$ejd = $row->emp_join_date;
-				$ejd = date("d-m-Y", strtotime($ejd)); 
-				
+				$ejd = date("d-m-Y", strtotime($ejd));
+
 				$data = array(
 				  'emp_id'		=> $row->emp_id,
 				  'proxi_id'  	=> $row->proxi_id,
@@ -1052,10 +1271,11 @@ class Processdb extends CI_Model{
 				  'floor_name'	=> $row->floor_name,
 				  'wk_type' 	=> $row->wk_type,
 				  'desi_name_bn' => $row->desig_bangla,
-				  'sec_bangla' 	=> $row->sec_bangla,
-				  'emp_sts' 	=> $row->emp_sts,
+				  'sec_bangla' 	 => $row->sec_bangla,
+				  'emp_sts' 	 => $row->emp_sts,
 				  'work_process' => $row->process,
-				  'salary_name' => $row->salary_name
+				  'salary_name'  => $row->salary_name,
+				  'emp_sts_id'   => $row->emp_sts_id,
 				);
 				// print_r($data);
 				$unit_id = $row->unit_id;
@@ -1070,6 +1290,7 @@ class Processdb extends CI_Model{
 
 			}
 
+			$com_info = implode('=*=', $data);
 			//GET DEPARTMENT ID BY EMP ID
 			$this->db->select('emp_dept_id');
 			$this->db->where('emp_id',$emp_id);
@@ -1077,29 +1298,32 @@ class Processdb extends CI_Model{
 			$row = $query2->row();
 			$dept_id = $row->emp_dept_id;
    			//END
-			$com_info = implode('=*=', $data);
-			$this->db->select('pr_emp_com_info.emp_id as empid,pr_emp_add.*,pr_emp_edu.* ,pr_emp_per_info.*,pr_emp_skill.*');
+
+			$this->db->select('pr_emp_com_info.emp_id as empid,pr_emp_add.*,pr_emp_edu.* ,pr_emp_per_info.*,pr_emp_skill.*,ebg.blood_name');
 			$this->db->from('pr_emp_com_info');
-			
+
 			$this->db->join('pr_emp_per_info','pr_emp_per_info.emp_id = pr_emp_com_info.emp_id ','LEFT');
 			$this->db->join('pr_emp_add','pr_emp_add.emp_id = pr_emp_com_info.emp_id ','LEFT');
 			$this->db->join('pr_emp_edu','pr_emp_edu.emp_id = pr_emp_com_info.emp_id ','LEFT');
 			$this->db->join('pr_emp_skill','pr_emp_skill.emp_id = pr_emp_com_info.emp_id ','LEFT');
-			
+			$this->db->join('pr_emp_blood_groups as ebg','ebg.blood_id = pr_emp_per_info.emp_blood ','LEFT');
+
 			$this->db->where("pr_emp_com_info.emp_id", $emp_id);
 
 			$query4 = $this->db->get();
+			// /*return*/ echo "<pre>"; print_r($query4->result()); exit;
+
 			foreach ($query4->result() as $row)
 			{
 				$emp_dob = $row->emp_dob;
-				$emp_dob = date("d-m-Y", strtotime($emp_dob)); 
-				
+				$emp_dob = date("d-m-Y", strtotime($emp_dob));
+
 				$data2 = array(
 					'emp_id'				=> $row->emp_id,
 					'emp_pre_add'  			=> $row->emp_pre_add,
 					'emp_par_add'  			=> $row->emp_par_add,
 					'emp_degree' 			=> $row->emp_degree,
-					'mobile'  				=> $row->mobile,
+					'emp_pass_yr'  			=> $row->emp_pass_yr,
 					'emp_ins'  				=> $row->emp_ins,
 					'emp_skill'  			=> $row->emp_skill,
 					'emp_yr_skill'  		=> $row->emp_yr_skill,
@@ -1113,24 +1337,24 @@ class Processdb extends CI_Model{
 					'emp_religion'  		=> $row->emp_religion,
 					'emp_sex'  				=> $row->emp_sex,
 					'emp_marital_status'  	=> $row->emp_marital_status,
-					'emp_blood'  			=> $row->emp_blood ,
+					'emp_blood'  			=> $row->emp_blood,
 					'img_source'  			=> $row->img_source,
+					'mobile'  				=> $row->mobile,
 					'bangla_nam'  		    => $row->bangla_nam,
 					'id_skill'  			=> $row->id,
 					'spouse_name' 			=> $row->spouse_name,
 					'emp_pre_add_ban'		=> $row->emp_pre_add_ban,
 					'emp_par_add_ban'		=> $row->emp_par_add_ban,
-					'nid'					=> $row->national_brn_id,
-					'bank_ac_no'			=> $row->bank_ac_no
+					'nid'					=> $row->emp_n_id,
+					'bank_ac_no'			=> $row->bank_ac_no,
+					'blood_name'			=> $row->blood_name,
 				);
 			}
 
-			// print_r($data2);
-			
 			$other_info 		= implode('=*=', $data2);
 			$unit_id_name 		= $this->get_unit_id_name($unit_id);
-			$floor_id_name 		= $this->get_floor_id_name($unit_id);	
-			$dept_id_name 		= $this->dept_search($unit_id);	
+			$floor_id_name 		= $this->get_floor_id_name($unit_id);
+			$dept_id_name 		= $this->dept_search($unit_id);
 			$sec_id_name 		= $this->section_search($unit_id);
 			$wk_type_id_name 	= $this->wk_type_id_name();
 			$line_id_name 		= $this->line_search($unit_id);
@@ -1144,6 +1368,8 @@ class Processdb extends CI_Model{
 			$emp_sts_id_name 	= $this->emp_sts_search();
 			$w_process_id_name 	= $this->work_process_search();
 			$salary_id_name 	= $this->ot_show_in_search();
+			$blood_id_name 		= $this->blood_search();
+
 
 			/*print_r($unit_id_name);
 			print_r($dept_id_name);
@@ -1156,15 +1382,18 @@ class Processdb extends CI_Model{
 			print_r($empstat_id_name);
 			print_r($attbonus_id_name);
 			print_r($shift_id_name);*/
-			
-			return $alldata = "$other_info-*-$com_info-*-$dept_id_name-*-$sec_id_name-*-$line_id_name-*-$desig_id_name-*-$operation_id_name-*-$position_id_name-*-$salg_id_name-*-$empstat_id_name-*-$shift_id_name-*-$attbonus_id_name-*-$unit_id_name-*-$floor_id_name-*-$wk_type_id_name-*-$emp_sts_id_name-*-$w_process_id_name-*-$salary_id_name";
+
+			// print_r($other_info); exit;
+			// echo "<pre>"; print_r($other_info); exit;
+
+			return $alldata = "$other_info-*-$com_info-*-$dept_id_name-*-$sec_id_name-*-$line_id_name-*-$desig_id_name-*-$operation_id_name-*-$position_id_name-*-$salg_id_name-*-$empstat_id_name-*-$shift_id_name-*-$attbonus_id_name-*-$unit_id_name-*-$floor_id_name-*-$wk_type_id_name-*-$emp_sts_id_name-*-$w_process_id_name-*-$salary_id_name-*-$blood_id_name";
 		}
 		else
 		{
 			echo "Employee ID does not exist";
 		}
 	}
-	
+
 	function com_incre_prom_search()
 	{
 		$emp_id = $this->input->post('empid');
@@ -1182,22 +1411,22 @@ class Processdb extends CI_Model{
 		$this->db->from('pr_emp_status');
 		$this->db->from('pr_emp_shift');
 		$where = "pr_emp_com_info.emp_id = '$emp_id'  and pr_emp_com_info.emp_id = pr_id_proxi.emp_id and pr_emp_com_info.unit_id = pr_units.unit_id and pr_emp_com_info.emp_dept_id = pr_dept.dept_id and pr_emp_com_info.emp_sec_id = pr_section.sec_id and pr_emp_com_info.emp_line_id = pr_line_num.line_id and pr_emp_com_info.emp_desi_id = pr_designation.desig_id and pr_emp_com_info.emp_operation_id = pr_emp_operation.ope_id and pr_emp_com_info.emp_position_id = pr_emp_position.posi_id and pr_emp_com_info.emp_sal_gra_id = pr_grade.gr_id and pr_emp_com_info.emp_cat_id = pr_emp_status.stat_id and pr_emp_shift.shift_id = pr_emp_com_info.emp_shift";
-		
+
 		$this->db->where($where);
 		$query = $this->db->get();
 
 		$this->db->select('*');
 		$this->db->where('emp_id',$emp_id);
 		$query1 = $this->db->get('pr_emp_com_info');
-		
+
 		if($query1->num_rows() > 0 )
 		{
 			foreach ($query->result() as $row)
 			{
 				$ejd = $row->emp_join_date;
 				//echo $row->gross_sal;
-				$ejd = date("d-m-Y", strtotime($ejd)); 
-				
+				$ejd = date("d-m-Y", strtotime($ejd));
+
 				$data = array(
 					'emp_id'		=> $row->emp_id,
 					'proxi_id'  	=> "proxi",
@@ -1229,7 +1458,7 @@ class Processdb extends CI_Model{
 						return "Access Denied";
 					}
 				}
-				 
+
 			}
 			$this->db->select('pr_emp_com_info.emp_id as empid,pr_emp_add.*,pr_emp_edu.* ,pr_emp_per_info.*,pr_emp_skill.*');
 			$this->db->from('pr_emp_com_info');
@@ -1238,22 +1467,22 @@ class Processdb extends CI_Model{
 			$this->db->from('pr_emp_per_info');
 			$this->db->from('pr_emp_skill');
 			$where = "pr_emp_com_info.emp_id = '$emp_id' and pr_emp_com_info.emp_id =pr_emp_add.emp_id and pr_emp_com_info.emp_id  = pr_emp_edu.emp_id and pr_emp_com_info.emp_id = pr_emp_per_info.emp_id and pr_emp_com_info.emp_id = pr_emp_skill.emp_id";
-		
+
 			$this->db->where($where);
 			$query4 = $this->db->get();
 			foreach ($query4->result() as $row)
 			{
 				$emp_dob = $row->emp_dob;
-				$emp_dob = date("d-m-Y", strtotime($emp_dob)); 
-				
+				$emp_dob = date("d-m-Y", strtotime($emp_dob));
+
 				$data2 = array(
 						'emp_full_name'  		=> $row->emp_full_name,
 						'img_source'  			=> $row->img_source
 				);
-				 
+
 			}
 			$other_info = implode('=*=', $data2);
-			
+
 			//GET DEPARTMENT ID BY EMP ID
 			$this->db->select('emp_dept_id');
 			$this->db->where('emp_id',$emp_id);
@@ -1262,8 +1491,8 @@ class Processdb extends CI_Model{
 			$dept_id = $row->emp_dept_id;
 			//END
 			$com_info = implode('=*=', $data);
-			$unit_id_name 		= $this->get_unit_id_name($unit_id);	
-			$dept_id_name 		= $this->dept_search($unit_id);	
+			$unit_id_name 		= $this->get_unit_id_name($unit_id);
+			$dept_id_name 		= $this->dept_search($unit_id);
 			$sec_id_name 		= $this->section_search($unit_id);
 			$line_id_name 		= $this->line_search($unit_id);
 			$desig_id_name 		= $this->desig_search($unit_id);
@@ -1280,7 +1509,7 @@ class Processdb extends CI_Model{
 			echo "Employee ID does not exist";
 		}
 	}
-	
+
 	function attendance_check($emp_id,$present_status,$num_of_days, $start_date)
 	{
 		$search_date =trim(substr($start_date,0,7));
@@ -1296,7 +1525,7 @@ class Processdb extends CI_Model{
 			{
 				$idate = date("d", mktime(0, 0, 0, 0, $i, 0));
 				$date="date_$idate";
-				
+
 				if($value[$date] == "$present_status")
 				{
 					$count++;
@@ -1305,71 +1534,71 @@ class Processdb extends CI_Model{
 		}
 		return $count;
 	}
-	
+
 	function find_week($year_v,$month_v,$day_of_week_v)
 	{
         $result=array();
-		for ($year = $year_v; $year <= $year_v; $year++) 
-					{ 
-						for ($month = $month_v; $month <= $month_v; $month++) 
-							{ 
-							$num_of_days = date("t", mktime(0,0,0,$month,1,$year)); 
+		for ($year = $year_v; $year <= $year_v; $year++)
+					{
+						for ($month = $month_v; $month <= $month_v; $month++)
+							{
+							$num_of_days = date("t", mktime(0,0,0,$month,1,$year));
 							$result['num_of_days']=$num_of_days;
-						//	echo "Number of days = $num_of_days <BR>"; 
-							$firstdayname = date("D", mktime(0, 0, 0, $month, 1, $year)); 
-							$firstday = date("w", mktime(0, 0, 0, $month, 1, $year)); 
-							$lastday = date("t", mktime(0, 0, 0, $month, 1, $year)); 
-				
-								for ($day_of_week = $day_of_week_v ; $day_of_week <= $day_of_week_v ; $day_of_week++) 
-									{ 
-									if ($firstday > $day_of_week) { 
-									// means we need to jump to the second week to find the first $day_of_week 
-									$d = (7 - ($firstday - $day_of_week)) + 1; 
-									} elseif ($firstday < $day_of_week) { 
-									// correct week, now move forward to specified day 
-									$d = ($day_of_week - $firstday + 1); 
-									} else {     
-									// my "reversed-engineered" formula 
-									if ($lastday==28) // max of 4 occurences each in the month of February with 
-					
-									$d = ($firstday + 4); 
-									elseif ($firstday==4) 
-									$d = ($firstday - 2); 
-									elseif ($firstday==5 ) 
-									$d = ($firstday - 3); 
-									elseif ($firstday==6) 
-									$d = ($firstday - 4); 
-									else 
-									$d = ($firstday - 1); 
-									if ($lastday==29) // only 1 set of 5 occurences each in the month of 
-								   $d -= 1; 
-						} 
-					
-						$d += 28;    // jump to the 5th week and see if the day exists 
-						if ($d > $lastday) { 
-							$weeks = 4; 
-						} else { 
-							$weeks = 5; 
-						} 
-					
-					if ($day_of_week==0) ; 
-					elseif ($day_of_week==1) ; 
-					elseif ($day_of_week==2) ; 
-					elseif ($day_of_week==3) ; 
-					elseif ($day_of_week==4) ; 
-					elseif ($day_of_week==5) ; 
-					else echo "Sat "; 
-					
-					//echo "occurences = $weeks <BR> "; 
+						//	echo "Number of days = $num_of_days <BR>";
+							$firstdayname = date("D", mktime(0, 0, 0, $month, 1, $year));
+							$firstday = date("w", mktime(0, 0, 0, $month, 1, $year));
+							$lastday = date("t", mktime(0, 0, 0, $month, 1, $year));
+
+								for ($day_of_week = $day_of_week_v ; $day_of_week <= $day_of_week_v ; $day_of_week++)
+									{
+									if ($firstday > $day_of_week) {
+									// means we need to jump to the second week to find the first $day_of_week
+									$d = (7 - ($firstday - $day_of_week)) + 1;
+									} elseif ($firstday < $day_of_week) {
+									// correct week, now move forward to specified day
+									$d = ($day_of_week - $firstday + 1);
+									} else {
+									// my "reversed-engineered" formula
+									if ($lastday==28) // max of 4 occurences each in the month of February with
+
+									$d = ($firstday + 4);
+									elseif ($firstday==4)
+									$d = ($firstday - 2);
+									elseif ($firstday==5 )
+									$d = ($firstday - 3);
+									elseif ($firstday==6)
+									$d = ($firstday - 4);
+									else
+									$d = ($firstday - 1);
+									if ($lastday==29) // only 1 set of 5 occurences each in the month of
+								   $d -= 1;
+						}
+
+						$d += 28;    // jump to the 5th week and see if the day exists
+						if ($d > $lastday) {
+							$weeks = 4;
+						} else {
+							$weeks = 5;
+						}
+
+					if ($day_of_week==0) ;
+					elseif ($day_of_week==1) ;
+					elseif ($day_of_week==2) ;
+					elseif ($day_of_week==3) ;
+					elseif ($day_of_week==4) ;
+					elseif ($day_of_week==5) ;
+					else echo "Sat ";
+
+					//echo "occurences = $weeks <BR> ";
 					$result['day_of_week']=($day_of_week);
 					$result['num_of_days']=$num_of_days;
 					$no_of_working_days=$num_of_days-$day_of_week;
 					//echo "No of working days  ".$no_of_working_days;
 					$result['no_of_working_days']=$no_of_working_days;
-					
-					} // for $day_of_week loop 
-				} // for $mth loop 
-		} // for $year loop 
+
+					} // for $day_of_week loop
+				} // for $mth loop
+		} // for $year loop
 
  	 return $result;
 
@@ -1378,14 +1607,14 @@ class Processdb extends CI_Model{
 	function leave_db($emp_id,$start_date,$end_date, $leave_type)
 	{
 		$where = "trim(substr(start_date,1,10)) BETWEEN '$start_date' and '$end_date'";
-		
+
 		$this->db->select('start_date');
 		$this->db->where("emp_id",$emp_id);
 		$this->db->where("leave_type",$leave_type);
 		$this->db->where($where);
-		
+
 		$query = $this->db->get('pr_leave_trans');
-		
+
 		return $query->num_rows();
 	}
 
@@ -1412,7 +1641,7 @@ class Processdb extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-	
+
 
 	function present_check($date, $emp_id)
 	{
@@ -1422,7 +1651,7 @@ class Processdb extends CI_Model{
 		$day   = trim(substr($date,8,2));
 		$date_field = "date_$day";
 		$att_month = $year."_".$month."-00";
-		
+
 		$this->db->select($date_field);
 		$this->db->where("emp_id", $emp_id);
 		$this->db->where("att_month", $att_month);
@@ -1436,31 +1665,31 @@ class Processdb extends CI_Model{
 		{
 			return false;
 		}
-		
+
 	}
 
 	function GetDays($sStartDate, $sEndDate)
-	{  
-		$sStartDate = date("Y-m-d", strtotime($sStartDate)); 
-		$sEndDate = date("Y-m-d", strtotime($sEndDate)); 
-		// Start the variable off with the start date  
-		$aDays[] = $sStartDate;  
-		// Set a 'temp' variable, sCurrentDate, with  
-		// the start date - before beginning the loop  
-		$sCurrentDate = $sStartDate;  
-		// While the current date is less than the end date  
-		while($sCurrentDate < $sEndDate){  
-		// Add a day to the current date  
-		$sCurrentDate = date("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));  
-		// Add this new day to the aDays array  
-		  $aDays[] = $sCurrentDate; 
+	{
+		$sStartDate = date("Y-m-d", strtotime($sStartDate));
+		$sEndDate = date("Y-m-d", strtotime($sEndDate));
+		// Start the variable off with the start date
+		$aDays[] = $sStartDate;
+		// Set a 'temp' variable, sCurrentDate, with
+		// the start date - before beginning the loop
+		$sCurrentDate = $sStartDate;
+		// While the current date is less than the end date
+		while($sCurrentDate < $sEndDate){
+		// Add a day to the current date
+		$sCurrentDate = date("Y-m-d", strtotime("+1 day", strtotime($sCurrentDate)));
+		// Add this new day to the aDays array
+		  $aDays[] = $sCurrentDate;
 		//print_r($aDays);
-		}  
-		// Once the loop has finished, return the  
-		
-		return $aDays;  
-	} 
-	
+		}
+		// Once the loop has finished, return the
+
+		return $aDays;
+	}
+
 	function prox($empid)
 	{
 		$this->db->select('proxi_id');
@@ -1473,14 +1702,14 @@ class Processdb extends CI_Model{
 	}
 
 	function save_leave_db()
-	{	
+	{
 		$empid_leave	= $this->input->post('empid_leave');
 		$sStartDate		= $this->input->post('start_leave_date');
 		$sEndDate		= $this->input->post('end_leave_date');
 		$leave_type		= $this->input->post('leave_type');
-		$sStartDate 	= date("Y-m-d", strtotime($sStartDate)); 
-		$sEndDate 		= date("Y-m-d", strtotime($sEndDate)); 
-		
+		$sStartDate 	= date("Y-m-d", strtotime($sStartDate));
+		$sEndDate 		= date("Y-m-d", strtotime($sEndDate));
+
 		$this->db->select('leave_type');
 	    $where="emp_id = '$empid_leave' and leave_type = '$leave_type' and  start_date = '$sStartDate' ";
     	$this->db->where($where);
@@ -1498,7 +1727,7 @@ class Processdb extends CI_Model{
 				$data = array(
 						'emp_id'		=> $empid_leave,
 						'start_date'    => $day ,
-						'leave_type'	=> $leave_type	
+						'leave_type'	=> $leave_type
 					);
 					$this->db->insert('pr_leave_trans', $data);
 			}
@@ -1511,51 +1740,51 @@ class Processdb extends CI_Model{
 	{
 		$id = $this->input->post('empid_present_absent');
 		$startdate=$this->input->post('startdate_present_absent');
-		$startdate = date("Y-m-d", strtotime($startdate)); 
+		$startdate = date("Y-m-d", strtotime($startdate));
 		$temp_table = "temp_$id";
 		$this->db->select("emp_id");
 		$this->db->where("emp_id", $id);
-		$query = $this->db->get("pr_emp_com_info");	
-		
+		$query = $this->db->get("pr_emp_com_info");
+
 		if($query->num_rows() == 0)
 		{
 			return "Employee ID does not exist.";
-		}	
+		}
 		$proxi = $this->prox($id);
 		$date  = $startdate;
 		$year  = trim(substr($date,0,4));
 		$month = trim(substr($date,5,2));
 		$day   = trim(substr($date,8,2));
-		
+
 		$att_table = "att_".$year."_".$month;
 		$date = date("d-m-Y", mktime(0, 0, 0, $month, $day, $year));
 		$search_date = date("Ymd", mktime(0, 0, 0, $month, $day, $year));
 		$file_name = "data/$date.TXT";
 		$temp_table = "temp_$id";
-		
+
 		$where ="trim(substr(date_time ,1,10)) = '$startdate'";
 		$this->db->where($where);
 		$data=$this->db->delete($temp_table);
-		
+
 		$this->db->where($where);
 		$data=$this->db->delete($att_table);
-		//echo $this->db->last_query();		
+		//echo $this->db->last_query();
 		if ($data)
 		{
 			echo "Delete successfully";
-	 	} 
+	 	}
 	 	else
 		{
 			echo "Delete failed";
 		}
-		
+
 		if( fopen($file_name,'r') )
-		{ 
+		{
 			$data = file($file_name);
 			$out = array();
 			foreach($data as $line) {
 				$match_line =  substr($line,5,10);
-			
+
 				if(trim($match_line) != "$proxi") {
 					$out[] = $line;
 				}
@@ -1568,7 +1797,7 @@ class Processdb extends CI_Model{
 			flock($fp, LOCK_UN);
 			fclose($fp);
 		}
-	
+
 	}
 
 	//==============Advance loan insert=======================>>
@@ -1577,17 +1806,18 @@ class Processdb extends CI_Model{
 		$this->db->select("emp_id");
 		$this->db->where("emp_id", $emp_id);
 		$query1 = $this->db->get("pr_emp_com_info");
-		
+
 		if( $query1->num_rows() == 0)
 		{
 			return "Sorry! Employee ID does not exist.";
 		}
-		
+
 		$this->db->select("emp_id");
 		$this->db->where("emp_id", $emp_id);
+		$this->db->where("loan_date", $loan_date);
 		$this->db->where("loan_status", '1');
 		$query = $this->db->get("pr_advance_loan");
-		
+
 		if( $query->num_rows() > 0)
 		{
 			return "Advance loan for this employee is running";
@@ -1595,7 +1825,6 @@ class Processdb extends CI_Model{
 		else
 		{
 			$data = array(
-							'loan_id' 		=> '',
 							'emp_id'  		=> $emp_id,
 							'loan_amt' 		=> $loan_amt,
 							'pay_amt' 		=> $pay_amt,
@@ -1613,8 +1842,8 @@ class Processdb extends CI_Model{
 				return "Operation Failed";
 			}
 		}
-			
-		
+
+
 	}
 
 	//==============Due Amt. insert=======================>>
@@ -1623,17 +1852,17 @@ class Processdb extends CI_Model{
 		$this->db->select("emp_id");
 		$this->db->where("emp_id", $emp_id);
 		$query1 = $this->db->get("pr_emp_com_info");
-		
+
 		if($query1->num_rows() == 0)
 		{
 			return "Sorry! Employee ID does not exist.";
 		}
-		
+
 		$this->db->select("emp_id");
 		$this->db->where("emp_id", $emp_id);
 		$this->db->where("due_status", '1');
 		$query = $this->db->get("pr_due_amt");
-		
+
 		if( $query->num_rows() > 0)
 		{
 			return "Due Amt. for this employee is running";
@@ -1660,9 +1889,9 @@ class Processdb extends CI_Model{
 			}
 		}
 	}
-	
+
 	//==============Advance loan insert=======================<<
-	
+
 	//==============Advance loan deduction function=======================>>
 	function advance_loan_deduction($emp_id, $salary_month)
 	{
@@ -1672,16 +1901,16 @@ class Processdb extends CI_Model{
 		$this->db->where("loan_status", '1');
 		$this->db->where("loan_date <=", $salary_month);
 		$query = $this->db->get("pr_advance_loan");
-		
+
 		if( $query->num_rows() > 0)
 		{
 			foreach($query->result() as $rows)
 			{
 				$loan_id	= $rows->loan_id;
-				$loan_amt 	= $rows->loan_amt; 	
+				$loan_amt 	= $rows->loan_amt;
 				$pay_amt  	= $rows->pay_amt;
 			}
-			
+
 			$this->db->select("emp_id");
 			$this->db->where("emp_id", $emp_id);
 			$this->db->where("loan_id", $loan_id);
@@ -1733,12 +1962,12 @@ class Processdb extends CI_Model{
 						$this->db->where("emp_id", $emp_id);
 						$this->db->where("loan_id", $loan_id);
 						$query2 = $this->db->get("pr_advance_loan_pay_history");
-						
+
 						if( $query2->num_rows() > 0)
 						{
 							$row = $query2->row();
 							$total_pay_amount = $row->pay_amount;
-							
+
 							if($total_pay_amount == $loan_amt)
 							{
 								$data = array(
@@ -1764,5 +1993,7 @@ class Processdb extends CI_Model{
 		}
 	}
 	//==============Advance loan deduction function=======================<<
+
+
 }
 ?>

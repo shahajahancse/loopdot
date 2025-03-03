@@ -5,7 +5,7 @@
 <title>MSH Payroll Reports</title>
 
 <?php $base_url = base_url(); ?>
-	
+
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $base_url; ?>themes/redmond/jquery-ui-1.8.2.custom.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $base_url; ?>themes/ui.jqgrid.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $base_url; ?>css/calendar.css" />
@@ -13,16 +13,16 @@
 	<link rel="stylesheet" href="<?php echo base_url('/assets/bootstrap/css/bootstrap.min.css') ?>">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="<?php echo base_url('/assets/bootstrap/js/bootstrap.js') ?>"></script>
-	
+
 	<script src="<?=base_url()?>awedget/assets/plugins/boostrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-		
+
 	<script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.min.js"></script>
 	<script src="<?php echo base_url(); ?>js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 	<script src="<?php echo $base_url; ?>js/i18n/grid.locale-en.js" type="text/javascript"></script>
 	<script src="<?php echo $base_url; ?>js/jquery.jqGrid.min.js" type="text/javascript"></script>
 	<script src="<?php echo $base_url; ?>js/grid_content.js" type="text/javascript"></script>
 	<script src="<?php echo $base_url; ?>js/calendar_eu.js" type="text/javascript"></script>
-	
+
 	<style>
 		.hints{
 			color: #436D19;
@@ -30,6 +30,10 @@
 		}
 		fieldset{border:1px solid; margin-top: 10px; padding-bottom: 10px;}
 		legend{border:1px solid;}
+
+		.form-control {
+			height: 30px !important;
+		}
 	</style>
 
 	<script>
@@ -41,14 +45,14 @@
                 resizable: false,
                 modal: true
             });
-            
-            $(".ui-dialog-titlebar").hide();   
+
+            $(".ui-dialog-titlebar").hide();
         });
     </script>
 </head>
 <body bgcolor="#ECE9D8" style="font-family:'Arial Black', Gadget, sans-serif; font-size:13px;">
 	<?php
-		$this->load->model('common_model'); 
+		$this->load->model('common_model');
 		$unit = $this->common_model->get_unit_id_name();
 		$user_id = $this->acl_model->get_user_id($this->session->userdata('username'));
 		$acl     = $this->acl_model->get_acl_list($user_id);
@@ -57,165 +61,171 @@
 	  $usr_arr_2 = array(6,11);
 	?>
 	<form name="grid">
-	<div class="form-group">
-		<div class="container">
-			<div class=" col-sm-12 col-md-8">
-				<fieldset class="col-xs-12 col-sm-12 col-md-12">
-					<legend class="bg-info" align="center"><font size='+1'><b>Date</b></font></legend>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-4">First Date: </label>
-							<input class="form-control" type="text" name="firstdate" id="firstdate"/>
-							<script class="col-md-2" language="JavaScript">
-								var o_cal = new tcal ({
-									// form name
-									'formname': 'grid',
-									// input name
-									'controlname': 'firstdate'
-								});
-								// individual template parameters can be modified via the calendar variable
-								o_cal.a_tpl.yearscroll = false;
-								o_cal.a_tpl.weekstart = 6;
-							</script>
+		<div class="form-group">
+			<div class="container">
+				<div class="col-sm-12 col-md-8">
+					<fieldset class="col-xs-12 col-sm-12 col-md-12">
+						<legend class="bg-info" align="center"><font size='+1'><b>Date</b></font></legend>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-inline">
+								<label class="col-md-6">First Date: </label>
+								<input class="form-control" type="text" name="firstdate" id="firstdate"/>
+								<script class="col-md-2" language="JavaScript">
+									var o_cal = new tcal ({
+										// form name
+										'formname': 'grid',
+										// input name
+										'controlname': 'firstdate'
+									});
+									// individual template parameters can be modified via the calendar variable
+									o_cal.a_tpl.yearscroll = false;
+									o_cal.a_tpl.weekstart = 6;
+								</script>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Second Date: </label>
-							<input  class="form-control" type="text" name="seconddate" id="seconddate"/>
-							<script class="col-md-2" language="JavaScript">
-								var o_cal = new tcal ({
-									// form name
-									'formname': 'grid',
-									// input name
-									'controlname': 'seconddate'
-								});
-								// individual template parameters can be modified via the calendar variable
-								o_cal.a_tpl.yearscroll = false;
-								o_cal.a_tpl.weekstart = 6;
-							</script>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-inline">
+								<label class="col-md-6">Second Date: </label>
+								<input  class="form-control" type="text" name="seconddate" id="seconddate"/>
+								<script class="col-md-2" language="JavaScript">
+									var o_cal = new tcal ({
+										// form name
+										'formname': 'grid',
+										// input name
+										'controlname': 'seconddate'
+									});
+									// individual template parameters can be modified via the calendar variable
+									o_cal.a_tpl.yearscroll = false;
+									o_cal.a_tpl.weekstart = 6;
+								</script>
+							</div>
 						</div>
-					</div>
-				</fieldset>
-				<fieldset class="col-xs-12 col-sm-12 col-md-12">
-					<legend class="bg-primary" align="center"><font size='+1'><b>Category Options</b></font></legend>
-					<div class="row">
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Unit: </label>
-							<select  class="form-control" name='grid_start' id='grid_start' onchange='grid_get_all_data_for_entry()'>
-            		<option value='Select'>	Select	</option>
-        				<?php foreach($unit->result() as $rows) { ?>
-									<option value="<?= $rows->unit_id?>"><?=$rows->unit_name?></option>
-								<?php } ?>
-            	</select>
+					</fieldset>
+					<fieldset class="col-xs-12 col-sm-12 col-md-12">
+						<legend class="bg-info" align="center"><font size='+1'><b>Category Options</b></font></legend>
+						<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Unit: </label>
+								<select  class="form-control" name='grid_start' id='grid_start' onchange='grid_get_all_data_for_entry()'>
+				            		<option value='Select'>	Select	</option>
+				        				<?php foreach($unit->result() as $rows) { ?>
+													<option value="<?= $rows->unit_id?>"><?=$rows->unit_name?></option>
+												<?php } ?>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Department: </label>
-							<select  class="form-control" name='grid_dept' id='grid_dept' onchange="grid_all_search()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Department: </label>
+								<select  class="form-control" name='grid_dept' id='grid_dept' onchange="grid_all_search()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Section: </label>
-							<select  class="form-control" name='grid_section' id='grid_section' onchange="grid_all_search()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Section: </label>
+								<select  class="form-control" name='grid_section' id='grid_section' onchange="grid_all_search()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Line: </label>
-							<select  class="form-control" name='grid_line' id='grid_line' onchange="grid_all_search()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Line: </label>
+								<select  class="form-control" name='grid_line' id='grid_line' onchange="grid_all_search()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Designation: </label>
-							<select  class="form-control" name='grid_desig' id='grid_desig' onchange="grid_all_search()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Designation: </label>
+								<select  class="form-control" name='grid_desig' id='grid_desig' onchange="grid_all_search()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Sex: </label>
-							<select  class="form-control" name='grid_sex' id='grid_sex' onchange="grid_all_search()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Sex: </label>
+								<select  class="form-control" name='grid_sex' id='grid_sex' onchange="grid_all_search()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Status: </label>
-							<select  class="form-control" name='grid_status' id='grid_status' onchange="grid_all_search()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Status: </label>
+								<select  class="form-control" name='grid_status' id='grid_status' onchange="grid_all_search()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Position: </label>
-							<select  class="form-control" name='grid_position' id='grid_position' onchange="grid_all_search()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Position: </label>
+								<select  class="form-control" name='grid_position' id='grid_position' onchange="grid_all_search()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<div class="form-group">
-							<label class="col-md-6">Punch Miss: </label>
-							<select  class="form-control" name='grid_out_miss' id='grid_out_miss' onchange="grid_all_search_out_miss()">
-            		<option value=''>	</option>
-            	</select>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="col-md-6">Punch Miss: </label>
+								<select  class="form-control" name='grid_out_miss' id='grid_out_miss' onchange="grid_all_search_out_miss()">
+				            		<option value=''>	</option>
+				            	</select>
+							</div>
 						</div>
-					</div>
 
-					</div>
-				</fieldset>
-				<!-- Entry Management -->
-				<fieldset class="col-xs-12 col-sm-12 col-md-12">
-					<legend class="bg-info" align="center"><font size='+1'><b>Attendance</b></font></legend>
-				<div class="row">
-					<div class="col-xs-12 col-sm-6 col-md-12">
-						<div class="form-group">
-							<label class="col-md-2">Time: </label>
-            	<input  class="form-control" type='text' name='m_s_time' id='m_s_time' size='16' placeholder="To [HH:MM:SS]"/>
-            	<input  class="form-control" type='text' name='m_e_time' id='m_e_time' size='16' placeholder="From [HH:MM:SS]"/>
-            	<input  class="form-control" type='button' name='btn' id='btn' onclick='manual_attendance_entry()' value='Insert'/>
+						</div>
+					</fieldset>
+					<!-- Entry Management -->
+					<fieldset class="col-xs-12 col-sm-12 col-md-12">
+						<legend class="bg-info" align="center"><font size='+1'><b>Attendance</b></font></legend>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-12">
+								<div class="form-group">
+									<label class="col-md-2">Time: </label>
+					            	<input  class="form-control col-mb-2" type='text' name='m_s_time' id='m_s_time' size='16' placeholder="To [HH:MM:SS]"/><br>
+					            	<!-- <input  class="form-control col-mb-2" type='text' name='m_e_time' id='m_e_time' size='16' placeholder="From [HH:MM:SS]"/><br> -->
+								
+					            	<input  class="btn btn-primary" style="position: relative;" type='button' name='btn' id='btn' onclick='manual_attendance_entry()' value='Insert'/>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<?php if(!in_array($user_id,$usr_arr_2)){  ?>
+						<fieldset class="col-xs-12 col-sm-12 col-md-12">
+							<legend class="bg-info" align="center"><font size='+1'><b>Present to Absent</b></font></legend>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 col-md-12">
+									<div class="form-group" style="text-align: center;">
+										<label class="col-md-4" style="text-align: center;">Action: </label>
+						            	<input  class="btn btn-danger mb-2" type='button' onclick='manual_entry_Delete()' value='Delete'/><br>
+						            	<span class="col-md-6" style="font-size:12px;">[Select First & Second date and employee ID]</span>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+					<?php } ?>
+				</div>
+				<div class="col-md-4">
+					<div style="">
+						<div >
+							<table id="list1" style="font-family: 'Times New Roman', Times, serif; font-size:15px;"><tr><td></td></tr></table>
+						</div>
+						<div id="viewid"></div>
+						<div class="clearfix" style="display:none;">
+						    <div class="loading" style="text-align-last: center;"><img src="<?php echo base_url() ?>img/load.gif"  alt="Load"/></div>
+						    <div style="margin-top:50px; text-align-last: center;"> Searching Please Wait..... </div>
 						</div>
 					</div>
 				</div>
-				</fieldset>
-
-
-<?php if(!in_array($user_id,$usr_arr_2)){  ?>
-				<fieldset class="col-xs-12 col-sm-12 col-md-12">
-					<legend class="bg-info" align="center"><font size='+1'><b>Present to Absent</b></font></legend>
-				<div class="row">
-					<div class="col-xs-12 col-sm-6 col-md-12">
-						<div class="form-group" style="text-align: center;">
-							<label class="col-md-4" style="text-align: center;">Action: </label>
-            	<input  class="btn btn-danger mb-2" type='button' onclick='manual_entry_Delete()' value='Delete'/><br>
-            	<span class="col-md-6" style="font-size:12px;">[Select First & Second date and employee ID]</span>
-						</div>
-					</div>
-				</div>
-				</fieldset>
-<?php } ?>
-
-			</div>
-			<div class="col-md-4">
-				<!-- Load Grid -->
-			</div>
-
-		</div><!-- End Container -->
-	</div>
+			</div><!-- End Container -->
+		</div>
 
 
 <div align="center" style=" margin:0 auto; width:1000px; min-height:555px; overflow:hidden;">
@@ -258,9 +268,12 @@
 <fieldset style=' background-color:#CCC;'><legend><font size='+1'><b>Holiday</b></font></legend>
 <form name='manual_attendance'>
 <table>
-<tr><td>Description</td><td><input  class="form-control" style="width: 200px" type='text' size='12px' id='holiday_description'><input class="btn btn-primary" type='button' name='holiday_save_id'  onclick='save_holiday()' value='Insert'/></td>
+<tr>
+	<td>Description &nbsp;</td>
+	<td class="form-inline">&nbsp;<input  class="form-control" style="width: 200px" type='text' size='12px' id='holiday_description'>&nbsp;<input class="btn btn-primary" type='button' name='holiday_save_id'  onclick='save_holiday()' value='Insert'/>
+	</td>
 <?php if(!in_array($user_id,$usr_arr_2)){  ?>
-<td  style='text-align-last: center;'> <input  type='checkbox' name='h_chek' id='h_chek' value='1'>Holiday Replace Duty
+<td  style='text-align-last: center;'> &nbsp;<input  type='checkbox' name='h_chek' id='h_chek' value='1'>Holiday Replace Duty
 	</td>
 	<?php } ?>
 </tr>
@@ -277,9 +290,10 @@
 <form name='manual_attendance'>
 <table>
 <tr>
-<td>OT Hour</td>
-	<td>
-		<input class="form-control" style="width: 200px" type='text' size='12px' id='ot_hour'><input class="btn btn-primary mb-2" type='button' name='ot_hour'  onclick='ot_hour_search()' value='Searching'/>
+	<td>OT Hour &nbsp;</td> &nbsp;&nbsp;
+	<td class="form-inline">
+		<input class="form-control" style="width: 200px" type='text' size='12px' id='ot_hour'>&nbsp;&nbsp;
+		<input class="btn btn-primary mb-2" type='button' name='ot_hour'  onclick='ot_hour_search()' value='Searching'/>
 	</td>
 </tr>
 </table>
@@ -288,7 +302,7 @@
 </div>
 <?php } ?>
 <?php //if(!in_array(14,$acl) or !in_array(10,$acl)){?>
-<!-- 
+<!--
 <div style="margin:0 auto; width:48%; overflow:hidden; float:left; ">
 <fieldset style=''><legend><font size='+1'><b>Weekend Delete</b></font></legend>
 <form name='manual_attendance'>
@@ -322,7 +336,7 @@
 <form name='ot_eot_modify'>
 <table>
 <tr >
-<td>Emp. ID</td>
+<td>Emp. ID </td>
 <td>:</td>
 <td><input class="form-control" type='text' size='12' name='manual_eot_emp_id' id='manual_eot_emp_id'></td>
 <td><input class="btn-primary mb-2" type='button' size='18' name='btn' id='btn' onclick='manual_eot_modification()' value='Modify' style="width: 100px;"></td>
@@ -352,20 +366,6 @@
 <?php } ?>
 </div>
 </fieldset>
-</div>
-
-</div>
-<div style="float:right;">
-<div >
-<table id="list1" style="font-family: 'Times New Roman', Times, serif; font-size:15px;"><tr><td></td></tr></table>
-</div>
-<!--<div id="pager1"></div>-->
-
-<div id="viewid"></div>
-
-<div class="clearfix" style="display:none;">
-    <div class="loading" style="text-align-last: center;"><img src="<?php echo base_url() ?>img/load.gif"  alt="Load"/></div>
-    <div style="margin-top:50px; text-align-last: center;"> Searching Please Wait..... </div>
 </div>
 
 </div>

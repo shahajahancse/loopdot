@@ -114,7 +114,7 @@
 		<div align="center" id="header">
 			 <!-- <b style="font-size: 18px">কিমবার্লী  ডিজাইন </b>
 			 <br>
-			 ২১৪/৩ টেকনগপাড়া, জয়দেবপুর, গাজীপুর  -->
+			 বাসাইল, হাজির বাজার, ভালুকা, ময়মনসিংহ  -->
 			 <?php $this->load->view("head_english"); ?>
 		</div>
 		<div  id="nav" align="center" >

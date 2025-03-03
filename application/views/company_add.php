@@ -24,30 +24,30 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Add Comapny Unit</a>
+            <a class="navbar-brand" href="<?=base_url('index.php/setup_con/company_info_setup')?>">Back Comapny Unit</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="/erp-mysoftheaven2/index.php/payroll_con">Home</a></li>
+              <li class="active"><a href="<?php echo base_url('index.php/payroll_con') ?>">Home</a></li>
             </ul>
-            
+
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
       <div class="row">
         <div class="col-md-12">
-          <?php 
+          <?php
           $success = $this->session->flashdata('success');
           if ($success != "") {
            ?>
            <div class="alert alert-success"><?php echo $success; ?></div>
-           <?php 
+           <?php
             }
             $failuer = $this->session->flashdata('failuer');
             if ($failuer) {
              ?>
            <div class="alert alert-failuer"><?php echo $failuer; ?></div>
-           <?php 
+           <?php
             }
             ?>
 
@@ -86,7 +86,7 @@
       </div>
       <div class="form-group">
         <label>Company Logo</label>
-        
+
         <input type="file" name="comlogo" id="comlogo" value="" class="form-control">
       </div>
       <div class="form-group">

@@ -2,28 +2,28 @@
 class Crud_model extends CI_Model{
 
 
-    function __construct()  
-    {  
-     // Call the Model constructor  
-     parent::__construct();  
-    } 
+    function __construct()
+    {
+     // Call the Model constructor
+     parent::__construct();
+    }
 
 
     function company_add($fromArray)
-    { 
+    {
         // print_r($_FILES);exit('hi');
         $img = $sig = "";
         // echo $_FILES["logo"]["name"];
         // exit('hello');
         if($_FILES["comlogo"]["name"] != ''){
             $config['upload_path'] = './images/';
-            $config['allowed_types'] = 'gif|jpg|png';
+            $config['allowed_types'] = 'gif|jpg|png|jpeg';
             $config['max_size'] = '2000';
             $config['max_width']  = '1000';
             $config['max_height']  = '1000';
             $this->load->library('upload', $config);
             if ( ! $this->upload->do_upload('comlogo')){
-                // exit('gdfg');
+                exit('gdfg');
                 $error = array('error' => $this->upload->display_errors());
                 // print_r($error);exit('obaydullah');
                 // echo $error["error"];
@@ -49,7 +49,7 @@ class Crud_model extends CI_Model{
                 $sig = $data["upload_data"]["file_name"];
             }
         }
-        
+
         $comData = array(
             'company_name_english' => $fromArray['name'],
             'company_name_bangla' => $fromArray['bname'],
@@ -59,16 +59,16 @@ class Crud_model extends CI_Model{
              'company_logo' => $img,
             'company_signature' => $sig,
         );
-    
+
           $this->db->insert('company_infos',$comData);
- 
+
     }
 
     function getUnit($comId)
     {
         $this->db->where('id',$comId);
         return $this->db->get('company_infos')->row();
-    } 
+    }
 
 
     function company_edit($comId)
@@ -83,16 +83,16 @@ class Crud_model extends CI_Model{
             $config['max_height']  = '1000';
             $this->load->library('upload', $config);
             if ( ! $this->upload->do_upload('comsign')){
-                // exit('gdfg');
                 $error = array('error' => $this->upload->display_errors());
-                // print_r($error);exit('obaydullah');
-                // echo $error["error"];
+                // echo $error["error"];exit;
+                /*print_r($error);exit('obaydullah');*/
             }else{
+                // exit('Now its Writeable');
                 $data = array('upload_data' => $this->upload->data());
                 // $sig = $data["upload_data"]["file_name"];
                 $formArray['company_signature'] = $data["upload_data"]["file_name"];
             }
-        } 
+        }
         // print_r($formArray);exit('alibro');
 
         if($_FILES["comlogo"]["name"] != ''){
@@ -144,11 +144,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_floor')->row();
     }
 
-    function floor_infos()
+    function floor_infos($limit,$start)
     {
-        $this->db->select('pr_floor.*,pr_units.unit_name');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_floor.*,pr_units.unit_name', false);
         $this->db->from('pr_floor');
         $this->db->join('pr_units','pr_units.unit_id = pr_floor.unit_id');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -165,17 +166,17 @@ class Crud_model extends CI_Model{
 
 
      function floor_add($fromArray)
-        { 
-            
-            
+        {
+
+
             $comData = array(
                 'floor_name' => $fromArray['name'],
                 'unit_id' => $fromArray['floor'],
-                
+
             );
-        
+
               $this->db->insert('pr_floor',$comData);
-     
+
         }
 
 
@@ -188,8 +189,8 @@ class Crud_model extends CI_Model{
 
              $this->db->where('id',$floorId);
              $this->db->update('pr_floor',$formArray);
-           
-        }   
+
+        }
 
      function floor_delete($floorId)
         {
@@ -198,7 +199,7 @@ class Crud_model extends CI_Model{
         }
 
 
-//============================================Department=========================================//
+    //==========================Department===============================//
 
 
 
@@ -210,11 +211,15 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_dept')->row();
     }
 
-    function dept_infos()
+    function dept_infos($limit, $start, $condition = 0)
     {
-        $this->db->select('pr_dept.*,pr_units.unit_name');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_dept.*, pr_units.unit_name', false);
         $this->db->from('pr_dept');
-        $this->db->join('pr_units','pr_units.unit_id = pr_dept.unit_id');
+        $this->db->join('pr_units','pr_dept.unit_id = pr_units.unit_id', 'left');
+        if (!empty($condition)) {
+            $this->db->where($condition);
+        }
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -231,18 +236,18 @@ class Crud_model extends CI_Model{
 
 
      function dept_add($fromArray)
-        { 
-            
+        {
+
             $comData = array(
                 'dept_name' => $fromArray['name'],
                 'dept_bangla' => $fromArray['bname'],
                 'unit_id' => $fromArray['dept'],
-                
+
             );
             // print_r($comData);exit('obaydullah');
-        
+
               $this->db->insert('pr_dept',$comData);
-     
+
         }
 
 
@@ -253,11 +258,11 @@ class Crud_model extends CI_Model{
              $formArray['dept_name'] = $this->input->post('name');
              $formArray['dept_bangla'] = $this->input->post('bname');
              $formArray['unit_id'] = $this->input->post('dept');
-             
+
              $this->db->where('dept_id',$deptId);
              $this->db->update('pr_dept',$formArray);
-           
-        }   
+
+        }
 
      function dept_delete($deptId)
         {
@@ -277,11 +282,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_section')->row();
     }
 
-    function sec_infos()
+    function sec_infos($limit,$start)
     {
-        $this->db->select('pr_section.*,pr_units.unit_name');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_section.*,pr_units.unit_name', false);
         $this->db->from('pr_section');
         $this->db->join('pr_units','pr_units.unit_id = pr_section.unit_id');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -298,8 +304,8 @@ class Crud_model extends CI_Model{
 
 
      function sec_add($fromArray)
-        { 
-            
+        {
+
             $comData = array(
                 'sec_name' => $fromArray['name'],
                 'sec_bangla' => $fromArray['bname'],
@@ -308,19 +314,19 @@ class Crud_model extends CI_Model{
                 'sec_index' => $fromArray['indx'],
                 'absent_report_index' => $fromArray['aindx'],
                 'unit_id' => $fromArray['sec'],
-                
+
             );
             // print_r($comData);exit('obaydullah');
-        
+
               $this->db->insert('pr_section',$comData);
-     
+
         }
 
 
      function sec_edit($secId)
         {
              $formArray = array();
-             $secId = $this->input->post('sec_id');
+             // $secId = $this->input->post('sec_id');
              $formArray['sec_name'] = $this->input->post('name');
              $formArray['sec_bangla'] = $this->input->post('bname');
              $formArray['strength'] = $this->input->post('strn');
@@ -331,8 +337,8 @@ class Crud_model extends CI_Model{
 
              $this->db->where('sec_id',$secId);
              $this->db->update('pr_section',$formArray);
-           
-        }   
+
+        }
 
      function sec_delete($secId)
         {
@@ -353,11 +359,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_line_num')->row();
     }
 
-    function line_infos()
+    function line_infos($limit,$start)
     {
-        $this->db->select('pr_line_num.*,pr_units.unit_name');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_line_num.*,pr_units.unit_name', false);
         $this->db->from('pr_line_num');
         $this->db->join('pr_units','pr_units.unit_id = pr_line_num.unit_id');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -374,27 +381,27 @@ class Crud_model extends CI_Model{
 
 
      function line_add($fromArray)
-        { 
-            
+        {
+
             $comData = array(
                 'line_name' => $fromArray['name'],
                 'line_bangla' => $fromArray['bname'],
                 'strength' => $fromArray['strn'],
                 'unit_id' => $fromArray['line'],
                 'indexing' => $fromArray['indx'],
-                
+
             );
             // print_r($comData);exit('obaydullah');
-        
+
               $this->db->insert('pr_line_num',$comData);
-     
+
         }
 
 
      function line_edit($lineId)
         {
              $formArray = array();
-             
+
              $formArray['line_name'] = $this->input->post('name');
              $formArray['line_bangla'] = $this->input->post('bname');
              $formArray['strength'] = $this->input->post('strn');
@@ -405,8 +412,8 @@ class Crud_model extends CI_Model{
              $this->db->where('line_id',$lineId);
              // echo $lineId;exit('khalid');
              $this->db->update('pr_line_num',$formArray);
-           
-        }   
+
+        }
 
      function line_delete($lineId)
         {
@@ -434,10 +441,10 @@ class Crud_model extends CI_Model{
         $this->db->from('pr_designation');
         $this->db->join('pr_units','pr_units.unit_id = pr_designation.unit_id');
         // $this->db->limit(10);
-        $this->db->limit($limit,$start);
+        // $this->db->limit($limit,$start);
         $query = $this->db->get()->result_array();
         // print_r($query);exit('ali');
-        return $query; 
+        return $query;
         /*$this->db->select('pr_designation.*,pr_units.unit_name');
         $this->db->from('pr_designation');
         $this->db->join('pr_units','pr_units.unit_id = pr_designation.unit_id');
@@ -457,18 +464,18 @@ class Crud_model extends CI_Model{
 
 
      function desig_add($fromArray)
-        { 
-            
+        {
+
             $comData = array(
                 'desig_name' => $fromArray['name'],
                 'desig_bangla' => $fromArray['bname'],
                 'unit_id' => $fromArray['desig'],
-                
+
             );
             // print_r($comData);exit('obaydullah');
-        
+
               $this->db->insert('pr_designation',$comData);
-     
+
         }
 
 
@@ -479,11 +486,11 @@ class Crud_model extends CI_Model{
              $formArray['desig_name'] = $this->input->post('name');
              $formArray['desig_bangla'] = $this->input->post('bname');
              $formArray['unit_id'] = $this->input->post('desig');
-             
+
              $this->db->where('desig_id',$desigId);
              $this->db->update('pr_designation',$formArray);
-           
-        }   
+
+        }
 
      function desig_delete($desigId)
         {
@@ -505,11 +512,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_attn_bonus')->row();
     }
 
-    function attbn_infos()
+    function attbn_infos($limit,$start)
     {
-        $this->db->select('pr_attn_bonus.*');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_attn_bonus.*', false);
         $this->db->from('pr_attn_bonus');
         // $this->db->join('pr_units','pr_units.unit_id = pr_attn_bonus.unit_id');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -523,18 +531,18 @@ class Crud_model extends CI_Model{
 
 
      function attbn_add($fromArray)
-        { 
-            
+        {
+
             $comData = array(
                 'ab_rule_name' => $fromArray['name'],
                 'ab_rule' => $fromArray['amnt'],
-                
-                
+
+
             );
             // print_r($comData);exit('obaydullah');
-        
+
               $this->db->insert('pr_attn_bonus',$comData);
-     
+
         }
 
 
@@ -544,12 +552,12 @@ class Crud_model extends CI_Model{
 
              $formArray['ab_rule_name'] = $this->input->post('name');
              $formArray['ab_rule'] = $this->input->post('amnt');
-           
-             
+
+
              $this->db->where('ab_id',$attbnId);
              $this->db->update('pr_attn_bonus',$formArray);
-           
-        }   
+
+        }
 
      function attbn_delete($attbnId)
         {
@@ -572,11 +580,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_grade')->row();
     }
 
-    function salgrd_infos()
+    function salgrd_infos($limit,$start)
     {
-        $this->db->select('pr_grade.*');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_grade.*', false);
         $this->db->from('pr_grade');
         // $this->db->join('pr_units','pr_units.unit_id = pr_grade.unit_id');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -590,18 +599,18 @@ class Crud_model extends CI_Model{
 
 
      function salgrd_add($fromArray)
-        { 
-            
+        {
+
             $comData = array(
                 'gr_name' => $fromArray['name'],
                 'gr_name_bn' => $fromArray['bname'],
-                
-                
+
+
             );
             // print_r($comData);exit('obaydullah');
-        
+
               $this->db->insert('pr_grade',$comData);
-     
+
         }
 
 
@@ -611,12 +620,12 @@ class Crud_model extends CI_Model{
 
              $formArray['gr_name'] = $this->input->post('name');
              $formArray['gr_name_bn'] = $this->input->post('bname');
-           
-             
+
+
              $this->db->where('gr_id',$salgrdId);
              $this->db->update('pr_grade',$formArray);
-           
-        }   
+
+        }
 
      function salgrd_delete($salgrdId)
         {
@@ -638,11 +647,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_emp_shift_schedule')->row();
     }
 
-    function shiftschedule_infos()
+    function shiftschedule_infos($limit,$start)
     {
-        $this->db->select('pr_emp_shift_schedule.*,pr_units.unit_name');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_emp_shift_schedule.*,pr_units.unit_name', false);
         $this->db->from('pr_emp_shift_schedule');
         $this->db->join('pr_units','pr_units.unit_id = pr_emp_shift_schedule.unit_id');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -653,7 +663,7 @@ class Crud_model extends CI_Model{
 
 
      function shiftschedule_add($fromArray)
-        { 
+        {
             // print_r($fromArray);exit('ali');
             // $comData = array(
             //     'unit_name' => $this->input->post('uname'),
@@ -668,13 +678,13 @@ class Crud_model extends CI_Model{
             //     'ot_minute_to_one_hour' => $fromArray['otminute'],
             //     'one_hour_ot_out_time' => $fromArray['onehrottime'],
             //     'two_hour_ot_out_time' => $fromArray['twohrottime'],
-                
-                
+
+
             // );
            // print_r($comData);exit('obaydullah');
-        
+
               $this->db->insert('pr_emp_shift_schedule',$fromArray);
-     
+
         }
 
 
@@ -694,12 +704,12 @@ class Crud_model extends CI_Model{
              $formArray['ot_minute_to_one_hour'] = $this->input->post('otminute');
              $formArray['one_hour_ot_out_time'] = $this->input->post('onehrottime');
              $formArray['two_hour_ot_out_time'] = $this->input->post('twohrottime');
-           
-             
+
+
              $this->db->where('shift_id',$shiftscheduleId);
              $this->db->update('pr_emp_shift_schedule',$formArray);
-           
-        }   
+
+        }
 
      function shiftschedule_delete($shiftscheduleId)
         {
@@ -709,7 +719,7 @@ class Crud_model extends CI_Model{
 
 
 
-//============================================Shift Management==========================================//
+    //==============================Shift Management============================//
 
 
 
@@ -723,12 +733,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_emp_shift')->row();
     }
 
-    function shiftmanagement_infos()
+    function shiftmanagement_infos($limit,$start)
     {
-        $this->db->select('pr_emp_shift.*,pr_emp_shift_schedule.sh_type');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_emp_shift.*,pr_emp_shift_schedule.sh_type', false);
         $this->db->from('pr_emp_shift');
         $this->db->join('pr_emp_shift_schedule','pr_emp_shift_schedule.shift_id = pr_emp_shift.shift_duty');
-      
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -739,11 +749,11 @@ class Crud_model extends CI_Model{
 
 
      function shiftmanagement_add($fromArray)
-        { 
-            
-        
+        {
+
+
               $this->db->insert('pr_emp_shift',$fromArray);
-     
+
         }
 
 
@@ -753,12 +763,12 @@ class Crud_model extends CI_Model{
              $formArray['shift_name'] = $this->input->post('stname');
              $formArray['unit_id'] = $this->input->post('unitid');
              $formArray['shift_duty'] = $this->input->post('stype');
-           
-             
+
+
              $this->db->where('shift_id',$shiftmanagementId);
              $this->db->update('pr_emp_shift',$formArray);
-           
-        }   
+
+        }
 
      function shiftmanagement_delete($shiftmanagementId)
         {
@@ -768,16 +778,15 @@ class Crud_model extends CI_Model{
 
 
 
-//=================================================Leave====================================================//
+    //=============================Leave=========================================//
 
 
 
-    function leave_infos()
+    function leave_infos($limit,$start)
     {
-        $this->db->select('pr_leave.*');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_leave.*', false);
         $this->db->from('pr_leave');
-       
-      
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -785,6 +794,12 @@ class Crud_model extends CI_Model{
     {
         $this->db->where('lv_id',$leaveId);
         return $this->db->get('pr_leave')->row();
+    }
+
+    function getleaveid($leaveId)
+    {
+        $this->db->where('id',$leaveId);
+        return $this->db->get('pr_leave_trans')->row();
     }
 
 
@@ -797,17 +812,17 @@ class Crud_model extends CI_Model{
              $formArray['lv_cl'] = $this->input->post('cullv');
              $formArray['lv_ml'] = $this->input->post('matrlv');
              $formArray['lv_pl'] = $this->input->post('patlv');
-           
-             
+
+
              $this->db->where('lv_id',$leaveId);
              $this->db->update('pr_leave',$formArray);
-           
-        }   
+
+        }
 
 
 
 
-//============================================AttendanceBonus=========================================//
+    //============================AttendanceBonus====================================//
 
 
 
@@ -821,11 +836,12 @@ class Crud_model extends CI_Model{
         return $this->db->get('pr_bonus_rules B')->result_array();
     }
 
-    function bnruls_infos()
+    function bnruls_infos($limit = 0,$start = 0)
     {
-        $this->db->select('pr_bonus_rules.*, pr_units.unit_name');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_bonus_rules.*, pr_units.unit_name',false);
         $this->db->from('pr_bonus_rules');
         $this->db->join('pr_units','pr_units.unit_id = pr_bonus_rules.unit_id','left');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
@@ -841,12 +857,12 @@ class Crud_model extends CI_Model{
 
 
      function bnruls_add($fromArray)
-        { 
-            
-        
-        
+        {
+
+
+
               $this->db->insert('pr_bonus_rules',$fromArray);
-     
+
         }
 
 
@@ -863,13 +879,13 @@ class Crud_model extends CI_Model{
                 $formArray['bonus_amount_fraction'] = $this->input->post('bamntf');
                 $formArray['bonus_percent'] = $this->input->post('bper');
                 $formArray['effective_date'] = $this->input->post('date_out');
-                
-           
-             
+
+
+
              $this->db->where('id',$bnrulsId);
              $this->db->update('pr_bonus_rules',$formArray);
-           
-        }   
+
+        }
 
      function bnruls_delete($bnrulsId)
         {
@@ -879,7 +895,7 @@ class Crud_model extends CI_Model{
 
 
 
-//===========================================Weekend Allowence==============================================//
+    //==========================Weekend Allowence===============================//
 
 
     function weekendallowence_infos($limit,$start){
@@ -889,7 +905,7 @@ class Crud_model extends CI_Model{
         $this->db->join('pr_units units','units.unit_id = rules.unit_id','LEFT');
         $this->db->join('pr_weekend_allowance_level level','level.rules_id = rules.rules_id','LEFT');
         $this->db->join('pr_designation desig','desig.desig_id = level.desig_id','LEFT');
-        $this->db->limit($limit,$start);
+        // $this->db->limit($limit,$start);
         $query = $this->db->get()->result_array();
         // print_r($query);exit('ali');
         return $query;
@@ -899,26 +915,27 @@ class Crud_model extends CI_Model{
 
 
 
-//===========================================Night Allowence==============================================//
+    //==============================Night Allowence============================//
 
 
-    function nightallowence_infos(){
-        $this->db->select('rules.*,units.unit_name,desig.desig_name');
+    function nightallowence_infos($limit,$start){
+        $this->db->select('SQL_CALC_FOUND_ROWS rules.*,units.unit_name,desig.desig_name', false);
 
         $this->db->from('pr_night_allowance_rules rules');
         $this->db->join('pr_units units','units.unit_id = rules.unit_id','LEFT');
         $this->db->join('pr_night_allowance_level level','level.rules_id = rules.rules_id','LEFT');
         $this->db->join('pr_designation desig','desig.desig_id = level.desig_id','LEFT');
+        // $this->db->limit($limit,$start);
         return $this->db->get()->result_array();
     }
 
 
 
-//================================================HolidayAllowence==============================================//
+    //==============================HolidayAllowence================================//
 
 
-    function holidayallowence_infos(){
-        $this->db->select('rules.*,units.unit_name,desig.desig_name');
+    function holidayallowence_infos($limit,$start){
+        $this->db->select('SQL_CALC_FOUND_ROWS rules.*,units.unit_name,desig.desig_name', false);
 
         $this->db->from('pr_holiday_allowance_rules rules');
         $this->db->join('pr_units units','units.unit_id = rules.unit_id','LEFT');
@@ -945,8 +962,8 @@ class Crud_model extends CI_Model{
     }
 
 
-     function taxnother_add($fromArray) { 
-           
+     function taxnother_add($fromArray) {
+
          $this->db->insert('pr_deduct',$fromArray);
      }
 
@@ -960,29 +977,29 @@ class Crud_model extends CI_Model{
 
 
 
-    function weekend_infos($limit,$start){
-        $this->db->select('pr_work_off.*,pr_units.unit_name');
+    function weekend_infos($limit,$page){
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_work_off.*,pr_units.unit_name',false);
         $this->db->from('pr_work_off');
         $this->db->join('pr_units','pr_units.unit_id = pr_work_off.unit_id');
-        // $this->db->limit(10);
-         $this->db->limit($limit,$start);
+        // $this->db->limit($limit,$page);
         return $this->db->get()->result_array();
     }
 
-      function getweekend($weekendId)
+
+    function getweekend($weekendId)
     {
         $this->db->where('id',$weekendId);
         return $this->db->get('pr_work_off')->row();
     }
 
 
-    
 
-     function weekend_delete($weekendId)
-        {
-            $this->db->where('id',$weekendId);
-            $this->db->delete('pr_work_off');
-        }
+
+    function weekend_delete($weekendId)
+    {
+      $this->db->where('id',$weekendId);
+      $this->db->delete('pr_work_off');
+    }
 
 
 //======================================Holiday Delete=================================//
@@ -996,7 +1013,7 @@ class Crud_model extends CI_Model{
         $this->db->limit($limit,$start);
         $query = $this->db->get()->result_array();
         // print_r($query);exit('ali');
-        return $query; 
+        return $query;
     }
 
       function getholiday($holidayId)
@@ -1006,7 +1023,7 @@ class Crud_model extends CI_Model{
     }
 
 
-    
+
 
      function holiday_delete($holidayId)
         {
@@ -1015,7 +1032,7 @@ class Crud_model extends CI_Model{
         }
 
 
-//======================================Stop Salary=================================//
+    //===============================Stop Salary=================================//
 
 
     function salarystop_infos($limit,$start){
@@ -1023,65 +1040,100 @@ class Crud_model extends CI_Model{
         $this->db->from('pr_emp_stop_salary');
         $this->db->join('pr_units','pr_units.unit_id = pr_emp_stop_salary.unit_id');
         // $this->db->limit(10);
-        $this->db->limit($limit,$start);
+        // $this->db->limit($limit,$start);
         $query = $this->db->get()->result_array();
         // print_r($query);exit('ali');
-        return $query; 
-        
+        return $query;
+
     }
 
-      function getsalarystop($salarystopId)
+    function getsalarystop($salarystopId)
     {
         $this->db->where('id',$salarystopId);
         return $this->db->get('pr_emp_stop_salary')->row();
     }
 
-     function salarystop_add($fromArray) { 
-           
+     function salarystop_add($fromArray) {
+
          $this->db->insert('pr_emp_stop_salary',$fromArray);
      }
-    
-
-     function salarystop_delete($salarystopId)
-        {
-            $this->db->where('id',$salarystopId);
-            $this->db->delete('pr_emp_stop_salary');
-        }
 
 
+    function salarystop_delete($salarystopId)
+    {
+        $this->db->where('id',$salarystopId);
+        $this->db->delete('pr_emp_stop_salary');
+    }
 
-//======================================Leave Delete=================================//
+
+
+    //==========================Leave Delete=================================//
 
 
     function leave_del_infos($limit,$start){
-        $this->db->select('pr_leave_trans.*,pr_units.unit_name');
+        $this->db->select('SQL_CALC_FOUND_ROWS pr_leave_trans.*,pr_units.unit_name', false);
         $this->db->from('pr_leave_trans');
         $this->db->join('pr_units','pr_units.unit_id = pr_leave_trans.unit_id');
         // $this->db->limit(10);
-        $this->db->limit($limit,$start);
+        // $this->db->limit($limit,$start);
         $query = $this->db->get()->result_array();
-        // print_r($query);exit('ali');
-        return $query; 
-        
+
+        return $query;
+
     }
 
-      function getleavedel($leaveId)
+
+    function getleavedel($leaveId)
     {
         $this->db->where('id',$leaveId);
         return $this->db->get('pr_leave_trans')->row();
     }
 
 
-    
-
-     function leave_delete($leaveId)
-        {
-            $this->db->where('id',$leaveId);
-            $this->db->delete('pr_leave_trans');
-        }
+    function leave_delete($leaveId)
+    {
+        $this->db->where('id',$leaveId);
+        $this->db->delete('pr_leave_trans');
+    }
 
 
-//=====================================Proxi ID====================================//
+    //==========================Left Delete=================================//
+
+
+    function left_del_infos($limit,$start){
+      $this->db->select('SQL_CALC_FOUND_ROWS pr_emp_left_history.*,per.emp_full_name,com.emp_join_date,pr_units.unit_name', false);
+      $this->db->from('pr_emp_left_history');
+      $this->db->join('pr_units','pr_units.unit_id = pr_emp_left_history.unit_id');
+      $this->db->join('pr_emp_per_info as per','per.emp_id = pr_emp_left_history.emp_id');
+      $this->db->join('pr_emp_com_info as com','com.emp_id = pr_emp_left_history.emp_id');
+      // $this->db->group_by('per.emp_id');
+      // $this->db->limit(10);
+      // $this->db->limit($limit,$start);
+      $query = $this->db->get()->result_array();
+
+      return $query;
+
+    }
+
+    function getleftid($leaveId)
+    {
+      $this->db->where('left_id',$leaveId);
+      return $this->db->get('pr_emp_left_history')->row();
+    }
+
+    function left_delete($emp_id)
+    {
+      $data = array('emp_cat_id' => 1);
+      $this->db->where('emp_id', $emp_id);
+      $this->db->update('pr_emp_com_info', $data);
+
+      $this->db->where('emp_id', $emp_id);
+      $this->db->delete('pr_emp_left_history');
+      
+      return true;
+    }
+
+    //==========================Proxi ID====================================//
 
 
      function proxi_infos($limit,$start){
@@ -1110,8 +1162,8 @@ class Crud_model extends CI_Model{
 
              $this->db->where('emp_id',$empId);
              $this->db->update('pr_id_proxi',$formArray);
-           
-        }   
+
+        }
 
 
 

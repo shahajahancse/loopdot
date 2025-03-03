@@ -169,7 +169,11 @@ Section Wise All Employee List
 	echo "</td>";
 	
 	echo "<td >";
-	echo $values["emp_blood"][$k];
+	$this->db->select('pr_emp_blood_groups.blood_name');
+	$this->db->from('pr_emp_blood_groups');
+	$this->db->where('pr_emp_blood_groups.blood_id',$values["emp_blood"][$k]);
+	$query = $this->db->get()->row();
+	echo $query->blood_name;
 	echo "</td>";
 	
 	echo "<td >";

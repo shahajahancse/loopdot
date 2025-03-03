@@ -1,5 +1,8 @@
 <?php
 
+
+// exit('testing on live');
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -18,7 +21,9 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'development');
+ 	// exit("<h3 style='color:red; text-align:center'>Please kindly Contact the Number : 01970-776605, 01970-776608</h3>");
+	define('ENVIRONMENT', 'production');
+    //exit('Please kindly contact the number : 01970776608');
 	// define('ENVIRONMENT', 'production');
 /*
  *---------------------------------------------------------------

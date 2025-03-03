@@ -1,16 +1,16 @@
 <?php
 class Acl_model extends CI_Model{
-	
-	
+
+
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 	}
-	
-	
-	
+
+
+
 	function acl_check($access_level)
 	{
 		$user_id = $this->get_user_id($this->session->userdata('username'));
@@ -25,7 +25,7 @@ class Acl_model extends CI_Model{
 			exit;
 		}
 	}
-	
+
 	function get_user_id($username)
 	{
 		$this->db->select("id");
@@ -34,7 +34,7 @@ class Acl_model extends CI_Model{
 		$row = $query->row();
 		return $user_id = $row->id;
 	}
-	
+
 	function get_acl_list($user_id)
 	 {
 	 	$data = array();
@@ -43,7 +43,7 @@ class Acl_model extends CI_Model{
 		$query = $this->db->get('member_acl_level');
 		foreach($query->result() as $rows)
 		{
-			$data[] = $rows->acl_id;	
+			$data[] = $rows->acl_id;
 		}
 		return $data;
 	 }

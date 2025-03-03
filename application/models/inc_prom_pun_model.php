@@ -122,7 +122,8 @@ class Inc_prom_pun_model extends CI_Model{
 				'new_desig'			=> $emp_desi_id,
 				'new_grade'			=> $new_emp_sal_gra_id,
 				'new_salary'		=> $new_gross_sal,
-				'new_com_salary'	=> $new_gross_sal_com,
+				// 'new_com_salary'	=> $new_gross_sal_com,
+				'new_com_salary'	=> $new_gross_sal,
 				'effective_month'	=> $new_entry_date,
 				'ref_id'			=> $empid,
 				'status'			=> 1
@@ -133,7 +134,8 @@ class Inc_prom_pun_model extends CI_Model{
 				
 				'emp_sal_gra_id'	=> $new_emp_sal_gra_id,
 				'gross_sal'  		=> $new_gross_sal,
-				'com_gross_sal'  	=> $new_gross_sal_com,
+				'com_gross_sal'  	=> $new_gross_sal,
+				// 'com_gross_sal'  	=> $new_gross_sal_com,
 		);
 		$this->db->where('emp_id',$empid);
 		$v1 = $this->db->update('pr_emp_com_info', $data2);
@@ -216,7 +218,8 @@ class Inc_prom_pun_model extends CI_Model{
 				'emp_desi_id' 		=> $new_desig,
 				'emp_sal_gra_id'	=> $new_emp_sal_gra_id,
 				'gross_sal'  		=> $new_gross_sal,
-				'com_gross_sal'  	=> $new_gross_sal_com,
+				'com_gross_sal'  	=> $new_gross_sal,
+				// 'com_gross_sal'  	=> $new_gross_sal_com,
 			);
 			$this->db->where('emp_id',$empid);
 			$v1 = $this->db->update('pr_emp_com_info', $data_update);
@@ -244,7 +247,8 @@ class Inc_prom_pun_model extends CI_Model{
 				'emp_shift' 		=> $emp_shift,
 				'weekend' 			=> $weekend,
 				'gross_sal' 		=> $new_gross_sal,
-				'com_gross_sal'  	=> $new_gross_sal_com,
+				'com_gross_sal'  	=> $new_gross_sal,
+				// 'com_gross_sal'  	=> $new_gross_sal_com,
 				'ot_entitle'		=> $ot_entitle,
 				'ot_show_in'		=> $ot_show_in,
 				'transport'  		=> $transport,
@@ -442,7 +446,8 @@ class Inc_prom_pun_model extends CI_Model{
 				'new_desig'			=> $new_desig,
 				'new_grade'			=> $new_emp_sal_gra_id,
 				'new_salary'		=> $new_gross_sal,
-				'new_com_salary'	=> $new_gross_sal_com,
+				'new_com_salary'	=> $new_gross_sal,
+				// 'new_com_salary'	=> $new_gross_sal_com,
 				'effective_month'	=> $new_entry_date,
 				'ref_id'			=> $new_empid,
 				'status'			=> 2

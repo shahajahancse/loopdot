@@ -55,7 +55,8 @@ class Mars_con extends CI_Controller {
 		// echo $grid_date.$category.$unit_id;
 		// exit;
 		if($category =='Department'){
-			$data['values'] = $this->mars_model->department_attendance_summary($report_date, $unit_id);
+			$data['values'] = $this->mars_model->department_attendance_summary_other($report_date, $unit_id);
+			// $data['values'] = $this->mars_model->department_attendance_summary($report_date, $unit_id);
 		}
 		elseif($category =='Section'){
 			$data['values'] = $this->mars_model->section_attendance_summary($report_date, $unit_id);

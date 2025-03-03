@@ -10,6 +10,7 @@ class Setup_con extends CI_Controller {
 		$this->load->model('acl_model');
 		$this->load->model('common_model');
 		$this->load->library('pagination_bootstrap');
+		$this->load->helper('url');
 
 
 		$access_level = 2;
@@ -74,23 +75,40 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Department
 	//-------------------------------------------------------------------------------------------------------
-	function department()
+	function department($start=0)
 	{
+		// echo "<pre>"; print_r($_POST);
+		// echo "<pre>"; print_r($_GET); exit;
+		$this->load->model('crud_model');
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/department/";
+		$config['per_page'] = $limit;
 
-
+		$condition = 0;
+		if ($this->input->get('request')) {
+			$query = $this->input->get('request');
+			$condition = "(pr_units.unit_name LIKE '" . $query . "%' OR pr_dept.dept_name LIKE '%" . $query . "%' OR pr_dept.dept_bangla LIKE '%" . $query . "%')";
+		}
 
 		$this->load->model('crud_model');
-		 $pr_dept = $this->crud_model->dept_infos();
-		 // print_r($pr_dept);exit('ali');
-		 $data = array();
-		 $data['pr_dept'] = $pr_dept;
-		 $this->load->view('dept_list',$data);
+		$pr_dept = $this->crud_model->dept_infos($limit,$start, $condition);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+  		 $param['pr_dept'] = $pr_dept;
 
 
+		$this->load->view('dept_list',$param);
 
 		// $this->crud_output($output);
-
 	}
+
 	function dept_name_check($str)
 	{
 		$id = $this->uri->segment(4);
@@ -114,16 +132,26 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Section
 	//-------------------------------------------------------------------------------------------------------
-	function section()
+	function section($start=0)
 	{
-
-
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/section/";
+		$config['per_page'] = $limit;
 		$this->load->model('crud_model');
-		 $pr_sec = $this->crud_model->sec_infos();
-		 // print_r($pr_sec);exit('ali');
-		 $data = array();
-		 $data['pr_sec'] = $pr_sec;
-		 $this->load->view('sec_list',$data);
+		$pr_sec = $this->crud_model->sec_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_sec'] = $pr_sec;
+
+		 $this->load->view('sec_list',$param);
 
 	}
 	function sec_name_check($str)
@@ -147,15 +175,27 @@ class Setup_con extends CI_Controller {
 		}
 	}
 
-	function floor()
+	function floor($start=0)
 	{
 
-		 $this->load->model('crud_model');
-		 $pr_floor = $this->crud_model->floor_infos();
-		 // print_r($pr_floor);exit('ali');
-		 $data = array();
-		 $data['pr_floor'] = $pr_floor;
-		 $this->load->view('floor_list',$data);
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/floor/";
+		$config['per_page'] = $limit;
+		$this->load->model('crud_model');
+		$pr_floor = $this->crud_model->floor_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_floor'] = $pr_floor;
+		$this->load->view('floor_list',$param);
+		// print_r($total);exit();
 	}
 
 	function floor_name_check($str)
@@ -181,17 +221,25 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Line
 	//-------------------------------------------------------------------------------------------------------
-	function line()
+	function line($start=0)
 	{
-
-
-
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/line/";
+		$config['per_page'] = $limit;
 		$this->load->model('crud_model');
-		 $pr_line = $this->crud_model->line_infos();
-		 // print_r($pr_line);exit('ali');
-		 $data = array();
-		 $data['pr_line'] = $pr_line;
-		 $this->load->view('line_list',$data);
+		$pr_line = $this->crud_model->line_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_line'] = $pr_line;
+		 $this->load->view('line_list',$param);
 
 
 
@@ -407,16 +455,26 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Attendance Bonus
 	//-------------------------------------------------------------------------------------------------------
-	function attendance_bonus()
+	function attendance_bonus($start=0)
 	{
-
-
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/attendance_bonus/";
+		$config['per_page'] = $limit;
 		$this->load->model('crud_model');
-		 $pr_attn_bonus = $this->crud_model->attbn_infos();
-		 // print_r($pr_attn_bonus);exit('ali');
-		 $data = array();
-		 $data['pr_attn_bonus'] = $pr_attn_bonus;
-		 $this->load->view('attbn_list',$data);
+		$pr_attn_bonus = $this->crud_model->attbn_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_attn_bonus'] = $pr_attn_bonus;
+
+		 $this->load->view('attbn_list',$param);
 
 
 	}
@@ -443,16 +501,25 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Salary Grade
 	//-------------------------------------------------------------------------------------------------------
-	function salary_grade()
+	function salary_grade($start=0)
 	{
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/salary_grade/";
+		$config['per_page'] = $limit;
+		$this->load->model('crud_model');
+		$pr_grade = $this->crud_model->salgrd_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
 
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
 
-		 $this->load->model('crud_model');
-		 $pr_grade = $this->crud_model->salgrd_infos();
-		 // print_r($pr_grade);exit('ali');
-		 $data = array();
-		 $data['pr_grade'] = $pr_grade;
-		 $this->load->view('salgrd_list',$data);
+		$param['pr_grade'] = $pr_grade;
+		$this->load->view('salgrd_list',$param);
 
 
 
@@ -460,51 +527,77 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Shift Schedules
 	//-------------------------------------------------------------------------------------------------------
-	function shift_schedule()
+	function shift_schedule($start=0)
 	{
 
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/shift_schedule/";
+		$config['per_page'] = $limit;
+		$this->load->model('crud_model');
+		$pr_emp_shift_schedule = $this->crud_model->shiftschedule_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
 
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
 
-		 $this->load->model('crud_model');
-		 $pr_emp_shift_schedule = $this->crud_model->shiftschedule_infos();
-		 // print_r($pr_emp_shift_schedule);exit('ali');
-		 $data = array();
-		 $data['pr_emp_shift_schedule'] = $pr_emp_shift_schedule;
-		 $this->load->view('shift_schedule_list',$data);
+		$param['pr_emp_shift_schedule'] = $pr_emp_shift_schedule;
 
-
+		 $this->load->view('shift_schedule_list',$param);
 
 	}
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Shift Management
 	//-------------------------------------------------------------------------------------------------------
-	function shift_management()
+	function shift_management($start=0)
 	{
 
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/shift_management/";
+		$config['per_page'] = $limit;
+		$this->load->model('crud_model');
+		$pr_emp_shift = $this->crud_model->shiftmanagement_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
 
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
 
-		 $this->load->model('crud_model');
-		 $pr_emp_shift = $this->crud_model->shiftmanagement_infos();
-		 // print_r($pr_emp_shift);exit('ali');
-		 $data = array();
-		 $data['pr_emp_shift'] = $pr_emp_shift;
-		 $this->load->view('shift_management_list',$data);
+		$param['pr_emp_shift'] = $pr_emp_shift;
+		$this->load->view('shift_management_list',$param);
 
 	}
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Leave Setup
 	//-------------------------------------------------------------------------------------------------------
-	function leave_setup()
+	function leave_setup($start=0)
 	{
 
-
-
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/floor/";
+		$config['per_page'] = $limit;
 		$this->load->model('crud_model');
-		$pr_leave = $this->crud_model->leave_infos();
-		// print_r($pr_leave);exit('ali');
-		$data = array();
-		$data['pr_leave'] = $pr_leave;
-		$this->load->view('leave_list',$data);
+		$pr_leave = $this->crud_model->leave_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_leave'] = $pr_leave;
+		$this->load->view('leave_list',$param);
 
 	}
 
@@ -527,32 +620,54 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Night Allowance Setup
 	//-------------------------------------------------------------------------------------------------------
-	function night_allowance_setup()
+	function night_allowance_setup($start=0)
 	{
 
 		$this->load->model('crud_model');
-		$pr_night_allowance_rules = $this->crud_model->nightallowence_infos();
-		// print_r($pr_night_allowance_rules);exit('ali');
-		$data = array();
-		$data['pr_night_allowance_rules'] = $pr_night_allowance_rules;
-		$this->load->view('night_allowance_list',$data);
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/night_allowance_setup/";
+		$config['per_page'] = $limit;
+		$pr_night_allowance_rules = $this->crud_model->nightallowence_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
 
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_night_allowance_rules'] = $pr_night_allowance_rules;
+
+		// print_r($pr_night_allowance_rules);exit('ali');
+		$this->load->view('night_allowance_list',$param);
 
 	}
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Holiday Allowance Setup
 	//-------------------------------------------------------------------------------------------------------
-	function holiday_allowance_setup()
+	function holiday_allowance_setup($start=0)
 	{
 
-
-
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/holiday_allowance_setup/";
+		$config['per_page'] = $limit;
 		$this->load->model('crud_model');
-		$pr_holiday_allowance_rules = $this->crud_model->holidayallowence_infos();
-		// print_r($pr_holiday_allowance_rules);exit('ali');
-		$data = array();
-		$data['pr_holiday_allowance_rules'] = $pr_holiday_allowance_rules;
-		$this->load->view('holiday_allowance_list',$data);
+		$pr_holiday_allowance_rules = $this->crud_model->holidayallowence_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_holiday_allowance_rules'] = $pr_holiday_allowance_rules;
+
+		$this->load->view('holiday_allowance_list',$param);
 
 	}
 
@@ -564,14 +679,13 @@ class Setup_con extends CI_Controller {
 	function weekend_allowance_setup($start=0)
 	{
 
-
 		 $this->load->library('pagination');
 		 $param = array();
 		 $limit = 10;
 		 $config['base_url'] = base_url()."index.php/setup_con/weekend_allowance_setup/";
 		 $config['per_page'] = $limit;
 		 /*$config['num_links'] = 5;*/
-		 $config['total_rows'] = $this->db->get('pr_weekend_allowance_rules')->num_rows();
+		 $config['total_rows'] = $this->db->get('pr_weekend_allowance_level')->num_rows();
 		 $config["uri_segment"] = 3;
 		 // $this->load->library('pagination');
 
@@ -619,16 +733,26 @@ class Setup_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Festival Bonus Setup
 	//-------------------------------------------------------------------------------------------------------
-	function bonus_setup()
+	function bonus_setup($start=0)
 	{
-
-
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 10;
+		$config['base_url'] = base_url()."index.php/setup_con/bonus_setup/";
+		$config['per_page'] = $limit;
 		$this->load->model('crud_model');
-		$pr_bonus_rules = $this->crud_model->bnruls_infos();
-		// print_r($pr_bonus_rules);exit('ali');
-		$data = array();
-		$data['pr_bonus_rules'] = $pr_bonus_rules;
-		$this->load->view('bnrules_list',$data);
+		$pr_bonus_rules = $this->crud_model->bnruls_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
+
+		 $this->pagination->initialize($config);
+		 $param['links'] = $this->pagination->create_links();
+
+		$param['pr_bonus_rules'] = $pr_bonus_rules;
+
+		$this->load->view('bnrules_list',$param);
 
 
 	}

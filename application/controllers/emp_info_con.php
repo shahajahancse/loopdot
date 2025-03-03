@@ -4,7 +4,7 @@ class Emp_info_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 		$this->load->model('processdb');
 		$this->load->model('acl_model');
@@ -13,7 +13,7 @@ class Emp_info_con extends CI_Controller {
 		$access_level = 1;
 		$acl = $this->acl_model->acl_check($access_level);
 	}
-		
+
 	function per_info1()
 	{
 		$data = $this->processdb->insertdb1();
@@ -25,32 +25,33 @@ class Emp_info_con extends CI_Controller {
 		$date = $this->db->select("")->get('dash_board_date')->row()->date;
 		$grid_date = date('d-m-y',strtotime($date));
 		list($date, $month, $year) = explode('-', trim($grid_date));
-		$report_date = date("Y-m-d", mktime(0, 0, 0, $month, $date, $year));
-		
+		// $report_date = date("Y-m-d", mktime(0, 0, 0, $month, $date, $year));
+		$report_date = date("Y-m-d");
+
 
 		$unit_id = 1;
-		
+
 		$data['values'] = $this->mars_model->dashboard_summary($report_date, $unit_id);
-		
+
 		$data['title'] 		 = 'Daily Attendance Summary';
 		$data['report_date'] = $report_date;
 		$data['unit_id']    = $unit_id;
 
-
+		// echo "<pre>"; print_r($data); die;
 		$this->load->view('at_a_glance',$data);
 	}
 
-	
+
 	function check_id()
 	{
 		$result = $this->processdb->check_id_db();
 		echo $result;
-	}	
-	
-	function personal_info_view1()
+	}
+
+	function personal_info_view1_old()
 	{
 		$this->load->library('form_validation');
-		
+
 		$this->form_validation->set_rules('empid', 'Employee ID', 'trim|required');
 		$this->form_validation->set_rules('name', 'Employee Name', 'trim');
 		$this->form_validation->set_rules('bname', 'Employee Bangla Name', 'trim');
@@ -67,16 +68,16 @@ class Emp_info_con extends CI_Controller {
 		$this->form_validation->set_rules('text6', 'Year(s) of Skill', 'trim');
 		$this->form_validation->set_rules('text7', 'Company Name', 'trim');
 		$this->form_validation->set_rules('text8', 'Gross Salary', 'trim|required');
-		$this->form_validation->set_rules('text9', 'Complience Gross Salary', 'trim|required');
-		$this->form_validation->set_rules('id_skill','ID', 'trim');	
-		
+		// $this->form_validation->set_rules('text9', 'Complience Gross Salary', 'trim|required');
+		$this->form_validation->set_rules('id_skill','ID', 'trim');
+
 		if($this->input->post('pi_save') != '')
 		{
 			$this->form_validation->set_rules('idcard', 'Punch Card No.', 'trim|callback_proxi_id_check_for_save');
 			// $this->form_validation->set_rules('empid', 'Employee ID', 'trim|required|numeric|exact_length[6]|callback_emp_id_existance_check');
 			$this->form_validation->set_rules('units', 'Unit', 'trim|required|callback_unit_check');
-			
-			
+
+
 		}
 		elseif($this->input->post('pi_edit') != '')
 		{
@@ -86,9 +87,9 @@ class Emp_info_con extends CI_Controller {
 		{
 			$this->form_validation->set_rules('idcard', 'Punch Card No.', 'trim');
 		}
-		
+
 		$this->form_validation->set_error_delimiters("","");
-		
+
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->load->view('form/all_info');
@@ -98,7 +99,7 @@ class Emp_info_con extends CI_Controller {
 			if($this->input->post('pi_save') != '')
 			{
 				$result = $this->per_info1();
-				
+
 			}
 			elseif($this->input->post('pi_edit') != '')
 			{
@@ -138,12 +139,80 @@ class Emp_info_con extends CI_Controller {
 		}
 	}
 
+	function personal_info_view1()
+	{
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('empid', 'Employee ID', 'trim|required');
+		$this->form_validation->set_rules('name', 'Employee Name', 'trim');
+		$this->form_validation->set_rules('bname', 'Employee Bangla Name', 'trim');
+		$this->form_validation->set_rules('mname', 'Employee Mother\'s Name', 'trim');
+		$this->form_validation->set_rules('fname', 'Employee Father\'s Name', 'trim');
+		$this->form_validation->set_rules('padd', 'Present Address', 'trim');
+		$this->form_validation->set_rules('fadd', 'Parmanent Address', 'trim');
+		$this->form_validation->set_rules('dob', 'Date of Birth', 'trim');
+		$this->form_validation->set_rules('nomini_name', 'Nomini Name', 'trim');
+		// $this->form_validation->set_rules('child_no', 'No. Of Child', 'trim');
+		$this->form_validation->set_rules('ejd', 'Date of Joining', 'trim|required');
+		$this->form_validation->set_rules('text2', 'Last Degree', 'trim');
+		$this->form_validation->set_rules('text3', 'Passing Year', 'trim');
+		$this->form_validation->set_rules('text4', 'Institute Name', 'trim');
+		$this->form_validation->set_rules('text5', 'Skill Department', 'trim');
+		$this->form_validation->set_rules('text6', 'Year(s) of Skill', 'trim');
+		$this->form_validation->set_rules('text7', 'Company Name', 'trim');
+		$this->form_validation->set_rules('text8', 'Gross Salary', 'trim|required');
+		// $this->form_validation->set_rules('text9', 'Bank Acc No', 'trim');
+		// $this->form_validation->set_rules('text10', 'NID No', 'trim');
+		// $this->form_validation->set_rules('sname', 'Spouse Name', 'trim');
+		$this->form_validation->set_rules('n_id', 'Mobile No', 'trim');
+
+		if($this->input->post('pi_save') != '')
+		{
+			$this->form_validation->set_rules('idcard', 'Punch Card No.', 'trim|callback_proxi_id_check_for_save');
+			// $this->form_validation->set_rules('empid', 'Employee ID', 'trim|required|alpha_numeric|callback_emp_id_existance_check');
+			$this->form_validation->set_rules('units', 'Unit', 'trim|required|callback_unit_check');
+		}
+		elseif($this->input->post('pi_edit') != '')
+		{
+			$this->form_validation->set_rules('idcard', 'Punch Card No.', 'trim|callback_proxi_id_check_for_edit');
+		}
+		else
+		{
+			$this->form_validation->set_rules('idcard', 'Punch Card No.', 'trim');
+		}
+
+		$this->form_validation->set_error_delimiters("","");
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->load->view('form/all_info');
+		}
+		else
+		{
+			if($this->input->post('pi_save') != '')
+			{
+				$result = $this->per_info1();
+			}
+			elseif($this->input->post('pi_edit') != '')
+			{
+				$result = $this->per_update1();
+				if($result == true)
+				{
+					echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Updated successfully'); window.location='personal_info_view1';</SCRIPT>";
+				}
+				else
+				{
+					echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Sorry! Error Occurred'); window.location='personal_info_view1';</SCRIPT>";
+					//$this->personal_info_view1();
+				}
+			}
+		}
+	}
 
 	function all_info_view($result)
 	{
 		$this->load->view('form/all_info',$result);
 	}
-	
+
 	function emp_id_existance_check($emp_id)
 	{
 		$check = $this->processdb->emp_id_existance_check($emp_id);
@@ -168,7 +237,7 @@ class Emp_info_con extends CI_Controller {
 		{
 			return TRUE;
 		}
-		
+
 	}
 
 	function proxi_id_check_for_save($proxi_id)
@@ -185,17 +254,17 @@ class Emp_info_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	function date_check_for_save($date)
 	{
-		
+
 		if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}$/",$date))
 		{
 			$check = "True";
 		}else{
 			$check = "false";
 		}
-		
+
 		if ($check == "false")
 		{
 			$this->form_validation->set_message('date_check_for_save', 'Sorry! Date of Birth or Join Date Format is invalid.');
@@ -205,9 +274,9 @@ class Emp_info_con extends CI_Controller {
 		{
 			return TRUE;
 		}
-		
+
 	}
-	
+
 	function proxi_id_check_for_edit($proxi_id)
 	{
 		$emp_id = $this->input->post('empid');
@@ -222,10 +291,10 @@ class Emp_info_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	function all()
 	{
-		
+
 		if($this->session->userdata('logged_in')==FALSE)
 		{
 			$this->load->view('login_message');
@@ -242,13 +311,15 @@ class Emp_info_con extends CI_Controller {
 			}
 			$this->load->view('form/all_info');
 		}
-	
+
 	}
-	
+
 	function com_info_search1(){
 		$emp_id = $this->input->post('empid');
+		// echo $emp_id; die;
 		// $emp_id = '11000440';
 		$result = $this->processdb->com_info_search1($emp_id);
+		// echo "<pre>"; print_r($result); die;
 		echo $result;
 	}
 	/*//Test Function
@@ -258,7 +329,7 @@ class Emp_info_con extends CI_Controller {
 		echo $result;
 	}*/
 
-	
+
 	function com_info_next_Search1()
 	{
 		$id_skill = $this->input->post('id_skill');
@@ -267,7 +338,7 @@ class Emp_info_con extends CI_Controller {
 		$result = $this->processdb->com_info_search1($emp_id);
 		echo $result;
 	}
-	
+
 	function com_info_prev_Search1()
 	{
 		$id_skill = $this->input->post('id_skill');
@@ -276,7 +347,7 @@ class Emp_info_con extends CI_Controller {
 		$result = $this->processdb->com_info_search1($emp_id);
 		echo $result;
 	}
-	
+
 	function next_id_skill($id_skill)
 	{
 		$get_session_user_unit = $this->common_model->get_session_unit_id_name();
@@ -291,7 +362,7 @@ class Emp_info_con extends CI_Controller {
 		}
 		$this->db->where('id >', $id_skill);
 		$this->db->order_by("id","asc");
-		$this->db->limit(1);  
+		$this->db->limit(1);
 		$query = $this->db->get();
 		if($query->num_rows()>0){
 		  $rows = $query->row();
@@ -312,7 +383,7 @@ class Emp_info_con extends CI_Controller {
 		//echo $next_id_skill ;
 		return $next_id_skill;
 	}
-	
+
 	function prev_id_skill($id_skill)
 	{
 		$get_session_user_unit = $this->common_model->get_session_unit_id_name();
@@ -327,7 +398,7 @@ class Emp_info_con extends CI_Controller {
 		}
 		$this->db->where('id <', $id_skill);
 		$this->db->order_by("id","desc");
-		$this->db->limit(1);  
+		$this->db->limit(1);
 		$query = $this->db->get();
 		if($query->num_rows()>0)
 		{
@@ -351,13 +422,13 @@ class Emp_info_con extends CI_Controller {
 		}
 		return $next_id_skill;
 	}
-	
+
 	function per_update1()
 	{
 		$result = $this->processdb->updatedb1();
 		return $result;
 	}
-	
+
 	function dept()
 	{
 		$result = $this->processdb->com_all_info();

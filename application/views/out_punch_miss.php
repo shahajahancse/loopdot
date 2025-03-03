@@ -63,10 +63,10 @@ $section=array();
 	echo "<tr bgcolor='#CCCCCC'>";
 	echo "<td colspan='10' style='font-size:16px'>Section :&nbsp;".$values["sec_name"][$k]."</td>";
 	echo "</tr>";
-?>
+	?>
 
-<?php
-}
+	<?php }
+
 	echo "<tr>";
 	
 	echo "<td>";
@@ -94,14 +94,19 @@ $section=array();
 	echo $values["desig_name"][$k];
 	echo "</td>";
 
-	echo "<td width='80' style='text-align:center'>";
-	$values["in_time"][$i];
-	$hour = trim(substr($values["in_time"][$i],0,2));
-	$minute = trim(substr($values["in_time"][$i],3,2));
-	$sec = trim(substr($values["in_time"][$i],6,2));
-	$time_format = date("h:i:s A", mktime($hour, $minute, $sec, 0, 0, 0));
-	echo $time_format;
+	echo "<td >";
+	echo $values["in_time"][$k];
 	echo "</td>";
+
+
+	// echo "<td width='80' style='text-align:center'>";
+	// $values["in_time"][$i];
+	// $hour = trim(substr($values["in_time"][$i],0,2));
+	// $minute = trim(substr($values["in_time"][$i],3,2));
+	// $sec = trim(substr($values["in_time"][$i],6,2));
+	// $time_format = date("h:i:s A", mktime($hour, $minute, $sec, 0, 0, 0));
+	// echo $time_format;
+	// echo "</td>";
 	
 	echo "<td align='center' >";
 	echo "";

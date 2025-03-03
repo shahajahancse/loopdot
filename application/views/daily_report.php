@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Daily
-<?php 
+<?php
 if ($daily_status == "A")
 {
 	echo "Absent";
@@ -16,8 +16,8 @@ elseif($daily_status == "L")
 {
 	echo "Leave";
 }
-  
-?> 
+
+?>
  Report</title>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/print.css" media="print" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/SingleRow.css" />
@@ -26,7 +26,7 @@ elseif($daily_status == "L")
 
 <body style="margin: 0px;">
 
-<?php 
+<?php
 $per_page_id = 63;
 $row_count = count($values["emp_id"]);
 $max = $row_count;
@@ -45,13 +45,13 @@ for($counter = 1; $counter <= $page; $counter ++)
  ?>
 <div id="no_print" style="float:right;">
 </div>
-<?php 
+<?php
 $this->load->view("head_english");
 ?>
 <!--Report title goes here-->
 <div align="center" style=" margin:0 auto;  overflow:hidden; font-family: 'Times New Roman', Times, serif;"><span style="font-size:12px; font-weight:bold;">
-Daily 
-<?php 
+Daily
+<?php
 if ($daily_status == "A")
 {
 	echo "Absent";
@@ -64,13 +64,13 @@ elseif($daily_status == "L")
 {
 	echo "Leave";
 }
-  
+
 ?> Report of <?php echo "$date/$month/$year"; ?></span>
 <div style="clear: both;height: 20px;width: 100%"></div>
 <table class="sal" border="1" cellpadding="0" cellspacing="0" align="center" style="font-size:11px; width:750px; margin-bottom:20px;">
-<th>SL</th><th>Emp ID</th><th>Employee Name</th><th>Line No. </th> <th>Designation</th>
+<th>SL</th><th>Emp ID</th><th>Employee Name</th><th>Line No. </th> <th>Department </th> <th>Designation</th>
 
-<?php 
+<?php
 if($daily_status == "L"){
 	echo "<th>Status</th>";
 }
@@ -112,44 +112,48 @@ $section=array();
 	}
 
 	echo "<tr>";
-	
+
 	echo "<td>";
 	echo $s=$k+1 ;
 	echo "</td>";
-	
+
 	echo "<td>";
 	echo $values["emp_id"][$k];
 	echo "</td>";
-	
+
 	echo "<td>";
 	echo $values["emp_name"][$k];
 	echo "</td>";
-	
+
 	echo "<td >";
 	echo $values["line_name"][$k];
 	echo "</td>";
-	
+
+	echo "<td >";
+	echo $values["dept_name"][$k];
+	echo "</td>";
+
 	echo "<td>";
 	echo $values["desig_name"][$k];
 	echo "</td>";
-	
+
 	if($daily_status == "P")
 	{
 		echo "<td width='80' align='center'>";
 		echo $in_time =  $values["in_time"][$k];
 		echo "</td>";
-		
+
 		echo "<td width='80' align='center'>";
-	
+
 		echo $values["out_time"][$k];
 
 		echo "</td>";
 	}
-	
+
 	echo "<td style='text-align:center'>";
 	echo $values["status"][$k];
 	echo "</td>";
-	
+
 	echo "</tr>";
 		$section=$values["sec_name"][$k];
 		$k++;
@@ -164,7 +168,7 @@ $section=array();
 </table>
 <div style="page-break-after: always;"></div>
 </div>
-<?php 
+<?php
 
 if($max==$k){
 		break;

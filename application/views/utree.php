@@ -601,7 +601,7 @@
             <a class="header" href="<?php echo base_url();?>index.php/entry_system_con/advance_loan" title="Advance Loan" target="right" id="dp13003" onClick="MakeColoredBack('13003');">Advance Loan</a>
           </div>
 		  
-		      <div class="document">
+		  <div class="document">
             <img src="<?php echo base_url();?>/images/tree_image/utree_data/blank.gif">
             <img src="<?php echo base_url();?>/images/tree_image/utree_data/bullet.gif">
             <a class="header" href="<?php echo base_url();?>index.php/entry_system_con/due_amt_entry" title="Resign Entry" target="right" id="dp13994" onClick="MakeColoredBack('13994');">Add Due Amt.</a>

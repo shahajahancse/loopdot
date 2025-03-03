@@ -17,11 +17,11 @@
 	<div id="wrapper" style="margin-bottom:180px; width:700px; min-height:600px;">
     <table width="800" cellpadding="3" style="font-family:SolaimanLipi;">
         <tr>
-        <?php $company_logo = $this->common_model->company_information("company_logo"); ?>
-        <td width="105"><img width="55" height="55" src="<?php  echo base_url();?>images/<?php echo $company_logo = $this->common_model->company_information("company_logo"); ?>" /></td>
+        <?php $company_logo = $this->common_model->company_info()->company_logo; ?>
+        <td width="105"><img width="55" height="55" src="<?php  echo base_url();?>images/<?php echo $company_logo = $this->common_model->company_info()->company_logo; ?>" /></td>
         <td width="491" style="font-size:15px;">
-        		<span style="font-size:18px; font-weight:bold;margin-left: 114px;"><?php echo $company_logo = $this->common_model->company_information("company_name_bangla"); ?></span><br>
-        	<span style="margin-left: 114px;"><?php echo $company_logo = $this->common_model->company_information("company_add_bangla"); ?></span>
+        		<span style="font-size:18px; font-weight:bold;margin-left: 114px;"><?php echo $company_logo = $this->common_model->company_info()->company_name_bangla; ?></span><br>
+        	<span style="margin-left: 114px;"><?php echo $company_logo = $this->common_model->company_info()->company_add_bangla; ?></span>
 		</td>
     </tr>
     </table>
@@ -44,17 +44,17 @@
 					<tr><th style="text-align: left;background: gray;">বয়স ও সক্ষমতার প্রত্যয়ন পত্র</th></tr>
 					<tr><td style="font-family:sutonnymj; ">১। আইডি নংঃ <?php echo $row->emp_id;?></td></tr>
 					<tr><td>২। নামঃ <?php echo $row->bangla_nam;?></td></tr>
-					<tr><td>৩। পিতার নামঃ <?php echo $row->emp_fname_bn;?></td></tr>
-					<tr><td>৪। মাতার নামঃ <?php echo $row->emp_mname_bn;?></td></tr>
+					<tr><td>৩। পিতার নামঃ <?php echo $row->emp_fname;?></td></tr>
+					<tr><td>৪। মাতার নামঃ <?php echo $row->emp_mname;?></td></tr>
 					<tr><td>৫। লিঙ্গঃ 
 					<?php if($row->emp_sex==1){
-			           	echo "স্বামী";
+			           	echo "পুরুষ";
 			           }else{
-			           	echo "স্ত্রী";
+			           	echo "মহিলা";
 			           }?>
            			</td></tr>
-					<tr><td>৬। স্থায়ী ঠিকানাঃ <?php echo $row->emp_par_add_ban;?></td></tr>
-					<tr><td>৭। অস্থায়ী ঠিকানাঃ <?php echo $row->emp_pre_add_ban;?></td></tr>
+					<tr><td>৬। স্থায়ী ঠিকানাঃ <?php echo $row->emp_par_add;?></td></tr>
+					<tr><td>৭। অস্থায়ী ঠিকানাঃ <?php echo $row->emp_pre_add;?></td></tr>
 					<tr><td style="font-family:sutonnymj; ">৮। জন্ম তারিখঃ <?php echo $dob = date('d-m-Y',strtotime($row->emp_dob));?></td></tr>
 					<tr><td>৯। বাহ্যিক সক্ষমতাঃ</td></tr>
 					<tr><td>১০। সনাক্তকরন চিহ্নঃ</td></tr>
@@ -65,9 +65,9 @@
 					<tr><th style="text-align: left;background: gray;">বয়স ও সক্ষমতার প্রত্যয়ন পত্র</th></tr>
 					<tr><td style="font-family:sutonnymj; ">তারিখঃ <?php echo $doj = date('d-m-Y',strtotime($row->emp_join_date));?></td></tr>
 					<tr><td>আমি এই মর্মে প্রত্যয়ন করিতেছে যে নামঃ <?php echo $row->bangla_nam;?></td></tr>
-					<tr><td>পিতার নামঃ <?php echo $row->emp_fname_bn;?></td></tr>
-					<tr><td>মাতার নামঃ <?php echo $row->emp_mname_bn;?></td></tr>
-					<tr><td>ঠিকানাঃ <?php echo $row->emp_par_add_ban;?></td></tr>
+					<tr><td>পিতার নামঃ <?php echo $row->emp_fname;?></td></tr>
+					<tr><td>মাতার নামঃ <?php echo $row->emp_mname;?></td></tr>
+					<tr><td>ঠিকানাঃ <?php echo $row->emp_par_add;?></td></tr>
 					<tr><td>কে আমি পরীক্ষা করিয়াছি।</td></tr>
 					<tr><td>তিনি প্রতিষ্ঠানে নিযুক্ত হইতে ইচ্ছুক এবং আমার পরীক্ষা হইতে এইরুপ পাওয়া গিয়াছে যে তাহার বয়স <span style="color:green;font-weight: bolder;"><?php echo $diff;?></span> বৎসর এবং তিনি প্রতিষ্ঠানে প্রাপ্ত বয়স্ক/কিশোর হিসাবে নিযুক্ত হইবার যোগ্য
 

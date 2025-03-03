@@ -24,30 +24,30 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Add Designation</a>
+            <a class="navbar-brand"href="<?php echo base_url('index.php/setup_con/designation')?>">Back To List</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="/erp-mysoftheaven2/index.php/payroll_con">Home</a></li>
+              <li class="active"><a href="<?php echo base_url('index.php/payroll_con')?>">Home</a></li>
             </ul>
-            
+
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
       <div class="row">
         <div class="col-md-12">
-          <?php 
+          <?php
           $success = $this->session->flashdata('success');
           if ($success != "") {
            ?>
            <div class="alert alert-success"><?php echo $success; ?></div>
-           <?php 
+           <?php
             }
             $failuer = $this->session->flashdata('failuer');
             if ($failuer) {
              ?>
            <div class="alert alert-failuer"><?php echo $failuer; ?></div>
-           <?php 
+           <?php
             }
             ?>
 
@@ -72,7 +72,7 @@
         <div class="form-group">
           <select name="desig" id= "desig" class="form-control input-lg">
             <option value="">Select Unit</option>
-            <?php 
+            <?php
             // print_r($desig);exit('mafiz');
               foreach ($desig as $row)
               {
@@ -82,14 +82,14 @@
               		$select_data='';
               	}
                  echo '<option '.$select_data.'  value="'.$row[unit_id].'">'.$row[unit_name].
-                 '</option>';                  
+                 '</option>';
               }
 
              ?>
-            
+
           </select>
         </div>
-	      
+
       <br>
 
 		<div class="form-group">

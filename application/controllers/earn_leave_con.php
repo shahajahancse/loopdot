@@ -19,8 +19,7 @@ class Earn_leave_con extends CI_Controller {
 	
 	function earn_process_form()
 	{
-		//$this->load->view('form/earn_leave_process');
-		
+
 		$crud = new grocery_CRUD();
 		$get_session_user_unit = $this->common_model->get_session_unit_id_name();
 		if($get_session_user_unit != 0)
@@ -31,29 +30,30 @@ class Earn_leave_con extends CI_Controller {
 		$crud->set_subject('Salary Block');
 		$crud->display_as('block_year','Final Year');
 		$crud->order_by('block_year','desc');
-		if($get_session_user_unit != 0)
-		{
-			$crud->set_relation( 'unit_id' , 'pr_units','unit_name',array('unit_id' => $get_session_user_unit) );
-		}
-		else
-		{
-			$crud->set_relation( 'unit_id' , 'pr_units','unit_name' );
-		}
-
+			if($get_session_user_unit != 0)
+			{
+				$crud->set_relation( 'unit_id' , 'pr_units','unit_name',array('unit_id' => $get_session_user_unit));
+			}
+			else
+			{
+				$crud->set_relation( 'unit_id' , 'pr_units','unit_name' );
+			}
 		$crud->unset_columns('status');
 		$crud->unset_delete();
 		$crud->unset_add();
 		$crud->unset_edit();
 		$output = $crud->render();
 		$this->load->view('form/earn_leave_process',$output);
-
 	}
 	
 	function earn_leave_process()
 	{
+		$month = $this->input->post('month');
 		$year = $this->input->post('year');
+		$grid_id = explode('xxx', trim($this->input->post('spl')));
 		$process_check = $this->input->post('process_check');
-		$result = $this->earn_leave_model->earn_leave_process_db($year,$process_check);
+		// echo "<pre>"; print_r($grid_id);exit;
+		$result = $this->earn_leave_model->earn_leave_process_db($grid_id,$process_check,$year,$month);
 		echo $result;
 	}
 	function grid_earn_report()

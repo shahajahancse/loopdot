@@ -4,7 +4,7 @@ class Salary_process_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 		$this->load->library('grocery_CRUD');
 		$this->load->model('salary_process_model');
@@ -16,7 +16,7 @@ class Salary_process_con extends CI_Controller {
 		$access_level = 7;
 		$acl = $this->acl_model->acl_check($access_level);
 	}
-	
+
 	function salary_process_form()
 	{
 
@@ -57,7 +57,7 @@ class Salary_process_con extends CI_Controller {
 		$this->load->view('form/salary_process',$output);
 
 	}
-	
+
 	////////////////////////Festival Bonus///////////
 	function festival_bonus_form()
 	{
@@ -91,7 +91,7 @@ class Salary_process_con extends CI_Controller {
 		$this->load->view('form/festival_process',$output);
 
 	}
-	
+
 	function salary_process()
 	{
 		$grid_emp_id = $this->input->post('spl');
@@ -99,7 +99,7 @@ class Salary_process_con extends CI_Controller {
 		$year = $this->input->post('year');
 		$process_check = $this->input->post('process_check');
 		$grid_emp_id = explode('xxx', $grid_emp_id);
-		
+
 		// print_r($grid_emp_id);exit;
 		$this->load->model('common_model');
 
@@ -112,18 +112,18 @@ class Salary_process_con extends CI_Controller {
 		}
 		else
 		{
-			echo $result;		
+			echo $result;
 		}
 
 	}
-	
+
 	//////////////Festival Process////////////
 	function festival_process()
 	{
 		$month = $this->input->post('month');
 		$year = $this->input->post('year');
 		$process_check = $this->input->post('process_check');
-		
+
 		////////Month Check ///////////
 		$this->db->select('');
 		$this->db->like('effective_date', $month);
@@ -134,7 +134,7 @@ class Salary_process_con extends CI_Controller {
 			echo "Sorry! This Month is not setup in Festival.";
 		}
 		else{
-	
+
 			$result = $this->festival_bonus_model->festival_bonus_process($year, $month, $process_check);
 			if($result == "Process completed successfully")
 			{
@@ -144,13 +144,13 @@ class Salary_process_con extends CI_Controller {
 			}
 			else
 			{
-				echo $result;		
+				echo $result;
 			}
-		
-		}	
-		
+
+		}
+
 	}
-	
+
 	function test()
 	{
 		/*$service_month = 1;
@@ -167,6 +167,6 @@ class Salary_process_con extends CI_Controller {
 		 $dates = $this->salary_process_model->get_join_month_dates($doj);
 		 print_r($dates);
 	}
-	
+
 }
 

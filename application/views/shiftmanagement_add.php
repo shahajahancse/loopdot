@@ -24,30 +24,30 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Add Shift Management</a>
+            <a class="navbar-brand" href="<?php echo base_url('index.php/setup_con/shift_management')?>">Back To List</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="/erp-mysoftheaven2/index.php/payroll_con">Home</a></li>
+              <li class="active"><a href="<?php echo base_url('index.php/payroll_con')?>">Home</a></li>
             </ul>
-            
+
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
       <div class="row">
         <div class="col-md-12">
-          <?php 
+          <?php
           $success = $this->session->flashdata('success');
           if ($success != "") {
            ?>
            <div class="alert alert-success"><?php echo $success; ?></div>
-           <?php 
+           <?php
             }
             $failuer = $this->session->flashdata('failuer');
             if ($failuer) {
              ?>
            <div class="alert alert-failuer"><?php echo $failuer; ?></div>
-           <?php 
+           <?php
             }
             ?>
 
@@ -59,7 +59,7 @@
   <form enctype="multipart/form-data" method="post" name="creatshiftmanagement" action="<?php echo base_url().'index.php/crud_con/shiftmanagement_add'?>">
 	  <div class="row">
 	    <div class="col-md-6">
-	      
+
 	      <div class="form-group">
 	        <label>Shift name</label>
 	        <input type="text" name="stname"value="" class="form-control">
@@ -76,13 +76,13 @@
             <option value="">Shift Type</option>
             <?php
               foreach ($shiftmanagementinfo as  $row){
-                 echo '<option value="'.$row['shift_id'].'">'.$row['sh_type'].'</option>';                  
+                 echo '<option value="'.$row['shift_id'].'">'.$row['sh_type'].'</option>';
               }
              ?>
            </select>
            </div>
-       
-	      
+
+
       <br>
 
 		<div class="form-group">

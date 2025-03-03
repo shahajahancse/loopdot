@@ -17,8 +17,9 @@ function daily_attendance_summary(){
 		return;
 	}
 	
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp-mysoftheaven/index.php/mars_con/daily_attendance_summary/"+firstdate+"/"+category+"/"+unit_id;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/mars_con/daily_attendance_summary/"+firstdate+"/"+category+"/"+unit_id;
 	
 	daily_att_sum = window.open(url,'daily_att_sum',"menubar=1,resizable=1,scrollbars=1,width=1600,height=800");
 	daily_att_sum.moveTo(0,0);
@@ -40,8 +41,9 @@ function daily_attendance_summary_test(){
 		alert("Please select Category options");
 		return;
 	}
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp-mysoftheaven/index.php/mars_con/daily_attendance_summary_test/"+firstdate+"/"+category+"/"+unit_id;
+	hostname = window.location.href;
+hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/mars_con/daily_attendance_summary_test/"+firstdate+"/"+category+"/"+unit_id;
 	daily_att_sum = window.open(url,'daily_att_sum',"menubar=1,resizable=1,scrollbars=1,width=1600,height=800");
 	daily_att_sum.moveTo(0,0);
 }*/
@@ -61,8 +63,10 @@ function daily_attendance_summary_test(){
 		alert("Please select Category options");
 		return;
 	}
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp-mysoftheaven/index.php/mars_con/daily_attendance_summary_test/"+firstdate+"/"+category+"/"+unit_id;
+	
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/mars_con/daily_attendance_summary_test/"+firstdate+"/"+category+"/"+unit_id;
 	daily_att_sum = window.open(url,'daily_att_sum',"menubar=1,resizable=1,scrollbars=1,width=1600,height=800");
 	daily_att_sum.moveTo(0,0);
 }
@@ -83,8 +87,9 @@ function daily_ot_summary(){
 		alert("Please select Category options");
 		return;
 	}
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp-mysoftheaven/index.php/mars_con/daily_ot_summary/"+firstdate+"/"+category+"/"+unit_id;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/mars_con/daily_ot_summary/"+firstdate+"/"+category+"/"+unit_id;
 	daily_att_sum = window.open(url,'daily_att_sum',"menubar=1,resizable=1,scrollbars=1,width=1600,height=800");
 	daily_att_sum.moveTo(0,0);
 }
@@ -114,8 +119,9 @@ function daily_costing_summary()
 	}*/
 	
 	
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp-mysoftheaven/index.php/mars_con/daily_costing_summary/"+firstdate+"/"+unit_id;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/mars_con/daily_costing_summary/"+firstdate+"/"+unit_id;
 	
 	daily_costing_sum = window.open(url,'daily_costing_sum',"menubar=1,resizable=1,scrollbars=1,width=1600,height=800");
 	daily_costing_sum.moveTo(0,0);
@@ -147,8 +153,9 @@ function daily_logout_report()
 	}
 	
 	
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp-mysoftheaven/index.php/mars_con/daily_logout_report/"+firstdate+"/"+category+"/"+unit_id;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/mars_con/daily_logout_report/"+firstdate+"/"+category+"/"+unit_id;
 	
 	daily_logout = window.open(url,'daily_logout',"menubar=1,resizable=1,scrollbars=1,width=1600,height=800");
 	daily_logout.moveTo(0,0);

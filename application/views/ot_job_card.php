@@ -186,24 +186,19 @@ for($i = 0 ; $i < $emp_id_count; $i++)
 		</td>
 		<td align="center"> 
 		<?php 
-		if($values[$emp_id]["out_time"][$k] =='00:00:00')
-		{
-			echo "&nbsp;"; 
-		}
-		else 
-		{
-			if($values[$emp_id]["in_time"][$k] =='00:00:00')
+
+			if($values[$emp_id]["out_time"][$k] =='00:00:00')
 			{
 				echo "&nbsp;"; 
-			}else{
-			
-			$out_time =  $values[$emp_id]["out_time"][$k];
-			$hour = trim(substr($out_time,0,2));
-			$minute = trim(substr($out_time,3,2));
-			$sec = trim(substr($out_time,6,2));
-			echo $time_format = date("h:i:s A", mktime($hour, $minute, $sec, 0, 0, 0)); 
+			}
+			else{
+					$out_time =  $values[$emp_id]["out_time"][$k];
+					$hour = trim(substr($out_time,0,2));
+					$minute = trim(substr($out_time,3,2));
+					$sec = trim(substr($out_time,6,2));
+					echo $time_format = date("h:i:s A", mktime($hour, $minute, $sec, 0, 0, 0)); 
 				}
-		}	
+	
 		?> 
 		</td>
 		<?php echo "<td style='text-transform:uppercase;text-align:center'>";

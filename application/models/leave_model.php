@@ -16,23 +16,15 @@ class Leave_model extends CI_Model{
 		if($unit_id == 0){return "Please Login As an Unit User.";}
 
 		$empid_leave=$this->input->post('empid_leave');
-		$sStartDate=$this->input->post('start_leave_date');
-		$sStartDate = date("Y-m-d", strtotime($sStartDate)); 
-		$sEndDate=$this->input->post('end_leave_date');
-		$sEndDate = date("Y-m-d", strtotime($sEndDate));
+		$sStartDate = date("Y-m-d", strtotime($this->input->post('start_leave_date'))); 
+		$sEndDate = date("Y-m-d", strtotime($this->input->post('end_leave_date')));
 		$leave_type=$this->input->post('leave_type');
-		
-		/*$startTimeStamp = strtotime($sStartDate);
-		$endTimeStamp = strtotime($sEndDate);
-		$timeDiff = abs($endTimeStamp - $startTimeStamp);
-		$numberDays = $timeDiff/86400;
-		$numberDays = intval($numberDays);*/
 		
 		$startyear_leave = trim( substr($sStartDate,1,4 ) );
 		$endyear_leave = trim( substr($sEndDate,1,4 ) );
 		
 		$earn_year = date("Y", strtotime($sStartDate));
-		$table_name = "pr_earn_$earn_year";
+		$table_name = "pr_earn_leave";
 		 
 		$query_numrows = $this->empid_test($empid_leave);  //check the valid emp id
 		if(!$query_numrows->num_rows())
@@ -99,46 +91,100 @@ class Leave_model extends CI_Model{
 			$result = count($days);	
 			if($leave_type == "el")
 			{
-				/*$this->db->select('earn_balance');
-				$this->db->where("emp_id", $empid_leave);
-				$query = $this->db->get('pr_leave_earn');
-				$rows = $query->row();
-				$leave_balance = $rows->earn_balance;*/
-				
 				$earn_paid		= $this->earn_leave_model->get_earn_leave_paid($empid_leave,$earn_year);
 				$yearly_earn	= $this->earn_leave_model->get_yearly_earn_leave($empid_leave,$table_name);
-				$leave_balance = $yearly_earn - $earn_paid;
-				
-				
-				
-				//echo $leave_balance;
+				$due_leave  = $yearly_earn - $earn_paid;
+
 			}
 			else
 			{
 				$leave_balance = $this->leave_status_check($emp_status,$leave_type,$empid_leave,$sStartDate,$sEndDate); //coleect the employee balance selected leave
-				/*if($leave_type == "ml" && $result != $leave_balance)
-				{
-					 return "Invalid Maternity Leave Entry![$result]";
-				}*/
+				$due_leave = $leave_balance - $pass_leave;
 			}
 			
-			$due_leave = $leave_balance - $pass_leave;
+			
+
+			if($due_leave < $result)
+			{
+				echo "Leave Exceed";
+			}
+			else
+			{	
 				
-							//echo $result;
 				
-				if($due_leave < $result)
+				if($leave_type=="el")
 				{
-					// echo "Leave Exceed"." ".$result;
-					echo "Leave Exceed";
+					$this->leave_insert($emp_status,$leave_type,$empid_leave,$sStartDate,$sEndDate);
+
+					$this->db->select("*");
+					$this->db->from('pr_earn_leave');
+					$this->db->where("emp_id",$empid_leave);
+					$this->db->limit(1);
+					$this->db->order_by("id","desc");
+					$last_row=$this->db->get()->row();
+					// echo $last_row->earn_leave;exit;
+
+					$earn_leave= $last_row->el + $result;
+
+					$total_earn_leave = $last_row->earn_leave - $result;
+
+					$data = array(
+									'el'=> $earn_leave,
+									'earn_leave'=> $total_earn_leave
+								);
+
+					// echo print_r($data);exit;			
+					$this->db->where("id",$last_row->id);
+					$this->db->update('pr_earn_leave',$data);
+					echo "Save Successfully";
+
 				}
-				else
-				{
-					//echo "welcome"." ".$result;
+				else{
 					$this->leave_insert($emp_status,$leave_type,$empid_leave,$sStartDate,$sEndDate);
 					echo "Save Successfully";
 				}
+
+			    
+			
+			}
 		
 		}
+	}
+	function leave_insert($emp_status,$leave_type,$empid_leave,$sStartDate,$sEndDate)
+	{
+		$days = $this->GetDays($sStartDate,$sEndDate);
+		$this->leave_duplicate_entry_check($empid_leave, $sStartDate,$sEndDate);
+		
+		$unit_id = $this->common_model->get_session_unit_id_name();
+		
+		$leave_start= date("Y-m-d", strtotime($sStartDate));
+		$leave_end = date("Y-m-d", strtotime($sEndDate));
+
+		foreach($days as $day)
+		{
+			$holiday_check = $this->db->where('emp_id',$empid_leave)->where('holiday_date',$day)->get('pr_holiday')->num_rows();
+			if($holiday_check > 0)
+			{
+				continue;
+			}
+			
+			$weekend_check = $this->db->where('emp_id',$empid_leave)->where('work_off_date',$day)->get('pr_work_off')->num_rows();
+			if($weekend_check > 0)
+			{
+				continue;
+			}
+			
+			//$this->leave_duplicate_entry_check($empid_leave, $day);
+			$data = array(
+					'emp_id'		=> $empid_leave,
+					'unit_id'		=> $unit_id,
+					'leave_start' 	=> $leave_start,
+					'leave_end' 	=> $leave_end,
+					'start_date'    => $day ,
+					'leave_type'	=> $leave_type	);
+			$this->db->insert('pr_leave_trans', $data);
+		}
+
 	}
 	
 	function empid_test($empid)
@@ -230,60 +276,7 @@ class Leave_model extends CI_Model{
 
 	}
 	
-	function leave_insert($emp_status,$leave_type,$empid_leave,$sStartDate,$sEndDate)
-	{
-		$days = $this->GetDays($sStartDate,$sEndDate);
-		$this->leave_duplicate_entry_check($empid_leave, $sStartDate,$sEndDate);
-		
-		$unit_id = $this->common_model->get_session_unit_id_name();
-		
-		$leave_start= date("Y-m-d", strtotime($sStartDate));
-		$leave_end = date("Y-m-d", strtotime($sEndDate));
 
-		foreach($days as $day)
-		{
-			$holiday_check = $this->db->where('emp_id',$empid_leave)->where('holiday_date',$day)->get('pr_holiday')->num_rows();
-			if($holiday_check > 0)
-			{
-				continue;
-			}
-			
-			$weekend_check = $this->db->where('emp_id',$empid_leave)->where('work_off_date',$day)->get('pr_work_off')->num_rows();
-			if($weekend_check > 0)
-			{
-				continue;
-			}
-			
-			//$this->leave_duplicate_entry_check($empid_leave, $day);
-			$data = array(
-					'emp_id'		=> $empid_leave,
-					'unit_id'		=> $unit_id,
-					'leave_start' 	=> $leave_start,
-					'leave_end' 	=> $leave_end,
-					'start_date'    => $day ,
-					'leave_type'	=> $leave_type	);
-			$this->db->insert('pr_leave_trans', $data);
-		}
-		
-		/*if($leave_type == "el")
-		{
-			$this->db->select('earn_balance');
-			$this->db->where("emp_id", $empid_leave);
-			$query = $this->db->get('pr_leave_earn');
-			$rows = $query->row();
-			$leave_balance = $rows->earn_balance;
-			
-			$earn = count($days);
-			$earn_balance = $leave_balance - $earn;
-			$data = array(
-               'earn_balance' =>$earn_balance,
-			   'last_update' => date("Y-m-d")
-            );
-		$this->db->where("emp_id",$empid_leave);
-		$this->db->update('pr_leave_earn', $data); 
-		
-		}*/
-	}
 	/*function leave_duplicate_entry_check($empid_leave, $day)
 	{
 		$this->db->select('leave_type');
@@ -323,7 +316,7 @@ class Leave_model extends CI_Model{
 	{
 		$empid=$this->input->post('empid');
 		$year=$this->input->post('year');
-		$table_name = "pr_earn_$year";
+		$table_name = "pr_earn_leave";
 		
 		$query_numrows = $this->empid_test($empid);
 		if(!$query_numrows->num_rows())
@@ -353,11 +346,19 @@ class Leave_model extends CI_Model{
 		$total_sick_leave = $query->num_rows();
 		
 		
-		$this->db->select('leave_type');
-	    $where="emp_id = '$empid' and leave_type = '$leave_type_el' and trim( substr(start_date,1,4 ) ) = '$year' ";
-    	$this->db->where($where);
-		$query = $this->db->get('pr_leave_trans');
-		$total_earn_leave = $query->num_rows();
+		// $this->db->select('leave_type');
+	    // $where="emp_id = '$empid' and leave_type = '$leave_type_el' and trim( substr(start_date,1,4 ) ) = '$year' ";
+    	// $this->db->where($where);
+		// $query = $this->db->get('pr_leave');
+		// $total_earn_leave = $query->num_rows();
+		$this->db->select('el,earn_leave');
+		$this->db->from('pr_earn_leave');
+		$this->db->where("emp_id" , $empid);
+		$this->db->limit(1);
+		$this->db->order_by('id',"DESC");
+		$earn_leave =$this->db->get()->row();
+
+		// echo print_r($total_earn_leave);exit;
 		
 		$this->db->select('leave_type');
 	    $where="emp_id = '$empid' and leave_type = '$leave_type_pl' and trim( substr(start_date,1,4 ) ) = '$year' ";
@@ -375,10 +376,12 @@ class Leave_model extends CI_Model{
 		$data1=array(
 					'casual'    =>$total_casual_leave,
 					'sick'      =>$total_sick_leave,
-					'earn'      =>$total_earn_leave,
+					'earn'      =>$earn_leave->el,
 					'maternity' =>$total_maternity_leave,
 					'paternity' =>$total_paternity_leave
 					);
+
+
 				  $data_leave_emp = implode("-*-",$data1);
 					//echo $data_leave_emp ;
 					
@@ -460,7 +463,7 @@ class Leave_model extends CI_Model{
 		$data2=array(
 					'casual_balance'    =>$casual_leave_balance,
 					'sick_balance'      =>$sick_leave_balance,
-					'earn_balance'      =>$earn_leave_balance,
+					'earn_balance'      =>$earn_leave->earn_leave,
 					'maternity_balance' =>$maternity_leave_balance,
 					'paternity_balance' =>$paternity_leave_balance,
 					'status_name'       =>$status_name
@@ -538,7 +541,7 @@ class Leave_model extends CI_Model{
 		$this->db->where("pr_emp_com_info.emp_id = pr_leave_trans.emp_id");
         $this->db->where("pr_leave_trans.leave_type = 'ml'");
 		$this->db->where("substr(pr_leave_trans.start_date,1,4)='$grid_year'");
-		$this->db->group_by("pr_leave_trans.emp_id");		
+		// $this->db->group_by("pr_leave_trans.emp_id");		
         //$this->db->limit(1);		
 		$query = $this->db->get();
 		/*echo "<pre>";

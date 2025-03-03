@@ -17,7 +17,7 @@ foreach($value as $row)
             <td width="29">&nbsp;</td>
            
             <td width="75"></td>
-            <td width="273" style="font-size:20px; text-align:right"><b>ব্যান্ডো ফ্যাশনস লিমিটেড</b></td>
+            <td width="273" style="font-size:20px; text-align:right"><b>লুপ ডট ফ্যাশন</b></td>
             <td width="" style="font-size:10px; text-align:right"> মোট নম্বর : ৫০
                                                                                  পাশ নম্বর : ২৫(৫০%)</td>
             <td ></td>

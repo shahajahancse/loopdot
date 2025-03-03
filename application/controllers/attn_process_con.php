@@ -1,16 +1,20 @@
 <?php
+// echo phpinfo();exit;
+
 class Attn_process_con extends CI_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 		$this->load->library('grocery_CRUD');
 		$this->load->model('attn_process_model');
 		$this->load->model('log_model');
-		set_time_limit(0);
-		ini_set("memory_limit","512M");
+		ini_set('memory_limit', -1);
+		ini_set('max_execution_time', 0);
+	    set_time_limit(0);
+
 		$this->load->model('acl_model');
 		$this->load->model('common_model');
 	}
@@ -24,7 +28,7 @@ class Attn_process_con extends CI_Controller {
 		else
 		$this->load->view('form/attn_process');
 	}
-	
+
 	function auto_shift_change($input_date)
 	{
 		$this->load->model('acl_model');
@@ -46,7 +50,7 @@ class Attn_process_con extends CI_Controller {
 
 
 		$per_data=date('Y-m-d', strtotime("$udate,-1 day"));
-				
+
 		$this->db->select('*');
 		$this->db->from('pr_emp_shift_process');
 		$this->db->where('date', $per_data);
@@ -108,7 +112,7 @@ class Attn_process_con extends CI_Controller {
 
 					$this->db->where('emp_id', $id);
 					$this->db->update('pr_emp_com_info', $data);
-					
+
 					/*if($i>0){
 					$data=array(
 						'date'=>$udate
@@ -130,13 +134,13 @@ class Attn_process_con extends CI_Controller {
 				);
 				$this->db->insert('pr_emp_shift_process', $data);
 		}
-	  }	
+	  }
 	}
-	
+
 	function attn_process(){
 		$access_level = 4;
 		$acl = $this->acl_model->acl_check($access_level);
-		
+
 		$unit = $this->input->post('unit_id');
 		$date = $this->input->post('p_start_date');
 		$spl = $this->input->post('spl');
@@ -151,8 +155,8 @@ class Attn_process_con extends CI_Controller {
 		set_time_limit(0);
 		$data = $this->attn_process_model->attn_process($input_date,$unit,$grid_emp_id);
 		$this->db->trans_complete();
-			
 		if ($this->db->trans_status() === FALSE){
+			exit('fiz');
 			$this->db->trans_rollback();
 			echo "Process failed";
 		}else{
@@ -170,7 +174,7 @@ class Attn_process_con extends CI_Controller {
 	function attn_process_month(){
 		$access_level = 4;
 		$acl = $this->acl_model->acl_check($access_level);
-		
+
 		$unit = $this->input->post('unit_id');
 		$date = $this->input->post('p_start_date');
 		$spl = $this->input->post('spl');
@@ -182,7 +186,7 @@ class Attn_process_con extends CI_Controller {
 		set_time_limit(0);
 		$Month_length = date('t',strtotime($input_date));
 		$month_year = date('Y-m',strtotime($input_date));
-		
+
 		for($loop = 1;$loop <= $Month_length;$loop++)
 		{
 			$input_date = date('Y-m-d',strtotime($month_year.'-'.$loop));
@@ -190,7 +194,7 @@ class Attn_process_con extends CI_Controller {
 		}
 
 		$this->db->trans_complete();
-			
+
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
 			echo "Process failed";
@@ -205,52 +209,52 @@ class Attn_process_con extends CI_Controller {
 			}
 		}
 	}
-	
+
 	function earn_leave_process($input_date)
 	{
 		$data = $this->attn_process_model->earn_leave_process($input_date);
 	}
-	
+
 	function deduction_hour_process($date)
 	{
 		$data = $this->attn_process_model->deduction_hour_process($date);
 	}
-	
+
 	function test()
 	{
 		$date1 = '2012-08-20';
 		$date2 = date('Y-m-d');
-		echo $days = $this->attn_process_model->get_date_to_date_day_differance($date1,$date2);	
+		echo $days = $this->attn_process_model->get_date_to_date_day_differance($date1,$date2);
 	}
 	function crud_output($output = null)
 	{
-		$this->load->view('output.php',$output);	
+		$this->load->view('output.php',$output);
 	}
 	function attn_file_upload()
 	{
 		$user_id = $this->acl_model->get_user_id($this->session->userdata('username'));
 		$acl     = $this->acl_model->get_acl_list($user_id);
-		
+
 		$crud = new grocery_CRUD();
 
 		$crud->set_table('pr_attn_file_upload');
 		$crud->set_subject('Attendance File Upload');
-		
+
 		$get_session_user_unit = $this->common_model->get_session_unit_id_name();
 		if($get_session_user_unit != 0)
 		{
 			$crud->where('pr_attn_file_upload.unit_id',$get_session_user_unit);
-		}		
+		}
 		$state = $crud->getState();
  		$crud->display_as( 'unit_id' , 'Unit' );
-		
+
 		if($state == 'add' || $state == 'insert_validation')
 		{
 			$crud->required_fields( 'file_name','upload_date','unit_id');
 			$crud->set_rules('upload_date','Date','trim|required|callback_date_duplication_check_for_unit');
 			$crud->callback_before_insert(array($this,'upload_file_name_change'));
 		}
-		
+
 		/*elseif($state == 'edit'  || $state == 'update_validation')
 		{
 			$crud->required_fields( 'file_name');
@@ -264,7 +268,7 @@ class Attn_process_con extends CI_Controller {
 		{
 			$crud->set_relation( 'unit_id' , 'pr_units','unit_name' );
 		}
-		
+
 		$crud->set_field_upload('file_name','data/');
 		$crud->unset_edit();
 		if(in_array(10,$acl)){
@@ -276,7 +280,7 @@ class Attn_process_con extends CI_Controller {
 		$output = $crud->render();
 		$this->crud_output($output);
 	}
- 
+
 	function date_duplication_check_for_unit($upload_date)
 	{
 	   	$year 	= substr($upload_date,6,4);
@@ -295,5 +299,44 @@ class Attn_process_con extends CI_Controller {
 		{
 			return TRUE;
 		}
+	}
+
+	function file_upload()
+	{
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('pr_attn_file_upload');
+		$crud->set_subject('Factory File Upload');
+
+		$state = $crud->getState();
+		// echo $state;
+		if($state == 'add' || $state == 'insert_validation')
+		{
+			if ($state == 'insert_validation') {
+				$input_date = explode('/', $_POST['upload_date']);
+				$where = $input_date[2].'-'.$input_date[1].'-'.$input_date[0];
+				$file_checking = $this->db->where('pr_attn_file_upload.upload_date',$where)->get('pr_attn_file_upload')->num_rows();
+				if ($file_checking > 0) {
+					throw new Exception('duplication date is not allowed to do this operation');
+					die();
+				} else {
+					$crud->required_fields( 'file_name','upload_date');
+					$crud->set_rules('upload_date','Date','trim|required');
+				}
+			}
+		}
+		elseif($state == 'edit'  || $state == 'update_validation')
+		{
+			$crud->required_fields( 'file_name');
+			$crud->change_field_type('upload_date','readonly');
+		}
+
+		$crud->set_field_upload('file_name','data/');
+
+		$crud->fields('file_name','upload_date');
+		$crud->order_by('upload_date','DESC');
+		//$crud->unset_delete();
+		$output = $crud->render();
+		$this->crud_output($output);
 	}
 }

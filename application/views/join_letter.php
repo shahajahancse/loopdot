@@ -13,11 +13,11 @@
     <div align="center" style="width:700px; border-bottom:3px solid #000;">
     <table width="700" cellpadding="3" style="font-family:SolaimanLipi;">
         <tr>
-        <?php $company_logo = $this->common_model->company_information("company_logo"); ?>
-        <td width="105"><img width="55" height="55" src="<?php  echo base_url();?>images/<?php echo $company_logo = $this->common_model->company_information("company_logo"); ?>" /></td>
+        <?php $company_logo = $this->common_model->company_info()->company_logo; ?>
+        <td width="105"><img width="55" height="55" src="<?php  echo base_url();?>images/<?php echo $company_logo = $this->common_model->company_info()->company_logo; ?>" /></td>
         <td width="491" style="font-size:15px;text-align:center">
-        		<span style="text-align:center"><span style="font-size:18px; font-weight:bold;"><?php echo $company_logo = $this->common_model->company_information("company_name_bangla"); ?></span><br>
-        	<?php echo $company_logo = $this->common_model->company_information("company_add_bangla"); ?>
+        		<span style="text-align:center"><span style="font-size:18px; font-weight:bold;"><?php echo $company_logo = $this->common_model->company_info()->company_name_bangla; ?></span><br>
+        	<?php echo $company_logo = $this->common_model->company_info()->company_add_bangla; ?>
 		</span></td>
     </tr>
     </table>
@@ -30,8 +30,8 @@
         	<div style="float:left; width:400px;">
 				বরাবর<br>
 				বাবস্থাপনা পরিচালক<br>
-				<?php echo $company_logo = $this->common_model->company_information("company_name_bangla"); ?><br>
-				<?php echo $company_logo = $this->common_model->company_information("company_add_bangla"); ?><br>
+				<?php echo $company_logo = $this->common_model->company_info()->company_name_bangla; ?><br>
+				<?php echo $company_logo = $this->common_model->company_info()->company_add_bangla; ?><br>
 				<br><br>
 				বিষয়ঃ- <span style=" font-size:16px;">কাজে যোগদান পত্র।<br><br>
 	        </div>

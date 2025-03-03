@@ -1,41 +1,63 @@
 function earn_leave_process(i)
 {
- var ajaxRequest;  
-try{
-    ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         return false;
-      }
-   }
- }
- var okyes;
- okyes=confirm('Are you sure you want to start process?');
-if(okyes==false) return;
-  $("#loader").show();
-year= document.getElementById('report_year_sal').value;
-process_check = i; 
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp_bando_fash/index.php/earn_leave_con/earn_leave_process/";
-	var queryString="year="+year+"&process_check="+process_check;
+ 	var ajaxRequest;  
+	try{
+		ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				return false;
+			}
+		}
+	}
+
+	month = document.getElementById('report_month_sal').value;
+	year = document.getElementById('report_year_sal').value;
+	var unit_id = document.getElementById('grid_start').value;
+
+	if(unit_id =='Select')
+	{
+		alert("Please select unit !");
+		return;
+	}
+
+	$grid  = $("#list1");
+	var id_array = $grid.getGridParam('selarrrow');
+	var spl = (id_array.join('xxx'));
+		
+	if(spl =='')
+	{
+		alert("Please select Employee ID");
+		return;
+	}
+	var okyes;
+	okyes=confirm('Are you sure you want to start process?');
+	if(okyes==false) return;
+	$("#loader").show();
+
+	process_check = i; 
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/earn_leave_con/earn_leave_process/";
+	var queryString="month="+month+"&year="+year+"&process_check="+process_check+'&spl='+spl;
 	
 	ajaxRequest.open("POST",url, true);
 	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	ajaxRequest.send(queryString);
 	ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-		$("#loader").hide();
-		alert(resp);
-		//window.location.href = "http://"+hostname+"/erp_bando_fash/index.php/earn_leave_con/earn_process_form/";
-	}
+		if(ajaxRequest.readyState == 4){
+			var resp = ajaxRequest.responseText;
+			$("#loader").hide();
+			alert(resp);
+			// window.location.href = hostname + "index.php/earn_leave_con/earn_process_form/";
+		}
 	}
 }
+
 function grid_earn_leave_general_info()
 {
 	 var ajaxRequest;  // The variable that makes Ajax possible!
@@ -87,6 +109,7 @@ function grid_earn_leave_general_info()
 	
 	var grid_status = document.getElementById('grid_status').value;
 	
+	
 	$grid  = $("#list1");
 	var id_array = $grid.getGridParam('selarrrow');
 	var selected_id_list = new Array();
@@ -97,15 +120,15 @@ function grid_earn_leave_general_info()
 		alert("Please select Employee ID");
 		return;
 	}
-hostname = window.location.href;
+    hostname = window.location.href;
 	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
 	var queryString="firstdate="+firstdate+"&seconddate="+seconddate+"&year="+year+"&grid_status="+grid_status+"&spl="+spl+"&unit_id="+unit_id;
-   url =  hostname+"index.php/earn_leave_con/grid_earn_leave_general_info/";
-   $(".clearfix").dialog("open");
-   ajaxRequest.open("POST", url, true);
-   ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-   ajaxRequest.send(queryString);
-   ajaxRequest.onreadystatechange = function(){
+	url =  hostname+"index.php/earn_leave_con/grid_earn_leave_general_info/";
+	$(".clearfix").dialog("open");
+	ajaxRequest.open("POST", url, true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	ajaxRequest.send(queryString);
+	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
 			var resp = ajaxRequest.responseText;
 			$(".clearfix").dialog("close");		
@@ -156,8 +179,6 @@ function grid_earn_leave_payment_buyer()
 		return;
 	}
 
-
-	
 	var unit_id = document.getElementById('grid_start').value;
 	if(unit_id =='Select')
 	{
@@ -177,15 +198,15 @@ function grid_earn_leave_payment_buyer()
 		alert("Please select Employee ID");
 		return;
 	}
-hostname = window.location.href;
+    hostname = window.location.href;
 	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
 	var queryString="firstdate="+firstdate+"&seconddate="+seconddate+"&year="+year+"&grid_status="+grid_status+"&spl="+spl+"&unit_id="+unit_id;
-   url =  hostname+"index.php/earn_leave_con/grid_earn_leave_payment_buyer/";
-   $(".clearfix").dialog("open");
-   ajaxRequest.open("POST", url, true);
-   ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-   ajaxRequest.send(queryString);
-   ajaxRequest.onreadystatechange = function(){
+	url =  hostname+"index.php/earn_leave_con/grid_earn_leave_payment_buyer/";
+	$(".clearfix").dialog("open");
+	ajaxRequest.open("POST", url, true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	ajaxRequest.send(queryString);
+	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
 			var resp = ajaxRequest.responseText;
 			$(".clearfix").dialog("close");		
@@ -238,15 +259,15 @@ function grid_earn_leave_summery()
 	var selected_id_list = new Array();
 	var spl = (id_array.join('xxx'));
 	
-hostname = window.location.href;
+    hostname = window.location.href;
 	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
 	var queryString="year="+year+"&grid_status="+grid_status+"&spl="+spl+"&unit_id="+unit_id;
-   url =  hostname+"index.php/earn_leave_con/grid_earn_leave_summery/";
-   $(".clearfix").dialog("open");
-   ajaxRequest.open("POST", url, true);
-   ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-   ajaxRequest.send(queryString);
-   ajaxRequest.onreadystatechange = function(){
+	url =  hostname+"index.php/earn_leave_con/grid_earn_leave_summery/";
+	$(".clearfix").dialog("open");
+	ajaxRequest.open("POST", url, true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	ajaxRequest.send(queryString);
+	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
 			var resp = ajaxRequest.responseText;
 			$(".clearfix").dialog("close");		
@@ -310,16 +331,16 @@ function grid_earn_leave_payment()
 		alert("Please select Employee ID");
 		return;
 	}
-var sal_year_month = report_year_sal+"-"+report_month_sal+"-"+"01";
-hostname = window.location.href;
+	var sal_year_month = report_year_sal+"-"+report_month_sal+"-"+"01";
+	hostname = window.location.href;
 	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
 	var queryString="sal_year_month="+sal_year_month+"&grid_status="+grid_status+"&spl="+spl+"&unit_id="+unit_id;
-   url =  hostname+"index.php/earn_leave_con/grid_earn_leave_payment/";
-   $(".clearfix").dialog("open");
-   ajaxRequest.open("POST", url, true);
-   ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-   ajaxRequest.send(queryString);
-   ajaxRequest.onreadystatechange = function(){
+	url =  hostname+"index.php/earn_leave_con/grid_earn_leave_payment/";
+	$(".clearfix").dialog("open");
+	ajaxRequest.open("POST", url, true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	ajaxRequest.send(queryString);
+	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
 			var resp = ajaxRequest.responseText;
 			$(".clearfix").dialog("close");		
@@ -409,23 +430,23 @@ function grid_earn_leave_payment_at_atime()
 {
 	 var ajaxRequest;  // The variable that makes Ajax possible!
 	
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
+		try{
+		// Opera 8.0+, Firefox, Safari
+		ajaxRequest = new XMLHttpRequest();
+		}catch (e){
+		// Internet Explorer Browsers
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				// Something went wrong
+				alert("Your browser broke!");
+				return false;
+			}
+		}
+	}
 	var report_month_sal = document.getElementById('report_month_sal').value;
 	if(report_month_sal =='')
 	{
@@ -517,8 +538,9 @@ function all_search()
 	
 	$('#list1').jqGrid('GridUnload');
 	
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp_bando_fash/index.php/earn_leave_con/all_search/"+dept+"/"+section+"/"+line+"/"+designation+"/"+sex+"/"+status+"/"+start;
+	hostname = window.location.href;
+hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/earn_leave_con/all_search/"+dept+"/"+section+"/"+line+"/"+designation+"/"+sex+"/"+status+"/"+start;
 	//var url = "http://localhost/payroll/index.php/grid_con/grid_all_search/"+dept+"/"+section+"/"+line+"/"+designation;
 	main_grid(url)
 }
@@ -531,7 +553,8 @@ datatype: "json",
 colModel: [
 	{name:'id',index:'id', width:100, label: 'EMP ID', hidden: false},
 	{name:'emp_full_name',index:'emp_full_name', width:200, label: 'Full Name'}
-	<!--{name:'emp_dob',index:'emp_dob', width:100, label: 'DOB'}-->
+	<!--{name:'emp_dob',index:'emp_dob', width:100, label: 'DOB'} 
+	// -->
 	
 ],
   rowNum:20000, rowList:[10,20,30],
@@ -575,15 +598,16 @@ function get_all_data()
 
 	//alert(year_month);
  	//var queryString="year_month="+year_month;
-	 var queryString="start="+start;
- hostname = window.location.hostname;
- url =  "http://"+hostname+"/erp_bando_fash/index.php/payroll_con/manual_atten_co/";
- ajaxRequest.open("POST", url, true);
- ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- ajaxRequest.send(queryString);
- 
+	var queryString="start="+start;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/payroll_con/manual_atten_co/";
+	ajaxRequest.open("POST", url, true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxRequest.send(queryString);
+	
   
-ajaxRequest.onreadystatechange = function(){
+ ajaxRequest.onreadystatechange = function(){
 	if(ajaxRequest.readyState == 4){
 		var resp = ajaxRequest.responseText;
 		//alert(resp);
@@ -670,8 +694,9 @@ ajaxRequest.onreadystatechange = function(){
 		
 	$('#list1').jqGrid('GridUnload');
 	
-	hostname = window.location.hostname;
-	url =  "http://"+hostname+"/erp_bando_fash/index.php/earn_leave_con/get_all_data/"+start;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	url =  hostname + "index.php/earn_leave_con/get_all_data/"+start;
 	//var url = "http://localhost/payroll/index.php/grid_con/grid_get_all_data";
 	main_grid(url)
 	

@@ -9,17 +9,30 @@
 table td{ padding:8px 10px 8px 10px;font-size: 20px;}
 .numeric{ text-align:right;}
 
+.pagebreak:last-child {
+            page-break-after: auto;
+        }
+        .pagebreak {
+          clear: both;
+          page-break-after: always;
+        }
+        html, body {
+          page-break-after: avoid;
+            page-break-before: avoid;
+    }
+
+
 </style>
 </head>
 
 <body style="margin-left:15px; margin-right:10px;font-size:17px;">
-<?php 
+<?php
 $count = count($values["new_emp_id"]);
 for($i=0; $i<$count; $i++ )
 {
 $this->load->model("common_model");
 ?>
-<div id="wrapper" style=" min-height:1100px;font-family:SolaimanLipi; margin:0 auto; width:750px;">
+<div id="wrapper" class="pagebreak" style=" min-height:1100px;font-family:SolaimanLipi; margin:0 auto; width:750px;">
 	<div style="width:730px; border-bottom:3px solid #000;">
 	    <table width="730" cellpadding="3" style="font-family:SolaimanLipi;">
             <tr>
@@ -43,7 +56,7 @@ $this->load->model("common_model");
 		<td style="font-family:SutonnyMJ;"><?php echo $edate = date('d-m-Y',strtotime($values["effective_month"][$i])); ?></td>
 	</tr>
 	<tr>
-		<?php 
+		<?php
 			$name = $this->db->where("emp_id",$values["new_emp_id"][$i])->get('pr_emp_per_info')->row()->bangla_nam;
 		 ?>
 		<td style="width:50px;">নাম</td>
@@ -67,7 +80,9 @@ $this->load->model("common_model");
 </table>
 </br>
 <div style="; font-size:20px; border:0; width:800px; margin-bottom:30px; font-family:SolaimanLipi;">
-	বিষয় : নিম্নতম মজুরি কাঠামো ২০১৮ /২০১৯ ইং অনুযায়ী মূল বেতন ৫% বৃদ্ধির নোটিশ।
+	বিষয় : নিম্নতম মজুরি কাঠামো অনুযায়ী মূল বেতন বৃদ্ধির নোটিশ।
+	<!--  ২০১৮ /২০১৯  ইং  -->
+	
 </div>
 <div style="font-size:15px;border:0; width:800px; margin-bottom:20px;font-family:SolaimanLipi;">
 	জনাব/জনাবা,
@@ -81,8 +96,16 @@ $this->load->model("common_model");
 	এই মর্মে আপনাকে জানানো যাচ্ছে যে ৫ ডিসেম্বর ২০১৩ ইং তারিখে প্রকাশিত নিম্নতম মজুরী গেজেট মোতাবেক আপনার মূল বেতন ৫% বূদ্ধি করা হলো, যাহা <strong style="font-family:SutonnyMJ;"><?php echo $edate = date('d-m-Y',strtotime($values["effective_month"][$i])); ?></strong> ইং তারিখ থেকে কার্যকরী হইবে ।
  </div> -->
 
+ <?php $increament =  (($values["new_salary"][$i] - $values["prev_salary"][$i]) * 100) / $values["prev_salary"][$i]; ?>
+ <?php $incre =  ($values["new_salary"][$i] - $values["prev_salary"][$i]) ; ?>
+
  <div style="; font-size:20px; border:0; width:730px; margin-bottom:30px;font-family:SolaimanLipi; text-align:justify;">
-	এই মর্মে আপনাকে জানানো যাচ্ছে যে, ২৯ নভেম্বর ২০১৮ ইং ও ২৪ জানুয়ারী ২০১৯ ইং তারিখে সর্বশেষ সংশোধনী প্রকাশিত নিম্নতম মজুরি গেজেট মোতাবেক আপনার মূল  বেতন ৫% বৃদ্ধি করা হল, <strong style="font-family:SutonnyMJ;"><?php echo $edate = date('d-m-Y',strtotime($values["effective_month"][$i])); ?></strong> ইং তারিখে থেকে কার্যকরী  হবে।
+	এই মর্মে আপনাকে জানানো যাচ্ছে যে, 
+	<!-- ২৯ নভেম্বর ২০১৮ ইং ও ২৪ জানুয়ারী ২০১৯ ইং তারিখে সর্বশেষ সংশোধনী প্রকাশিত  -->
+	নিম্নতম মজুরি গেজেট মোতাবেক আপনার মূল  বেতন <!-- ৫% --> 
+	<?php echo "<span style='font-family:SutonnyMJ;'>".$incre."</span>"?> টাকা
+	<!-- < ?php echo round($increament,1)."%"; ?>  -->
+	বৃদ্ধি করা হল,যা <strong style="font-family:SutonnyMJ;"><?php echo $edate = date('d-m-Y',strtotime($values["effective_month"][$i])); ?></strong> ইং তারিখে থেকে কার্যকরী  হবে।
  </div>
    আপনার পূর্ববতী ও বর্তমান বেতনের তুলনামূলক চিত্র নিম্নে দেয়া হলঃ
 <br>
@@ -171,7 +194,7 @@ $this->load->model("common_model");
 	 	<td><span></span><td>
 	 </tr>
 	 <tr>
-	 	<td><span>ব্যান্ডো ফ্যাশনস লিমিটেড</span></td>
+	 	<td><span>লুপ ডট ফ্যাশন</span></td>
 	 	<td style="text-align: right;"><span>শ্রমিকের স্বাক্ষর</span></td>
 	 </tr>
   </table>

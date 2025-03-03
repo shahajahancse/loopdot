@@ -3,8 +3,9 @@
 // Public Domain Software... You're welcome.
 
 // default settins
-hostname = window.location.hostname;
-url =  "http://"+hostname+"/payroll/";
+hostname = window.location.href;
+hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+url =  hostname + "/";
 var A_TCALDEF = {
 	'months' : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 	'weekdays' : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],

@@ -77,12 +77,19 @@ form input:focus,form textarea:focus,form select:focus {
 
 </form>
 
-<fieldset  id="auto_gen1"  style="display:none;background:#F2F2E6; font-size:11px; font-weight:bold;width:400px; margin-top: 20px;">
+<!-- <fieldset  id="auto_gen1"  style="display:none;background:#F2F2E6; font-size:11px; font-weight:bold;width:400px; margin-top: 20px;">
      
-</fieldset>
+</fieldset> -->
 
 
 </div>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+			<fieldset  id="auto_gen1"  style="display:none;background:#F2F2E6; font-size:11px; font-weight:bold; margin-top: 20px;">
+			</fieldset>
+		</div>
+	</div>
 </body>
 </html>
 
@@ -157,9 +164,34 @@ $(function() {
 		});
 	});
 	
-	$('.left_res_button').on('click',function(){
-   		 var left_res_button_value = $(this).val();
-   		 var effective_date = $("#effective_date").val();
+
+	$('#left_resign_to_regular').on('click',function(){
+   		var left_res_button_value = $(this).val();
+
+   		var button_data = {
+   			emp_id	:$("#emp_id").val(),
+   			effective_date	:$("#effective_date").val(),
+			left_res_button_value: $(this).val(),//$("#mslc_search_text").val()
+			left_resign_status: $("#left_resign_status").val()
+		};
+			
+			
+		$.ajax({
+			type: "POST",
+			url: "<?php echo base_url(); ?>index.php/left_resign_con/left_resign_and_regular_action",
+			data: button_data,
+			cache: false,
+			success: function(data){
+				alert(data);
+				window.location.href = "<?php echo base_url();?>index.php/left_resign_con/left_resign_entry";
+				return false;
+			}
+		});
+			
+	});
+
+	$('#left_or_resign').on('click',function(){
+   		var effective_date = $("#effective_date").val();
    		
    		if(effective_date == '')
 		{
@@ -172,20 +204,20 @@ $(function() {
    			effective_date	:$("#effective_date").val(),
 			left_res_button_value: $(this).val(),//$("#mslc_search_text").val()
 			left_resign_status: $("#left_resign_status").val()
-			};
+		};
 			
 			
-		 $.ajax({
-				type: "POST",
-				url: "<?php echo base_url(); ?>index.php/left_resign_con/left_resign_and_regular_action",
-				data: button_data,
-				cache: false,
-				success: function(data){
-					alert(data);
-					window.location.href = "<?php echo base_url();?>index.php/left_resign_con/left_resign_entry";
-					return false;
-				}
-				});
+		$.ajax({
+			type: "POST",
+			url: "<?php echo base_url(); ?>index.php/left_resign_con/left_resign_and_regular_action",
+			data: button_data,
+			cache: false,
+			success: function(data){
+				alert(data);
+				window.location.href = "<?php echo base_url();?>index.php/left_resign_con/left_resign_entry";
+				return false;
+			}
+		});
 			
 	});
 	

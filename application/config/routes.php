@@ -40,6 +40,9 @@
 
 $route['default_controller'] = "authentication";
 $route['scaffolding_trigger'] = "";
+$route['404_override'] = '';
+
+
 $route['admin'] = "admin/Newcon";
 $route['admin/login'] = "admin/Newcon/login";
 $route['admin/logout'] = "admin/Newcon/logout";
@@ -58,8 +61,23 @@ $route['admin/rules'] = "admin/Newcon/rules";
 $route['user_autentication'] = "admin/Newcon/login_process";
 $route['logout_FE'] = "admin/Newcon/logout_FE";
 $route['admin/list'] = "admin/Newcon/list_member";
-$route['404_override'] = '';
 
+/*
+| -------------------------------------------------------------------------
+| Sample REST API Routes
+| -------------------------------------------------------------------------
+*/
+$route['api/example/users/(:num)'] = 'api/example/users/id/$1'; // Example 4
+$route['api/example/users/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/example/users/id/$1/format/$3$4'; // Example 8
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
+
+/*
+| -------------------------------------------------------------------------
+| REST API Routes List
+| -------------------------------------------------------------------------
+*/
+$route['api/user/login'] = 'api/auth/login'; // login Route
+$route['api/user/dashboard'] = 'api/dashboard/index'; // dashboard Route
+$route['api/dashboard/common-data'] = 'api/dashboard/common_data';

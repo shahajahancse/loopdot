@@ -3,7 +3,7 @@ class Payroll_con extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 		$this->load->model('processdb');
 		$this->load->helper('form');
@@ -11,24 +11,25 @@ class Payroll_con extends CI_Controller {
 		$this->load->model('mars_model');
 		set_time_limit(0);
 		ini_set("memory_limit","512M");
-		
+
 		if($this->session->userdata('logged_in')==FALSE)
 		{
 			redirect("authentication");
 		}
 	}
-	
+
 	function index(){
 
 		$date = $this->db->select("")->get('dash_board_date')->row()->date;
 		$grid_date = date('d-m-y',strtotime($date));
 		list($date, $month, $year) = explode('-', trim($grid_date));
 		$report_date = date("Y-m-d", mktime(0, 0, 0, $month, $date, $year));
-		
+
 		$unit_id = 1;
-		
+
 		$data_manage['values'] = $this->mars_model->dashboard_summary($report_date, $unit_id);
-		
+		// echo "ok"; exit;
+
 		$data_manage['title'] = 'Daily Attendance Summary';
 		$data_manage['report_date'] = $report_date;
 
@@ -43,6 +44,7 @@ class Payroll_con extends CI_Controller {
 			$data['unit_name'] = $this->common_model->company_information("company_name_english");
 			$data_manage['unit_name'] = $this->common_model->company_information("company_name_english");
 		}
+		// echo "<pre>"; print_r($data); exit;
 		if($data['username']=='Management'){
 			$this->load->view('management-land',$data_manage);
 			// $this->load->view('management-land2',$data_manage);
@@ -50,22 +52,22 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('home',$data);
 		}
 	}
-	
+
 	function main_header()
 	{
 		$this->load->view('header');
 	}
-	
+
 	function utree()
 	{
 		$this->load->view('utree');
 	}
-	
+
 	function first_body()
 	{
 		$this->load->view('id_proxi_ins');
 	}
-	
+
 	function footer()
 	{
 		$this->load->view('footer');
@@ -89,14 +91,14 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('form/personal_info');
 		}
 	}
-	
+
 	function per_info()
 	{
 		$result = $this->processdb->insertdb();
 		echo $result;
 	}
-	
-	
+
+
 	function personal_info_view1()
 	{
 
@@ -108,21 +110,21 @@ class Payroll_con extends CI_Controller {
 		{
 			if($this->input->post('pi_save') != '')
 			{
-				
+
 				$this->per_info1();
 			}
 			elseif($this->input->post('pi_edit') != '')
 			{
-				
+
 				$this->per_update1();
 			}
 			$this->load->view('form/all_info');
 		}
 	}
-	
+
 	function all()
 	{
-		
+
 		if($this->session->userdata('logged_in')==FALSE)
 		{
 			$this->load->view('login_message');
@@ -139,9 +141,9 @@ class Payroll_con extends CI_Controller {
 			}
 			$this->load->view('form/all_info');
 		}
-	
+
 	}
-	
+
 	function company_info_view()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -149,7 +151,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/company_info');
 	}
-	
+
 	function skill_info_view()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -157,7 +159,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/edu_skilll_info');
 	}
-	
+
 	function configuration()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -165,7 +167,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/configuration');
 	}
-	
+
 	function attn_bonus()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -173,7 +175,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/attn_bonus');
 	}
-	
+
 	function salary_grade()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -181,7 +183,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/salary_grade');
 	}
-	
+
 	function shift_change()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -189,7 +191,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/shift_change');
 	}
-	
+
 	function manual_entry()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -197,7 +199,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/manual_entry');
 	}
-	
+
 	function attn_process()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -205,7 +207,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/attn_process');
 	}
-	
+
 	/*function salary_process()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -213,7 +215,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/salary_process');
 	}*/
-	
+
 	function sal_summary_report()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -221,7 +223,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/salary_summary');
 	}
-	
+
 	/*function advance_loan()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -229,7 +231,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/advance_loan');
 	}*/
-	
+
 	function weekend_holiday()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -237,7 +239,7 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/weekend_holiday');
 	}
-	
+
 	/*function grid_entry_system()
 	{
 		if($this->session->userdata('level')== 0 || $this->session->userdata('level')== 1)
@@ -249,7 +251,7 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('grid_entry_system_for_user');
 		}
 	}*/
-	
+
 	/*function leave_transation()
 	{
 		if($this->session->userdata('logged_in')==FALSE)
@@ -257,18 +259,18 @@ class Payroll_con extends CI_Controller {
 		else
 		$this->load->view('form/leave_transation');
 	}*/
-		
+
 	function per_info1()
 	{
 		$data = $this->processdb->insertdb1();
-		
+
 	}
 	function save_deptname()
 	{
 		$result = $this->processdb->save_deptname();
 		echo $result;
 	}
-	
+
 	function check_id()
 	{
 		$result = $this->processdb->check_id_db();
@@ -279,7 +281,7 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->save_sectionname();
 		echo $result;
 	}
-	
+
 	function per_update()
 	{
 		$result = $this->processdb->updatedb();
@@ -295,31 +297,31 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->update_deptname();
 		//echo $result;
 	}
-	
+
 	function update_sectionname()
 	{
 		$result = $this->processdb->update_sectionname();
 		echo $result;
 	}
-	
+
 	function per_delete()
 	{
 		$result = $this->processdb->deletedb();
 		echo $result;
 	}
-	
+
 	function rename_empid()
 	{
 		$result = $this->processdb->rename_empid();
 		echo $result;
 	}
-	
+
 	function delete_deptname()
 	{
 		$result = $this->processdb->delete_deptname();
 		echo $result;
 	}
-	
+
 	function delete_sectionname()
 	{
 		$result = $this->processdb->delete_sectionname();
@@ -330,104 +332,105 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->search();
 		//echo $result;
 	}
-	
+
 	function search_dept_name()
 	{
 		$result = $this->processdb->search_dept_name();
 		echo $result;
 	}
-	
+
 	function search_section_name()
 	{
 		$result = $this->processdb->search_section_name();
 		echo $result;
 	}
-	
+
 	//==========================================================================
 	function com_info_insert()
 	{
 		$result = $this->processdb->com_info_insert();
 		echo $result;
 	}
-	
+
 	function com_info_edit()
 	{
 		$result = $this->processdb->com_info_edit();
 		echo $result;
 	}
-	
+
 	function com_info_delete()
 	{
 		$result = $this->processdb->com_info_delete();
 		echo $result;
 	}
-	
+
 	function com_info_search()
 	{
 		$result = $this->processdb->com_info_search();
 		echo $result;
 	}
-	
+
 	function com_info_search1()
 	{
 		$result = $this->processdb->com_info_search1();
 		echo $result;
 	}
-	
+
 	function dept_search()
 	{
 		$result = $this->processdb->dept_search($this->input->post('dept'));
 		echo $result;
 	}
-	
+
 	function section_search()
 	{
 		$result = $this->processdb->section_search();
 		echo $result;
 	}
-	
+
 	function desig_search()
 	{
 		$result = $this->processdb->desig_search($this->input->post('dept'));
 		echo $result;
 	}
-	
+
 	function grade_search()
 	{
 		$result = $this->processdb->grade_search();
 		echo $result;
 	}
-	
+
 	function empstat_search()
 	{
 		$result = $this->processdb->empstat_search();
 		echo $result;
 	}
-	
+
 	function empshift_search()
 	{
 		$result = $this->processdb->empshift_search();
 		echo $result;
 	}
-	
+
 	function attbonus_search()
 	{
 		$result = $this->processdb->attbonus_search();
 		echo $result;
 	}
-	
+
 	function dept()
 	{
 		$result = $this->processdb->com_all_info();
 		echo $result;
 	}
-	
-	
+
+
 	function manual_atten_co()
 	{
 		$result = $this->processdb->manual_atten_db();
 		echo $result;
 	}
+
 	function get_all_data_for_unit()
 	{
 		$result = $this->processdb->manual_atten_db();
@@ -439,7 +442,7 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->com_insertdb();
 		echo $result;
 	}
-	
+
 	//--------------------edu + skill table insert----------------Start
 	function edu_skill_insert()
 	{
@@ -453,19 +456,19 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->search_edu_sk();
 		//echo $result;
 	}
-	
+
 	//--------------------end----------------------------------------
-	
-	
-	
+
+
+
 	//------------------------start education update--------------------
 	function edu_update()
 	{
 		$result = $this->processdb->update_edu_db();
 	}
-	
+
 	//-----------------------end eduvationupdate---------------------
-	
+
 	//-------------------------------start edu delete----------------------
 	function ajax_edu_delete()
 	{
@@ -473,51 +476,51 @@ class Payroll_con extends CI_Controller {
 		echo $result;
 	}
 	//----------------------------------end---------------------------------
-	
-	
+
+
 	//------------------------Grade table----------------------------------
-	
+
 	//------------------------insert-----------------------------------------
 	function grade_insert()
 	{
 		$result = $this->processdb->grade_dbinsert();
 		echo $result;
 	}
-	
+
 	function grade_update()
 	{
 		$result = $this->processdb->update_grade_db();
 	}
-	
+
 	function ajaxSearch_con_grade()
 	{
-	
+
 		$result = $this->processdb->grade_db_search();
 	}
-	
+
 	function ajax_grade_delete()
 	{
 		$result = $this->processdb->grade_deletedb();
 		echo $result;
 	}
-	
+
 	//---------------------insert department-------------------
 	function department_insert()
 	{
 		$result = $this->processdb->department_dbinsert();
 		echo $result;
 	}
-	
+
 	//===============================end ============================
-	
+
 	//========================START Payscale Sheet Process=================
-	
+
 	/*function process()
 	{
 		//echo "Start Date = ".$start_date = microtime(true);
 		$month = $this->input->post('month');
 		$year = $this->input->post('year');
-		
+
 		//$month = "12";
 		//$year = "2011";
 		//$input_date = "$year-$month";
@@ -528,25 +531,25 @@ class Payroll_con extends CI_Controller {
 		}
 		else
 		{
-			echo $result;		
+			echo $result;
 		}
 		//echo "<br> End Date = ".$end_date = microtime(true);
 		//echo "<br> Duration = ".$time = $end_date - $start_date;
 	}*/
-	
+
 	//========================END Payscale Sheet Process=================
-	
+
 	//========================Start Salary Summary=================
 	function salary_summary()
 	{
 		$salary_month = $this->uri->segment(3);
 		$data["values"] = $this->processdb->salary_summary($salary_month);
-		$data["salary_month"] = $salary_month; 
+		$data["salary_month"] = $salary_month;
 		//print_r($data);
 		$this->load->view('salary_summary',$data);
 	}
 	//========================End Salary Summary=================
-	
+
 	//=======================find late=================================
 	function find_late()
 	{
@@ -554,11 +557,11 @@ class Payroll_con extends CI_Controller {
 		$end_date = $this->uri->segment(4);
 		//echo "<br>".$this->uri->segment(5);
 		$data["late"]= $this->processdb->late_db_find($start_date,$end_date);
-		
-	
+
+
 		$this->load->view('display',$data);
 	}
-	
+
 	function find_leave()
 	{
 		$data["late"]= $this->processdb->leave_db();
@@ -574,7 +577,7 @@ class Payroll_con extends CI_Controller {
 		$end_date = $this->uri->segment(4);
 		//echo "<br>".$this->uri->segment(5);
 		$data["late"]= $this->processdb->late_commer_report_db($start_date,$end_date);
-			
+
 		$this->load->view('display',$data);
 	}
 	function absent_report()
@@ -583,31 +586,31 @@ class Payroll_con extends CI_Controller {
 		$month = $this->uri->segment(4);
 		//echo "<br>".$this->uri->segment(5);
 		$data["late"]= $this->processdb->absent_report_db($start_date,$end_date);
-			
+
 		$this->load->view('display',$data);
 	}
-	
+
 	function daily_absent()
 	{
 		/*$month = $this->uri->segment(3);
-		$year = $this->uri->segment(4);	*/	
-		
+		$year = $this->uri->segment(4);	*/
+
 		$date = $this->input->post('p_start_date');
-		
-		$input_date = date("Y-m-d", strtotime($date)); 
+
+		$input_date = date("Y-m-d", strtotime($date));
 		//$month = $this->input->post('month');
 		//$year = $this->input->post('year');
-		
+
 		//$date = "01";
 		//$month = "06";
 		//$year = "2011";
 		//$input_date = date("Y-m-d", mktime(0, 0, 0, $month, $date, $year));
-		
+
 		//$input_date = "$year-$month-$date";
 		$this->db->trans_start();
 		$data = $this->processdb->daily_absent_db($input_date);
 		$this->db->trans_complete();
-			
+
 		if ($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -626,7 +629,7 @@ class Payroll_con extends CI_Controller {
 			}
 		}
 	}
-	
+
 	function continuous_report()
 	{
 		$start_date = $this->uri->segment(3);
@@ -638,11 +641,11 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(9);
 		$col_dept = $this->uri->segment(10);
 		$col_all = $this->uri->segment(11);
-		
+
 		$status="Present Report from date $start_date to date  $end_date";
-	
+
 		$data["values"] = $this->processdb->continuous_report($present_status,$status, $year_month, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-		
+
 		if($present_status =="A")
 		{
 			$present_status = "Absent";
@@ -655,10 +658,10 @@ class Payroll_con extends CI_Controller {
 		{
 			$present_status = "Leave";
 		}
-		
+
 		$start_date = $year_month."-".$start_date;
 		$end_date = $year_month."-".$end_date;
-		
+
 		$data["status"] = $present_status;
 		$data["start_date"] = $start_date;
 		$data["end_date"] = $end_date;
@@ -671,11 +674,11 @@ class Payroll_con extends CI_Controller {
 		{
 			$this->load->view('continuous_report',$data);
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 	function continuous_late_report()
 	{
 		$start_date = $this->uri->segment(3);
@@ -686,12 +689,12 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(8);
 		$col_dept = $this->uri->segment(9);
 		$col_all = $this->uri->segment(10);
-		
+
 		$data["values"] = $this->processdb->continuous_late_report($start_date, $end_date, $year_month, $col_desig, $col_line, $col_section, $col_dept, $col_all);
 		//print_r($data);
 		$start_date = $year_month."-".$start_date;
 		$end_date = $year_month."-".$end_date;
-		
+
 		$data["start_date"] = $start_date;
 		$data["end_date"] = $end_date;
 		//print_r($data);
@@ -703,11 +706,11 @@ class Payroll_con extends CI_Controller {
 		{
 			$this->load->view('continuous_late_report',$data);
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 	function monthly_att_register()
 	{
 		$year = $this->uri->segment(3);
@@ -717,7 +720,7 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		$salary_month = $year."-".$month;
 		$query=$this->processdb->monthly_att__report_db($salary_month, $col_desig, $col_line, $col_section, $col_dept, $col_all);
 		if(is_string($query))
@@ -728,12 +731,12 @@ class Payroll_con extends CI_Controller {
 		else
 		{
 			$data2["value"]=$query;
-			$data2["value2"]=$query->num_fields(); 
+			$data2["value2"]=$query->num_fields();
 			$data2["month"] = $month;
 			$this->load->view('monthly_report',$data2);
 		}
 	}
-	
+
 	function monthly_salary_sheet()
 	{
 		$year = $this->uri->segment(3);
@@ -744,7 +747,7 @@ class Payroll_con extends CI_Controller {
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
 		$emp_status = $this->uri->segment(10);
-		
+
 		$salary_month = $year."-".$month."-01";
 		$data["value"] = $this->processdb->monthly_salary_sheet($salary_month, $col_desig, $col_line, $col_section, $col_dept, $col_all, $emp_status);
 		$data["salary_month"] = $salary_month;
@@ -755,7 +758,7 @@ class Payroll_con extends CI_Controller {
 		//print_r($data);
 		$this->load->view('salary_sheet',$data);
 	}
-	
+
 	function monthly_salary_sheet_export()
 	{
 		$year = $this->uri->segment(3);
@@ -765,14 +768,14 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		$salary_month = $year."-".$month."-01";
 		$data = $this->processdb->monthly_salary_sheet($salary_month, $col_desig, $col_line, $col_section, $col_dept, $col_all);
 		//print_r($data);
 		$this->load->plugin('to_excel');
 		array_to_excel($data, "monthly_salary_sheet");
 	}
-	
+
 	function salary_summary_report()
 	{
 		$year = $this->uri->segment(3);
@@ -783,7 +786,7 @@ class Payroll_con extends CI_Controller {
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
 		$emp_status = $this->uri->segment(10);
-		
+
 		$salary_month = $year."-".$month."-01";
 		$data["values"] = $this->processdb->salary_summary_report($salary_month, $col_desig, $col_line, $col_section, $col_dept, $col_all, $emp_status);
 		//print_r($data);
@@ -792,7 +795,7 @@ class Payroll_con extends CI_Controller {
 		$data["col_line"] = $col_line;
 		$data["col_dept"] = $col_dept;
 		$data["col_all"] = $col_all;
-		
+
 		if(is_string($data["values"]))
 		{
 			echo $data["values"];
@@ -802,23 +805,23 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('salary_summary_report',$data);
 		}
 	}
-	
+
 	function salary_summary_report_export()
 	{
 		$data = $this->processdb->salary_summary_report();
-		
+
 		$this->load->plugin('to_excel');
 		array_to_excel($data,"Salary_Summary_Report");
 	}
-	
+
 	function job_card()
 	{
 		$start_date = $this->uri->segment(3);
-		$end_date = $this->uri->segment(4);	
+		$end_date = $this->uri->segment(4);
 		$emp_id = $this->uri->segment(5);
 		$this->processdb->job_card($start_date, $end_date, $emp_id);
 	}
-	
+
 	function dump()
 	{
 		$data = $this->processdb->dump();
@@ -827,9 +830,9 @@ class Payroll_con extends CI_Controller {
 	{
 		$data = $this->processdb->daily_presentdb();
 	}
-	
-	
-	
+
+
+
 	function absentreport()
 	{
 		$start_date = $this->uri->segment(3);
@@ -839,7 +842,7 @@ class Payroll_con extends CI_Controller {
 		$status="Absent Report from date $start_date to date  $end_date";
 		$data = $this->processdb->daily_presentdb($present_status,$status, $year_month);
 	}
-	
+
 	function leave_report()
 	{
 		$start_date = $this->uri->segment(3);
@@ -848,9 +851,9 @@ class Payroll_con extends CI_Controller {
 		$present_status="L";
 		$status="Leave Report from date $start_date to date  $end_date";
 		$data = $this->processdb->daily_presentdb($present_status,$status, $year_month);
-	
+
 	}
-	
+
 	function present_report()
 	{
 		$start_date = $this->uri->segment(3);
@@ -858,50 +861,50 @@ class Payroll_con extends CI_Controller {
 		$year_month = $this->uri->segment(5);
 		$present_status="P";
 		$status="Present Report from date $start_date to date  $end_date";
-	
+
 		$data = $this->processdb->daily_presentdb($present_status,$status, $year_month);
-		
+
 	}
-	
+
 	function late_report()
 	{
 	   $sdate = $this->uri->segment(5);
 	   $edate = $this->uri->segment(6);
 	   $month = $this->uri->segment(4);
 	   $year = $this->uri->segment(3);
-		
+
 	//	$start_date='2011-02-15';
 	//	$end_date='2011-02-17';
 		//$data["late"]= $this->processdb->late_commer_report_db($start_date,$end_date);
-		
+
 		$start=$year."-".$month."-".$sdate;
 		$end=$year."-".$month."-".$edate;
 		//$start_date = $this->uri->segment(3);
 	//	$end_date = $this->uri->segment(4);
-		
+
 		$data["late"]= $this->processdb->late_commer_report_db($start,$end);
 		$this->load->view('display',$data);
 	}
-	
+
 	function att_process()
 	{
 		$this->processdb->att_process();
 	}
-	
+
 	//   23-03-2011  sayed start //
 	function search_line_name()
 	{
 		$result = $this->processdb->search_line_name_db();
 		echo $result;
 	}
-	
+
 	function update_linename()
 	{
 		$result = $this->processdb->update_linename_db();
 		//echo $result;
 	}
-	
-	
+
+
 	function save_linename()
 	{
 		$result = $this->processdb->save_linename();
@@ -912,38 +915,38 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->delete_linename();
 		echo $result;
 	}
-	
+
 	function delete_designationname()
 	{
 		$result = $this->processdb->delete_designationname();
 		echo $result;
 	}
-	
+
 	function update_designationname()
 	{
 		$result = $this->processdb->update_designation();
 		//echo $result;
 	}
-	
+
 	function save_designationname()
 	{
 		$result = $this->processdb->save_designationname();
 		echo $result;
 	}
-	
+
 	function search_designation_name()
 	{
 		$result = $this->processdb->search_designation_name();
 		echo $result;
 	}
-	
+
 	function search_attenb_name()
 	{
 		$result = $this->processdb->search_attenb_name_db();
 		echo $result;
 		//echo $check_attn_name = $this->input->post('check_attn_name');
 	}
-	
+
 	function save_atttbname_con()
 	{
 		$result = $this->processdb->save_atttbname_db();
@@ -959,12 +962,12 @@ class Payroll_con extends CI_Controller {
 		echo $result;
 	}
 	//   23-03-2011  sayed end //
-	
+
 	function id_card()
 	{
 		$start = $this->uri->segment(3);
 		$end   = $this->uri->segment(4);
-			
+
 		$query['values'] = $this->processdb->id_card($start, $end);
 		if(is_string($query['values']))
 		{
@@ -975,12 +978,12 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('id_card',$query);
 		}
 	}
-	
+
 	function appointment_letter()
 	{
 		$start = $this->uri->segment(3);
 		$end   = $this->uri->segment(4);
-			
+
 		$query['values'] = $this->processdb->appointment_letter($start, $end);
 		if(is_string($query['values']))
 		{
@@ -991,7 +994,7 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('appointment_letter',$query);
 		}
 	}
-	
+
 	function payslip_report()
 	{
 		$start = $this->uri->segment(3);
@@ -1002,11 +1005,11 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(8);
 		$col_dept = $this->uri->segment(9);
 		$col_all = $this->uri->segment(10);
-		
-		
+
+
 		//$start = "100009";
 		//$end   = "100009";
-		//$sal_month = "2011-04-01";	
+		//$sal_month = "2011-04-01";
 		$query['values'] = $this->processdb->payslip_report($start, $end, $sal_month, $col_desig, $col_line, $col_section, $col_dept, $col_all);
 		//print_r($query);
 		if(is_string($query['values']))
@@ -1018,7 +1021,7 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('pay_slip',$query);
 		}
 	}
-	
+
 	function daily_report()
 	{
 		$year = $this->uri->segment(3);
@@ -1030,18 +1033,18 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(9);
 		$col_dept = $this->uri->segment(10);
 		$col_all = $this->uri->segment(11);
-		
+
 		//$year = "2011";
 		//$month= "04";
 		//$date = "02";
-		
+
 		//$year = "$year";
 		//$month= "$month";
 		//$date = "$date";
-		
-		
+
+
 		$data["values"] = $this->processdb->daily_report($year, $month, $date, $status, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-			
+
 		$data["year"]			= $year;
 		$data["month"]			= $month;
 		$data["date"]			= $date;
@@ -1051,7 +1054,7 @@ class Payroll_con extends CI_Controller {
 		$data["col_section"] 	= $this->uri->segment(9);
 		$data["col_dept"] 		= $this->uri->segment(10);
 		$data["col_all"] 		= $this->uri->segment(11);
-		
+
 		if(is_string($data["values"]))
 		{
 			echo $data["values"];
@@ -1062,7 +1065,7 @@ class Payroll_con extends CI_Controller {
 		}
 		//print_r($data);
 	}
-	
+
 	function grid_daily_report()
 	{
 		//$year = "2011";
@@ -1076,8 +1079,8 @@ class Payroll_con extends CI_Controller {
 		$grid_data = $this->uri->segment(5);
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		//print_r($grid_emp_id);
-		$data["values"] = $this->processdb->grid_daily_report($year, $month, $date, $status, $grid_emp_id);	
-		
+		$data["values"] = $this->processdb->grid_daily_report($year, $month, $date, $status, $grid_emp_id);
+
 		$data["year"]			= $year;
 		$data["month"]			= $month;
 		$data["date"]			= $date;
@@ -1096,7 +1099,7 @@ class Payroll_con extends CI_Controller {
 			$this->load->view('daily_report',$data);
 		}
 	}
-	
+
 	function left_emp_report()
 	{
 		$start_date = $this->uri->segment(3);
@@ -1106,18 +1109,18 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		//$year = "2011";
 		//$month= "04";
 		//$date = "02";
-		
+
 		//$year = "$year";
 		//$month= "$month";
 		//$date = "$date";
-		
-		
+
+
 		$data["values"] = $this->processdb->left_emp_report($start_date, $end_date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-			
+
 		$data["start_date"]		= $start_date;
 		$data["end_date"]		= $end_date;
 		$data["col_desig"] 		= $col_desig;
@@ -1125,7 +1128,7 @@ class Payroll_con extends CI_Controller {
 		$data["col_section"] 	= $col_section;
 		$data["col_dept"] 		= $col_dept;
 		$data["col_all"] 		= $col_all;
-		
+
 		if(is_string($data["values"]))
 		{
 			echo $data["values"];
@@ -1136,7 +1139,7 @@ class Payroll_con extends CI_Controller {
 		}
 		//print_r($data);
 	}
-	
+
 	function left_emp_report_export()
 	{
 		$start_date = $this->uri->segment(3);
@@ -1146,22 +1149,22 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		//$year = "2011";
 		//$month= "04";
 		//$date = "02";
-		
+
 		//$year = "$year";
 		//$month= "$month";
 		//$date = "$date";
-		
-		
+
+
 		$data = $this->processdb->left_emp_report($start_date, $end_date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-		
+
 		$this->load->plugin('to_excel');
 		array_to_excel($data,"Separation_report");
 	}
-	
+
 	function resign_emp_report()
 	{
 		$start_date = $this->uri->segment(3);
@@ -1171,18 +1174,18 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		//$year = "2011";
 		//$month= "04";
 		//$date = "02";
-		
+
 		//$year = "$year";
 		//$month= "$month";
 		//$date = "$date";
-		
-		
+
+
 		$data["values"] = $this->processdb->resign_emp_report($start_date, $end_date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-			
+
 		$data["start_date"]		= $start_date;
 		$data["end_date"]		= $end_date;
 		$data["col_desig"] 		= $col_desig;
@@ -1190,7 +1193,7 @@ class Payroll_con extends CI_Controller {
 		$data["col_section"] 	= $col_section;
 		$data["col_dept"] 		= $col_dept;
 		$data["col_all"] 		= $col_all;
-		
+
 		if(is_string($data["values"]))
 		{
 			echo $data["values"];
@@ -1201,7 +1204,7 @@ class Payroll_con extends CI_Controller {
 		}
 		//print_r($data);
 	}
-	
+
 	function resign_emp_report_export()
 	{
 		$start_date = $this->uri->segment(3);
@@ -1211,22 +1214,22 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		//$year = "2011";
 		//$month= "04";
 		//$date = "02";
-		
+
 		//$year = "$year";
 		//$month= "$month";
 		//$date = "$date";
-		
-		
+
+
 		$data = $this->processdb->resign_emp_report($start_date, $end_date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-		
+
 		$this->load->plugin('to_excel');
 		array_to_excel($data,"Resign_report");
 	}
-	
+
 	function new_join_emp_report()
 	{
 		$start_date = $this->uri->segment(3);
@@ -1236,18 +1239,18 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		//$year = "2011";
 		//$month= "04";
 		//$date = "02";
-		
+
 		//$year = "$year";
 		//$month= "$month";
 		//$date = "$date";
-		
-		
+
+
 		$data["values"] = $this->processdb->new_join_emp_report($start_date, $end_date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-			
+
 		$data["start_date"]		= $start_date;
 		$data["end_date"]		= $end_date;
 		$data["col_desig"] 		= $col_desig;
@@ -1255,7 +1258,7 @@ class Payroll_con extends CI_Controller {
 		$data["col_section"] 	= $col_section;
 		$data["col_dept"] 		= $col_dept;
 		$data["col_all"] 		= $col_all;
-		
+
 		if(is_string($data["values"]))
 		{
 			echo $data["values"];
@@ -1266,7 +1269,7 @@ class Payroll_con extends CI_Controller {
 		}
 		//print_r($data);
 	}
-	
+
 	function new_join_emp_report_export()
 	{
 		$start_date = $this->uri->segment(3);
@@ -1276,22 +1279,22 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(7);
 		$col_dept = $this->uri->segment(8);
 		$col_all = $this->uri->segment(9);
-		
+
 		//$year = "2011";
 		//$month= "04";
 		//$date = "02";
-		
+
 		//$year = "$year";
 		//$month= "$month";
 		//$date = "$date";
-		
-		
+
+
 		$data = $this->processdb->new_join_emp_report($start_date, $end_date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-		
+
 		$this->load->plugin('to_excel');
 		array_to_excel($data,"New_join_report");
 	}
-	
+
 	function daily_report_export()
 	{
 		$year = $this->uri->segment(3);
@@ -1303,14 +1306,14 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(9);
 		$col_dept = $this->uri->segment(10);
 		$col_all = $this->uri->segment(11);
-		
+
 		$status = $this->uri->segment(6);
 		$data = $this->processdb->daily_report($year, $month, $date, $status, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-		
+
 		$this->load->plugin('to_excel');
 		array_to_excel($data);
 	}
-	
+
 	function daily_late_report_export()
 	{
 		$year = $this->uri->segment(3);
@@ -1321,13 +1324,13 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(8);
 		$col_dept = $this->uri->segment(9);
 		$col_all = $this->uri->segment(10);
-				
+
 		$data = $this->processdb->daily_late_report($year, $month, $date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-		
+
 		$this->load->plugin('to_excel');
 		array_to_excel($data, "Daily_late_report");
 	}
-	
+
 	function daily_late_report()
 	{
 		$year = $this->uri->segment(3);
@@ -1338,7 +1341,7 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(8);
 		$col_dept = $this->uri->segment(9);
 		$col_all = $this->uri->segment(10);
-				
+
 		$data["values"] = $this->processdb->daily_late_report($year, $month, $date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
 		$data["year"]= $year;
 		$data["month"]= $month;
@@ -1355,10 +1358,10 @@ class Payroll_con extends CI_Controller {
 		else
 		{
 			$this->load->view('daily_late_report',$data);
-		}		
+		}
 		//print_r($data);
 	}
-	
+
 	function out_punch_miss()
 	{
 		$year = $this->uri->segment(3);
@@ -1369,11 +1372,11 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(8);
 		$col_dept = $this->uri->segment(9);
 		$col_all = $this->uri->segment(10);
-		
+
 		/*$year = "2011";
 		$month= "04";
 		$date = "05";*/
-		
+
 		$data["values"] = $this->processdb->out_punch_miss($year, $month, $date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
 		$data["year"]= $year;
 		$data["month"]= $month;
@@ -1383,7 +1386,7 @@ class Payroll_con extends CI_Controller {
 		$data["col_section"] 	= $this->uri->segment(8);
 		$data["col_dept"] 		= $this->uri->segment(9);
 		$data["col_all"] 		= $this->uri->segment(10);
-		
+
 		if(is_string($data["values"]))
 		{
 			echo $data["values"];
@@ -1391,10 +1394,10 @@ class Payroll_con extends CI_Controller {
 		else
 		{
 			$this->load->view('out_punch_miss',$data);
-		}		
+		}
 		//print_r($data);
 	}
-	
+
 	function out_punch_miss_export()
 	{
 		$year = $this->uri->segment(3);
@@ -1405,14 +1408,14 @@ class Payroll_con extends CI_Controller {
 		$col_section = $this->uri->segment(8);
 		$col_dept = $this->uri->segment(9);
 		$col_all = $this->uri->segment(10);
-				
+
 		$data = $this->processdb->out_punch_miss($year, $month, $date, $col_desig, $col_line, $col_section, $col_dept, $col_all);
-		
+
 		$this->load->plugin('to_excel');
 		array_to_excel($data, "Out_punch_miss_report");
 	}
-	
-	
+
+
 	function section_manual()
 	{
  	$result = $this->processdb->section_manual_db();
@@ -1423,23 +1426,23 @@ class Payroll_con extends CI_Controller {
 	{
 		$shift_name = $this->input->post('sh_name');
 		//$shift_name = "Shift A";
-		
+
 		$data = $this->processdb->shift_change_search($shift_name);
 		echo $data;
 	}
-	
+
 	function manual_att_entry_co()
 	{
-		
+
 		$sStartDate=$this->input->post('startdate');
 		$sEndDate=$this->input->post('enddate');
 		$time=$this->input->post('time');
-		
+
 		$column=$this->input->post('column');
 		$emp_department_no=$this->input->post('column_value');
-		
+
 		$empid=$this->input->post('empid');
-		
+
 		if ($empid !="")
 		{
 			$result = $this->processdb->emp_id_db($empid,$sStartDate,$sEndDate,$time);
@@ -1465,36 +1468,36 @@ class Payroll_con extends CI_Controller {
 			echo "not set";
 		}
 	//$result = $this->processdb->manual_att_entry_db($emp_department_no,$column,$sStartDate,$sEndDate,$intime_1st,$intime_2nd,$outtime_1st,$outtime_2nd,$flag);
-		
+
 	}
 	/*function leave_transaction_co()
 	{
 	$result = $this->processdb->leave_transaction_db();
 	echo $result;
 	}*/
-	
-	
+
+
 	/*function save_leave_co()
 	{
 	$result = $this->processdb->save_leave_db();
 	echo $result;
 	}*/
-	
-	
+
+
 	function search_position_name()
 	{
 		$result = $this->processdb->search_position_name_db();
 		echo $result;
 	}
-	
-	
+
+
 	function save_positionname_co()
 	{
 		$result = $this->processdb->save_positionname_db();
 		echo $result;
 	}
-	
-	
+
+
 	function update_positionname_co()
 	{
 		$result = $this->processdb->update_positionname_db();
@@ -1505,68 +1508,68 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->delete_positionname_db();
 		echo $result;
 	}
-	
+
 	function search_operation_name()
 	{
 		$result = $this->processdb->search_operation_name();
 		echo $result;
 	}
-	
-	
+
+
 	function save_operationname_co()
 	{
 		$result = $this->processdb->save_operationname_db();
 		echo $result;
 	}
 
-	
+
 	function update_operationname_co()
 	{
 		$result = $this->processdb->update_operationname_db();
 		//echo $result;
 	}
-	
-	
+
+
 	function delete_operationname_co()
 	{
 		$result = $this->processdb->delete_operationname_db();
 		echo $result;
 	}
-	
+
 	function shift_change_co()
 	{
 			$result = $this->processdb->shift_change_db();
 			echo $result;
 	}
-	
+
 	function save_schange_co()
 	{
 		$result = $this->processdb->save_schange_db();
 		echo $result;
 	}
-	
+
 	function update_shift_time()
 	{
 		$shift_name = $this->input->post('shift_name');
 		$shift_id = $this->input->post('shift_id');
-		
+
 		$result = $this->processdb->update_shift_time($shift_name, $shift_id);
 	}
-	
+
 	//===============MANPOWER REPORT=========================
 	function manpower_report()
 	{
 		$year = $this->uri->segment(3);
 		$month = $this->uri->segment(4);
 		$date = $this->uri->segment(5);
-		
+
 		$data["values"] = $this->processdb->manpower_report($year, $month, $date);
 		//print_r($data);
 		$this->load->view('manpower_report',$data);
-			
+
 	}
 	//===============MANPOWER REPORT=========================
-	
+
 	function work_off_delete_function_co()
 	{
 		$result = $this->processdb->work_off_delete_function_db();
@@ -1577,7 +1580,7 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->work_off_save_function_db();
 		echo $result;
 	}
-	
+
 	function holiday_co()
 	{
 		$result = $this->processdb->holiday_db();
@@ -1589,11 +1592,11 @@ class Payroll_con extends CI_Controller {
 		$result = $this->processdb->manual_entry_Delete_db();
 		echo $result;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	//==============Advance loan insert=======================>>
 	function advance_loan_insert()
 	{
@@ -1601,17 +1604,17 @@ class Payroll_con extends CI_Controller {
 		$loan_amt	= $this->input->post('loan_amt');
 		$pay_amt	= $this->input->post('pay_amt');
 		$loan_date 	= $this->input->post('loan_date');
-		
-		$loan_date = date("Y-m-d", strtotime($loan_date)); 
-		
+
+		$loan_date = date("Y-m-d", strtotime($loan_date));
+
 		$data = $this->processdb->advance_loan_insert($emp_id, $loan_amt, $pay_amt, $loan_date);
 		echo $data;
-		
-		
+
+
 	}
 
-	
-//============================= Maintainance Functions=============================================	
+
+//============================= Maintainance Functions=============================================
 	function drop_table()
 	{
 		$this->load->dbforge();
@@ -1631,7 +1634,7 @@ class Payroll_con extends CI_Controller {
 			}
 		}
 	}
-	
+
 	function truncate_table()
 	{
 		$j=1;
@@ -1650,7 +1653,7 @@ class Payroll_con extends CI_Controller {
 			}
 		}
 	}
-	
+
 	function test()
 	{
 		$emp_id = '004237';
@@ -1663,11 +1666,11 @@ class Payroll_con extends CI_Controller {
 ,'MO1274','MH1274','MO1275','MH1275','MO1276','MH1276','MO1277','MH1277','MO1278','MH1278','MO1279','MH1279','MO1280','MH1280');
 		//print_r($data);
 		$count = count($data);
-		
+
 		for($i=0; $i<$count;$i++)
 		{
 			$id = $data[$i];
-			
+
 			$this->db->select("emp_id");
 			$this->db->where('emp_id',$id);
 			$query = $this->db->get("pr_emp_per_info");
@@ -1699,7 +1702,7 @@ class Payroll_con extends CI_Controller {
 					{
 						echo "$id => Delete failed<br>";
 					}
-				} 
+				}
 				else
 				{
 					echo "$id => Delete failed<br>";
@@ -1710,42 +1713,42 @@ class Payroll_con extends CI_Controller {
 				echo "$id => Employee ID does not exist<br>";
 			}
 		}
-		
+
 	}
-	
+
 	function id_skill_insert()
 	{
 		$this->db->select("emp_id");
 		$query = $this->db->get("pr_emp_per_info");
 		$num_row = $query->num_rows();
-		
+
 		foreach ($query->result() as $row)
 			{
 				$emp_id = $row->emp_id;
-					
+
 					$emp_table =  "pr_emp_skill";
-					$data = array( 'emp_id'	=>$emp_id);		
+					$data = array( 'emp_id'	=>$emp_id);
 					$this->db->insert($emp_table, $data);
 					//print_r($data);
-						 
+
 			}
-		
+
 	}
-	
-	
-	
+
+
+
 	/*function employee_shift_update()
 	{
 		$this->db->select("*");
 		$this->db->where("unit_id",2);
 		$query = $this->db->get("pr_emp_com_info");
 		$num_row = $query->num_rows();
-		
+
 		foreach ($query->result() as $row)
 		{
 				$emp_id 	= $row->emp_id;
 				$emp_shift 	= $row->emp_shift;
-				
+
 				if($emp_shift == "1")
 				{
 					$emp_shift_new = "4";
@@ -1758,58 +1761,58 @@ class Payroll_con extends CI_Controller {
 				{
 					$emp_shift_new = "9";
 				}
-				
-				
+
+
 				$emp_table =  "pr_emp_com_info";
-				$data = array( 'emp_shift'	=>$emp_shift_new);	
-				$this->db->where("emp_id",$emp_id);	
+				$data = array( 'emp_shift'	=>$emp_shift_new);
+				$this->db->where("emp_id",$emp_id);
 				$this->db->update($emp_table, $data);
-				
-				
+
+
 				$emp_table1 =  "pr_emp_shift_log";
-				$data = array( 'shift_id'	=>$emp_shift_new,'shift_duty'	=>$emp_shift_new);	
-				$this->db->where("emp_id",$emp_id);	
+				$data = array( 'shift_id'	=>$emp_shift_new,'shift_duty'	=>$emp_shift_new);
+				$this->db->where("emp_id",$emp_id);
 				$this->db->update($emp_table1, $data);
-				
+
 				echo "$emp_id****$emp_shift ===>$emp_shift_new<br>";
 
 		}
-		
+
 	}*/
-	
-	
+
+
 	function leave_table_update()
 	{
 		$this->db->select("*");
 		$this->db->where("emp_id","2000176");
 		$query = $this->db->get("pr_leave_trans");
-		
-		
+
+
 		foreach($query->result() as $row)
 		{
 			$leave_type = $row->leave_type;
 			$start_date = $row->start_date;
 
 			$id = $row->id;
-			
+
 			$leave_start = $start_date;
-			
-			
-			
-			$data = array( 'leave_start' =>$leave_start);	
-			$this->db->where("id",$id);	
+
+
+
+			$data = array( 'leave_start' =>$leave_start);
+			$this->db->where("id",$id);
 			$this->db->update('pr_leave_trans', $data);
-			
+
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 	/*function increment_promotion_update()
 	{
 		$double_emp =array('1000129','1000180','1000383','2000025','2000064');
-		
+
 		$this->db->select("*");
 		$this->db->from("pr_incre_prom_pun");
 		$this->db->from("pr_emp_com_info");
@@ -1819,30 +1822,30 @@ class Payroll_con extends CI_Controller {
 		$this->db->order_by("ref_id","ASC");
 		$query = $this->db->get();
 		$check_emp = 0;
-		
+
 		foreach($query->result() as $row)
 		{
 			$prev_salary	= $row->prev_salary;
 			$new_salary		= $row->new_salary;
 			$prev_emp_id	= $row->prev_emp_id;
 			$id	= $row->id;
-			
+
 			$emp_com_info = $this->emp_com_info_data($prev_emp_id);
-			
+
 			foreach($emp_com_info->result() as $rows)
 			{
 				$gross_sal 		= $rows->gross_sal;
 				$new_com_gross_sal 	= $rows->com_gross_sal;
 			}
-			
-		
+
+
 			$diff_gross_salary 	= $new_salary - $prev_salary;
 			$prev_com_salary 	= $new_com_gross_sal - $diff_gross_salary;
-			
+
 			$data['prev_com_salary'] =	$prev_com_salary;
 			$data['new_com_salary'] =	$new_com_gross_sal;
-			
-			
+
+
 			if($prev_salary != $prev_com_salary)
 			{
 				echo "<span style='color:red;font-weight:bold;'>$prev_emp_id</span></br>";
@@ -1852,16 +1855,16 @@ class Payroll_con extends CI_Controller {
 			}
 			echo "Prev Gross Salary:$prev_salary===New Gross Salary:$new_salary</br>";
 			echo "Prev Com Gross Salary:$prev_com_salary===New Com. Gross Salary:$new_com_gross_sal</br>";
-			
+
 			$check_emp = $prev_emp_id;
-			
-			$this->db->where("prev_emp_id",$prev_emp_id);	
+
+			$this->db->where("prev_emp_id",$prev_emp_id);
 			$this->db->update('pr_incre_prom_pun', $data);
-			
+
 		}
-		
-		
-		
+
+
+
 	}*/
 	function emp_com_info_data($empid)
 	{
@@ -1870,26 +1873,26 @@ class Payroll_con extends CI_Controller {
 		$query = $this->db->get("pr_emp_com_info");
 		return $query;
 	}
-	
+
 	function emp_com_info_data_update()
 	{
 		$this->db->select("*");
 		//$this->db->where('emp_id',$empid);
 		$query = $this->db->get("pr_emp_com_info");
-		
+
 		foreach($query->result() as $rows)
 		{
 			$emp_id 			= $rows->emp_id;
 			$gross_sal 			= $rows->gross_sal;
 			$new_com_gross_sal 	= $rows->com_gross_sal;
-			
-			
+
+
 			$data['gross_sal'] 		=	$gross_sal;
 			$data['com_gross_sal'] =	$gross_sal;
-			
+
 			$this->db->where('emp_id',$emp_id);
 			$this->db->update('pr_emp_com_info', $data);
-			
+
 		}
 		return $query;
 	}
@@ -1897,37 +1900,37 @@ class Payroll_con extends CI_Controller {
 	{
 		$this->db->select("*");
 		$query = $this->db->get("pr_emp_per_info");
-		
+
 		foreach($query->result() as $rows)
 		{
 			$emp_id = $rows->emp_id;
-			
+
 			$data['img_source'] = $emp_id.".jpg";
-			
+
 			$this->db->where('emp_id',$emp_id);
 			$this->db->update('pr_emp_per_info',$data);
-			
+
 		}
 		return $query;
 	}
-	
+
 	function update_id_proxi()
 	{
 		$this->db->select("*");
 		$query = $this->db->get("pr_id_proxi");
-		
+
 		foreach($query->result() as $row)
 		{
 			$proxi_id = $row->emp_id;
 			$emp_id   = $row->emp_id;
-			
+
 			$data['proxi_id'] = $proxi_id;
-			
+
 			$this->db->where("emp_id",$emp_id);
 			$this->db->update('pr_id_proxi',$data);
 		}
-		
-		
-		
+
+
+
 	}
 }

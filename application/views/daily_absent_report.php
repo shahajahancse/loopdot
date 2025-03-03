@@ -62,105 +62,122 @@ for($counter = 1; $counter <= $page; $counter ++)
 </table>
  
 <!--Report title goes here-->
-<div align="center" style=" margin:0 auto;  overflow:hidden; font-family: 'Times New Roman', Times, serif; width:700px; margin-bottom:200px; min-height:1000px;">
+<div align="center" style=" margin:0 auto;  overflow:hidden; font-family: 'Times New Roman', Times, serif; width:850px; margin-bottom:200px; min-height:1000px;">
 
+	<table class="sal" border="1" cellpadding="0" cellspacing="0" align="center" style="font-size:13px; border-collapse:collapse;width:850px;">
 
-<table class="sal" border="1" cellpadding="0" cellspacing="0" align="center" style="font-size:13px; border-collapse:collapse;width:700px;">
+		<th>SL</th>
+		<th>Emp ID</th>
+		<th>Punch Card No.</th>
+		<th style="width:230px;">Employee Name</th> 
+		<th style="width:100px">Line No. </th> 
+		<th style="width:130px;">Department </th> 
+		<th style="width:110px;">Designation</th>
+		<th>Status</th> 
 
-<th>SL</th><th>Emp ID</th><th>Punch Card No.</th><th style="width:230px;">Employee Name</th> <th style="width:130px;">Line No. </th> <th style="width:210px;">Designation</th><th>Status</th> 
+		<?php if($daily_status == "A") {
+			echo "<th>Mobile</th> ";
+			echo "<th>Remarks</th> ";
+			echo "<th>Sign.</th> ";
+		} ?>
 
-<?php 
-	if($daily_status == "A")
-	  {
-		echo "<th>Remarks</th> ";
-		echo "<th>Sign.</th> ";
-	  }
-
-?>
-
-<?php
-$section=array();
- //    if($counter == $page)
- //  	{
- //   		$modulus = ($row_count-1) % $per_page_id;
- //    	$per_page_row = $modulus;
-	// }
- //   	else
- //   	{
- //    	$per_page_row = $per_page_id - 1;
- //   	}
- //   	echo $per_page_row;
-	for($i=0; $i<=$per_page_id; $i++)
-	{
-
-	if($section!=$values["sec_name"][$k]){
-
-		$i=$i+1;
-		$row_count = $row_count+1;
-		if($row_count >$per_page_id)
+		<?php
+		$section=array();
+		 //    if($counter == $page)
+		 //  	{
+		 //   		$modulus = ($row_count-1) % $per_page_id;
+		 //    	$per_page_row = $modulus;
+			// }
+		 //   	else
+		 //   	{
+		 //    	$per_page_row = $per_page_id - 1;
+		 //   	}
+		 //   	echo $per_page_row;
+		for($i=0; $i<=$per_page_id; $i++)
 		{
-		$page=ceil($row_count/$per_page_id);
-		}
-		else
-		{
-		$page=1;
-		}	
-		echo "<tr bgcolor='#CCCCCC'>";
-		echo "<td colspan='10' style='font-size:14px'>Section :&nbsp".$values["sec_name"][$k]."</td>";
-		echo "</tr>";
 
-	}
+			if($section!=$values["sec_name"][$k]){
 
-	echo "<tr>";
-	
-	echo "<td style='text-align:center'>";
-	echo $s = $k+1;
-	echo "</td>";
-	
-	echo "<td style='padding:0px 5px 0px 5px; font-weight:bold; height:20px;'>";
-	echo $values["emp_id"][$k];
-	echo "</td>";
-	
-	echo "<td style='padding:0px 5px 0px 5px;'>";
-	echo $values["proxi_id"][$k];
-	echo "</td>";
-	
-	echo "<td style='padding:0px 5px 0px 5px;'>";
-	echo $values["emp_name"][$k];
-	echo "</td>";
-	
-	echo "<td style='padding:0px 5px 0px 5px;'>";
-	echo $values["line_name"][$k];
-	echo "</td>";
-	
-	echo "<td style='padding:0px 5px 0px 5px;'>";
-	echo $values["desig_name"][$k];
-	echo "</td>";
-	
-	echo "<td style='text-align:center'>";
-	echo $values["cont_absent"][$k];//$values["status"][$i];
-	//echo $values["status"][$i];
-	echo "</td>";
-	
-	echo "<td style='text-align:center' >";
-	echo "";
-	echo "</td>";
-	
-	echo "<td style='text-align:center' width='80'>";
-	echo "";
-	echo "</td>";
+				$i=$i+1;
+				$row_count = $row_count+1;
+				if($row_count >$per_page_id)
+				{
+				$page=ceil($row_count/$per_page_id);
+				}
+				else
+				{
+				$page=1;
+				}	
+				echo "<tr bgcolor='#CCCCCC'>";
+				if ($daily_status == "A") {
+					echo "<td colspan='11' style='font-size:14px'>Section :&nbsp".$values["sec_name"][$k]."</td>";
+				} else {
+					echo "<td colspan='10' style='font-size:14px'>Section :&nbsp".$values["sec_name"][$k]."</td>";
+				}
+				echo "</tr>";
 
-	echo "</tr>";
-	$section=$values["sec_name"][$k];
-	$k++;
-	if($max==$k){
-		break;
-	}
-}
-?>
+			}
 
-</table>
-<div style="page-break-after: always;"></div>
+			echo "<tr>";
+			
+			echo "<td style='text-align:center'>";
+			echo $s = $k+1;
+			echo "</td>";
+			
+			echo "<td style='padding:0px 5px 0px 5px; font-weight:bold; height:20px;'>";
+			echo $values["emp_id"][$k];
+			echo "</td>";
+			
+			echo "<td style='padding:0px 5px 0px 5px;'>";
+			echo $values["proxi_id"][$k];
+			echo "</td>";
+			
+			echo "<td style='padding:0px 5px 0px 5px;'>";
+			echo $values["emp_name"][$k];
+			echo "</td>";
+			
+			echo "<td style='padding:0px 5px 0px 5px;'>";
+			echo $values["line_name"][$k];
+			echo "</td>";
+			
+			echo "<td style='padding:0px 5px 0px 5px;'>";
+			echo $values["dept_name"][$k];
+			echo "</td>";
+			
+			echo "<td style='padding:0px 5px 0px 5px;'>";
+			echo $values["desig_name"][$k];
+			echo "</td>";
+			
+			echo "<td style='text-align:center'>";
+			// echo $values["cont_absent"][$k];//$values["status"][$i];
+			echo $values["status"][$k];
+			echo "</td>";
+
+			if($daily_status == "A")
+			{
+				echo "<td style='text-align:center' width='80' >";
+				echo $values["mobile"][$k];
+				echo "</td>";
+			}
+
+			echo "<td style='text-align:center' >";
+			echo "";
+			echo "</td>";
+			
+			echo "<td style='text-align:center' width='80'>";
+			echo "";
+			echo "</td>";
+
+			echo "</tr>";
+			$section=$values["sec_name"][$k];
+			$k++;
+			if($max==$k){
+				break;
+			}
+		} ?>
+
+	</table>
+	<div style="page-break-after: always;"></div>
 </div>
 <?php
 	if($max==$k){

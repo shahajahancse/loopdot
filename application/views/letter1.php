@@ -146,173 +146,173 @@
 
 </style>
 </head>
-<!--<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/appointment_letter.css"> -->
-<?php  foreach($values->result() as $row){
-	
-	$emp_id = $row->emp_id;
-	$absent_start_date = $this->grid_model->get_absent_start_date($emp_id,$firstdate,$limit=10);
-?>
-<div style="width:750px; margin:0 auto; text-align:justify; font-family:SolaimanLipi; font-size:16px; margin-bottom:120px;">
-<table width="720" style="font-family:SolaimanLipi;">
-    <tr>
-        <?php $company_logo = $this->common_model->company_information("company_logo"); ?>
-        <td width="105"><img width="55" height="55" src="<?php  echo base_url();?>images/<?php echo $company_logo = $this->common_model->company_information("company_logo"); ?>" /></td>
-        <td width="491" style="font-size:15px;text-align:center;padding-left: 44px;">
-            <span style="text-align:center"><span style="font-size:18px; font-weight:bold;"><?php echo $company_logo = $this->common_model->company_information("company_name_bangla"); ?></span><br>
-            <?php echo $company_logo = $this->common_model->company_information("company_add_bangla"); ?>
-            </span>
-        </td>
-    </tr>
-  </table>
-  <div align="center" style="width:720px; border-bottom:2px solid #000;"></div>
-<!-- <p style="text-align:center;">রেজিস্ট্রি ডাকযোগে প্রেরিত</p> -->
-<table width="720px" cellpadding="3" style="">
-    <tr>
-      <td style="width: 450px;text-align: left;font-size: 17px;font-weight: normal;">সূত্রঃ <span>রেজিস্ট্রি ডাকযোগে প্রেরিত</span></td>
-      <td style="width: 250px;text-align: right;font-size: 15px;">১য় চিঠি</td>
-    </tr>
-</table>
-<table width="720px" cellpadding="3" style="">
-    <tr>
-      <td style="font-size: 17px;font-weight: normal;">তারিখ :  .........................</td>
-    </tr>
-</table>
-    <?php
-     $emp_add_pre = explode(';',$row->emp_pre_add_ban);
-      $vill_pre = $emp_add_pre[0];
-      $post_pre = $emp_add_pre[1];
-      $thana_pre = $emp_add_pre[2];
-      $dist_pre = $emp_add_pre[3];
-      /*$vill_pre = split('ঃ', $vill_pre);
-      $post_pre = split('ঃ', $post_pre);
-      $thana_pre = split('ঃ', $thana_pre);
-      $dist_pre = split('ঃ', $dist_pre);
-      $vill_pre = $vill_pre[1];
-      $post_pre = $post_pre[1];
-      $thana_pre = $thana_pre[1];
-      $dist_pre = $dist_pre[1];*/
+  <!--<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/appointment_letter.css"> -->
+  <?php  //echo "<pre>"; print_r($values->result()); die();
+  foreach($values->result() as $row){
+    // echo $row->emp_pre_add; die();
+  	$emp_id = $row->emp_id;
+  	$absent_start_date = $this->grid_model->get_absent_start_date($emp_id,$firstdate,$limit=10); ?>
+    <div style="width:750px; margin:0 auto; text-align:justify; font-family:SolaimanLipi; font-size:16px; margin-bottom:120px;">
+      <table width="720" style="font-family:SolaimanLipi;">
+        <tr>
+            <?php $company_logo = $this->common_model->company_info()->company_logo; ?>
+            <td width="105"><img width="55" height="55" src="<?php  echo base_url();?>images/<?php echo $company_logo = $this->common_model->company_info()->company_logo; ?>" /></td>
+            <td width="491" style="font-size:15px;text-align:center;padding-left: 44px;">
+                <span style="text-align:center"><span style="font-size:18px; font-weight:bold;"><?php echo $company_logo = $this->common_model->company_info()->company_name_bangla; ?></span><br>
+                <?php echo $company_logo = $this->common_model->company_info()->company_add_bangla; ?>
+                </span>
+            </td>
+        </tr>
+      </table>
+
+      <div align="center" style="width:720px; border-bottom:2px solid #000;"></div>
+      <!-- <p style="text-align:center;">রেজিস্ট্রি ডাকযোগে প্রেরিত</p> -->
+      <table width="720px" cellpadding="3" style="">
+        <tr>
+          <td style="width: 450px;text-align: left;font-size: 17px;font-weight: normal;">সূত্রঃ <span>রেজিস্ট্রি ডাকযোগে প্রেরিত</span></td>
+          <td style="width: 250px;text-align: right;font-size: 15px;">১য় চিঠি</td>
+        </tr>
+      </table>
+      <table width="720px" cellpadding="3" style="">
+        <tr>
+          <td style="font-size: 17px;font-weight: normal;">তারিখ :  .........................</td>
+        </tr>
+      </table>
+      <?php
+       $emp_add_pre = explode(';',$row->emp_pre_add_ban);
+        $vill_pre = $emp_add_pre[0];
+        $post_pre = $emp_add_pre[1];
+        $thana_pre = $emp_add_pre[2];
+        $dist_pre = $emp_add_pre[3];
+        /*$vill_pre = split('ঃ', $vill_pre);
+        $post_pre = split('ঃ', $post_pre);
+        $thana_pre = split('ঃ', $thana_pre);
+        $dist_pre = split('ঃ', $dist_pre);
+        $vill_pre = $vill_pre[1];
+        $post_pre = $post_pre[1];
+        $thana_pre = $thana_pre[1];
+        $dist_pre = $dist_pre[1];*/
 
 
-      $emp_add_par = explode(';',$row->emp_par_add_ban);
-      $vill = $emp_add_par[0];
-      $post = $emp_add_par[1];
-      $thana = $emp_add_par[2];
-      $dist = $emp_add_par[3];
-      /*$vill = split('ঃ', $vill);
-      $post = split('ঃ', $post);
-      $thana = split('ঃ', $thana);
-      $dist = split('ঃ', $dist);
-      $vill = $vill[1];
-      $post = $post[1];
-      $thana = $thana[1];
-      $dist = $dist[1];*/
+        $emp_add_par = explode(';',$row->emp_par_add_ban);
+        $vill = $emp_add_par[0];
+        $post = $emp_add_par[1];
+        $thana = $emp_add_par[2];
+        $dist = $emp_add_par[3];
+        /*$vill = split('ঃ', $vill);
+        $post = split('ঃ', $post);
+        $thana = split('ঃ', $thana);
+        $dist = split('ঃ', $dist);
+        $vill = $vill[1];
+        $post = $post[1];
+        $thana = $thana[1];
+        $dist = $dist[1];*/
 
-     ?>
-  <!-- <div class="heading_contianer" style="width:720px;display: inline-block;">
-    <div class="head1">প্রাপক,</div>
-    <div class="head2">বর্তমান ঠিকানা</div>
-    <div class="head3">স্থায়ী ঠিকানা</div>
-  </div> -->
-  <table class="table-heading" style="display: table;font-size: 16px;">
-    <tr>
-      <td>প্রাপক,</td>
-    </tr>
-  </table>
-  <table width=300px cellpadding="3" style="font-family:SutonnyMJ;font-size: 16px;vertical-align:top;">
-    <tr>
-      <td width=65px>নাম</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $row->bangla_nam; ?></div></td>
-    </tr>
-    <tr>
-      <td width=65px>আইডি নং</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $row->emp_id; ?></div></td>
-    </tr>
-    <tr>
-      <td width=65px>পদবী</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $row->desig_bangla; ?></div></td>
-    </tr>
-    <tr>
-      <td width=65px>সেকশন</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $row->sec_bangla; ?></div></td>
-    </tr>
-    <tr><td width=65px></td><td></td></tr>
-  </table>
+       ?>
+      <!-- <div class="heading_contianer" style="width:720px;display: inline-block;">
+        <div class="head1">প্রাপক,</div>
+        <div class="head2">বর্তমান ঠিকানা</div>
+        <div class="head3">স্থায়ী ঠিকানা</div>
+      </div> -->
+      <table class="table-heading" style="display: table;font-size: 16px;">
+        <tr>
+          <td>প্রাপক,</td>
+        </tr>
+      </table>
+      <table width=300px cellpadding="3" style="vertical-align:top; font-size: 14px;">
+        <tr>
+          <td width=65px>নাম</td>
+          <td><span class="colon">:</span><div style="font-family:SutonnyMJ;" class="border_div"><?php echo $row->bangla_nam; ?></div></td>
+        </tr>
+        <tr>
+          <td width=70px>আইডি নং</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $row->emp_id; ?></div></td>
+        </tr>
+        <tr>
+          <td width=65px>পদবী</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $row->desig_name; ?></div></td>
+        </tr>
+        <tr>
+          <td width=65px>সেকশন</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $row->sec_name; ?></div></td>
+        </tr>
+        <tr><td width=65px></td><td></td></tr>
+      </table>
 
-  <table class="table-heading" style="display: table;font-size: 13px; width: 720px;">
-    <tr>
-      <td style="padding-left:6px;">বর্তমান ঠিকানা</td>
-      
-    </tr>
-  </table>
-  <table width=370px cellpadding="3" style="font-family:SutonnyMJ;font-size: 16px;overflow: auto;">
-   
-    <tr>
-      <td style="vertical-align: top;">ঠিকানা </td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $vill_pre;?></div></td>
-    </tr>
-   <!--  <tr>
-      <td width=65px>ডাকঘর</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $post_pre;?></div></td>
-    </tr>
-    <tr>
-      <td width=65px>থানা</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $thana_pre;?></div></td>
-    </tr>
-    <tr>
-      <td width=65px>জেলা</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $dist_pre;?></div></td>
-    </tr> -->
-  </table>
-  <table class="table-heading" style="display: table;font-size: 13px; width: 720px;">
-     <tr>
-      <td style="padding-left:9px;text-align: left;">স্থায়ী ঠিকানা</td>
-    </tr>
-  </table>
+      <table class="table-heading" style="display: table;font-size: 16px; width: 720px;">
+        <tr>
+          <td style="padding-left:6px;">বর্তমান ঠিকানা</td>
+        </tr>
+      </table>
 
-  <table width=370px cellpadding="3" style="font-family:SutonnyMJ;font-size: 16px;overflow: auto;">
-     <tr>
-      <td width=65px>পিতা/স্বামী </td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $row->emp_fname_bn; ?></div></td>
-    </tr>
-   
-    <tr>
-      <td style="vertical-align: top;">ঠিকানা</td>
-      <td><span class="colon">:</span><?php echo $vill;?></td>
-    </tr>
-    <!--<tr>
-      <td width=65px>ডাকঘর</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $post;?></div></td>
-    </tr>
-    <tr>
-      <td width=65px>থানা</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $thana;?></div></td>
-    </tr>
-    <tr>
-      <td width=65px>জেলা</td>
-      <td><span class="colon">:</span><div class="border_div"><?php echo $dist;?></div></td>
-    </tr> -->
-  </table>
+      <table width=370px cellpadding="3" style="font-family:SutonnyMJ;font-size: 14px;overflow: auto;">
+        <tr>
+          <td style="vertical-align: top;">ঠিকানা </td>
+          <!-- <td><span class="colon">:</span><div class="border_div"><?php echo $vill_pre;?></div></td> -->
+          <td><span class="colon">:</span><div class="border_div"><?php echo $row->emp_pre_add;?></div></td>
+        </tr>
+       <!--  <tr>
+          <td width=65px>ডাকঘর</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $post_pre;?></div></td>
+        </tr>
+        <tr>
+          <td width=65px>থানা</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $thana_pre;?></div></td>
+        </tr>
+        <tr>
+          <td width=65px>জেলা</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $dist_pre;?></div></td>
+        </tr> -->
+      </table>
+
+      <table class="table-heading" style="display: table;font-size: 16px; width: 720px;">
+         <tr>
+          <td style="padding-left:9px;text-align: left;">স্থায়ী ঠিকানা</td>
+        </tr>
+      </table>
+
+      <table width=720px cellpadding="3" style="font-family:SutonnyMJ;font-size: 14px;overflow: auto;">
+         <tr>
+          <td>পিতা/স্বামী </td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $row->emp_fname; ?></div></td>
+        </tr>
+       
+        <tr>
+          <td style="vertical-align: top;">ঠিকানা</td>
+          <!-- <td><span class="colon">:</span><?php echo $vill;?></td> -->
+          <td><span class="colon">:</span><?php echo $row->emp_par_add; ?></td>
+        </tr>
+        <!--<tr>
+          <td width=65px>ডাকঘর</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $post;?></div></td>
+        </tr>
+        <tr>
+          <td width=65px>থানা</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $thana;?></div></td>
+        </tr>
+        <tr>
+          <td width=65px>জেলা</td>
+          <td><span class="colon">:</span><div class="border_div"><?php echo $dist;?></div></td>
+        </tr> -->
+      </table>
 
 
-<div id="sub" style="width:720px;"><h5 style="text-align:left;font-size: 17px;">বিষয়ঃ বাংলাদেশ শ্রম  আইন ২০০৬ এর ২৭ (৩ক) ধারা মোতাবেক ব্যাখ্যা প্রদান সহ চাকুরীতে  যোগদানের জন্য নোটিশ।</h5></div>
+      <div id="sub" style="width:720px;"><h5 style="text-align:left;font-size: 17px;">বিষয়ঃ বাংলাদেশ শ্রম  আইন ২০০৬ এর ২৭ (৩ক) ধারা মোতাবেক ব্যাখ্যা প্রদান সহ চাকুরীতে  যোগদানের জন্য নোটিশ।</h5></div>
 
-  <div style="float:left; width:720px;position:relative;font-size:17px;">
-  জনাব / জনাবা,<br>আপনি গত <span style="padding: 0 10px;font-family:SutonnyMJ;"><?php echo $ld = date('d-m-Y',strtotime($row->left_date));?></span> ইং তারিখ হতে অদ্যবধি বিনা নোটিশে এবং কর্তৃপক্ষের বিনা অনুমতিতে কারখানায় অনুপস্থিত রয়েছেন। আপনার এ ধরণের অনুপস্থিতির কারণে কারখানার স্বাভাবিক উৎপাদন ব্যহত হচেছ বিধায় বাংলাদেশ শ্রম আইন ২০০৬ ও সংশোধিত ২০১৩ এর ২৭(৩ক) ধারা মতে অনতিবিলম্বে আপনাকে অনুপস্থিতির কারণ ব্যাখ্যাসহ কাজে যোগদানের  নির্দেশ প্রদান করা হলো।
-<br><br>
-<p>আপনি যদি অদ্য হতে ১০(দশ) দিনের মধ্যে কারখানায় যোগদান করতে ব্যর্থ বা আপনার এ ধরনের অনুনমোদিত অনুপস্থিতির কারণ উক্ত সময়ের মধ্যে কর্তৃপক্ষের নিকট ব্যাখ্যা প্রদান করতে ব্যর্থ হন তবে কর্তৃপক্ষ আপনার বিরূদ্ধে পরবর্তী আইনানুগ ব্যবস্থা গ্রহণ করবে।</p>
-</div>
-<div style="clear:both;width:720px;position:relative; height:30px;"></div>
-<p style="margin:0px;padding:0px;">ধন্যবাদান্তে</p>
-কর্তৃপক্ষ
-<br><br>
+      <div style="float:left; width:720px;position:relative;font-size:17px;">
+        জনাব / জনাবা,<br>আপনি গত <!-- ...............................  --> <span style="padding: 0 10px;font-family:SutonnyMJ;"><?php echo $ld = date('d-m-Y',strtotime($row->left_date));?></span>  ইং তারিখ হতে অদ্যবধি বিনা নোটিশে এবং কর্তৃপক্ষের বিনা অনুমতিতে কারখানায় অনুপস্থিত রয়েছেন। আপনার এ ধরণের অনুপস্থিতির কারণে কারখানার স্বাভাবিক উৎপাদন ব্যহত হচেছ বিধায় বাংলাদেশ শ্রম আইন ২০০৬ ও সংশোধিত ২০১৩ এর ২৭(৩ক) ধারা মতে অনতিবিলম্বে আপনাকে অনুপস্থিতির কারণ ব্যাখ্যাসহ কাজে যোগদানের  নির্দেশ প্রদান করা হলো।
+        <br><br>
+        <p>আপনি যদি অদ্য হতে ১০(দশ) দিনের মধ্যে কারখানায় যোগদান করতে ব্যর্থ বা আপনার এ ধরনের অনুনমোদিত অনুপস্থিতির কারণ উক্ত সময়ের মধ্যে কর্তৃপক্ষের নিকট ব্যাখ্যা প্রদান করতে ব্যর্থ হন তবে কর্তৃপক্ষ আপনার বিরূদ্ধে পরবর্তী আইনানুগ ব্যবস্থা গ্রহণ করবে।</p>
+      </div>
 
-অনুলিপি:<br>
-১। ব্যবস্থাপনা পরিচালক।<br>
-২। নোটিশ বোর্ড।<br>
-৩। ব্যক্তিগত নথি
-
-</div>
-</div>
-<div style="page-break-after: always;"></div>
-<?php } ?>
+      <div style="clear:both;width:720px;position:relative; height:30px;"></div>
+      <p style="margin:0px;padding:0px;">ধন্যবাদান্তে</p> কর্তৃপক্ষ
+      <br><br>
+      অনুলিপি:<br>
+      ১। ব্যবস্থাপনা পরিচালক।<br>
+      ২। নোটিশ বোর্ড।<br>
+      ৩। ব্যক্তিগত নথি
+    </div>
+    <div style="page-break-after: always;"></div>
+  <?php } ?>
 </html>

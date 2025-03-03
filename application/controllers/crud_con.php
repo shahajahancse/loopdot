@@ -6,13 +6,13 @@ class Crud_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
-		
+
 		$this->load->model('common_model');
 		$this->load->model('crud_model');
-		
-		
+
+
 	}
 
 	 function company_add(){
@@ -21,22 +21,23 @@ class Crud_con extends CI_Controller {
 	 	$this->load->model('crud_model');
 
 	 	$this->form_validation->set_rules('name', 'Company Name', 'trim|required');
-	 	$this->form_validation->set_rules('bname', 'Company Bangla Name', 'trim|required');
+	 	// $this->form_validation->set_rules('bname', 'Company Bangla Name', 'trim|required');
 	 	$this->form_validation->set_rules('en_add', 'Company Address English ', 'trim|required');
-	 	$this->form_validation->set_rules('bn_add', 'Company Address Bangla', 'trim|required');
+	 	// $this->form_validation->set_rules('bn_add', 'Company Address Bangla', 'trim|required');
 
-	 	$this->form_validation->set_rules('phn', 'Mobile Number ', 'required|regex_match[/^[0-9]{10}$/]');
+	 	// $this->form_validation->set_rules('phn', 'Mobile Number ', 'required|regex_match[/^[0-9]{10}$/]');
 	 	// $this->form_validation->set_rules('logo','Company Logo','file_required|file_min_size[10KB]|file_max_size[500KB]|file_allowed_type[image]|file_image_mindim[50,50]|file_image_maxdim[400,300]');
 		// $this->form_validation->set_rules('sign','file_min_size[10KB]|file_max_size[500KB]|file_allowed_type[image]|file_image_mindim[50,50]|file_image_maxdim[400,300]');
 
-	 	
-			if($this->form_validation->run() == false)
-			{
 
-			 	$this->load->view('company_add'); 
-			}
-			else
-			{
+		if($this->form_validation->run() == false)
+		{
+
+			$this->load->view('company_add');
+		}
+		else
+		{
+				// print_r($_POST);exit();
 				// print_r($_FILES['logoAAAAA']);
 				// print_r($_POST);exit();
 				$formArray = array();
@@ -47,11 +48,13 @@ class Crud_con extends CI_Controller {
 				$formArray['phn'] = $this->input->post('phn');
 				$formArray['comlogo'] = $this->input->post('comlogo');
 				$formArray['comsign'] = $this->input->post('comsign');
+				// print_r($_POST);exit();
+
 				$this->crud_model->company_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/unit');
-			    
+
 
 			}
 
@@ -66,20 +69,20 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'Company Name', 'trim|required');
 		 	$this->form_validation->set_rules('bname', 'Company Bangla Name', 'trim|required');
 		 	$this->form_validation->set_rules('en_add', 'Company Address English ', 'trim|required');
 		 	$this->form_validation->set_rules('bn_add', 'Company Address Bangla', 'trim|required');
 
-		 	$this->form_validation->set_rules('phn', 'Mobile Number ', 'required|regex_match[/^[0-9]{10}$/]');
+		 	// $this->form_validation->set_rules('phn', 'Mobile Number ', 'required|regex_match[/^[0-9]{10}$/]');
 
 		 	if($this->form_validation->run() == false)
 			{
-// print_r($this->session->all_userdata()); 
+// print_r($this->session->all_userdata());
 			$data['company_infos'] = $this->crud_model->getUnit($comId);
 			$this->load->view('company_edit',$data);
-			 	
+
 			}
 			else
 			{
@@ -87,11 +90,11 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('success','Record Updated successfully!');
   				//alert('Record adder successfully!');
 				redirect('/setup_con/unit');
-			    
+
 
 			}
 
-			
+
 		}
 
 		function company_delete($comId)
@@ -108,7 +111,7 @@ class Crud_con extends CI_Controller {
 		}
 
 //===================================Floor=======================================================//
-		
+
 
 
 		function floor_add(){
@@ -118,12 +121,12 @@ class Crud_con extends CI_Controller {
 	 	$data['floor'] = $this->crud_model->floor_fetch();
 
 	 	$this->form_validation->set_rules('name', 'Floor Name', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('floor_add',$data); 
+			 	$this->load->view('floor_add',$data);
 			}
 			else
 			{
@@ -132,12 +135,12 @@ class Crud_con extends CI_Controller {
 				$formArray = array();
 				$formArray['name'] = $this->input->post('name');
 				$formArray['floor'] = $this->input->post('floor');
-				
+
 				$this->crud_model->floor_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/floor');
-			    
+
 
 			}
 
@@ -150,10 +153,10 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'Floor Name', 'trim|required');
 			$data['floor'] = $this->crud_model->floor_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -161,7 +164,7 @@ class Crud_con extends CI_Controller {
 			$data['pr_floor'] = $this->crud_model->getfloor($floorId);
 
 			$this->load->view('floor_edit',$data);
-			 	
+
 			}
 			else
 			{
@@ -169,11 +172,11 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('success','Record Updated successfully!');
   				//alert('Record adder successfully!');
 				redirect('/setup_con/floor');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -204,12 +207,12 @@ class Crud_con extends CI_Controller {
 
 	 	$this->form_validation->set_rules('name', 'dept Name', 'trim|required');
 	 	$this->form_validation->set_rules('bname', 'dept Bangla Name', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('dept_add',$data); 
+			 	$this->load->view('dept_add',$data);
 			}
 			else
 			{
@@ -219,12 +222,12 @@ class Crud_con extends CI_Controller {
 				$formArray['name'] = $this->input->post('name');
 				$formArray['bname'] = $this->input->post('bname');
 				$formArray['dept'] = $this->input->post('dept');
-				
+
 				$this->crud_model->dept_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/department');
-			    
+
 
 			}
 
@@ -237,10 +240,10 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'dept Name', 'trim|required');
 			$data['dept'] = $this->crud_model->dept_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -248,7 +251,7 @@ class Crud_con extends CI_Controller {
 			$data['pr_dept'] = $this->crud_model->getdept($deptId);
 
 			$this->load->view('dept_edit',$data);
-			 	
+
 			}
 			else
 			{
@@ -256,11 +259,11 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('success','Record Updated successfully!');
   				//alert('Record adder successfully!');
 				redirect('/setup_con/department');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -292,12 +295,12 @@ class Crud_con extends CI_Controller {
 
 	 	$this->form_validation->set_rules('name', 'sec Name', 'trim|required');
 	 	$this->form_validation->set_rules('bname', 'sec Bangla Name', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('sec_add',$data); 
+			 	$this->load->view('sec_add',$data);
 			}
 			else
 			{
@@ -311,12 +314,12 @@ class Crud_con extends CI_Controller {
 				$formArray['indx'] = $this->input->post('indx');
 				$formArray['aindx'] = $this->input->post('aindx');
 				$formArray['sec'] = $this->input->post('sec');
-				
+
 				$this->crud_model->sec_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/section');
-			    
+
 
 			}
 
@@ -329,10 +332,10 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'sec Name', 'trim|required');
 			$data['sec'] = $this->crud_model->sec_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -340,7 +343,7 @@ class Crud_con extends CI_Controller {
 			$data['pr_section'] = $this->crud_model->getsec($secId);
 
 			$this->load->view('sec_edit',$data);
-			 	
+
 			}
 			else
 			{
@@ -348,11 +351,11 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('success','Record Updated successfully!');
   				//alert('Record adder successfully!');
 				redirect('/setup_con/section');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -385,12 +388,12 @@ class Crud_con extends CI_Controller {
 
 	 	$this->form_validation->set_rules('name', 'line Name', 'trim|required');
 	 	$this->form_validation->set_rules('bname', 'line Bangla Name', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('line_add',$data); 
+			 	$this->load->view('line_add',$data);
 			}
 			else
 			{
@@ -403,12 +406,12 @@ class Crud_con extends CI_Controller {
 				$formArray['strf'] = $this->input->post('strf');
 				$formArray['line'] = $this->input->post('line');
 				$formArray['indx'] = $this->input->post('indx');
-				
+
 				$this->crud_model->line_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/line');
-			    
+
 
 			}
 
@@ -421,17 +424,17 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'line Name', 'trim|required');
 			$data['line'] = $this->crud_model->line_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
 			$data['pr_line'] = $this->crud_model->getline($lineId);
 
 			$this->load->view('line_edit',$data);
-			 	
+
 			}
 			else
 			{
@@ -439,11 +442,11 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('success','Record Updated successfully!');
   				//alert('Record adder successfully!');
 				redirect('/setup_con/line');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -475,12 +478,12 @@ class Crud_con extends CI_Controller {
 
 	 	$this->form_validation->set_rules('name', 'desig Name', 'trim|required');
 	 	$this->form_validation->set_rules('bname', 'desig Bangla Name', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('desig_add',$data); 
+			 	$this->load->view('desig_add',$data);
 			}
 			else
 			{
@@ -490,12 +493,12 @@ class Crud_con extends CI_Controller {
 				$formArray['name'] = $this->input->post('name');
 				$formArray['bname'] = $this->input->post('bname');
 				$formArray['desig'] = $this->input->post('desig');
-				
+
 				$this->crud_model->desig_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/designation');
-			    
+
 
 			}
 
@@ -508,10 +511,10 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'desig Name', 'trim|required');
 			$data['desig'] = $this->crud_model->desig_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -519,7 +522,7 @@ class Crud_con extends CI_Controller {
 			$data['pr_designation'] = $this->crud_model->getdesig($desigId);
 
 			$this->load->view('desig_edit',$data);
-			 	
+
 			}
 			else
 			{
@@ -527,11 +530,11 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('success','Record Updated successfully!');
   				//alert('Record adder successfully!');
 				redirect('/setup_con/designation');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -563,12 +566,12 @@ class Crud_con extends CI_Controller {
 
 	 	$this->form_validation->set_rules('name', 'attbn Rule Name', 'trim|required');
 	 	$this->form_validation->set_rules('amnt', 'attbn Amount', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('attbn_add'); 
+			 	$this->load->view('attbn_add');
 			}
 			else
 			{
@@ -577,13 +580,13 @@ class Crud_con extends CI_Controller {
 				$formArray = array();
 				$formArray['name'] = $this->input->post('name');
 				$formArray['amnt'] = $this->input->post('amnt');
-				
-				
+
+
 				$this->crud_model->attbn_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/attendance_bonus');
-			    
+
 
 			}
 
@@ -596,12 +599,12 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'attbn Name', 'trim|required');
 	 		$this->form_validation->set_rules('amnt', 'attbn Amount', 'trim|required');
-			
+
 			// $data['attbn'] = $this->crud_model->attbn_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -610,19 +613,19 @@ class Crud_con extends CI_Controller {
 			print_r($data);
 
 			$this->load->view('attbn_edit',$data);
-			 	
+
 			}
 			else
 			{
 				$this->crud_model->attbn_edit($attbnId);
 				$this->session->set_flashdata('success','Record Updated successfully!');
-  				
+
 				redirect('/setup_con/attendance_bonus');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -652,12 +655,12 @@ class Crud_con extends CI_Controller {
 
 	 	$this->form_validation->set_rules('name', 'salgrd Rule Name', 'trim|required');
 	 	$this->form_validation->set_rules('bname', 'salgrd Name Bangla', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('salgrd_add'); 
+			 	$this->load->view('salgrd_add');
 			}
 			else
 			{
@@ -666,13 +669,13 @@ class Crud_con extends CI_Controller {
 				$formArray = array();
 				$formArray['name'] = $this->input->post('name');
 				$formArray['bname'] = $this->input->post('bname');
-				
-				
+
+
 				$this->crud_model->salgrd_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/salary_grade');
-			    
+
 
 			}
 
@@ -685,12 +688,12 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('name', 'salgrd Name', 'trim|required');
 	 		$this->form_validation->set_rules('bname', 'salgrd Name Bangla', 'trim|required');
-			
+
 			// $data['salgrd'] = $this->crud_model->salgrd_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -699,19 +702,19 @@ class Crud_con extends CI_Controller {
 			// print_r($data);
 
 			$this->load->view('salgrd_edit',$data);
-			 	
+
 			}
 			else
 			{
 				$this->crud_model->salgrd_edit($salgrdId);
 				$this->session->set_flashdata('success','Record Updated successfully!');
-  				
+
 				redirect('/setup_con/salary_grade');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -754,10 +757,10 @@ class Crud_con extends CI_Controller {
 	 	$this->form_validation->set_rules('otminute', 'shiftschedule Ot Minute', 'trim|required');
 	 	$this->form_validation->set_rules('onehrottime', 'shiftschedule One Hour Ot Time', 'trim|required');
 	 	$this->form_validation->set_rules('twohrottime', 'shiftschedule Two Hour Ot Time', 'trim|required');
-	 	
+
 
 		if($this->form_validation->run() == false){
-		 	$this->load->view('shiftschedule_add',$data); 
+		 	$this->load->view('shiftschedule_add',$data);
 		}else{
 			// print_r($_FILES['logoAAAAA']);
 			// print_r($_POST);exit();
@@ -774,8 +777,8 @@ class Crud_con extends CI_Controller {
              $formArray['ot_minute_to_one_hour'] = $this->input->post('otminute');
              $formArray['one_hour_ot_out_time'] = $this->input->post('onehrottime');
              $formArray['two_hour_ot_out_time'] = $this->input->post('twohrottime');
-			
-			
+
+
 			$this->crud_model->shiftschedule_add($formArray);
 			$this->session->set_flashdata('success','Record adder successfully!');
 			redirect(base_url().'index.php/setup_con/shift_schedule');
@@ -791,7 +794,7 @@ class Crud_con extends CI_Controller {
 			$this->load->library('form_validation');
 	 		$data['shiftschedule'] = $this->crud_model->shiftschedule_fetch();
 
-		 	
+
 		 	$this->form_validation->set_rules('uname', 'shiftschedule Unit Name', 'trim|required');
 		 	$this->form_validation->set_rules('stype', 'shiftschedule Shift Type', 'trim|required');
 		 	$this->form_validation->set_rules('instrt', 'shiftschedule In Start', 'trim|required');
@@ -804,9 +807,9 @@ class Crud_con extends CI_Controller {
 		 	$this->form_validation->set_rules('otminute', 'shiftschedule Ot Minute', 'trim|required');
 		 	$this->form_validation->set_rules('onehrottime', 'shiftschedule One Hour Ot Time', 'trim|required');
 		 	$this->form_validation->set_rules('twohrottime', 'shiftschedule Two Hour Ot Time', 'trim|required');
-			
+
 			$data['shiftschedule'] = $this->crud_model->shiftschedule_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -815,19 +818,19 @@ class Crud_con extends CI_Controller {
 			// print_r($data);
 
 			$this->load->view('shiftschedule_edit',$data);
-			 	
+
 			}
 			else
 			{
 				$this->crud_model->shiftschedule_edit($shiftscheduleId);
 				$this->session->set_flashdata('success','Record Updated successfully!');
-  				
+
 				redirect('/setup_con/shift_schedule');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -860,12 +863,12 @@ class Crud_con extends CI_Controller {
 	 	$this->form_validation->set_rules('stype', 'shiftmanagement Shift Type', 'trim|required');
 	 	$this->form_validation->set_rules('stname', 'shiftmanagement In Start', 'trim|required');
 	 	$this->form_validation->set_rules('unitid', 'shiftmanagement In Time', 'trim|required');
-	 	
 
-	 	
+
+
 
 		if($this->form_validation->run() == false){
-		 	$this->load->view('shiftmanagement_add',$data); 
+		 	$this->load->view('shiftmanagement_add',$data);
 		}else{
 			// print_r($_FILES['logoAAAAA']);
 			// print_r($_POST);exit();
@@ -873,9 +876,9 @@ class Crud_con extends CI_Controller {
 			 $formArray['shift_name'] = $this->input->post('stname');
              $formArray['unit_id'] = $this->input->post('unitid');
              $formArray['shift_duty'] = $this->input->post('stype');
-            
-			
-			
+
+
+
 			$this->crud_model->shiftmanagement_add($formArray);
 			$this->session->set_flashdata('success','Record adder successfully!');
 			redirect(base_url().'index.php/setup_con/shift_management');
@@ -892,14 +895,14 @@ class Crud_con extends CI_Controller {
 	 		$data['shiftmanagement'] = $this->crud_model->shiftmanagement_fetch();
 
 			// print_r($data);
-		 	
+
 		 	$this->form_validation->set_rules('stype', 'shiftmanagement Shift Type', 'trim|required');
 	 		$this->form_validation->set_rules('stname', 'shiftmanagement Shift Name', 'trim|required');
 	 		$this->form_validation->set_rules('unitid', 'shiftmanagement Unit ID', 'trim|required');
-		 	
-			
+
+
 			// $data['shiftmanagement'] = $this->crud_model->shiftmanagement_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -907,20 +910,20 @@ class Crud_con extends CI_Controller {
 			$data['pr_emp_shift'] = $this->crud_model->getshiftmanagement($shiftmanagementId);
 
 			$this->load->view('shiftmanagement_edit',$data);
-			 	
+
 			}
 			else
 			{
-				
+
 				$this->crud_model->shiftmanagement_edit($shiftmanagementId);
 				$this->session->set_flashdata('success','Record Updated successfully!');
-  				
+
 				redirect('/setup_con/shift_management');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -953,17 +956,17 @@ class Crud_con extends CI_Controller {
 	 		// $data['leave'] = $this->crud_model->leave_fetch();
 
 			// print_r($data);
-		 	
+
 	 		$this->form_validation->set_rules('lvname', 'leave Leave Name', 'trim|required');
 	 		$this->form_validation->set_rules('stid', 'leave Status ID', 'trim|required');
 	 		$this->form_validation->set_rules('sicklv', 'leave Sick Leave', 'trim|required');
 	 		$this->form_validation->set_rules('cullv', 'leave Casual Leave', 'trim|required');
 	 		$this->form_validation->set_rules('matrlv', 'leave Maternity Leave', 'trim|required');
 	 		$this->form_validation->set_rules('patlv', 'leave Paternity Leave', 'trim|required');
-		 	
-			
+
+
 			// $data['leave'] = $this->crud_model->leave_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false)
 			{
@@ -971,20 +974,20 @@ class Crud_con extends CI_Controller {
 			$data['pr_leave'] = $this->crud_model->getleave($leaveId);
 
 			$this->load->view('leave_edit',$data);
-			 	
+
 			}
 			else
 			{
-				
+
 				$this->crud_model->leave_edit($leaveId);
 				$this->session->set_flashdata('success','Record Updated successfully!');
-  				
+
 				redirect('/setup_con/leave_setup');
-			    
+
 
 			}
 
-			
+
 		}
 
 
@@ -998,9 +1001,11 @@ class Crud_con extends CI_Controller {
 	function bnruls_add(){
 
 	 	$this->load->library('form_validation');
-	 	$data['bnruls'] = $this->crud_model->bnruls_fetch_unit();
-	 	$data['epmtype'] = $this->crud_model->bnruls_fetch_emptyp();
-	 	
+	 	// $data['bnruls'] = $this->crud_model->bnruls_fetch_unit();
+	 	// $data['bnruls'] = $this->crud_model->bnruls_fetch_unit();
+	 	$data['epmtype'] = $this->crud_model->units();
+	 	$data['epmtype'] = $this->crud_model->emp_type();
+
 	 	// print_r($data);exit('ali');
 
 	 	// $this->form_validation->set_rules('unit', 'bnruls Unit id', 'trim|required');
@@ -1011,16 +1016,16 @@ class Crud_con extends CI_Controller {
 	 	$this->form_validation->set_rules('bamntf', 'bnruls Bonus amount fraction', 'trim|required');
 	 	$this->form_validation->set_rules('bper', 'bnruls Bonus percent', 'trim|required');
 	 	$this->form_validation->set_rules('date_out', 'bnruls Effective date', 'required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
-				
-			 	$this->load->view('bnrules_add',$data); 
+
+			 	$this->load->view('bnrules_add',$data);
 			}
 			else
 			{
-				
+
 				$formArray = array();
 				$formArray['unit_id'] = $this->input->post('unit');
 				$formArray['emp_type'] = $this->input->post('emptyp');
@@ -1030,12 +1035,12 @@ class Crud_con extends CI_Controller {
 				$formArray['bonus_amount_fraction'] = $this->input->post('bamntf');
 				$formArray['bonus_percent'] = $this->input->post('bper');
 				$formArray['effective_date'] = $this->input->post('date_out');
-				
-				
+
+
 				$this->crud_model->bnruls_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
 				redirect(base_url().'index.php/setup_con/bonus_setup');
-			    
+
 
 			}
 
@@ -1050,9 +1055,9 @@ class Crud_con extends CI_Controller {
 	 		// print_r($data);
 	 		// exit();
 
-	 	
 
-		 	
+
+
 			// $this->form_validation->set_rules('unit', 'bnruls Unit id', 'trim|required');
 		 	// $this->form_validation->set_rules('emptyp', 'bnruls Emp type', 'trim|required');
 		 	$this->form_validation->set_rules('bfmnth', 'bnruls Bonus first month', 'trim|required');
@@ -1061,9 +1066,9 @@ class Crud_con extends CI_Controller {
 		 	$this->form_validation->set_rules('bamntf', 'bnruls Bonus amount fraction', 'trim|required');
 		 	$this->form_validation->set_rules('bper', 'bnruls Bonus percent', 'trim|required');
 		 	$this->form_validation->set_rules('date_out', 'bnruls Effective date', 'trim|required');
-			
+
 			// $data['bnruls'] = $this->crud_model->bnruls_fetch();
-		 	
+
 
 		 	if($this->form_validation->run() == false){
 				$data['bonus_rules'] = $this->crud_model->getbnruls($bnrulsId);
@@ -1072,11 +1077,11 @@ class Crud_con extends CI_Controller {
 			}else{
 				$this->crud_model->bnruls_edit($bnrulsId);
 				$this->session->set_flashdata('success','Record Updated successfully!');
-  				
+
 				redirect('/setup_con/bonus_setup');
 			}
 
-			
+
 		}
 
 
@@ -1109,12 +1114,12 @@ class Crud_con extends CI_Controller {
 	 	$this->form_validation->set_rules('tax', 'taxnother Tax Amount', 'trim|required');
 	 	$this->form_validation->set_rules('other', 'taxnother Other', 'trim|required');
 	 	$this->form_validation->set_rules('date_out', 'taxnother Month', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('taxnother_add',$data); 
+			 	$this->load->view('taxnother_add',$data);
 			}
 			else
 			{
@@ -1126,12 +1131,12 @@ class Crud_con extends CI_Controller {
 				$formArray['tax_deduct'] = $this->input->post('tax');
 				$formArray['others_deduct'] = $this->input->post('other');
 				$formArray['deduct_month'] = $this->input->post('date_out');
-				
+
 				$this->crud_model->taxnother_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/entry_system_con/tax_others_deduction');
-			    
+
 
 			}
 
@@ -1154,7 +1159,7 @@ class Crud_con extends CI_Controller {
 
 
 
-//==================================Weekend Delete====================================//
+		//========================Weekend Delete====================================//
 
 
 		function weekend_delete($weekendId)
@@ -1170,7 +1175,7 @@ class Crud_con extends CI_Controller {
 				redirect('/entry_system_con/weekend_delete');
 		}
 
-//==================================Weekend Delete====================================//
+		//==========================Weekend Delete====================================//
 
 
 		function holiday_delete($holidayId)
@@ -1186,7 +1191,7 @@ class Crud_con extends CI_Controller {
 				redirect('/entry_system_con/holiday_delete');
 		}
 
-//==================================Salary Stop====================================//
+		//============================Salary Stop====================================//
 
 
 		function salarystop_add(){
@@ -1198,12 +1203,12 @@ class Crud_con extends CI_Controller {
 	 	$this->form_validation->set_rules('unit', 'salarystop Unit', 'trim|required');
 	 	$this->form_validation->set_rules('empid', 'salarystop EMP ID', 'trim|required');
 		$this->form_validation->set_rules('date_out', 'salarystop Salary Month', 'trim|required');
-	 	
+
 
 			if($this->form_validation->run() == false)
 			{
 
-			 	$this->load->view('salary_stop_add',$data); 
+			 	$this->load->view('salary_stop_add',$data);
 			}
 			else
 			{
@@ -1213,12 +1218,12 @@ class Crud_con extends CI_Controller {
 				$formArray['unit_id'] = $this->input->post('unit');
 				$formArray['emp_id'] = $this->input->post('empid');
 				$formArray['salary_month'] = $this->input->post('date_out');
-				
+
 				$this->crud_model->salarystop_add($formArray);
 				$this->session->set_flashdata('success','Record adder successfully!');
   				//alert('Record adder successfully!');
 				redirect(base_url().'index.php/entry_system_con/stop_salary');
-			    
+
 
 			}
 
@@ -1238,11 +1243,11 @@ class Crud_con extends CI_Controller {
 				redirect('/entry_system_con/stop_salary');
 		}
 
-//===================================Leave Delete================================//
+		//=====================Leave Delete================================//
 		function leave_delete($leaveId)
 		{
 			$this->load->model('crud_model');
-			$leave = $this->crud_model->getleave($leaveId);
+			$leave = $this->crud_model->getleaveid($leaveId);
 			if (empty($leave)) {
 				$this->session->set_flashdata('failure','Record Not Found in DataBase!');
 				redirect('/entry_system_con/leave_delete');
@@ -1251,7 +1256,29 @@ class Crud_con extends CI_Controller {
 			$this->session->set_flashdata('success','Record Deleted successfully!');
 				redirect('/entry_system_con/leave_delete');
 		}
-//======================================Proxi ID===================================//
+
+		//=====================Left Delete================================//
+		function left_delete($leaveId)
+		{
+			// echo "$leaveId"; exit;
+			$this->load->model('crud_model');
+			$leave = $this->crud_model->getleftid($leaveId);
+			if (empty($leave)) {
+				$this->session->set_flashdata('failure','Record Not Found in DataBase!');
+				redirect('/entry_system_con/left_delete');
+			}
+
+			if ($this->crud_model->left_delete($leave->emp_id)) {
+				$this->session->set_flashdata('success','Record Deleted successfully!');
+				redirect('/entry_system_con/left_delete');
+			} else {
+				$this->session->set_flashdata('failure','Record Not Found in DataBase!');
+				redirect('/entry_system_con/left_delete');
+			}
+			
+		}
+
+		//===========================Proxi ID===================================//
 
 		function proxi_edit($empId)
 		{
@@ -1259,9 +1286,9 @@ class Crud_con extends CI_Controller {
 			$this->load->model('crud_model');
 			$this->load->library('form_validation');
 
-		 	
+
 		 	$this->form_validation->set_rules('proxiId', 'Emp ID', 'trim|required');
-		
+
 		 	if($this->form_validation->run() == false)
 			{
 
@@ -1269,7 +1296,7 @@ class Crud_con extends CI_Controller {
 			// print_r($data);exit('ali');
 
 			$this->load->view('proxi_edit',$data);
-			 	
+
 			}
 			else
 			{
@@ -1277,11 +1304,11 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('success','Record Updated successfully!');
   				//alert('Record adder successfully!');
 				redirect('/entry_system_con/proximity_card_edit');
-			    
+
 
 			}
 
-			
+
 		}
 
 

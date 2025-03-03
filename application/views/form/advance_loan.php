@@ -33,20 +33,22 @@
 <tr><td>Enter payment/month</td> <td>:</td> <td><input class="form-control" type="text" name="pay_amt" id="pay_amt" /></td></tr>
 <tr><td>Select Loan Date</td> <td>:</td>
 <td>
-<input class="form-control" type='text' name='loan_date' id='loan_date' size='16'>
-<script language="JavaScript">
-	var o_cal = new tcal ({
-		// form name
-		'formname': 'adv_loan',
-		// input name
-		'controlname': 'loan_date'
-	});
-	
-	// individual template parameters can be modified via the calendar variable
-	o_cal.a_tpl.yearscroll = false;
-	o_cal.a_tpl.weekstart = 6;
+<div class="form-inline">
+	<input style="width: 90%" class="form-control" type='text' name='loan_date' id='loan_date' size='16'>
+	<script language="JavaScript">
+		var o_cal = new tcal ({
+			// form name
+			'formname': 'adv_loan',
+			// input name
+			'controlname': 'loan_date'
+		});
+		
+		// individual template parameters can be modified via the calendar variable
+		o_cal.a_tpl.yearscroll = false;
+		o_cal.a_tpl.weekstart = 6;
 	
 	</script>
+</div>
 </td></tr>
 <tr><td> </td><td><td><input class="btn btn-success" type='button' name='view' onclick='advance_loan_insert()' value='Submit'/></td></tr>
 </table>

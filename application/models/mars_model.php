@@ -1,20 +1,20 @@
 <?php
 class Mars_model extends CI_Model{
-	
-	
+
+
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->model('common_model');
-		
+
 		/* Standard Libraries */
 	}
 
 	function dashboard_summary($report_date, $unit_id)
 	{
-		//echo $report_date;exit;
+		// echo $report_date;exit;
 		$data = array();
-		$query = $this->db->select()->where('unit_id', $unit_id)->order_by('dept_name')->get('pr_dept');
+		// $query = $this->db->select()->where('unit_id', $unit_id)->order_by('dept_name')->get('pr_dept');
 		$monthly_join_id = $this->monthly_join_emp($report_date);
 		$monthly_resign_id = $this->monthly_resign_emp($report_date);
 		$monthly_left_id = $this->monthly_left_emp($report_date);
@@ -23,7 +23,7 @@ class Mars_model extends CI_Model{
 		$ot_amount = $last_month_expensive['ot_amount'];
 		$eot_amount = $last_month_expensive['eot_amount'];
 		$att_bonus = $last_month_expensive['att_bonus'];
-        
+
 		$data['monthly_join_id'] = $monthly_join_id;
 		$data['monthly_resign_id'] = $monthly_resign_id;
 		$data['monthly_left_id'] = $monthly_left_id;
@@ -32,7 +32,9 @@ class Mars_model extends CI_Model{
 		$data['ot'] 	= $ot_amount + $eot_amount;
 		$data['att_bonus'] = $att_bonus;
 		$all_id = $this->all_emp_id();
-		$weekly_status = $this->weekly_attendance_summary($report_date,$all_id);
+
+		// 12/09/21  shahajahan
+	 	$weekly_status = $this->weekly_attendance_summary($report_date,$all_id);
 		$data['day_1'] = $weekly_status['day_1'];
 		$data['day_2'] = $weekly_status['day_2'];
 		$data['day_3'] = $weekly_status['day_3'];
@@ -53,7 +55,7 @@ class Mars_model extends CI_Model{
 		$data['all_absent_4'] = $weekly_status['all_absent_4'];
 		$data['all_absent_5'] = $weekly_status['all_absent_5'];
 		$data['all_absent_6'] = $weekly_status['all_absent_6'];
-		$data['all_absent_7'] = $weekly_status['all_absent_7'];
+		$data['all_absent_7'] = $weekly_status['all_absent_7']; 
 
 		$attendance_summary = $this->weekly_attendance_summary_2($report_date, $all_id);
 		$data['all_emp'] = $attendance_summary['all_emp'];
@@ -62,12 +64,12 @@ class Mars_model extends CI_Model{
 		$data['all_male'] = $attendance_summary['all_male'];
 		$data['all_female'] = $attendance_summary['all_female'];
 		$data['all_late'] = $attendance_summary['all_late'];
-		$data['all_leave'] = $attendance_summary['all_leave'];
+		$data['all_leave'] = $attendance_summary['all_leave']; 
 
 
 		return $data;
 	}
-	
+
 	function department_attendance_summary($report_date, $unit_id)
 	{
 		//echo $report_date;exit;
@@ -81,7 +83,7 @@ class Mars_model extends CI_Model{
 		$ot_amount = $last_month_expensive['ot_amount'];
 		$eot_amount = $last_month_expensive['eot_amount'];
 		$att_bonus = $last_month_expensive['att_bonus'];
-        
+
 		$data['monthly_join_id'] = $monthly_join_id;
 		$data['monthly_resign_id'] = $monthly_resign_id;
 		$data['monthly_left_id'] = $monthly_left_id;
@@ -120,9 +122,9 @@ class Mars_model extends CI_Model{
 		foreach($query->result() as $rows)
 		{
 			$data['cat_name'][] = $rows->dept_name;
-	
+
 			$all_emp_id = $this->get_department_emp_by_id($rows->dept_id, $unit_id);
-			
+
 			if(!empty($all_emp_id))
 			{
 				$data['daily_att_sum'][] = $this->daily_attendance_summary($report_date, $all_emp_id);
@@ -151,7 +153,53 @@ class Mars_model extends CI_Model{
 			}
 		}
 		return $data;
-		
+
+	}
+
+	//  department_attendance_summary() replese to department_attendance_summary_other()
+	//  if any problem to move before method
+	//  30-12-2021
+	function department_attendance_summary_other($report_date, $unit_id)
+	{
+		//echo $report_date;exit;
+		$data = array();
+		$query = $this->db->select()->where('unit_id', $unit_id)->order_by('dept_name')->get('pr_dept');
+
+		foreach($query->result() as $rows)
+		{
+			$data['cat_name'][] = $rows->dept_name;
+
+			$all_emp_id = $this->get_department_emp_by_id($rows->dept_id, $unit_id);
+
+			if(!empty($all_emp_id))
+			{
+				$data['daily_att_sum'][] = $this->daily_attendance_summary($report_date, $all_emp_id);
+			}
+			else
+			{
+				$data['daily_att_sum'][] = '';
+			}
+
+			$emp_desig =	$this->get_department_section_line_unit_wise($unit_id);
+			//echo $emp_desig[0]."---";
+			for($i=0; $i<12; $i++)
+			{
+				$all_desig_emp_id_by_dept = $this->desig_emp_id_by_dept($rows->dept_id,$emp_desig[$i]);
+				//echo $count_all_desig_emp_id_by_dept = count($all_desig_emp_id_by_dept);
+				//echo  $all_desig_emp_id_by_line."---";
+				if(!empty($all_desig_emp_id_by_dept))
+				{
+					$data['remarks_daily_att_sum'][$i][] = $this->daily_attendance_summary($report_date, $all_desig_emp_id_by_dept);
+				}
+				else
+				{
+					$data['remarks_daily_att_sum'][$i][] = "null";
+				}
+				//echo $i;
+			}
+		}
+		return $data;
+
 	}
 
 	function all_emp_id()
@@ -171,7 +219,7 @@ class Mars_model extends CI_Model{
 		//print_r($data);exit;
 		return $data;
 	}
-	
+
 	function get_department_emp_by_id($dept_id, $unit_id)
 	{
 		//$emp_cat = array(1,2);
@@ -183,7 +231,7 @@ class Mars_model extends CI_Model{
 		}
 		return $data;
 	}
-	
+
 	function desig_emp_id_by_dept($dept_id,$emp_desig)
 	{
 		//$emp_cat = array(1,2);
@@ -197,14 +245,14 @@ class Mars_model extends CI_Model{
 		}
 		return $data;
 	}
-	
-	
+
+
 	function section_attendance_summary($report_date, $unit_id){
 		$query = $this->db->select()->where('unit_id', $unit_id)->order_by('sec_name')->get('pr_section');
 		$data = array();
 		foreach($query->result() as $rows){
 			$data['cat_name'][] = $rows->sec_name;
-			
+
 			$all_emp_id = $this->get_section_emp_by_id($rows->sec_id, $unit_id);
 			// print_r($all_emp_id);
 			// exit;
@@ -213,17 +261,17 @@ class Mars_model extends CI_Model{
 			}else{
 				$data['daily_att_sum'][] = '';
 			}
-			
+
 			/*
-			$emp_desig = array( 
+			$emp_desig = array(
 								0 => array(21),
 								1 => array(115),
 								2 => array(78,79,112),
 								3 => array(76),
-								4 => array(102) 
+								4 => array(102)
              					); */
 			$emp_desig =	$this->get_department_section_line_unit_wise($unit_id);
-		
+
 			//echo $emp_desig[0]."---";
 			for($i=0; $i<12; $i++){
 				$all_desig_emp_id_by_section = $this->desig_emp_id_by_section($rows->sec_id,$emp_desig[$i]);
@@ -238,9 +286,9 @@ class Mars_model extends CI_Model{
 		}
 		// print_r($data);exit;
 		return $data;
-		
+
 	}
-	
+
 	function get_section_emp_by_id($sec_id, $unit_id)
 	{
 		//$emp_cat = array(1,2);
@@ -252,18 +300,18 @@ class Mars_model extends CI_Model{
 		}
 		return $data;
 	}
-	
+
 	function line_attendance_summary($report_date, $unit_id)
 	{
 		$query = $this->db->select()->where('unit_id', $unit_id)->order_by('indexing')->get('pr_line_num');
-		//echo $num = $query->num_rows(); 
+		//echo $num = $query->num_rows();
 		$data = array();
 		foreach($query->result() as $rows)
 		{
 			$data['cat_name'][] = $rows->line_name;
 			//print_r($data['cat_name']);
 			$all_emp_id = $this->get_line_emp_by_id($rows->line_id, $unit_id);
-			
+
 			if(!empty($all_emp_id))
 			{
 				$data['daily_att_sum'][] = $this->daily_attendance_summary($report_date, $all_emp_id);
@@ -273,12 +321,12 @@ class Mars_model extends CI_Model{
 				$data['daily_att_sum'][] = '';
 			}
 			/*
-			$emp_desig = array( 
+			$emp_desig = array(
 								0 => array(21),
 								1 => array(115),
 								2 => array(1,3,4,187),
 								3 => array(76),
-								4 => array(39,150,188) 
+								4 => array(39,150,188)
              					); */
 			$emp_desig =	$this->get_department_section_line_unit_wise($unit_id);
 			//echo $emp_desig[0]."---";
@@ -298,9 +346,9 @@ class Mars_model extends CI_Model{
 			}
 		}
 		return $data;
-		
+
 	}
-	
+
 	function get_line_emp_by_id($line_id, $unit_id)
 	{
 		//$emp_cat = array(1,2);
@@ -312,8 +360,8 @@ class Mars_model extends CI_Model{
 		}
 		return $data;
 	}
-	
-	
+
+
 	function desig_emp_id_by_section($section_id,$emp_desig)
 	{
 		//$emp_cat = array(1,2);
@@ -326,7 +374,7 @@ class Mars_model extends CI_Model{
 		}
 		return $data;
 	}
-	
+
 	function desig_emp_id_by_line($line_id,$emp_desig)
 	{
 		//$emp_cat = array(1,2);
@@ -378,7 +426,7 @@ class Mars_model extends CI_Model{
 			{
 				$result = 0;
 			}
-		
+
 		return $result;
 	}
 
@@ -471,7 +519,7 @@ class Mars_model extends CI_Model{
 		$day_7 = date('D', strtotime($date_7));
 		$data['day_7'] = $day_7;
 
-			
+
 		$this->db->select("pr_emp_shift_log.emp_id");
 		$this->db->from("pr_emp_shift_log");
 		$this->db->where_in("pr_emp_shift_log.emp_id", $all_emp_id);
@@ -479,6 +527,8 @@ class Mars_model extends CI_Model{
 		$this->db->where("pr_emp_shift_log.in_time !=", "00:00:00");
 		$this->db->group_by('pr_emp_shift_log.emp_id');
 		$data['all_present_2'] = $this->db->get()->num_rows();
+
+
 		/*$query = $this->db->get();
 		echo "<pre>";
 		echo $this->db->last_query();*/
@@ -566,7 +616,7 @@ class Mars_model extends CI_Model{
 		$this->db->group_by('emp_id');
 		$data['all_leave_7'] = $this->db->get()->num_rows();
 
-				
+
 		$this->db->select("pr_emp_shift_log.emp_id");
 		$this->db->from("pr_emp_shift_log");
 		$this->db->from("pr_emp_com_info");
@@ -644,19 +694,19 @@ class Mars_model extends CI_Model{
 		$all_absent_7 = $this->db->get()->num_rows();
 		$all_absent_7 = $all_absent_7 - $data['all_leave_7'];
 		$data['all_absent_7'] = $all_absent_7;
-	
+
 	    return $data;
 	}
 
 	function weekly_attendance_summary_2($report_date, $all_emp_id)
 	{
 		$data =array();
-		//araf		
+		//araf
 		$this->db->select('pr_emp_com_info.emp_id');
 		$this->db->from("pr_emp_shift_log");
 		$this->db->from("pr_emp_com_info");
 		$this->db->where_in("pr_emp_com_info.emp_id", $all_emp_id);
-		$this->db->where("shift_log_date", $report_date);
+		$this->db->where("pr_emp_shift_log.shift_log_date", $report_date);
 		$this->db->where("pr_emp_shift_log.present_status !=", "W");
 		$this->db->where("pr_emp_com_info.emp_cat_id !=", 4);
 		$this->db->where("pr_emp_com_info.emp_id = pr_emp_shift_log.emp_id ");
@@ -670,7 +720,7 @@ class Mars_model extends CI_Model{
 		$this->db->where("pr_emp_shift_log.present_status !=", "H");
 		$this->db->group_by('emp_id');
 		$query2 = $this->db->get();
-		
+
 		if($query->num_rows() == 0)
 		{
 			$data['all_emp'] 		= 0;
@@ -698,8 +748,8 @@ class Mars_model extends CI_Model{
 			$all_emp_id = $query->result_array();
 			$it =  new RecursiveIteratorIterator(new RecursiveArrayIterator($all_emp_id));
 			$all_emp_id = iterator_to_array($it, false);
-			//print_r($all_emp_id);		
-			
+			//print_r($all_emp_id);
+
 			$this->db->select("pr_emp_shift_log.emp_id");
 			$this->db->from("pr_emp_shift_log");
 			$this->db->where_in("pr_emp_shift_log.emp_id", $all_emp_id);
@@ -713,7 +763,7 @@ class Mars_model extends CI_Model{
 			$this->db->where("start_date", $report_date);
 			$this->db->group_by('emp_id');
 			$data['all_leave'] = $this->db->get()->num_rows();
-					
+
 			$this->db->select("pr_emp_shift_log.emp_id");
 			$this->db->from("pr_emp_shift_log");
 			$this->db->from("pr_emp_com_info");
@@ -726,9 +776,9 @@ class Mars_model extends CI_Model{
 			$all_absent = $this->db->get()->num_rows();
 			$all_absent = $all_absent - $data['all_leave'];
 			$data['all_absent'] = $all_absent;
-			
-			
-			
+
+
+
 			$this->db->select("pr_emp_shift_log.emp_id");
 			$this->db->from("pr_emp_shift_log");
 			$this->db->where_in("pr_emp_shift_log.emp_id", $all_emp_id);
@@ -736,13 +786,13 @@ class Mars_model extends CI_Model{
 			$this->db->where("pr_emp_shift_log.late_status",1);
 			$this->db->group_by('pr_emp_shift_log.emp_id');
 			$data['all_late'] = $this->db->get()->num_rows();
-			
+
 			$this->db->select("pr_emp_per_info.emp_id");
 			$this->db->from('pr_emp_per_info');
 			$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_id);
 			$this->db->where("pr_emp_per_info.emp_sex = 1");
 			$data['all_male'] = $this->db->get()->num_rows();
-			
+
 			$this->db->select("pr_emp_per_info.emp_id");
 			$this->db->from('pr_emp_per_info');
 			$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_id);
@@ -751,40 +801,26 @@ class Mars_model extends CI_Model{
 		}
 		return $data;
 	}
-		
+
 	function daily_attendance_summary($report_date, $all_emp_id){
 		$data =array();
-						
-		$this->db->select('pr_emp_com_info.emp_id');
+
+		$this->db->select('pr_emp_shift_log.emp_id');
 		$this->db->from("pr_emp_shift_log");
 		$this->db->from("pr_emp_com_info");
-		$this->db->where_in("pr_emp_com_info.emp_id", $all_emp_id);
+		$this->db->where_in("pr_emp_shift_log.emp_id", $all_emp_id);
 		$this->db->where("shift_log_date", $report_date);
 		$this->db->where("pr_emp_shift_log.present_status !=", "W");
 		$this->db->where("pr_emp_com_info.emp_cat_id !=", 4);
-		// $this->db->where("pr_emp_com_info.emp_cat_id = pr_emp_shift_log.emp_id ");
-		$this->db->group_by('pr_emp_com_info.emp_id');
+		$this->db->where("pr_emp_com_info.emp_cat_id !=", 3);
+		$this->db->where("pr_emp_com_info.emp_cat_id !=", 2);
+		$this->db->where("pr_emp_com_info.emp_id = pr_emp_shift_log.emp_id ");
+		$this->db->group_by('pr_emp_shift_log.emp_id');
 		$query = $this->db->get();
+
 		// echo $this->db->last_query();exit;
-		
-		$this->db->select('emp_id');
-		$this->db->from("pr_emp_shift_log");
-		$this->db->where_in("emp_id", $all_emp_id);
-		$this->db->where("shift_log_date", $report_date);
-		$this->db->where("pr_emp_shift_log.present_status !=", "H");
-		$this->db->group_by('emp_id');
-		$query2 = $this->db->get();
-		// echo $query->num_rows().','.$query2->num_rows() ;exit;
-		
+
 		if($query->num_rows() == 0){
-			$data['all_emp'] 		= 0;
-			$data['all_present'] 	= 0;
-			$data['all_leave'] 		= 0;
-			$data['all_absent'] 	= 0;
-			$data['all_late'] 		= 0;
-			$data['all_male'] 		= 0;
-			$data['all_female'] 	= 0;
-		}elseif($query2->num_rows() == 0){
 			$data['all_emp'] 		= 0;
 			$data['all_present'] 	= 0;
 			$data['all_leave'] 		= 0;
@@ -798,8 +834,8 @@ class Mars_model extends CI_Model{
 			$all_emp_id = $query->result_array();
 			$it =  new RecursiveIteratorIterator(new RecursiveArrayIterator($all_emp_id));
 			$all_emp_id = iterator_to_array($it, false);
-			//print_r($all_emp_id);		
-			
+			//print_r($all_emp_id);
+
 			$this->db->select("pr_emp_shift_log.emp_id");
 			$this->db->from("pr_emp_shift_log");
 			$this->db->where_in("pr_emp_shift_log.emp_id", $all_emp_id);
@@ -813,7 +849,7 @@ class Mars_model extends CI_Model{
 			$this->db->where("start_date", $report_date);
 			$this->db->group_by('emp_id');
 			$data['all_leave'] = $this->db->get()->num_rows();
-					
+
 			$this->db->select("pr_emp_shift_log.emp_id");
 			$this->db->from("pr_emp_shift_log");
 			$this->db->from("pr_emp_com_info");
@@ -826,9 +862,8 @@ class Mars_model extends CI_Model{
 			$all_absent = $this->db->get()->num_rows();
 			$all_absent = $all_absent - $data['all_leave'];
 			$data['all_absent'] = $all_absent;
-			
-			
-			
+
+
 			$this->db->select("pr_emp_shift_log.emp_id");
 			$this->db->from("pr_emp_shift_log");
 			$this->db->where_in("pr_emp_shift_log.emp_id", $all_emp_id);
@@ -836,13 +871,13 @@ class Mars_model extends CI_Model{
 			$this->db->where("pr_emp_shift_log.late_status",1);
 			$this->db->group_by('pr_emp_shift_log.emp_id');
 			$data['all_late'] = $this->db->get()->num_rows();
-			
+
 			$this->db->select("pr_emp_per_info.emp_id");
 			$this->db->from('pr_emp_per_info');
 			$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_id);
 			$this->db->where("pr_emp_per_info.emp_sex = 1");
 			$data['all_male'] = $this->db->get()->num_rows();
-			
+
 			$this->db->select("pr_emp_per_info.emp_id");
 			$this->db->from('pr_emp_per_info');
 			$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_id);
@@ -851,34 +886,7 @@ class Mars_model extends CI_Model{
 		}
 		return $data;
 	}
-	/*//------------------Attn Summary Start-----------------------
-	function section_attendance_summary_test($report_date, $unit_id){
-		// exit($report_date);
-		$data = array();
 
-		$this->db->select('*');
-		$query = $this->db->get('pr_floor');
-
-		foreach($query->result() as $row) {
-			$floor_id = $row->id;
-			$data[$floor_id]['floor_name']= $row->floor_name;
-
-			$query_1 = $this->db->select('*')->order_by('sec_name')->get('pr_section');
-		
-			foreach($query_1->result() as $rows){
-				$sec_id = $rows->sec_id;
-				$data[$floor_id]['floor_info'][$sec_id]['sec_name'] = $rows->sec_name;
-
-				$query_2 =$this->db->select('*')->order_by('line_name')->get('pr_line_num');
-				foreach($query_2->result() as $row_2){
-					$line_id = $row_2->line_id;
-					$data[$floor_id]['floor_info'][$sec_id]['sec_info'][$line_id]['line_name'] = $row_2->line_name;
-					$data[$floor_id]['floor_info'][$sec_id]['sec_info'][$line_id]['line_info'] = $this->daily_attendance_summary_test($report_date, $unit_id, $floor_id, $sec_id, $line_id);
-				}
-			}
-		}
-		return $data;
-	}*/
 	//------------------Attn Summary Start-----------------------
 	function section_attendance_summary_test($report_date, $unit_id){
 		//araf
@@ -891,7 +899,7 @@ class Mars_model extends CI_Model{
 			$data[$floor_id]['floor_name']= $row->floor_name;
 
 			$query_1 = $this->db->select('*')->order_by('sec_index')->get('pr_section');
-		
+
 			foreach($query_1->result() as $rows){
 				$sec_id = $rows->sec_id;
 				$sec_strength = $rows->strength;
@@ -909,7 +917,7 @@ class Mars_model extends CI_Model{
 
 						$data[$floor_id]['floor_info'][$sec_id]['sec_info'][$line_id]['line_name'] = $row_2->line_name;
 						$data[$floor_id]['floor_info'][$sec_id]['sec_info'][$line_id]['strength'] = $row_2->strength;
-						
+
 						$data[$floor_id]['floor_info'][$sec_id]['sec_info'][$line_id]['line_info'] = $this->daily_attendance_summary_test_new($report_date,$all_emp_FSL);
 
 
@@ -987,7 +995,7 @@ class Mars_model extends CI_Model{
 		$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_FSL);
 		$this->db->where("pr_emp_per_info.emp_sex = 1");
 		$data['all_male'] = $this->db->get()->num_rows();
-		
+
 		$this->db->select("pr_emp_per_info.emp_id");
 		$this->db->from('pr_emp_per_info');
 		$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_FSL);
@@ -1120,7 +1128,7 @@ class Mars_model extends CI_Model{
 			$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_FSL);
 			$this->db->where("pr_emp_per_info.emp_sex = 1");
 			$data['all_male'] = $this->db->get()->num_rows();
-			
+
 			$this->db->select("pr_emp_per_info.emp_id");
 			$this->db->from('pr_emp_per_info');
 			$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_FSL);
@@ -1175,7 +1183,7 @@ class Mars_model extends CI_Model{
 			}else{
 				$query_1 = $this->db->select('*')->order_by('sec_index')->where_not_in('sec_id',$sec_arr)->get('pr_section');
 			}
-		
+
 			foreach($query_1->result() as $rows){
 				$sec_id = $rows->sec_id;
 
@@ -1215,15 +1223,15 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$staff_emp_id = $row->emp_id;
 			if (($key = array_search($staff_emp_id, $all_emp_FSL)) !== false) {
 			    unset($all_emp_FSL[$key]);
-			} 		
+			}
 		}
-		
+
 		$this->db->select('count(pr_emp_com_info.emp_id) as tEmp');
 		$this->db->from("pr_emp_com_info");
 		$this->db->where_in("pr_emp_com_info.emp_id", $all_emp_FSL);
 		$data['tEmp'] = $this->db->get()->row()->tEmp;
 
-		
+
 		$data_1['one_hour'] = array();
 		$data_1['two_hour'] = array();
 		$data_1['three_hour'] = array();
@@ -1238,7 +1246,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 		$g_arr[] = array();
 
 		foreach($all_emp_FSL as $each_id)
-		{ 
+		{
 			$this->db->select('pr_emp_shift_log.emp_id,SUM(pr_emp_shift_log.ot_hour + pr_emp_shift_log.extra_ot_hour) as total');
 			$this->db->from('pr_emp_shift_log');
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
@@ -1303,7 +1311,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 		  	$one_hour_data= implode(",",$data_1['one_hour']);
 		  	$one_hour_data = explode(",",$one_hour_data);
 		  	//print_r($one_hour_data);exit;
-		  	
+
 		  	$two_hour_data = implode(",",$data_1['two_hour']);
 		  	$two_hour_data = explode(",",$two_hour_data);
 		  	$three_hour_data = implode(",",$data_1['three_hour']);
@@ -1338,7 +1346,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$all_emp_id = $this->db->get();
 			/*echo "<pre>";
 			echo $this->db->last_query();exit;*/
-			
+
 		  	foreach($all_emp_id->result() as $rows){
 		  	//echo $rows->emp_id;
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
@@ -1358,7 +1366,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_2 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_2->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1375,7 +1383,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_3 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_3->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1392,7 +1400,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_4 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_4->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1409,7 +1417,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_5 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_5->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1426,7 +1434,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_6 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_6->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1443,7 +1451,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_7 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_7->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1460,7 +1468,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_8 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_8->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1477,7 +1485,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_9 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_9->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1494,7 +1502,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			$this->db->where("pr_emp_shift_log.emp_id = pr_emp_com_info.emp_id");
 			$this->db->where('pr_emp_shift_log.shift_log_date',$report_date);
 			$all_emp_id_10 = $this->db->get();
-			
+
 		  	foreach($all_emp_id_10->result() as $rows){
 			$salary_structure = $this->common_model->salary_structure($rows->gross_sal);
 			$ot_rate = $salary_structure['ot_rate'];
@@ -1530,7 +1538,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 				$data['other_ot_hour'] = $ot_hour_n + $extra_ot_hour_n;
 				$data['other_amt'] = $ot_amt;
 
-				
+
 				$data['one_hour_amt'] = $one_hour_amt;
 				$data['two_hour_amt'] = $two_hour_amt;
 				$data['three_hour_amt'] = $three_hour_amt;
@@ -1547,7 +1555,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 				/*echo "<pre>";
 				print_r($data);*/
 				//exit;
-		
+
 				return $data;
 	}
 
@@ -1652,7 +1660,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 	function get_department_section_line_unit_wise($unit_id){
 			$data = array();
 			if($unit_id ==1){
-			$data = array( 
+			$data = array(
 			0 => array(17,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39),//Office staff
 			1 => array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,60,61,62,63,64,65,66,67,68,69),//PD staff
 			2 => array(87,88,90,91,94,95,105),//operator
@@ -1672,7 +1680,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 			16 => array(111,112),//Clener
 			17 => array(75,79,85,93),//input Man
 			18 => array(59)//Others
-			);	
+			);
 			return $data;
 			}
 		}
@@ -1682,7 +1690,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 	/*function get_department_section_line_unit_wise($unit_id){
 		$data = array();
 		if($unit_id ==1){
-			$data = array( 
+			$data = array(
 						0 => array(1,3,53,64,69,77,80,82,99,120),//Office staff
 						1 => array(2,6,7,8,9,10,11,13,14,16,17,66,67,68,42,75,76,77,79,81,85,92,93,94,95,96,97,99,102,107,108,111,110,112,115,118,121),//PD staff
 						2 => array(18,19,21,44),//operator
@@ -1700,7 +1708,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 						14 => array(110),//Fusing
 						15 => array(111,112),//Clener
 						16 => array(96)//Others
-						);			
+						);
 			return $data;
 		}
 	} */
@@ -1708,7 +1716,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 	function get_ot_hour_wise($unit_id){
 		$data = array();
 		if($unit_id ==1){
-			$data = array( 
+			$data = array(
 						0 => array(1,3,53,64,69,77,80,82,99,120),//Office staff
 						1 => array(2,6,7,8,9,10,11,13,14,16,17,66,67,68,42,75,76,77,79,81,85,92,93,94,95,96,97,99,102,107,108,111,110,112,115,118,121),//PD staff
 						2 => array(18,19,21,44),//operator
@@ -1726,7 +1734,7 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 						14 => array(110),//Fusing
 						15 => array(111,112),//Clener
 						16 => array(96)//Others
-						);			
+						);
 			return $data;
 		}
 	}
@@ -1734,18 +1742,18 @@ function daily_ot_summary_test_new($report_date,$all_emp_FSL){
 function line_logout_summary($report_date, $unit_id)
 	{
 		$query = $this->db->select()->where('unit_id', $unit_id)->order_by('line_name')->get('pr_line_num');
-		//echo $num = $query->num_rows(); 
+		//echo $num = $query->num_rows();
 		//$data = array();
 		foreach($query->result() as $rows)
 		{
 			$data['cat_name'][] = $rows->line_name;
-			
+
 			$all_emp_id = $this->get_line_emp_by_id($rows->line_id, $unit_id);
-			
-			
+
+
 		}
 		return $all_emp_id;
-		
+
 	}
 function get_line_emp_logout($line_id, $unit_id, $report_date, $first_time, $secoend_time)
 				{
@@ -1762,7 +1770,7 @@ function get_line_emp_logout($line_id, $unit_id, $report_date, $first_time, $sec
 					$query = $this->db->get();
 					$num_rows = $query->num_rows();
 					//$data['num_rows'] = $num_rows;
-					
+
 					//echo $this->db->last_query();
 					if($num_rows > 0)
 					{
@@ -1784,7 +1792,7 @@ function get_line_emp_logout($line_id, $unit_id, $report_date, $first_time, $sec
 					}
 					return $data;
 				}
-		
+
 
 ////////////////////////////////emp_present_linewise	///////////////
 
@@ -1801,21 +1809,21 @@ function get_emp_present_linewise($line_id, $unit_id, $report_date)
 					$query = $this->db->get();
 					$num_rows = $query->num_rows();
 					//$data['num_rows'] = $num_rows;
-					
+
 					//echo $this->db->last_query();
 					if($num_rows > 0)
 					{
 						foreach($query->result() as $rows)
 						{
 							$data['emp_id_present'] = $rows->emp_id_present;
-							
+
 						}
 					}else{
 							$data['emp_id_present'] = 0;
 					}
 					return $data;
 				}
-		
+
 
 ///////////////////////////////all_emp_present_error	///////////////
 
@@ -1833,23 +1841,23 @@ function get_all_emp_present_error($line_id, $unit_id, $report_date)
 					$query = $this->db->get();
 					$num_rows = $query->num_rows();
 					//$data['num_rows'] = $num_rows;
-					
+
 					//echo $this->db->last_query();
 					if($num_rows > 0)
 					{
 						foreach($query->result() as $rows)
 						{
 							$data['emp_id_present_error'] = $rows->emp_id_present_error;
-							
+
 						}
 					}else{
 							$data['emp_id_present_error'] = 0;
 					}
 					return $data;
 				}
-		
 
-////////////////////////////////	
-	
+
+////////////////////////////////
+
 }
 ?>

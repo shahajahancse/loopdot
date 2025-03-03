@@ -5,9 +5,9 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <link rel="icon" type="image/ico" href="<?=base_url()?>awedget/assets/img/mysoft-logo.png"/>
+  <link rel="icon" type="image/ico" href="<?=base_url()?>awedget/assets/img/loopdot.png"/>
 
-  <title>ERP | Mysoftheaven</title>
+  <title>ERP | Loopdot Fahion Ltd.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="Mysoftheaven (BD) Ltd." name="author" />
 
@@ -110,17 +110,26 @@
     <!-- <div id="loading">
       <img id="loading-image" src="<?=base_url()?>awedget/assets/img/icon/loading.gif" alt="Loading..." />
     </div> -->
-    
+
     <div class="header navbar navbar-inverse ">
       <!-- BEGIN TOP NAVIGATION BAR -->
       <div class="navbar-inner">
         <div class="header-seperation">
           <ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">
-            <li class="dropdown"> <a id="main-menu-toggle" href="#main-menu"  class="" >              
-              <div class="iconset top-menu-toggle-white"></div> </a> 
+            <li class="dropdown"> <a id="main-menu-toggle" href="#main-menu"  class="" >
+              <div class="iconset top-menu-toggle-white"></div> </a>
             </li>
           </ul>
-          <a href="<?=base_url()?>"><span style="color:#ffffff; font-size: 19px; padding-left: 15px; line-height: 60px">MHL KORMOCHARI</span></a>
+          <a href="<?=base_url()?>"><span style="color:#ffffff; font-size: 19px; padding-left: 15px; line-height: 60px">
+          <?php if (isset($unit_name[0]['company_name_english'])) {
+            echo $unit_name[0]['company_name_english'];
+          } else if (isset($unit_name)) {
+            echo $unit_name;
+          }else {
+            echo "MHL KORMOCHARI";
+          }
+          ?></span></a>
+          <!-- <a href="<?=base_url()?>"><span style="color:#ffffff; font-size: 19px; padding-left: 15px; line-height: 60px">MHL KORMOCHARI</span></a> -->
           <ul class="nav pull-right notifcation-center">
           </ul>
         </div> <!-- END RESPONSIVE MENU TOGGLER -->
@@ -131,7 +140,7 @@
             <ul class="nav quick-section">
               <li class="quicklinks"> <a href="javascript:;" class="" id="layout-condensed-toggle" style="color: #8dc641;">
                 <i class="fa fa-bars" style="font-size: 22px; color: #8dc641 !important;"></i>
-                <!-- <div class="iconset top-menu-toggle-dark"></div> --> </a> 
+                <!-- <div class="iconset top-menu-toggle-dark"></div> --> </a>
               </li>
             </ul>
           </div> <!-- END TOP NAVIGATION MENU -->
@@ -139,9 +148,9 @@
           <!-- BEGIN CHAT TOGGLER -->
           <div class="pull-right">
             <div class="chat-toggler">
-              <div class="user-details" style="float:right;">                
+              <div class="user-details" style="float:right;">
                 <div class="username">
-                  <span class="" style="margin-left: 20px;">Welcome, <b><?=$username?></b> <img src="<?=base_url()?>awedget/assets/img/avater.jpg"  alt="Profile Image" data-src="<?=base_url()?>awedget/assets/img/avater.jpg" data-src-retina="<?=base_url()?>awedget/assets/img/avater.jpg" width="35" height="35" style="border-radius: 35px;" /> 
+                  <span class="" style="margin-left: 20px;">Welcome, <b><?=$username?></b> <img src="<?=base_url()?>awedget/assets/img/avater.jpg"  alt="Profile Image" data-src="<?=base_url()?>awedget/assets/img/avater.jpg" data-src-retina="<?=base_url()?>awedget/assets/img/avater.jpg" width="35" height="35" style="border-radius: 35px;" />
                   </span>
                 </div>
               </div>
@@ -151,7 +160,7 @@
               <li class="quicklinks"> <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="javascript:;" id="user-options">
                <i class="fa fa-cog" style="font-size: 22px; color: #8dc641 !important;"></i>
                </a>
-               <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">          
+               <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
                   <li><a href="<?=base_url()?>change_password"><i class="fa fa-lock"></i>&nbsp;&nbsp;Change Password</a></li>
                   <!-- <li><a href="<?=base_url()?>general_setting/single_office_update"><i class="fa fa-building-o " aria-hidden="true"></i>&nbsp;&nbsp; অফিস হালনাগাদ</a></li> -->
                   <li><a href="<?=base_url()?>index.php/logout_FE"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
@@ -170,9 +179,9 @@
       <!-- BEGIN MINI-PROFILE -->
       <div class="page-sidebar-wrapper" id="main-menu-wrapper">
         <!-- <div class="slimScrollDiv"> -->
-        <div class="user-info-wrapper text-center" style=" padding-bottom: 10px; border-bottom: 1px solid #db0424;">        
+        <div class="user-info-wrapper text-center" style=" padding-bottom: 10px; border-bottom: 1px solid #db0424;">
           <!-- <div class="user-info" style="background-color: white; ">
-              <span class="label label-success"> 
+              <span class="label label-success">
                 <strong><?=$unit_name?></strong>
               </span>
           </div> -->
@@ -180,9 +189,9 @@
 
         <!-- BEGIN SIDEBAR MENU -->
           <ul class="pull-left">
-            <li class="start active"> 
+            <li class="start active">
                <a target="body_load" href="<?=base_url()?>index.php/emp_info_con/at_a_glance_info_view"> <i class="fa fa-tachometer"></i><span class="title">DashBoard</span></a>
-            </li>                  
+            </li>
             <li class="start "> <a href="javascript:;" > <i class="fa fa-users"></i> <span class="title">HRM</span> <span class="selected"></span> <span class="arrow"></span> </a>
               <ul class="sub-menu">
                 <li class="start "> <a href="<?=base_url()?>index.php/emp_info_con/personal_info_view1" target="body_load" >Emp Information</a></li>
@@ -190,10 +199,10 @@
                   <ul class="sub-menu">
                     <li class="start"> <a href="<?=base_url()?>index.php/setup_con/company_info_setup" target="body_load" class="anchor_cls">Company Information</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/floor" target="body_load" class="anchor_cls">Floor</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/department" target="body_load">Department</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/section" target="body_load">Section</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/line" target="body_load">Line</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/designation" target="body_load">Designation</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/department" target="body_load" class="anchor_cls">Department</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/section" target="body_load" class="anchor_cls">Section</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/line" target="body_load" class="anchor_cls">Line</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/designation" target="body_load" class="anchor_cls">Designation</a> </li>
                     <!-- <li class="start "> <a href="<?=base_url()?>index.php/setup_con/address" target="body_load">Address</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/position" target="body_load">Height</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/operation" target="body_load">Weight</a> </li>
@@ -202,84 +211,90 @@
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/work_process_type" target="body_load">Work Process Type</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/staff_id_entry" target="body_load">Entry Staff Id</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/proxi_id_entry" target="body_load">Proxi Id Update</a> </li> -->
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/attendance_bonus" target="body_load">Attendance Bonus</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/salary_grade" target="body_load">Salary Grade</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/shift_schedule" target="body_load">Shift Schedules</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/shift_management" target="body_load">Shift Manage</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/leave_setup" target="body_load">Leave</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/bonus_setup" target="body_load">Bonus</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/weekend_allowance_setup" target="body_load">Weekend Allowance</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/night_allowance_setup" target="body_load">Night Allowance</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/holiday_allowance_setup" target="body_load">Holiday Allowance</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/attendance_bonus" target="body_load" class="anchor_cls">Attendance Bonus</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/salary_grade" target="body_load" class="anchor_cls">Salary Grade</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/shift_schedule" target="body_load" class="anchor_cls">Shift Schedules</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/shift_management" target="body_load" class="anchor_cls">Shift Manage</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/leave_setup" target="body_load" class="anchor_cls">Leave</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/bonus_setup" target="body_load" class="anchor_cls">Bonus</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/weekend_allowance_setup" target="body_load" class="anchor_cls">Weekend Allowance</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/night_allowance_setup" target="body_load" class="anchor_cls">Night Allowance</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/holiday_allowance_setup" target="body_load" class="anchor_cls">Holiday Allowance</a> </li>
                   </ul>
                 </li>
                 <li class="start "> <a href="javascript:;"><span class="title">Entry System</span> <span class="selected"></span> <span class="arrow"></span> </a>
                   <ul class="sub-menu">
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/grid_entry_system" target="body_load">All Entry</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/tax_others_deduction" target="body_load">Tax & Others Deduction</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/weekend_delete" target="body_load">Weeked Delete</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/holiday_delete" target="body_load">Holiday Delete</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/grid_entry_system" target="body_load" class="anchor_cls">All Entry</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/tax_others_deduction" target="body_load" class="anchor_cls">Tax & Others Deduction</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/weekend_delete" target="body_load" class="anchor_cls">Weeked Delete</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/holiday_delete" target="body_load" class="anchor_cls">Holiday Delete</a> </li>
                     <!-- <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/shift_log_delete" target="body_load">Log Data Delete</a> </li> -->
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/stop_salary" target="body_load">Stop Salary</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/leave_transation" target="body_load">Leave Transaction</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/leave_delete" target="body_load">Leave Delete</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/advance_loan" target="body_load">Advance Loan</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/due_amt_entry" target="body_load">Add Due Amt.</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/left_resign_con/left_resign_entry" target="body_load">Left/Resign Entry</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/new_to_regular" target="body_load">New To Regular</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/emp_increment_con/increment_info" target="body_load">Increment Entry</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/emp_increment_con/promotion_info" target="body_load">Promotion Entry</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/proximity_card_edit" target="body_load">Proximity Card Edit</a> </li>
+                    <!-- <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/stop_salary" target="body_load" class="anchor_cls">Stop Salary</a> </li> -->
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/leave_transation" target="body_load" class="anchor_cls">Leave Transaction</a> </li>
+                    <li class="start"> <a href="<?=base_url()?>index.php/entry_system_con/leave_delete" target="body_load" class="anchor_cls">Leave Delete</a></li>
+
+                    <!-- <li class="start "> <a class="anchor_cls" href="<?php echo base_url();?>index.php/entry_system_con/left_entry" target="body_load" id="dp13005" onClick="MakeColoredBack('13005');">Left Delete</a> </li> -->
+
+                    <li class="start"> <a class="anchor_cls" href="<?php echo base_url();?>index.php/entry_system_con/left_delete" target="body_load">Left Delete</a></li>
+
+
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/advance_loan" target="body_load" class="anchor_cls">Advance Loan</a> </li>
+                    <!-- <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/due_amt_entry" target="body_load" class="anchor_cls">Add Due Amt.</a> </li> -->
+                    <li class="start "> <a href="<?=base_url()?>index.php/left_resign_con/left_resign_entry" target="body_load" class="anchor_cls">Left/Resign Entry</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/new_to_regular" target="body_load" class="anchor_cls">New To Regular</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/emp_increment_con/increment_info" target="body_load" class="anchor_cls">Increment Entry</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/emp_increment_con/promotion_info" target="body_load" class="anchor_cls">Promotion Entry</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/entry_system_con/proximity_card_edit" target="body_load" class="anchor_cls">Proximity Card Edit</a> </li>
                   </ul>
                 </li>
                 <li class="start "> <a href="javascript:;"><span class="title">Process</span> <span class="selected"></span> <span class="arrow"></span> </a>
                   <ul class="sub-menu">
-                    <!-- <li class="start "> <a href="<?=base_url()?>index.php/attn_process_con/file_upload">File Upload</a> </li> -->
-                    <li class="start "> <a href="<?=base_url()?>index.php/attn_process_con/attn_process_form" target="body_load">Attendance Process</a> </li>
+                    <li class="start "> <a target="body_load" class="anchor_cls" href="<?=base_url()?>index.php/attn_process_con/file_upload">File Upload</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/attn_process_con/attn_process_form" target="body_load" class="anchor_cls">Attendance Process</a> </li>
                   </ul>
                 </li>
                 <li class="start "> <a href="javascript:;"><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
                   <ul class="sub-menu">
-                    <li class="start "> <a href="<?=base_url()?>index.php/grid_con/grid_window" target="body_load">All Report</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/grid_con/grid_window_auto_notify" target="body_load">Auto Notify Board</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/mars_con/others_report_front_end" target="body_load">Others Report</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/grid_con/grid_window" target="body_load" class="anchor_cls">All Report</a> </li>
+                    <!-- <li class="start "> <a href="<?=base_url()?>index.php/grid_con/grid_window_auto_notify" target="body_load" class="anchor_cls">Auto Notify Board</a> </li> -->
+                    <li class="start "> <a href="<?=base_url()?>index.php/mars_con/others_report_front_end" target="body_load" class="anchor_cls">Others Report</a> </li>
                   </ul>
                 </li>
               </ul>
-            </li>                       
+            </li>
             <li class="start ">
               <a href="javascript:;" > <i class="fa fa-money"></i> <span class="title">Payroll</span> <span class="selected"></span> <span class="arrow"></span> </a>
               <ul class="sub-menu">
                 <li class="start "> <a href="javascript:;"><span class="title">Process</span> <span class="selected"></span> <span class="arrow"></span> </a>
                   <ul class="sub-menu">
-                    <li class="start "> <a href="<?=base_url()?>index.php/salary_process_con/salary_process_form" target="body_load">Salary Process</a> </li>
-                    <li class="start "> <a href="<?=base_url()?>index.php/salary_process_con/festival_bonus_form" target="body_load">Festival Process</a> </li>
-                    <li class="start"><a href="<?=base_url()?>index.php/earn_leave_con/earn_process_form" target="body_load">Earn Leave Process</a></li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/salary_process_con/salary_process_form" target="body_load" class="anchor_cls">Salary Process</a> </li>
+                    <!-- <li class="start "> <a href="<?=base_url()?>index.php/salary_process_con/festival_bonus_form" target="body_load" class="anchor_cls">Festival Process</a> </li> -->
+                    <li class="start"><a href="<?=base_url()?>index.php/earn_leave_con/earn_process_form" target="body_load" class="anchor_cls">Earn Leave Process</a></li>
                   </ul>
                 </li>
                 <li class="start "> <a href="javascript:;"><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
                   <ul class="sub-menu">
-                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/salary_report_con/grid_salary_report">Salary Report</a> </li>
-                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/earn_leave_con/grid_earn_report">Earn Leave Report</a> </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>                      
-            <li class="start "> <a href="javascript:;" > <i class="fa fa-tasks"></i> <span class="title">Maintenance</span> <span class="selected"></span> <span class="arrow"></span> </a>
-              <ul class="sub-menu">
-                <li class="start "> <a href="javascript:;"><span class="title">Database</span> <span class="selected"></span> <span class="arrow"></span> </a>
-                  <ul class="sub-menu">
-                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/maintainance_con/database_backup_form">Backup</a> </li>
-                  </ul>
-                </li>
-                <li class="start "> <a href="javascript:;"><span class="title">User</span> <span class="selected"></span> <span class="arrow"></span> </a>
-                  <ul class="sub-menu">
-                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/acl_con/acl">ACL</a> </li>
+                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/salary_report_con/grid_salary_report" class="anchor_cls">Salary Report</a> </li>
+                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/earn_leave_con/grid_earn_report"class="anchor_cls" >Earn Leave Report</a> </li>
                   </ul>
                 </li>
               </ul>
             </li>
-            <li class="start"> 
+            <li class="start "> <a href="javascript:;" > <i class="fa fa-tasks"></i> <span class="title">Maintenance</span> <span class="selected"></span> <span class="arrow"></span> </a>
+              <ul class="sub-menu">
+               <!--  <li class="start "> <a href="javascript:;"><span class="title">Database</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                  <ul class="sub-menu">
+                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/maintainance_con/database_backup_form" class="anchor_cls">Backup</a> </li>
+                  </ul>
+                </li> -->
+                <li class="start "> <a href="javascript:;"><span class="title">User</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                  <ul class="sub-menu">
+                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/acl_con/acl" class="anchor_cls">ACL</a> </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="start">
                <a target="body_load" href="<?=base_url()?>index.php/payroll_con/first_body"> <i class="fa fa-phone"></i>  <span class="title">Support</span></a>
             </li>
             <li class="start"><a href="<?=base_url()?>index.php/logout_FE"> <i class="fa fa-power-off"></i>  <span class="title">Log Out</span></a>
@@ -293,222 +308,222 @@
     <a href="#" class="scrollup">Scroll</a>
     <div class="footer-widget">
       <!-- <div class="copyrights pull-left" style="width: 50%" >
-        <span> <span style="vertical-align: bottom; font-size: 10px;">কারিগরি সহায়তায় |</span>  <a href="http://www.lrb.gov.bd/" target="_blank"> 
+        <span> <span style="vertical-align: bottom; font-size: 10px;">কারিগরি সহায়তায় |</span>  <a href="http://www.lrb.gov.bd/" target="_blank">
         <img src="<?=base_url()?>awedget/assets/img/a2i-logo.png" height="18"> </a> </span>
       </div> -->
       <div class="copyrights text-center" style="width: 100%">
-      <span style=" float: right;"> <span style="vertical-align: bottom; font-size: 11px;">Developed By |</span> <a href="http://www.mysoftheaven.com/" target="_blank"> 
+      <span style=" float: right;"> <span style="vertical-align: bottom; font-size: 11px;">Developed By |</span> <a href="http://www.mysoftheaven.com/" target="_blank">
       <img src="<?=base_url()?>awedget/assets/img/mysoft-logo.png" height="18"> Mysoftheaven (BD) Ltd.</a> </span>
       </div>
     </div>
-<!-- END SIDEBAR --> 
+<!-- END SIDEBAR -->
 <style type="text/css">
-   @font-face {
-    font-family: 'Kalpurush';
-    src: url('<?=base_url()?>awedget/assets/fonts/Kalpurush.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  .page-content {
-    font-family: 'Kalpurush', 'Open Sans', Arial, sans-serif;
-    background: #e5e9ec;
-  }
-  .report-table{
-    width: 100%;
-  }
-  .report-table tr th{
-    font-size: 15px;
-    text-align: left;
-    width: 25%;
-    font-weight: normal;
-  }
-  .report-table tr td{
-    text-align: left;
-    width: 25%;
-    font-size: 15px;
-  }
-  .report-table tr th:nth-child(1),
-  .report-table tr td:nth-child(1){
-    width: 35%;
-  }
-  .report-table tr th:nth-child(2),
-  .report-table tr td:nth-child(2){
-    width: 20px;
-  }
-  .sub-mark{
-    width: 5% !important;
-  }
-  .new{
-    -webkit-box-shadow: 13px 11px 40px 0px rgba(82,82,82,0.43);
-    -moz-box-shadow: 13px 11px 40px 0px rgba(82,82,82,0.43);
-    box-shadow: 13px 11px 40px 0px rgba(82,82,82,0.43);
-  }
-  .new .tiles-title {
-    height: 40px;
-}
-  .new .heading{
-    width: 180px;
-    padding: 5px 10px;
-    margin-left: -30px !important;
-    border-radius: 0 20px 20px 0px;
-    position: relative;
-    text-align: center;
-  }
-  .new .triangle-up {
-    width: 0;
-    height: 0;
-    right: -3px;
-    bottom: -3px;
-    position: absolute;
-  }
-  
-  .new1 .heading{
-    color: #fff !important;
-    background: #9424b8;
-  }
-
-  .new2 tr:nth-child(1),
-  .new1 .tiles-title{
-    color: #9424b8 !important;
-  }
-
-  .new3 tr:nth-child(1){
-    color: #78c72f !important;
-  }
-
-  .new1 .triangle-up {
-   
-    border-left: 70px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 70px solid #9424b8;
-  }
-
-  .new2 .heading{
-    color: #fff !important;
-    background: #00adef;
-  }
-
-  .new1 tr:nth-child(1),
-  .new2 .tiles-title{
-    color: #00adef !important;
-  }
-  .new2 .triangle-up {
-   
-    border-left: 70px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 70px solid #00adef;
-  }
-
-  .new3 .heading{
-    color: #fff !important;
-    background: #ff940b;
-  }
-
-  .new4 tr:nth-child(1),
-  .new3 .tiles-title{
-    color: #ff940b !important;
-  }
-  .new3 .triangle-up {
-   
-    border-left: 70px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 70px solid #ff940b;
-  }
-
-  .new4 .heading{
-    color: #fff !important;
-    background: #78c72f;
-  }
-
-  .new4 .tiles-title{
-    color: #78c72f !important;
-  }
-  .new4 .triangle-up {
-   
-    border-left: 70px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 70px solid #78c72f;
-  }
-  .grand_total{
-      color: #fff !important;
-      background: #9424b8;
-      width: 20%;
+    @font-face {
+      font-family: 'Kalpurush';
+      src: url('<?=base_url()?>awedget/assets/fonts/Kalpurush.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    .page-content {
+      font-family: 'Kalpurush', 'Open Sans', Arial, sans-serif;
+      background: #e5e9ec;
+    }
+    .report-table{
+      width: 100%;
+    }
+    .report-table tr th{
+      font-size: 15px;
+      text-align: left;
+      width: 25%;
+      font-weight: normal;
+    }
+    .report-table tr td{
+      text-align: left;
+      width: 25%;
+      font-size: 15px;
+    }
+    .report-table tr th:nth-child(1),
+    .report-table tr td:nth-child(1){
+      width: 35%;
+    }
+    .report-table tr th:nth-child(2),
+    .report-table tr td:nth-child(2){
+      width: 20px;
+    }
+    .sub-mark{
+      width: 5% !important;
+    }
+    .new{
+      -webkit-box-shadow: 13px 11px 40px 0px rgba(82,82,82,0.43);
+      -moz-box-shadow: 13px 11px 40px 0px rgba(82,82,82,0.43);
+      box-shadow: 13px 11px 40px 0px rgba(82,82,82,0.43);
+    }
+    .new .tiles-title {
       height: 40px;
-      padding: 0px 10px;
-      font-size: 20px;
-      border-radius: 0;
-      text-align: center;
-      position: relative;
-      right: 40%;
-      bottom: 45px;
-      float: right;
-  }
-  .head-title{
-    font-size: 14px;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-    font-weight:600;
-  }
-  .field, .field1{
-    position: relative;
-  }
-  .field .tiles-title{
-    color: #9424b8;
-  }
+    }
+      .new .heading{
+        width: 180px;
+        padding: 5px 10px;
+        margin-left: -30px !important;
+        border-radius: 0 20px 20px 0px;
+        position: relative;
+        text-align: center;
+      }
+      .new .triangle-up {
+        width: 0;
+        height: 0;
+        right: -3px;
+        bottom: -3px;
+        position: absolute;
+      }
 
-  .field .triangle-up {
-    width: 0;
-    height: 0;
-    right: 0px;
-    bottom: 0px;
-    position: absolute;
-    border-left: 50px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 50px solid #9424b8;
-  }
-  .field1 .tiles-title{
-    color: #00adef;
-  }
+      .new1 .heading{
+        color: #fff !important;
+        background: #9424b8;
+      }
 
-  .field1 .triangle-up {
-    width: 0;
-    height: 0;
-    right: 0px;
-    bottom: 0px;
-    position: absolute;
-    border-left: 50px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 50px solid #00adef;
-  }
-  .head-title i{
-    margin-right: 10px;
-    line-height: 20px
-  }
+      .new2 tr:nth-child(1),
+      .new1 .tiles-title{
+        color: #9424b8 !important;
+      }
 
-  .zc-ref {
-    display: none;
-  }
-  div#myChart1-license-text,
-  div#myChart2-license-text,
-  div#myChart-license-text {
-      display: none !important;
-  }
-  td i{
-    color: #9424b8 !important;
-    font-size: 12px !important;
-  }
+      .new3 tr:nth-child(1){
+        color: #78c72f !important;
+      }
 
- body{
-   background: none !important;
-}
+      .new1 .triangle-up {
 
-.anchor_cls.mactive{
-  background: red;
-  color:#fff;
-}
+        border-left: 70px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 70px solid #9424b8;
+      }
+
+      .new2 .heading{
+        color: #fff !important;
+        background: #00adef;
+      }
+
+      .new1 tr:nth-child(1),
+      .new2 .tiles-title{
+        color: #00adef !important;
+      }
+      .new2 .triangle-up {
+
+        border-left: 70px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 70px solid #00adef;
+      }
+
+      .new3 .heading{
+        color: #fff !important;
+        background: #ff940b;
+      }
+
+      .new4 tr:nth-child(1),
+      .new3 .tiles-title{
+        color: #ff940b !important;
+      }
+      .new3 .triangle-up {
+
+        border-left: 70px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 70px solid #ff940b;
+      }
+
+      .new4 .heading{
+        color: #fff !important;
+        background: #78c72f;
+      }
+
+      .new4 .tiles-title{
+        color: #78c72f !important;
+      }
+      .new4 .triangle-up {
+
+        border-left: 70px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 70px solid #78c72f;
+      }
+      .grand_total{
+          color: #fff !important;
+          background: #9424b8;
+          width: 20%;
+          height: 40px;
+          padding: 0px 10px;
+          font-size: 20px;
+          border-radius: 0;
+          text-align: center;
+          position: relative;
+          right: 40%;
+          bottom: 45px;
+          float: right;
+      }
+      .head-title{
+        font-size: 14px;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-weight:600;
+      }
+      .field, .field1{
+        position: relative;
+      }
+      .field .tiles-title{
+        color: #9424b8;
+      }
+
+      .field .triangle-up {
+        width: 0;
+        height: 0;
+        right: 0px;
+        bottom: 0px;
+        position: absolute;
+        border-left: 50px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 50px solid #9424b8;
+      }
+      .field1 .tiles-title{
+        color: #00adef;
+      }
+
+      .field1 .triangle-up {
+        width: 0;
+        height: 0;
+        right: 0px;
+        bottom: 0px;
+        position: absolute;
+        border-left: 50px solid transparent;
+        border-right: 0px solid transparent;
+        border-bottom: 50px solid #00adef;
+      }
+      .head-title i{
+        margin-right: 10px;
+        line-height: 20px
+      }
+
+      .zc-ref {
+        display: none;
+      }
+      div#myChart1-license-text,
+      div#myChart2-license-text,
+      div#myChart-license-text {
+          display: none !important;
+      }
+      td i{
+        color: #9424b8 !important;
+        font-size: 12px !important;
+      }
+
+     body{
+       background: none !important;
+    }
+
+    .anchor_cls.mactive{
+      background: #c3e6e2;
+      color:#fff;
+    }
 
 </style>
- 
+
 <div class="page-content">
     <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
     <!-- <div id="portlet-config" class="modal hide">
@@ -517,7 +532,7 @@
         <h3>Widget Settings</h3>
       </div>
       <div class="modal-body"> Widget settings form goes here </div>
-    </div> -->    
+    </div> -->
     <div class="clearfix"></div>
     <div class="content">
       <div id="container" style="margin-bottom: 100px;">
@@ -525,21 +540,21 @@
       </div>
     </div>
   </div></div>
-<!-- END CONTAINER --> 
+<!-- END CONTAINER -->
 
-<!-- BEGIN CORE JS FRAMEWORK--> 
+<!-- BEGIN CORE JS FRAMEWORK-->
 <!-- <script src="<?=base_url()?>awedget/assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script>  -->
-<script src="<?=base_url()?>awedget/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script> 
+<script src="<?=base_url()?>awedget/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
 <!-- <script src="<?=base_url()?>awedget/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>  -->
-<script src="<?=base_url()?>awedget/assets/plugins/boostrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script> 
+<script src="<?=base_url()?>awedget/assets/plugins/boostrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<script src="<?=base_url()?>awedget/assets/plugins/breakpoints.js" type="text/javascript"></script> 
-<script src="<?=base_url()?>awedget/assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script> 
-<script src="<?=base_url()?>awedget/assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script> 
-<!-- END CORE JS FRAMEWORK --> 
-<!-- BEGIN PAGE LEVEL JS -->  
-<script src="<?=base_url()?>awedget/assets/plugins/jquery-slider/jquery.sidr.min.js" type="text/javascript"></script>  
-<script src="<?=base_url()?>awedget/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script> 
+<script src="<?=base_url()?>awedget/assets/plugins/breakpoints.js" type="text/javascript"></script>
+<script src="<?=base_url()?>awedget/assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+<script src="<?=base_url()?>awedget/assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script>
+<!-- END CORE JS FRAMEWORK -->
+<!-- BEGIN PAGE LEVEL JS -->
+<script src="<?=base_url()?>awedget/assets/plugins/jquery-slider/jquery.sidr.min.js" type="text/javascript"></script>
+<script src="<?=base_url()?>awedget/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="<?=base_url()?>awedget/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" type="text/javascript"></script>
 <script src="<?=base_url()?>awedget/assets/plugins/pace/pace.min.js" type="text/javascript"></script>
 <script src="<?=base_url()?>awedget/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
@@ -559,8 +574,8 @@
 <script src="<?=base_url()?>awedget/assets/plugins/jquery-superbox/js/superbox.js" type="text/javascript"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
-  
-<!-- BEGIN PAGE DATATABLE -->   
+
+<!-- BEGIN PAGE DATATABLE -->
 <script src="<?=base_url()?>awedget/assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" type="text/javascript" ></script>
 <script src="<?=base_url()?>awedget/assets/plugins/jquery-datatable/extra/js/TableTools.min.js" type="text/javascript" ></script>
 <script src="<?=base_url()?>awedget/assets/plugins/datatables-responsive/js/datatables.responsive.js" type="text/javascript"></script>
@@ -571,15 +586,15 @@
 <script src="<?=base_url()?>awedget/assets/plugins/fullcalendar/fullcalendar.min.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <script src="<?=base_url()?>awedget/assets/js/messages_notifications.js" type="text/javascript"></script>
-<!-- BEGIN CORE TEMPLATE JS --> 
-<script src="<?=base_url()?>awedget/assets/js/core.js" type="text/javascript"></script> 
+<!-- BEGIN CORE TEMPLATE JS -->
+<script src="<?=base_url()?>awedget/assets/js/core.js" type="text/javascript"></script>
 <!-- <script src="<?=base_url()?>awedget/assets/js/chat.js" type="text/javascript"></script>  -->
-<script src="<?=base_url()?>awedget/assets/js/demo.js" type="text/javascript"></script> 
+<script src="<?=base_url()?>awedget/assets/js/demo.js" type="text/javascript"></script>
 
 <script src="<?=base_url()?>awedget/assets/croper/js/cropper.min.js"></script>
 <script src="<?=base_url()?>awedget/assets/croper/js/main.js"></script>
 
-<!-- END CORE TEMPLATE JS --> 
+<!-- END CORE TEMPLATE JS -->
 <!-- <script src="<?=base_url()?>awedget/assets/js/dashboard_v2.js" type="text/javascript"></script> -->
 <script type="text/javascript">
   $(document).ready(function () {
@@ -604,18 +619,18 @@
         }else{
           iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
         }
-    }   
+    }
   }
-</script>  
+</script>
 <script>
   // $(function () {
   //   CKEDITOR.replace('editor1');
   // });
 
-  
-  $(function() {    
+
+  $(function() {
     // Call SuperBox - that's it!
-    $('.superbox').SuperBox();    
+    $('.superbox').SuperBox();
   });
 
     //district dropdown
@@ -637,7 +652,7 @@
           });
           $('#office').empty();
           if(func_data['offices'].length !==0){
-            loadOffices(func_data['offices']);            
+            loadOffices(func_data['offices']);
           }
         }
       });
@@ -664,7 +679,7 @@
 
           $('#office').empty();
           if(func_data['offices'].length !==0){
-            loadOffices(func_data['offices']);            
+            loadOffices(func_data['offices']);
           }
         }
       });
@@ -689,7 +704,7 @@
           });
           $('#office').empty();
           if(func_data['offices'].length !==0){
-            loadOffices(func_data['offices']);            
+            loadOffices(func_data['offices']);
           }
         }
       });
@@ -711,7 +726,7 @@
             opt.text(ut_name);
             $('#employee').append(opt);
           });
-          
+
         }
       });
     });
@@ -724,7 +739,7 @@
         type: "POST",
         url: hostname +"common/ajax_get_lrb_estimated_exits_by_fiscal_year/" + fiscal_year,
         success: function(fiscal_year)
-        { 
+        {
           if(fiscal_year){
             $(".used").hide();
             $(".exits").show();
@@ -741,7 +756,7 @@
         type: "POST",
         url: hostname +"common/ajax_get_sa_estimated_exits_by_fiscal_year/" + fiscal_year,
         success: function(fiscal_year)
-        { 
+        {
           if(fiscal_year){
             $(".used").hide();
             $(".exits").show();
@@ -758,7 +773,7 @@
         type: "POST",
         url: hostname +"common/ajax_get_la_estimated_exits_by_fiscal_year/" + fiscal_year,
         success: function(fiscal_year)
-        { 
+        {
           if(fiscal_year){
             $(".used").hide();
             $(".exits").show();
@@ -776,7 +791,7 @@
         type: "POST",
         url: hostname +"common/ajax_get_upazila_estimated_exits_by_fiscal_year/" + fiscal_year,
         success: function(fiscal_year)
-        { 
+        {
           if(fiscal_year){
             $(".used").hide();
             $(".exits").show();
@@ -794,7 +809,7 @@
         type: "POST",
         url: hostname +"common/ajax_get_circle_estimated_exits_by_fiscal_year/" + fiscal_year,
         success: function(fiscal_year)
-        { 
+        {
           if(fiscal_year){
             $(".used").hide();
             $(".exits").show();
@@ -812,7 +827,7 @@
         type: "POST",
         url: hostname +"common/ajax_get_union_estimated_exits_by_fiscal_year/" + fiscal_year,
         success: function(fiscal_year)
-        { 
+        {
           if(fiscal_year){
             $(".used").hide();
             $(".exits").show();
@@ -836,7 +851,7 @@
       });
 
 
-     
+
 
       $('#letter_form_submit').on('click',function(){
         //alert("hh");
@@ -940,9 +955,9 @@ function loadOffices(data){
           sum += +$(this).val();
       });
       $("#sum").val(sum);
-      
+
   }
-  
+
 </script>
 
 <script type="text/javascript">
@@ -972,7 +987,7 @@ function loadOffices(data){
 
   function en2bn(sum){
     var finalEnlishToBanglaNumber={'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
- 
+
     String.prototype.getDigitBanglaFromEnglish = function() {
         var retStr = this;
         for (var x in finalEnlishToBanglaNumber) {
@@ -980,9 +995,9 @@ function loadOffices(data){
         }
         return retStr;
     };
-     
+
     var english_number=String(sum);
-     
+
     var bangla_converted_number=english_number.getDigitBanglaFromEnglish();
 
     return bangla_converted_number;
@@ -1017,7 +1032,7 @@ function loadOffices(data){
 
       var total_remaining=$("#received").val()-$("#expenditure").val();
       $("#remaining").val(total_remaining);
-      
+
   }
 
   function subexpenditure(sl, sl2){
@@ -1044,11 +1059,11 @@ function loadOffices(data){
 
       var total_remaining=$("#received").val()-$("#expenditure").val();
       $("#remaining").val(total_remaining);
-      
+
   }
 
   function update() {
-    $("#notification_div").html('Loading..'); 
+    $("#notification_div").html('Loading..');
     $.ajax({
       type: 'GET',
       url: '',
@@ -1056,7 +1071,7 @@ function loadOffices(data){
       success: function(data) {
         //console.log(data);
         //$("#some_div").html(data);
-        $("#notification_div").html(''); 
+        $("#notification_div").html('');
         window.setTimeout(update, 10000);
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -1196,10 +1211,10 @@ function loadOffices(data){
          return false;
       }
   }
-  
-  $(document).bind("contextmenu",function(e) { 
+
+  $(document).bind("contextmenu",function(e) {
     e.preventDefault();
-   
+
   });
 
 </script> -->
@@ -1211,17 +1226,20 @@ function loadOffices(data){
     $("#main-menu ul > li").click(function(e) {
         $(this).siblings('li.active').removeClass("active");
         $(this).find('li.open').removeClass("open");
-        $(this).addClass("active");        
+        $(this).addClass("active");
      });
 
-    /*$("#main-menu ul li").click(function(e) {
-        $(this).find('li.open').removeClass("open");
-        // $(this).addClass("active");        
-     });*/
+    // $("#main-menu ul li").click(function(e) {
+    //     $(this).find('li.open').removeClass("open");
+    //     $(this).addClass("active");
+    //  });
 
-    $('.anchor_cls').on('click', function(){       
-       $(this).parent().siblings().find('.mactive').removeClass('mactive');
-       $(this).addClass('mactive');
+
+
+    $('.anchor_cls').on('click', function(){
+      $('#main-menu ul > li').siblings('ul li').find("a.mactive").removeClass("mactive");
+      $(this).parent().siblings().find('.mactive').removeClass('mactive');
+      $(this).addClass('mactive');
     });
  });
  </script>

@@ -1363,6 +1363,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 					'accept_file_types' => $reg_exp,
 					'max_file_size'		=> $max_file_size_bytes
 				);
+
 				$upload_handler = new UploadHandler($options);
 				$upload_handler->default_config_path = $this->default_config_path;
 				$uploader_response = $upload_handler->post();
@@ -3126,7 +3127,6 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
 	{
 		$state_code = $this->getStateCode();
 		$segment_object = $this->get_state_info_from_url();
-
 		$first_parameter = $segment_object->first_parameter;
 		$second_parameter = $segment_object->second_parameter;
 
@@ -3758,7 +3758,6 @@ class Grocery_CRUD extends grocery_CRUD_States
 	public function fields()
 	{
 		$args = func_get_args();
-
 		if(isset($args[0]) && is_array($args[0]))
 		{
 			$args = $args[0];
@@ -4246,7 +4245,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 	 */
 	public function render()
 	{
-		$this->pre_render();
+		$args = $this->pre_render();
 
 		if( $this->state_code != 0 )
 		{
@@ -5182,7 +5181,8 @@ class UploadHandler
         }
 
         //Ensure that we don't have disallowed characters and add a unique id just to ensure that the file name will be unique
-        $file_name = substr(uniqid(),-5).'-'.$this->_transliterate_characters($file_name);
+        // $file_name = substr(uniqid(),-5).'-'.$this->_transliterate_characters($file_name); //
+        $file_name = $file_name;
 
         //all the characters has to be lowercase
         $file_name = strtolower($file_name);

@@ -1,10 +1,11 @@
 <?php
 class Entry_system_con extends CI_Controller {
 
+
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 		// $this->load->model('attn_process_model');
 		$this->load->model('processdb');
@@ -13,6 +14,7 @@ class Entry_system_con extends CI_Controller {
 		$this->load->model('log_model');
 		$this->load->model('common_model');
 		$this->load->library('grocery_CRUD');
+		$this->load->library('pagination_bootstrap');
 		$this->load->model('acl_model');
 		$access_level = 3;
 		$acl = $this->acl_model->acl_check($access_level);
@@ -42,6 +44,7 @@ class Entry_system_con extends CI_Controller {
 		$this->load->view('form/due_amt_entry_form');
 	}
 	//-------------------------------------------------------------------------------------------------------
+
 	// Advance Loan entry to the Database
 	//-------------------------------------------------------------------------------------------------------
 	function advance_loan_insert()
@@ -50,9 +53,9 @@ class Entry_system_con extends CI_Controller {
 		$loan_amt	= $this->input->post('loan_amt');
 		$pay_amt	= $this->input->post('pay_amt');
 		$loan_date 	= $this->input->post('loan_date');
-		
-		$loan_date = date("Y-m-d", strtotime($loan_date)); 
-		
+
+		$loan_date = date("Y-m-d", strtotime($loan_date));
+
 		$data = $this->processdb->advance_loan_insert($emp_id, $loan_amt, $pay_amt, $loan_date);
 		echo $data;
 	}
@@ -67,13 +70,13 @@ class Entry_system_con extends CI_Controller {
 		$due_amt	= $this->input->post('due_amt');
 		$due_pay_amt	= $this->input->post('due_pay_amt');
 		$due_pay_date 	= $this->input->post('due_pay_date');
-		
-		$due_pay_date = date("Y-m-d", strtotime($due_pay_date)); 
-		
+
+		$due_pay_date = date("Y-m-d", strtotime($due_pay_date));
+
 		$data = $this->processdb->due_amt_insert($emp_id, $due_amt, $due_pay_amt, $due_pay_date);
 		echo $data;
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// Form Display for Leave Transaction
 	//-------------------------------------------------------------------------------------------------------
@@ -104,20 +107,19 @@ class Entry_system_con extends CI_Controller {
 	function manual_attendance_entry(){
 		$grid_firstdate = $this->input->post('firstdate');
 		$grid_seconddate = $this->input->post('seconddate');
-		
+
 		$m_s_time = $this->input->post('m_s_time');
-		$m_e_time = $this->input->post('m_e_time');
+		// $m_e_time = $this->input->post('m_e_time');
 
 		$grid_data = $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
-		
-		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate)); 
-		$grid_seconddate = date("Y-m-d", strtotime($grid_seconddate)); 
-				
-		$data = $this->grid_model->manual_attendance_entry($grid_firstdate, $grid_seconddate, $m_s_time, $m_e_time, $grid_emp_id);
+
+		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate));
+		$grid_seconddate = date("Y-m-d", strtotime($grid_seconddate));
+
+		$data = $this->grid_model->manual_attendance_entry($grid_firstdate, $grid_seconddate, $m_s_time,$grid_emp_id);
 		echo $data;
 	}
-	
 	//-------------------------------------------------------------------------------------------------------
 	// Attendance Delete manually (Present to Absent)
 	//-------------------------------------------------------------------------------------------------------
@@ -125,19 +127,19 @@ class Entry_system_con extends CI_Controller {
 	{
 		$grid_firstdate = $this->input->post('firstdate');
 		$grid_seconddate = $this->input->post('seconddate');
-		
+
 		$grid_data = $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		//print_r($grid_emp_id);
-		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate)); 
-		$grid_seconddate  = date("Y-m-d", strtotime($grid_seconddate)); 
-		
+		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate));
+		$grid_seconddate  = date("Y-m-d", strtotime($grid_seconddate));
+
 		$this->load->model('file_process_model');
-		$data = $this->grid_model->manual_entry_Delete($grid_firstdate, $grid_seconddate, $grid_emp_id);	
-		
+		$data = $this->grid_model->manual_entry_Delete($grid_firstdate, $grid_seconddate, $grid_emp_id);
+
 		echo $data;
 	}
-	
+
 	function manual_attendance_sheet()
 	{
 		$grid_firstdate = $this->uri->segment(3);
@@ -145,7 +147,7 @@ class Entry_system_con extends CI_Controller {
 		$grid_emp_id = $this->uri->segment(5);
 		$get_session_user_unit = $this->common_model->get_session_unit_id_name();
 		$unit_id = $this->db->where("emp_id",$grid_emp_id)->get('pr_emp_com_info')->row()->unit_id;
-		
+
 		if($get_session_user_unit != $unit_id)
 		{
 			echo "You Are Not Allowed.";
@@ -160,14 +162,14 @@ class Entry_system_con extends CI_Controller {
 			$this->load->view('manual_attendance_sheet',$query);
 		}
 	}
-	
+
 	function manual_attendance_sheet_entry()
 	{
 		$data["values"] = $this->grid_model->manual_attendance_sheet_entry_db();
 		echo "Data Inserted Successfully!";
 	}
-	
-	
+
+
 	function manual_eot_modification()
 	{
 		$grid_firstdate 		= $this->uri->segment(3);
@@ -175,7 +177,7 @@ class Entry_system_con extends CI_Controller {
 		$grid_emp_id 			= $this->uri->segment(5);
 		$get_session_user_unit 	= $this->common_model->get_session_unit_id_name();
 		$unit_id = $this->db->where("emp_id",$grid_emp_id)->get('pr_emp_com_info')->row()->unit_id;
-		
+
 		/*if($get_session_user_unit != $unit_id)
 		{
 			echo "You Are Not Allowed.";
@@ -190,21 +192,21 @@ class Entry_system_con extends CI_Controller {
 			$this->load->view('manual_eot_modification_sheet',$query);
 		//}
 	}
-	
+
 	function manual_ot_eot_modification_for_multiple()
 	{
 		$grid_firstdate 		= $this->input->post('firstdate');
 		$manual_eot_hour 		= $this->input->post('manual_eot_hour');
 		$grid_data				= $this->input->post('spl');
 		$grid_emp_id 			= explode('xxx', trim($grid_data));
-		
-		
+
+
 		$query['values'] = $this->grid_model->manual_ot_eot_modification_for_multiple($grid_firstdate, $manual_eot_hour, $grid_emp_id);
-		
+
 		echo "EOT Modification Successfully!";
 
 	}
-	
+
 	function manual_eot_modify_entry()
 	{
 		$data["values"] = $this->grid_model->manual_eot_modify_entry_db();
@@ -232,7 +234,7 @@ class Entry_system_con extends CI_Controller {
 				if($holiday == 1){
 					$status = "h";
 				}
-				
+
 				//=======Extra OT Calculation==========
 				$weekend_eot_calculation = $this->attn_process_model->weekend_holday_eot_calculation_auto($emp_id, $manual_date,$in_time,$out_time,$status,$present_status);
 				$this->attn_process_model->deduction_hour_process($emp_id, $manual_date);
@@ -279,7 +281,7 @@ class Entry_system_con extends CI_Controller {
 					echo json_encode($output);
 				}
 
-		
+
 	}
 
 	function ot_abstract()
@@ -305,27 +307,27 @@ class Entry_system_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	function save_work_off(){
 		$grid_firstdate = $this->input->post('firstdate');
-				
+
 		$grid_data = $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		$unit_id = $this->input->post('unit_id');
 		$friday_val = $this->input->post('F_rpl_val');
-		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate)); 
-				
+		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate));
+
 		$data = $this->grid_model->save_work_off($grid_firstdate, $grid_emp_id,$unit_id,$friday_val);
 		echo $data;
 	}
-	
+
 	function delete_work_off()
 	{
 		$grid_firstdate = $this->input->post('firstdate');
-				
+
 		$grid_data = $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		$unit_id = $this->input->post('unit_id');
 		//print_r($grid_emp_id);
-		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate)); 
-				
+		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate));
+
 		$data = $this->grid_model->delete_work_off($grid_firstdate, $grid_emp_id,$unit_id);
 		echo $data;
 	}
@@ -340,22 +342,22 @@ class Entry_system_con extends CI_Controller {
 		$unit_id 				= $this->input->post('unit_id');
 		$holiday_val 			= $this->input->post('h_rpl_val');
 		$grid_emp_id = explode('xxx', trim($grid_data));
-		
+
 		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate));
-				
+
 		$data = $this->grid_model->save_holiday($grid_firstdate, $holiday_description,$grid_emp_id,$unit_id,$holiday_val);
 		echo $data;
 	}
-	
+
 	function delete_holiday()
 	{
 		$grid_firstdate 		= $this->input->post('firstdate');
 		$grid_data 				= $this->input->post('spl');
 		$unit_id 				= $this->input->post('unit_id');
 		$grid_emp_id = explode('xxx', trim($grid_data));
-		
+
 		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate));
-				
+
 		$data = $this->grid_model->delete_holiday($grid_firstdate,$grid_emp_id,$unit_id);
 		echo $data;
 	}
@@ -435,9 +437,9 @@ class Entry_system_con extends CI_Controller {
 		//$crud->unset_delete();
 		$crud->unset_edit();
 		$crud->callback_before_delete(array($this,'insert_join_in_emp_table_resign'));
-		
+
 		$output = $crud->render();
-		
+
 		$this->crud_output($output);
 	}
 	//-------------------------------------------------------------------------------------------------------
@@ -499,12 +501,12 @@ class Entry_system_con extends CI_Controller {
 		$data = array('emp_cat_id' => 4);
 		$this->db->where('emp_id', $emp_id);
 		$this->db->update('pr_emp_com_info', $data);
-		
-		
+
+
 		$data1 = array('proxi_id' => '');
 		$this->db->where('emp_id', $emp_id);
 		$this->db->update('pr_id_proxi', $data1);
-		
+
 		// Log generate for resign employee
 		$this->log_model->log_profile_resign($emp_id);
 		return $post_array;
@@ -514,9 +516,9 @@ class Entry_system_con extends CI_Controller {
 	//-------------------------------------------------------------------------------------------------------
 	function crud_output($output = null)
 	{
-		$this->load->view('output.php',$output);	
+		$this->load->view('output.php',$output);
 	}
-	
+
 	function earn_leave_entry()
 	{
 		$crud = new grocery_CRUD();
@@ -526,7 +528,7 @@ class Entry_system_con extends CI_Controller {
 		$crud->required_fields('old_earn_balance','current_earn_balance','last_update');
 		//$crud->fields('emp_id','old_earn_balance','last_update');
 		$crud->display_as('emp_id' , 'Employee ID' );
-        
+
 		$state = $this->grocery_crud->getState();
 		if($state == 'edit')
     	{
@@ -542,17 +544,17 @@ class Entry_system_con extends CI_Controller {
 		$output = $crud->render();
 		$this->crud_output($output);
 	}
-	
-	
+
+
 	function last_update_check($str)
 	{
 		$date = $this->input->post('last_update');
 		$start_date = strtotime($date);
 		$last_up = date("Y-m-d",$start_date);
-		
+
 		echo "<SCRIPT LANGUAGE=\"JavaScript\">alert($last_up);</SCRIPT>";
 	}
-	
+
 	function emp_id_check($str)
 	{
 		$id = $this->uri->segment(4);
@@ -569,7 +571,7 @@ class Entry_system_con extends CI_Controller {
 		}
 		else
 		{
-		
+
 			$num_row1 = $this->db->where('emp_id',$str)->get('pr_emp_com_info')->num_rows();
 			if ($num_row1 < 1)
 			{
@@ -582,12 +584,12 @@ class Entry_system_con extends CI_Controller {
 			}
 		}
 	}
-	
 
-	
-	
-	
-	
+
+
+
+
+
 	//-------------------------------------------------------------------------------------------------------
 	// Left Entry
 	//-------------------------------------------------------------------------------------------------------
@@ -620,7 +622,7 @@ class Entry_system_con extends CI_Controller {
 		$output = $crud->render();
 		$this->crud_output($output);
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// Insert employee status left to pr_emp_com_info table
 	//-------------------------------------------------------------------------------------------------------
@@ -630,7 +632,7 @@ class Entry_system_con extends CI_Controller {
 		$data = array('emp_cat_id' => 3);
 		$this->db->where('emp_id', $emp_id);
 		$this->db->update('pr_emp_com_info', $data);
-		
+
 		$data1 = array('proxi_id' => '');
 		$this->db->where('emp_id', $emp_id);
 		$this->db->update('pr_id_proxi', $data1);
@@ -638,7 +640,7 @@ class Entry_system_con extends CI_Controller {
 		$this->log_model->log_profile_resign($emp_id);
 		return $post_array;
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// Insert employee status regular to pr_emp_com_info table
 	//-------------------------------------------------------------------------------------------------------
@@ -656,15 +658,15 @@ class Entry_system_con extends CI_Controller {
 		$this->log_model->log_profile_resign($emp_id);
 		return true;
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// New to regular :Tofayel
 	//-------------------------------------------------------------------------------------------------------
 	function new_to_regular()
 	{
-		$this->load->view('form/new_to_rg');	
+		$this->load->view('form/new_to_rg');
 	}
-	
+
 	function new_to_regular_process()
 	{
 		$month = $this->input->post('report_month_sal');
@@ -674,19 +676,19 @@ class Entry_system_con extends CI_Controller {
 		if ($result == "Successfully Converted")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Successfully Converted');</SCRIPT>";
-			//echo "This ISBN already exist"; 
+			//echo "This ISBN already exist";
 		}
 		else if ($result =="no data found")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No data found');</SCRIPT>";
-			//echo "This ISBN already exist"; 
+			//echo "This ISBN already exist";
 		}
-		
-		
+
+
 		$this->log_model->log_new_to_regular($year, $month);
 		$this->new_to_regular();
 	}
-	
+
 	function pf_bank_interest()
 	{
 		$crud = new grocery_CRUD();
@@ -697,69 +699,63 @@ class Entry_system_con extends CI_Controller {
 		$output = $crud->render();
 		$this->crud_output($output);
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for weekend Delete
 	//-------------------------------------------------------------------------------------------------------
-	function weekend_delete($start=0)
+	function weekend_delete($offset=0)
 	{
-		 $this->load->library('pagination');
-		 $param = array();	
-		 $limit = 10;
-		 $config['base_url'] = base_url()."index.php/entry_system_con/weekend_delete/";
-		 $config['per_page'] = $limit;
-		 /*$config['num_links'] = 5;*/
-		 $config['total_rows'] = $this->db->get('pr_work_off')->num_rows();
-		 $config["uri_segment"] = 3;
-		 $this->load->library('pagination');
-		 $this->pagination->initialize($config);
-		 $param['links'] = $this->pagination->create_links();
-		 $this->load->model('crud_model');
-		 $pr_work_off = $this->crud_model->weekend_infos($limit,$start);
+		$this->load->library('pagination');
+		$this->load->model('crud_model');
+		$param = array();
+		$limit = 10;
+	    $page = ($this->uri->segment(3))? $this->uri->segment(3) : 0;
 
-		 $param['pr_work_off'] = $pr_work_off;
-		 // print_r($param);exit('ali');
-		 // echo "<pre>";
-		 // print_r($param);exit('mafiz');
-		 $this->load->view('weekend_del_list',$param);
-		
+		$pr_work_off = $this->crud_model->weekend_infos($limit,$page);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+
+		$config['base_url'] = base_url()."index.php/entry_system_con/weekend_delete/";
+		$config['total_rows'] = $total;
+	    $config['per_page'] = $limit;  
+
+		$this->pagination->initialize($config);
+		$param['links'] = $this->pagination->create_links();
+		$param['pr_work_off'] = $pr_work_off;
+		// echo "<pre>"; print_r($param); exit;
+		$this->load->view('weekend_del_list', $param);
 	}
-	
+
+
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for weekend Delete
 	//-------------------------------------------------------------------------------------------------------
 	function holiday_delete($start=0)
 	{
-		
+
 
 		 $this->load->library('pagination');
 		 $param = array();
 		 $limit = 25;
 		 $config['base_url'] = base_url()."index.php/entry_system_con/holiday_delete/";
 		 $config['per_page'] = $limit;
-		 /*$config['num_links'] = 5;*/
 		 $config['total_rows'] = $this->db->get('pr_holiday')->num_rows();
 		 $config["uri_segment"] = 3;
-		 $this->load->library('pagination');
 
 		 $this->pagination->initialize($config);
 		 $param['links'] = $this->pagination->create_links();
 		 $this->load->model('crud_model');
 		 $pr_holiday = $this->crud_model->holiday_infos($limit,$start);
-		 // print_r($pr_holiday);exit('ali');
-		 
 		 $param['pr_holiday'] = $pr_holiday;
-		 // echo "<pre>";
-		 // print_r($param);exit('mafiz');
+
 		 $this->load->view('holiday_del_list',$param);
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Others Deduction and Tax
 	//-------------------------------------------------------------------------------------------------------
 	function tax_others_deduction()
 	{
-		
+
 		 $this->load->model('crud_model');
 		 $pr_deduct = $this->crud_model->taxnother_infos();
 		 // print_r($pr_deduct);exit('ali');
@@ -767,7 +763,7 @@ class Entry_system_con extends CI_Controller {
 		 $data['pr_deduct'] = $pr_deduct;
 		 $this->load->view('taxnother_list',$data);
 	}
-	
+
 	function deduct_month_check($str)
 	{
 		$id = $this->uri->segment(4);
@@ -791,7 +787,7 @@ class Entry_system_con extends CI_Controller {
 	}
 	function employee_id_check($str)
 	{
-		
+
 		$unit_id_select = $_POST['unit_id'];
 		$emp_num_rows = $this->db->where("emp_id",$str)->get('pr_emp_com_info')->num_rows();
 		if($emp_num_rows > 0)
@@ -810,15 +806,15 @@ class Entry_system_con extends CI_Controller {
 			$this->form_validation->set_message('employee_id_check','Employee ID not exists !');
 			return FALSE;
 		}
-	}	
-	
-	
+	}
+
+
 	function proximity_card_edit($start=0)
 	{
-	
+
 
 		 $this->load->library('pagination');
-		 $param = array();	
+		 $param = array();
 		 // $start = ($this->uri->segment(2)) ? ($this->uri->segment(2)+1) : 0 ;
 		 // print_r($start);exit('ali');
 		 $limit = 25;
@@ -847,33 +843,33 @@ class Entry_system_con extends CI_Controller {
 			 $config['num_tag_open'] = '<li>';
 			 $config['num_tag_close'] = '</li>';
 			$config['next_link'] = '&raquo;';
-*/
+			*/
 
 
 
-		 // print_r($config);exit('ali'); 
+		 // print_r($config);exit('ali');
 		 $this->pagination->initialize($config);
 		 $param['links'] = $this->pagination->create_links();
 		 $this->load->model('crud_model');
 		 $pr_id_proxi = $this->crud_model->proxi_infos($limit,$start);
-		 
+
 		 $param['pr_id_proxi'] = $pr_id_proxi;
 		 // print_r($param);exit('ali');
 		 $this->load->view('proxi_card_list',$param);
-	}	
-	
+	}
+
 	function proxi_id_month_check($str)
 	{
 		$id = $this->uri->segment(4);
 		$emp_id = $_POST['emp_id'];
-		
+
 		$get_session_user_unit = $this->common_model->get_session_unit_id_name();
 		$unit_id = $this->db->where("emp_id",$emp_id)->get('pr_emp_com_info')->row()->unit_id;
-		
+
 		if($get_session_user_unit == 0)
 		{
 			return TRUE;
-			
+
 		}
 		if ($unit_id != $get_session_user_unit)
 		{
@@ -885,32 +881,94 @@ class Entry_system_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// CRUD for Leave Modification
 	//-------------------------------------------------------------------------------------------------------
 	function leave_delete($start=0)
 	{
+		// Load pagination library
+        $this->load->library('pagination');
+        $this->load->model('crud_model');
+		$param = array();
+		$limit = 1;
+	    $page = ($this->uri->segment(3))? $this->uri->segment(3) : 0;
 
-		 $this->load->library('pagination');
-		 $param = array();
-		 $limit = 25;
-		 $config['base_url'] = base_url()."index.php/entry_system_con/leave_delete/";
-		 $config['per_page'] = $limit;
-		 /*$config['num_links'] = 5;*/
-		 $config['total_rows'] = $this->db->get('pr_holiday')->num_rows();
-		 $config["uri_segment"] = 3;
-		 $this->load->library('pagination');
+		
+		$pr_leave_trans = $this->crud_model->leave_del_infos($limit,$page);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+
+        // Pagination configuration
+        $config['base_url']    = base_url('index.php/entry_system_con/leave_delete');
+        $config['total_rows']  = $total;
+        $config['per_page']    = $limit;
+
+        // Initialize pagination library
+        $this->pagination->initialize($config);
+		$param['links'] = $this->pagination->create_links();
+		$param['pr_leave_trans'] = $pr_leave_trans;
+        // Load the list page view
+		// echo "<pre>"; print_r($param); exit;
+		$this->load->view('leave_del_list',$param);
+
+	}
+
+
+
+	/* function leave_delete($start=0)
+	{
+		$this->load->library('pagination');
+		$param = array();
+		$limit = 25;
+		$config['base_url'] = base_url()."index.php/entry_system_con/leave_delete/";
+		$config['per_page'] = $limit;
+		$this->load->model('crud_model');
+		$pr_leave_trans = $this->crud_model->leave_del_infos($limit,$start);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+		$config['total_rows'] = $total;
+		$config["uri_segment"] = 3;
+		 // $this->load->library('pagination');
 
 		 $this->pagination->initialize($config);
 		 $param['links'] = $this->pagination->create_links();
-		 $this->load->model('crud_model');
-		 $pr_leave_trans = $this->crud_model->leave_del_infos($limit,$start);
 		 $param['pr_leave_trans'] = $pr_leave_trans;
+
 		 $this->load->view('leave_del_list',$param);
 		 // exit('ali');
+	} */
+
+	//-------------------------------------------------------------------------------------------------------
+	// CRUD for left Modification
+	//-------------------------------------------------------------------------------------------------------
+	function left_delete($start=0)
+	{
+		// Load pagination library
+        $this->load->library('pagination');
+        $this->load->model('crud_model');
+		$param = array();
+		$limit = 1;
+	    $page = ($this->uri->segment(3))? $this->uri->segment(3) : 0;
+
+		
+		$pr_left_trans = $this->crud_model->left_del_infos($limit,$page);
+		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
+
+        // Pagination configuration
+        $config['base_url']    = base_url('index.php/entry_system_con/left_delete');
+        $config['total_rows']  = $total;
+        $config['per_page']    = $limit;
+
+        // Initialize pagination library
+        $this->pagination->initialize($config);
+		$param['links'] = $this->pagination->create_links();
+		$param['pr_leave_trans'] = $pr_left_trans;
+        // Load the list page view
+		// echo "<pre>"; print_r($param); exit;
+		$this->load->view('left_del_list',$param);
+
 	}
-	
+
+
 	function stop_salary($start=0)
 	{
 		 // exit('ali');
@@ -929,108 +987,109 @@ class Entry_system_con extends CI_Controller {
 	     $this->load->model('crud_model');
 		 $pr_emp_stop_salary = $this->crud_model->salarystop_infos($limit,$start);
 		 $param['pr_emp_stop_salary'] = $pr_emp_stop_salary;
+		//  echo count($pr_emp_stop_salary); die;
 		 $this->load->view('salary_stop_list',$param);
-		 
+
 	}
-	
+
 	function stop_salary_update($post_array,$primary_key)
 	{
 	    $this->db->where('id',$primary_key);
 	    $user = $this->db->get('pr_emp_stop_salary')->row();
-	    
+
 	    $emp_id 		= $user->emp_id;
 	    $salary_month 	= $user->salary_month;
 	    $unit_id 		= $user->unit_id;
-	    $salary_month 	= date("Y-m", strtotime($salary_month)); 
-	    
+	    $salary_month 	= date("Y-m", strtotime($salary_month));
+
 	 	$data['stop_salary']= 2;
 	 	$this->db->where('emp_id',$emp_id);
 	 	$this->db->like('salary_month',$salary_month);
 	 	$this->db->update('pr_pay_scale_sheet',$data);
-	 	
+
 	 	$this->db->where('emp_id',$emp_id);
 	 	$this->db->like('salary_month',$salary_month);
 	 	$this->db->update('pr_pay_scale_sheet_com',$data);
 
 	    return true;
 	}
-	
+
 
 	public function stop_salary_before_delete($primary_key)
 	{
    		$this->db->where('id',$primary_key);
 	    $user = $this->db->get('pr_emp_stop_salary')->row();
-	    
+
 	    $emp_id = $user->emp_id;
 	    $salary_month = $user->salary_month;
 	    $unit_id = $user->unit_id;
-	    $salary_month = date("Y-m", strtotime($salary_month)); 
-	    
+	    $salary_month = date("Y-m", strtotime($salary_month));
+
 	     $num_row = $this->db->like('block_month',$salary_month)->where('unit_id',$unit_id)->get('pr_salary_block')->num_rows();
-	     
+
 	    if($num_row > 0)
 		{
 			return False;//"FAILED - This Month Already Finally Processed.";
 		}
-	    
+
 	    $data['stop_salary']= 1;
 	 	$this->db->where('emp_id',$emp_id);
 	 	$this->db->like('salary_month',$salary_month);
 	 	$this->db->update('pr_pay_scale_sheet',$data);
-	 	
-	 	
+
+
 	 	$this->db->where('emp_id',$emp_id);
 	 	$this->db->like('salary_month',$salary_month);
 	 	$this->db->update('pr_pay_scale_sheet_com',$data);
 
 	    return true;
 	}
-	
+
 	function stop_salary_month_check($str)
 	{
 		$date = str_replace('/', '-', $str);
 		$salary_month = date('Y-m-d',strtotime($date));
-		
+
 		$emp_id = $_POST['emp_id'];
-		
+
 		$get_session_user_unit = $this->common_model->get_session_unit_id_name();
 		$unit_id = $this->db->where("emp_id",$emp_id)->get('pr_emp_com_info')->row()->unit_id;
-		
-		
+
+
 		if ($unit_id != $get_session_user_unit)
 		{
 			$this->form_validation->set_message('stop_salary_month_check','Failed! Access Deny!');
 			return FALSE;
 		}
-		$salary_month = date("Y-m", strtotime($salary_month)); 
+		$salary_month = date("Y-m", strtotime($salary_month));
 		$num_rows = $this->db->where("emp_id",$emp_id)->like("salary_month",$salary_month)->get('pr_emp_stop_salary')->num_rows();
 		if ($num_rows > 0)
 		{
 			$this->form_validation->set_message('stop_salary_month_check','Duplicate Entry Not Allow!');
 			return FALSE;
 		}
-		
+
 		$unit_id = $_POST['unit_id'];
 		$num_row_block_month = $this->db->like('block_month',$salary_month)->where('unit_id',$unit_id)->get('pr_salary_block')->num_rows();
-	     
+
 	    if($num_row_block_month > 0)
 		{
 			$this->form_validation->set_message('stop_salary_month_check','FAILED - This Month Already Finally Processed.');
 			return FALSE;
 		}
-		
-		
+
+
 		$num_row_salary_create = $this->db->like('emp_id',$emp_id)->like('salary_month',$salary_month)->get('pr_pay_scale_sheet')->num_rows();
 		 if($num_row_salary_create < 1)
 		{
 			$this->form_validation->set_message('stop_salary_month_check','FAILED - Salary For This Month Does Not Processed.');
 			return FALSE;
 		}
-		
-		
-		
+
+
+
 		return TRUE;
-		
+
 	}
 }
 

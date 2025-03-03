@@ -1,11 +1,11 @@
 <?php
 class Common_model extends CI_Model{
-	
-	
+
+
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
 	}
 	function covert_english_date_to_bangla_date_with_day_name($currentDate){
@@ -16,15 +16,22 @@ class Common_model extends CI_Model{
 		বুধবার','বৃহস্পতিবার','শুক্রবার'
 		);
 		$convertedDATE = str_replace($engDATE, $bangDATE, $currentDate);
-		
+
 		return $convertedDATE;
 	}
 	function salary_structure($gross_salary){
 		$data = array();
-		
-		$data['medical_allow'] 	= 600;
-		$data['trans_allow'] 	= 350;
-		$data['food_allow'] 	= 900;
+
+
+		if(date('Y-m-d') > date('2023-11-30')){
+			$data['medical_allow'] 	= 750;
+			$data['trans_allow'] 	= 450;
+			$data['food_allow'] 	= 1250;
+		}else{
+			$data['medical_allow'] 	= 600;
+			$data['trans_allow'] 	= 350;
+			$data['food_allow'] 	= 900;
+		}
 		$total_salary_allow 	= $data['medical_allow'] + $data['trans_allow'] + $data['food_allow'];
 		$data['gross_salary'] 	= $gross_salary;
 		$data['basic_sal'] 	    = round((($gross_salary - $total_salary_allow) / 1.5));
@@ -32,7 +39,7 @@ class Common_model extends CI_Model{
 		$data['house_rent']     = $gross_salary - ($total_salary_allow + $data['basic_sal']);
 		$data['ot_rate']        = round(($data['basic_sal'] * 2  / 208),2);
 		$data['stamp'] 			= 10;
-		
+
 		if($gross_salary == 0){
 			$data['medical_allow'] 	= 0;
 			$data['trans_allow'] 	= 0;
@@ -45,7 +52,7 @@ class Common_model extends CI_Model{
 		}
 		return $data;
 	}
-	
+
 	function get_setup_attributes($setup_id)
 	{
 		$this->db->select('value');
@@ -55,7 +62,7 @@ class Common_model extends CI_Model{
 		$setup_value = $rows ->value;
 		return $setup_value;
 	}
-	
+
 	function allowance_bills($id)
 	{
 		$data = array();
@@ -72,10 +79,10 @@ class Common_model extends CI_Model{
 			$data['night_allo_amount'] = $rows ->night_allo_amount;
 			//echo $rows ->first_tiffin_allo_min;
 		}
-		
+
 		return $data;
 	}
-	
+
 	function get_ot_title($emp_id)
 	{
 		$this->db->select('ot_entitle');
@@ -84,17 +91,17 @@ class Common_model extends CI_Model{
 		$row = $query->row();
 		return $row->ot_entitle;
 	}
-	
+
 	function get_service_month($effective_date,$doj)
 	{
 		$date_diff 		= strtotime($effective_date)-strtotime($doj);
 		//DATE TO DATE RULE
 		//return $month 	= floor(($date_diff)/2592000);
-		
+
 		//MONTH TO MONTH RULE
 		return $month 	= ceil(($date_diff)/2628000);
 	}
-	
+
 	function get_gross_salary($emp_id)
 	{
 		$this->db->select('gross_sal');
@@ -103,19 +110,23 @@ class Common_model extends CI_Model{
 		$row = $query->row();
 		return $row->gross_sal;
 	}
-	
+
 	function company_information()
-	{	
+	{
 		return $company_infos = $this->db->get('company_infos')->result_array();
-		// $query 	= $this->db->select($select_value)->get('company_infos');
-		// $row 	= $query->row();
-		// return $row->$select_value;
+		// return $query = $this->db->select('*')->get('company_infos')->row();
 	}
+
+	function company_info()
+	{
+		return $query = $this->db->select('*')->get('company_infos')->row();
+	}
+
 	function bank_note_requisition($amount, $bank_notes)
 	{
 		//$bank_notes = array(1000,500,100,50,20,10,5,2,1);
 		$data = array();
-		
+
 		foreach($bank_notes as $bank_note)
 		{
 			$note 		= floor($amount / $bank_note);
@@ -125,9 +136,9 @@ class Common_model extends CI_Model{
 		return $data;
 	}
 	function  get_prev_month($probation_period,$year_month)
-	{	
+	{
 		//$probation_period = $probation_period -1;
-		
+
 		$text ="-".$probation_period."month";
 		$prev_month = strtotime($text, strtotime($year_month));
 		$prev_month = date("Y-m", $prev_month);
@@ -147,7 +158,7 @@ class Common_model extends CI_Model{
 			  $emp_id[] = $row->emp_id;
 			  //echo "$i .$row->emp_id<br>";
 			  //$i = $i + 1;
-			  
+
 		  }
 		  return $emp_id ;
 		}
@@ -170,7 +181,7 @@ class Common_model extends CI_Model{
 			  $emp_id[] = $row->emp_id;
 			  //echo "$i .$row->emp_id<br>";
 			  //$i = $i + 1;
-			  
+
 		  }
 		  return $emp_id ;
 		}
@@ -188,8 +199,8 @@ class Common_model extends CI_Model{
 		$this->db->select('pr_emp_per_info.*');
 		$this->db->from('pr_emp_com_info');
 		$this->db->from('pr_emp_per_info');
-		
-		
+
+
 		if($dept !="Select")
 		{
 			$this->db->where("pr_emp_com_info.emp_dept_id", $dept);
@@ -233,7 +244,7 @@ class Common_model extends CI_Model{
 		$this->db->where('pr_emp_per_info.emp_id = pr_pay_scale_sheet.emp_id');
 		$this->db->where('pr_emp_com_info.emp_id = pr_pay_scale_sheet.emp_id');
 		$this->db->where("pr_pay_scale_sheet.salary_month = '$sal_year_month'");
-		
+
 		if($unit !="Select"){$this->db->where("pr_pay_scale_sheet.unit_id", $unit);}
 		if($dept !="Select"){$this->db->where("pr_pay_scale_sheet.dept_id", $dept);}
 		if($section !="Select"){$this->db->where("pr_pay_scale_sheet.sec_id", $section);}
@@ -337,7 +348,7 @@ class Common_model extends CI_Model{
 		$query = $this->db->get();
 		return $query;
 	}
-	
+
 	function get_left_employee_for_selection($dept,$section,$line,$desig,$sex,$status,$salary_month,$unit)
 	{
 		//echo $salary_month;
@@ -379,10 +390,10 @@ class Common_model extends CI_Model{
 			$i = $i + 1;
 		}*/
 	}
-	
+
 	function get_resign_employee_for_selection($dept,$section,$line,$desig,$sex,$status,$salary_month,$unit)
 	{
-		
+
 		$this->db->select('pr_emp_per_info.*');
 		$this->db->from('pr_emp_resign_history');
 		$this->db->from('pr_emp_per_info');
@@ -422,10 +433,10 @@ class Common_model extends CI_Model{
 			$i = $i + 1;
 		}*/
 	}
-	
-	
-	
-	
+
+
+
+
 	//================================== Below Code Written For ALL Status=============================
 	//=================================================================================================
 	function get_all_employee($salary_month,$units)
@@ -467,7 +478,7 @@ class Common_model extends CI_Model{
 			  $emp_id[] = $row->prev_emp_id;
 			  //echo "$i .$row->emp_id<br>";
 			  //$i = $i + 1;
-			  
+
 		  }
 		  return $emp_id ;
 		}
@@ -490,7 +501,7 @@ class Common_model extends CI_Model{
 			  $emp_id[] = $row->emp_id;
 			  //echo "$i .$row->emp_id<br>";
 			  //$i = $i + 1;
-			  
+
 		  }
 		  return $emp_id ;
 		}
@@ -514,7 +525,7 @@ class Common_model extends CI_Model{
 			  $emp_id[] = $row->emp_id;
 			  //echo "$i .$row->emp_id<br>";
 			  //$i = $i + 1;
-			  
+
 		  }
 		  return $emp_id ;
 		}
@@ -524,7 +535,7 @@ class Common_model extends CI_Model{
 		}
 	}
 
-	
+
 	//================================== END Code Written For ALL Status===============================
 	//=================================================================================================
 	function get_unit_id_name()
@@ -538,18 +549,18 @@ class Common_model extends CI_Model{
 		$this->db->order_by("unit_name");
 		return $query = $this->db->get('pr_units');
 	}
-	
+
 	function get_session_unit_id_name()
 	{
-		$user_name = $this->session->userdata('username');
+		$user_name = $this->session->userdata('data')->id_number;
 		return $unit_id = $this->db->where("id_number",$user_name)->get('members')->row()->unit_name;
 	}
-	
+
 	function get_unit_name_by_id($unit_id)
 	{
 		return $unit_name= $this->db->where("unit_id",$unit_id)->get('pr_units')->row()->unit_name;
 	}
-	
+
 	function get_dept_name($dept_id)
 	{
 		$this->db->select('dept_name');
@@ -592,7 +603,7 @@ class Common_model extends CI_Model{
 	}
 	function days_count($emp_id,$start_date,$end_date, $present_status)
 	{
-		$this->db->select('emp_id');		
+		$this->db->select('emp_id');
 		$this->db->where("shift_log_date BETWEEN '$start_date' AND '$end_date'");
 		$this->db->where("emp_id",$emp_id);
 		$this->db->where("present_status",$present_status);
@@ -602,7 +613,7 @@ class Common_model extends CI_Model{
 	}
 	function leave_count($emp_id,$start_date,$end_date, $leave_type)
 	{
-		$this->db->select('emp_id');		
+		$this->db->select('emp_id');
 		$this->db->where("start_date BETWEEN '$start_date' AND '$end_date'");
 		$this->db->where("emp_id",$emp_id);
 		$this->db->where("leave_type",$leave_type);

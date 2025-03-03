@@ -4,24 +4,24 @@ class Admin_model extends CI_Model {
     function __construct()
 	{
 		parent::__construct();
-		
+
 		/* Standard Libraries */
     }
-	
+
 	function check_user_account()
 	{
-		
+
 			$user_id=$this->input->post('username');
-		
+
 			$password=$this->input->post('password');
-			
+
 			$this->db->select('id_number');
 			$this->db->where('id_number',$user_id);
 			$this->db->where('password',$password);
 			$this->db->where('level',1);
-			
+
 			$query = $this->db->get('members');
-			
+
 				if ($query->num_rows() > 0)
 				{
 				 	$row = $query->row();
@@ -33,44 +33,38 @@ class Admin_model extends CI_Model {
 			    {
 				    return false;
 			    }
-		
-				
+
+
      }
-	 
+
 	function check_user_account_FE()
 	{
-		
+
 			$user_id=$this->input->post('username');
-		
+
 			$password=$this->input->post('password');
-			
-			$this->db->select("id, id_number, level");
+
+			$this->db->select("id, id_number, level, unit_name");
 			$this->db->where('id_number',$user_id);
 			$this->db->where('password',$password);
 			$this->db->where('status ','Enable');
-			
+
 			$query = $this->db->get('members');
-			
+
 				if ($query->num_rows() > 0)
 				{
-				 	foreach($query->result() as $row)
-					{
-						$user_id = $row->id;
-						$name = $row->id_number;
-						$level = $row->level;
-					}
-					
-					$log_data = array('username' => $name, 'logged_in' => TRUE);
+					$query = $query->row();
+					$log_data = array('status' => 200, 'response' => 'success', 'data' => $query, 'logged_in' => true);
 				    return $log_data;
 			    }
 			    else
 			    {
-				    return false;
+				   return $log_data = array('status' => 201, 'response' => 'faild', 'data' => null, 'logged_in' => false);
 			    }
-		
-				
+
+
      }
-	 
+
 	 function insert_book($image)
 	 {
 		//print_r($image);
@@ -99,7 +93,7 @@ class Admin_model extends CI_Model {
 		//print_r($data);
 		$this->db->insert('books',$data);
 	}
-	
+
 	function insert_ebook($file)
 	 {
 		//print_r($image);
@@ -115,10 +109,10 @@ class Admin_model extends CI_Model {
 		//print_r($data);
 		$this->db->insert('ebooks',$data);
 	}
-	
-	
-	
-	
+
+
+
+
 	function accession_no()
 	{
 		$this->db->where('accession_no',$this->input->post('accession_no'));
@@ -130,21 +124,21 @@ class Admin_model extends CI_Model {
 		return false;
 		}
 	}
-	
+
 	function booking_request_update()
 	{
 		$user_id = $this->input->post('user_id');
 		$book_id = $this->input->post('book_id');
-		
+
 		$data = array(
                'status' => '2'
           );
 
 		$this->db->where('user_id', $user_id);
 		$this->db->where('book_id', $book_id);
-		$this->db->update('booking', $data); 
+		$this->db->update('booking', $data);
 	}
-	
+
 	function booking_request()
 	{
 		//$this->db->select();
@@ -156,19 +150,19 @@ class Admin_model extends CI_Model {
 		$query = $this->db->get('members');
 		return $query->result();
 	}
-	
-	
-	
+
+
+
 	function booking_release()
 	{
 		$user_id = $this->input->post('user_id');
 		$book_id = $this->input->post('book_id');
-		
+
 		$this->db->where('user_id', $user_id);
 		$this->db->where('book_id', $book_id);
-		$this->db->delete('booking'); 
+		$this->db->delete('booking');
 	}
-	
+
 	function list_member()
 	{
 		$data = array(
@@ -176,9 +170,9 @@ class Admin_model extends CI_Model {
               '1'        => 'Admin',
 			  '2'        => 'User',
 			  '3'        => 'Report'
-               ); 
+               );
 		$query = $this->db->get("members");
-		
+
 		foreach($query->result() as $rows)
 		{
 			foreach($data as $index => $value)
@@ -186,7 +180,7 @@ class Admin_model extends CI_Model {
 				if($index == $rows->level)
 				{
 					$level = $value;
-				}  
+				}
 			}
 			$data1["id"][]			= $rows->id;
 			$data1["id_number"][]	= $rows->id_number;
@@ -196,7 +190,7 @@ class Admin_model extends CI_Model {
 		//print_r($data1);
 		return $data1;
 	}
-	
+
 }
-	
+
 ?>

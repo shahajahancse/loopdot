@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Mysoftheaven (BD) LTD | Log in</title>
-  <link rel='shortcut icon' href='<?=base_url()?>awedget/assets/img/favicon.ico' />
+  <!-- <title>Mysoftheaven (BD) LTD | Log in</title> -->
+  <title>Loopdot Fashion Limited</title>
+  <link rel='shortcut icon' href='<?=base_url()?>awedget/assets/img/loopdot.png' />
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -26,7 +27,7 @@
   <div class="login-box-body">
     <div class="login-logo" style="border-bottom: 1px solid blue;padding-bottom: 25px;"> 
       <a href="http://mysoftheaven.com/" target="_blank">
-        <img src="<?=base_url()?>awedget/assets/img/mysoft-logo.png" width="" height="70px">
+        <img src="<?=base_url()?>awedget/assets/img/loopdot.png" width="" height="70px">
       </a>
     </div>    
     <!-- <p class="login-box-msg" style="font-size: 20px;">MHL KORMOCHARI</p> -->
@@ -36,12 +37,14 @@
          
     <?php  echo form_open('user_autentication');  ?>
     <!-- <form action="http://mysoftheaven.com/mipos-cloud/login/verify" method="post"> -->
+    <!-- <form action="" method="post"> -->
+
       <input type="hidden" name="csrf_test_name" value="b4df53659d7baec0b06216d99a4f9359">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="Username" id="username" name="username" autofocus><span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" id="pass" name="pass">
+        <input type="password" class="form-control" placeholder="Password" id="pass" name="password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -59,7 +62,7 @@
         <!-- /.col -->
       </div>
     </form>
-    <a href="javascript:">Forgot password?</a><br>
+    <!-- <a href="javascript:">Forgot password?</a><br> -->
     <div class="row">
     </div>
   </div>

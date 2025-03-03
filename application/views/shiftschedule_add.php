@@ -24,30 +24,30 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Add Shift Schedule</a>
+            <a class="navbar-brand" href="<?php echo base_url('index.php/setup_con/shift_schedule')?>">Back To List</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="/erp-mysoftheaven2/index.php/payroll_con">Home</a></li>
+              <li class="active"><a href="<?php echo base_url('index.php/payroll_con')?>">Home</a></li>
             </ul>
-            
+
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
       <div class="row">
         <div class="col-md-12">
-          <?php 
+          <?php
           $success = $this->session->flashdata('success');
           if ($success != "") {
            ?>
            <div class="alert alert-success"><?php echo $success; ?></div>
-           <?php 
+           <?php
             }
             $failuer = $this->session->flashdata('failuer');
             if ($failuer) {
              ?>
            <div class="alert alert-failuer"><?php echo $failuer; ?></div>
-           <?php 
+           <?php
             }
             ?>
 
@@ -64,7 +64,7 @@
             <option value="">Select Unit</option>
             <?php
               foreach ($shiftscheduleinfo as  $row){
-                 echo '<option value="'.$row['unit_id'].'">'.$row['unit_name'].'</option>';                  
+                 echo '<option value="'.$row['unit_id'].'">'.$row['unit_name'].'</option>';
               }
              ?>
            </select>
@@ -124,8 +124,8 @@
 	        <input type="text" name="twohrottime"value="" class="form-control">
 	        <?php echo form_error('twohrottime');?>
 	      </div>
-       
-	      
+
+
       <br>
 
 		<div class="form-group">

@@ -1,0 +1,174 @@
+ AC-No. No.   Name                Time State    New State Exception Operation
+
+ 100007          7  11/23/2021 7:59 AM  C/In                Invalid          
+ 100013         13  11/23/2021 7:47 AM  C/In                Invalid          
+ 100019         19  11/23/2021 7:58 AM  C/In                Invalid          
+ 100021         21  11/23/2021 7:56 AM  C/In                Invalid          
+ 100027         27  11/23/2021 7:49 AM  C/In                Invalid          
+ 100030         30  11/23/2021 8:02 AM  C/In                Invalid          
+ 100051         51  11/23/2021 7:39 AM  C/In  OverTime In       FOT          
+ 100051         51 11/23/2021 10:12 AM  C/In OverTime Out       FOT          
+ 100058         58  11/23/2021 7:56 AM  C/In                Invalid          
+ 100066         66  11/23/2021 7:58 AM  C/In                Invalid          
+ 100070         70  11/23/2021 7:48 AM  C/In                Invalid          
+ 100073         73  11/23/2021 7:54 AM  C/In                Invalid          
+ 100074         74  11/23/2021 7:41 AM  C/In                Invalid          
+ 100078         78  11/23/2021 7:55 AM  C/In                Invalid          
+ 100079         79  11/23/2021 8:00 AM  C/In                Invalid          
+ 100090         90  11/23/2021 7:44 AM  C/In                Invalid          
+ 100091         91  11/23/2021 7:54 AM  C/In                Invalid          
+ 100094         94  11/23/2021 7:50 AM  C/In                Invalid          
+ 100095         95  11/23/2021 7:58 AM  C/In                Invalid          
+ 100097         97  11/23/2021 7:50 AM  C/In                Invalid          
+ 100101        101  11/23/2021 7:53 AM  C/In                Invalid          
+ 100103        103  11/23/2021 7:47 AM  C/In                Invalid          
+ 100106        106  11/23/2021 8:00 AM  C/In                Invalid          
+ 100107        107  11/23/2021 8:01 AM  C/In                Invalid          
+ 100120        120  11/23/2021 8:00 AM  C/In                Invalid          
+ 100122        122  11/23/2021 7:52 AM  C/In                Invalid          
+ 100139        139  11/23/2021 7:59 AM  C/In                Invalid          
+ 100141        141  11/23/2021 8:00 AM  C/In                Invalid          
+ 100146        146  11/23/2021 7:51 AM  C/In                Invalid          
+ 100149        149  11/23/2021 7:46 AM  C/In                Invalid          
+ 100169        169  11/23/2021 7:55 AM  C/In                Invalid          
+ 100171        171 11/23/2021 12:07 AM  C/In  OverTime In       FOT          
+ 100171        171  11/23/2021 7:54 AM  C/In OverTime Out       FOT          
+ 100190        190  11/23/2021 7:52 AM  C/In                Invalid          
+ 100200        200  11/23/2021 8:00 AM  C/In                Invalid          
+ 100201        201  11/23/2021 7:51 AM  C/In                Invalid          
+ 100224        224  11/23/2021 7:52 AM  C/In                Invalid          
+ 100226        226  11/23/2021 8:01 AM  C/In                Invalid          
+ 100243        243  11/23/2021 7:56 AM  C/In                Invalid          
+ 100244        244  11/23/2021 7:55 AM  C/In                Invalid          
+ 100261        261  11/23/2021 8:01 AM  C/In                Invalid          
+ 100266        266  11/23/2021 7:58 AM  C/In                Invalid          
+ 100278        278  11/23/2021 7:52 AM  C/In                Invalid          
+ 100294        294  11/23/2021 7:54 AM  C/In                Invalid          
+ 100295        295  11/23/2021 7:49 AM  C/In                Invalid          
+ 100301        301  11/23/2021 7:57 AM  C/In                 Repeat          
+ 100301        301  11/23/2021 7:58 AM  C/In                Invalid          
+ 100304        304  11/23/2021 7:53 AM  C/In                Invalid          
+ 100305        305  11/23/2021 7:56 AM  C/In                Invalid          
+ 100313        313  11/23/2021 7:57 AM  C/In                Invalid          
+ 100320        320  11/23/2021 7:55 AM  C/In                 Repeat          
+ 100320        320  11/23/2021 7:55 AM  C/In                Invalid          
+ 100323        323  11/23/2021 8:00 AM  C/In                Invalid          
+ 100359        359  11/23/2021 7:54 AM  C/In                Invalid          
+ 100374        374  11/23/2021 7:44 AM  C/In                Invalid          
+ 100379        379  11/23/2021 7:58 AM  C/In                Invalid          
+ 100381        381  11/23/2021 7:53 AM  C/In                Invalid          
+ 100384        384  11/23/2021 7:53 AM  C/In                Invalid          
+ 100389        389  11/23/2021 7:54 AM  C/In                Invalid          
+ 100391        391  11/23/2021 7:47 AM  C/In                Invalid          
+ 100394        394  11/23/2021 7:47 AM  C/In                Invalid          
+ 100397        397  11/23/2021 7:47 AM  C/In                Invalid          
+ 100401        401  11/23/2021 3:02 AM  C/In                 Repeat          
+ 100401        401  11/23/2021 3:02 AM  C/In  OverTime In       FOT          
+ 100401        401  11/23/2021 7:54 AM  C/In OverTime Out       FOT          
+ 100417        417  11/23/2021 7:56 AM  C/In                Invalid          
+ 100421        421  11/23/2021 7:52 AM  C/In                Invalid          
+ 100423        423  11/23/2021 7:53 AM  C/In                Invalid          
+ 100453        453  11/23/2021 7:52 AM  C/In                Invalid          
+ 100459        459  11/23/2021 3:02 AM  C/In  OverTime In       FOT          
+ 100459        459  11/23/2021 7:57 AM  C/In OverTime Out       FOT          
+ 100490        490  11/23/2021 7:55 AM  C/In                Invalid          
+ 100499        499  11/23/2021 7:46 AM  C/In                Invalid          
+ 100541        541  11/23/2021 7:56 AM  C/In                Invalid          
+ 100556        556  11/23/2021 7:59 AM  C/In                Invalid          
+ 100561        561  11/23/2021 8:00 AM  C/In                Invalid          
+ 100623        623  11/23/2021 7:59 AM  C/In                Invalid          
+ 100634        634  11/23/2021 7:48 AM  C/In                Invalid          
+ 100640        640  11/23/2021 8:00 AM  C/In                Invalid          
+ 100644        644  11/23/2021 7:56 AM  C/In                Invalid          
+ 100657        657  11/23/2021 7:51 AM  C/In                Invalid          
+ 100682        682  11/23/2021 7:51 AM  C/In                Invalid          
+ 100691        691  11/23/2021 3:02 AM  C/In  OverTime In       FOT          
+ 100691        691  11/23/2021 7:56 AM  C/In OverTime Out       FOT          
+ 100699        699  11/23/2021 7:46 AM  C/In                Invalid          
+ 100706        706  11/23/2021 7:54 AM  C/In                Invalid          
+ 100711        711  11/23/2021 7:58 AM  C/In                 Repeat          
+ 100711        711  11/23/2021 7:59 AM  C/In                Invalid          
+ 100713        713  11/23/2021 7:49 AM  C/In                Invalid          
+ 100750        750  11/23/2021 7:57 AM  C/In                Invalid          
+ 100759        759  11/23/2021 7:54 AM  C/In                Invalid          
+ 100770        770  11/23/2021 7:51 AM  C/In                Invalid          
+ 100771        771  11/23/2021 7:50 AM  C/In                Invalid          
+ 100777        777  11/23/2021 7:59 AM  C/In                Invalid          
+ 100779        779  11/23/2021 7:59 AM  C/In                Invalid          
+ 100788        788  11/23/2021 7:52 AM  C/In                Invalid          
+ 100804        804  11/23/2021 7:56 AM  C/In                Invalid          
+ 100819        819  11/23/2021 8:01 AM  C/In                Invalid          
+ 100831        831  11/23/2021 7:49 AM  C/In                Invalid          
+ 100837        837  11/23/2021 7:51 AM  C/In                Invalid          
+ 100845        845  11/23/2021 7:51 AM  C/In                Invalid          
+ 100849        849  11/23/2021 7:44 AM  C/In                Invalid          
+ 100855        855  11/23/2021 7:50 AM  C/In                Invalid          
+ 100860        860  11/23/2021 7:56 AM  C/In                Invalid          
+ 100894        894  11/23/2021 7:51 AM  C/In                Invalid          
+ 100898        898  11/23/2021 7:55 AM  C/In                Invalid          
+ 100920        920  11/23/2021 7:44 AM  C/In                Invalid          
+ 100938        938  11/23/2021 7:51 AM  C/In                Invalid          
+ 100940        940  11/23/2021 7:51 AM  C/In                Invalid          
+ 100941        941  11/23/2021 7:53 AM  C/In                Invalid          
+ 100959        959  11/23/2021 7:54 AM  C/In                Invalid          
+ 100973        973  11/23/2021 7:54 AM  C/In                Invalid          
+ 101108       1108  11/23/2021 7:43 AM  C/In                Invalid          
+ 100017     100017  11/23/2021 7:51 AM  C/In                Invalid          
+ 100168        168  11/23/2021 3:02 AM  C/In  OverTime In       FOT          
+ 100168        168  11/23/2021 8:00 AM  C/In OverTime Out       FOT          
+ 100179     100179  11/23/2021 7:33 AM  C/In                Invalid          
+ 100251     SURAYA  11/23/2021 7:59 AM  C/In                Invalid          
+ 100275        275  11/23/2021 7:54 AM  C/In                Invalid          
+ 100280        280  11/23/2021 8:01 AM  C/In                Invalid          
+ 100429        429  11/23/2021 3:02 AM  C/In  OverTime In       FOT          
+ 100429        429  11/23/2021 7:59 AM  C/In OverTime Out       FOT          
+ 100431        431  11/23/2021 8:00 AM  C/In                Invalid          
+ 100458        458  11/23/2021 7:42 AM  C/In                Invalid          
+ 100464        464  11/23/2021 7:57 AM  C/In                Invalid          
+ 100609        609  11/23/2021 7:57 AM  C/In                Invalid          
+ 100678        678  11/23/2021 7:57 AM  C/In                Invalid          
+ 100693        693  11/23/2021 8:01 AM  C/In                Invalid          
+ 100694        694  11/23/2021 3:02 AM  C/In                Invalid          
+ 100695        695  11/23/2021 7:54 AM  C/In                Invalid          
+ 100700        700  11/23/2021 7:46 AM  C/In                Invalid          
+ 100708        708  11/23/2021 8:00 AM  C/In                Invalid          
+ 100712        712  11/23/2021 7:54 AM  C/In                Invalid          
+ 100720        720  11/23/2021 8:00 AM  C/In                Invalid          
+ 100723        723  11/23/2021 7:58 AM  C/In                Invalid          
+ 100831        831  11/23/2021 7:44 AM  C/In                Invalid          
+ 100838        838  11/23/2021 7:57 AM  C/In                Invalid          
+ 100864        864  11/23/2021 7:49 AM  C/In                Invalid          
+ 100868        868  11/23/2021 7:50 AM  C/In                Invalid          
+ 100870        870  11/23/2021 7:49 AM  C/In                Invalid          
+ 100875        875  11/23/2021 8:07 AM  C/In                Invalid          
+ 100879        879  11/23/2021 7:53 AM  C/In                Invalid          
+ 100890        890  11/23/2021 7:57 AM  C/In                Invalid          
+ 100926        926  11/23/2021 7:56 AM  C/In                Invalid          
+ 100932        932  11/23/2021 7:50 AM  C/In                Invalid          
+ 100935        935  11/23/2021 7:59 AM  C/In                Invalid          
+ 100936        936  11/23/2021 7:49 AM  C/In                Invalid          
+ 100939        939  11/23/2021 7:51 AM  C/In                Invalid          
+ 100975     100975  11/23/2021 7:54 AM  C/In                Invalid          
+ 101040     101040  11/23/2021 7:46 AM  C/In                Invalid          
+ 101146     101146  11/23/2021 7:51 AM  C/In                Invalid          
+ 101152       1152  11/23/2021 7:44 AM  C/In                Invalid          
+ 101155     101155  11/23/2021 7:52 AM  C/In                Invalid          
+ 101164     101164  11/23/2021 7:59 AM  C/In                Invalid          
+ 101175     101175  11/23/2021 7:44 AM  C/In                 Repeat          
+ 101175     101175  11/23/2021 7:44 AM  C/In                 Repeat          
+ 101175     101175  11/23/2021 7:45 AM  C/In                Invalid          
+ 101177     101177  11/23/2021 7:43 AM  C/In                Invalid          
+ 101182     101182  11/23/2021 7:40 AM  C/In                Invalid          
+ 101200     101200  11/23/2021 7:55 AM  C/In                Invalid          
+ 101235     101235  11/23/2021 7:40 AM  C/In                Invalid          
+ 101277     101277  11/23/2021 7:56 AM  C/In                Invalid          
+ 101282     101282  11/23/2021 8:00 AM  C/In                Invalid          
+ 101289     101289  11/23/2021 7:52 AM  C/In                Invalid          
+ 101290     101290  11/23/2021 7:53 AM  C/In                Invalid          
+ 101292     101292  11/23/2021 7:55 AM  C/In                Invalid          
+ 101293     101293  11/23/2021 7:48 AM  C/In                Invalid          
+ 101294     101294  11/23/2021 7:52 AM  C/In                Invalid          
+ 101297     101297  11/23/2021 8:00 AM  C/In                Invalid          
+ 101302     101302  11/23/2021 7:52 AM  C/In                Invalid          
+ 101304     101304  11/23/2021 7:59 AM  C/In                Invalid          
+

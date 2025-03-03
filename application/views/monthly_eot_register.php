@@ -110,7 +110,7 @@ $section=array();
 	echo "</td>";
 	
 	echo "<td  style='text-align:center;' >";
-	echo $values["total_ot_hour"][$k];
+	echo $values["total_eot_hour"][$k];
 	echo "</td>";
 	
 	

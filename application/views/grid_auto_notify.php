@@ -3,11 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>MSH Payroll Reports</title>
-	
+
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>themes/redmond/jquery-ui-1.8.2.custom.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>themes/ui.jqgrid.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>css/calendar.css"/>
-		
+
+	<link href="<?=base_url()?>awedget/assets/plugins/boostrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="<?php echo base_url('/assets/bootstrap/css/bootstrap.min.css') ?>">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="<?php echo base_url('/assets/bootstrap/js/bootstrap.js') ?>"></script>
+
+    <script src="<?=base_url()?>awedget/assets/plugins/boostrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+
 	<script src="<?php echo base_url(); ?>js/jquery.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url(); ?>js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 	<script src="<?php echo base_url(); ?>js/i18n/grid.locale-en.js" type="text/javascript"></script>
@@ -23,46 +30,52 @@
                 resizable: false,
                 modal: true
             });
-            
-            $(".ui-dialog-titlebar").hide();   
-            
+
+            $(".ui-dialog-titlebar").hide();
+
         });
     </script>
 
 </head>
 <body bgcolor="#ECE9D8">
-<div align="center" style=" margin:0 auto; width:1000px; min-height:555px; overflow:hidden;">
+<div align="center" style=" margin:0 auto; width:1200px; min-height:555px; overflow:hidden;">
 <div style="float:left; overflow:hidden; width:65%; height:auto; padding:10px;">
 <form name="grid" target="_blank">
 <div>
 
 <fieldset style='width:95%;'><legend><font size='+1'><b>Date</b></font></legend>
-<table>
-<tr>
-<td>Please Select Date </td><td>:</td><td> <input type="text" name="firstdate" id="firstdate" style="width:100px;"/></td>
-<td>
-	<script language="JavaScript">
-	var o_cal = new tcal ({
-		// form name
-		'formname': 'grid',
-		// input name
-		'controlname': 'firstdate'
-	});
-	
-	// individual template parameters can be modified via the calendar variable
-	o_cal.a_tpl.yearscroll = false;
-	o_cal.a_tpl.weekstart = 6;
-	
-	</script>
-</td>
-<td  style='text-align-last: center;'>
-	<input type='button' name='btn' id='btn' onclick='save_date()' value='Insert Date' size='15'>
-</td>
+<table class="table">
+	<tr>
+		<td>Please Select Date &nbsp;&nbsp; : </td>
+		<td>
+			<input class="form-control" type="text" name="firstdate" id="firstdate" style="width:120px; margin-right: -35px;"/>
+		</td>
+		<td>
+			<script language="JavaScript">
+			var o_cal = new tcal ({
+				// form name
+				'formname': 'grid',
+				// input name
+				'controlname': 'firstdate'
+			});
 
-</tr>
+			// individual template parameters can be modified via the calendar variable
+			o_cal.a_tpl.yearscroll = false;
+			o_cal.a_tpl.weekstart = 6;
+
+			</script>
+		</td>
+		<td style='text-align-last: center;'>
+			<input class="btn btn-primary btn-sm" type='button' name='btn' id='btn' onclick='save_date()' value='Insert Date' size='15'>
+		</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+	</tr>
 <tr><td></td></tr>
 <tr>
-	<?php 
+	<?php
 		$this->db->select('date');
 		$query = $this->db->get('setup_auto_date');
 		$row = $query->row();
@@ -74,8 +87,8 @@
 </fieldset>
  </div>
 <br/>
-<?php 
-	$this->load->model('common_model'); 
+<?php
+	$this->load->model('common_model');
 	$unit = $this->common_model->get_unit_id_name();
 ?>
 <div>
@@ -200,40 +213,40 @@
   ?>
 
 <fieldset style='width:95%;'><legend><font size='+1'><b>Auto Weekly Reports</b></font></legend>
-<table>
+<table class="table" width="100%"  style="font-size:11px; ">
 <tr>
 <input type="hidden" id="date" name="date" value="<?php echo $date;?>">
 <input type="hidden" id="grid_emp_id" name="grid_emp_id" value="<?php echo $all_grid_id;?>">
 <input type="hidden" id="grid_emp_id_2" name="grid_emp_id_2" value="<?php echo $all_grid_id_2;?>">
 <input type="hidden" id="grid_emp_id_3" name="grid_emp_id_3" value="<?php echo $all_grid_id_3;?>">
 <input type="hidden" id="grid_emp_id_4" name="grid_emp_id_4" value="<?php echo $all_grid_id_4;?>">
-	
-<?php 
+
+<?php
  if($count_id==0){ ?>
- 	<td style="width:20%; background-color:#666666;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For FW (<?php echo count($count_id);?>)" onClick="grid_auto_notify_FW()"></td>
+ 	<td style="width:20%;"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For FW (<?php echo count($count_id);?>)" onClick="grid_auto_notify_FW()"></td>
  <?php } elseif($count_id>0){ ?>
- 	<td style="width:20%; background-color:red;color:red;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For FW(<?php echo count($count_id);?>)" onClick="grid_auto_notify_FW()"></td>
+ 	<td style="width:20%; background-color:red;color:red;font-size: 12px;"><input  class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For FW(<?php echo count($count_id);?>)" onClick="grid_auto_notify_FW()"></td>
 <?php } ?>
 
-<?php 
+<?php
  if($count_id_2==0){ ?>
- 	<td style="width:20%; background-color:#666666;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For SW (<?php echo count($count_id_2);?>)" onClick="grid_auto_notify_SW()"></td>
+ 	<td style="width:20%;"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For SW (<?php echo count($count_id_2);?>)" onClick="grid_auto_notify_SW()"></td>
  <?php } elseif($count_id_2>0){ ?>
- 	<td style="width:20%; background-color:red;color:red;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For SW(<?php echo count($count_id_2);?>)" onClick="grid_auto_notify_SW()"></td>
+ 	<td style="width:20%; background-color:red;color:red;font-size: 12px;"><input  class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For SW(<?php echo count($count_id_2);?>)" onClick="grid_auto_notify_SW()"></td>
 <?php } ?>
 
-<?php 
+<?php
  if($count_id_3==0){ ?>
- 	<td style="width:20%; background-color:#666666;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For TW (<?php echo count($count_id_3);?>)" onClick="grid_auto_notify_TW()"></td>
+ 	<td style="width:20%;"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For TW (<?php echo count($count_id_3);?>)" onClick="grid_auto_notify_TW()"></td>
  <?php } elseif($count_id_3>0){ ?>
- 	<td style="width:20%; background-color:red;color:red;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For TW(<?php echo count($count_id_3);?>)" onClick="grid_auto_notify_TW()"></td>
+ 	<td style="width:20%;"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For TW(<?php echo count($count_id_3);?>)" onClick="grid_auto_notify_TW()"></td>
 <?php } ?>
 
-<?php 
+<?php
  if($count_id_4==0){ ?>
- 	<td style="width:20%; background-color:#666666;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For LW (<?php echo count($count_id_4);?>)" onClick="grid_auto_notify_LW()"></td>
+ 	<td style="width:20%;"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For LW (<?php echo count($count_id_4);?>)" onClick="grid_auto_notify_LW()"></td>
  <?php } elseif($count_id_4>0){ ?>
- 	<td style="width:20%; background-color:red;color:red;font-size: 12px;"><input type="button" style="width:100%; font-size:100%;" value="Auto Notify For LW(<?php echo count($count_id_4);?>)" onClick="grid_auto_notify_LW()"></td>
+ 	<td style="width:20%;"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Auto Notify For LW(<?php echo count($count_id_4);?>)" onClick="grid_auto_notify_LW()"></td>
 <?php } ?>
 </tr>
 
