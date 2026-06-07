@@ -49,11 +49,11 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'application_gm';
-$db['default']['password'] = '@((|!#a7I)U^9w';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
 // $db['default']['database'] = 'erp_mysoft_demo';
 // $db['default']['database'] = '21-ep-_backup_time';
-$db['default']['database'] = 'application_gm';
+$db['default']['database'] = 'loopdot';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
