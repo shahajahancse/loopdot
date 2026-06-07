@@ -223,7 +223,7 @@
 
 	<?php if(!in_array(10,$acl)) { ?>
 	<?php if(!in_array(14,$acl)) { ?>
-	<?php if(!in_array($user_id,$usr_arr)){  ?>
+	<?php if(!in_array($user_id,$usr_arr) && $this->session->userdata('data')->id_number !="loopdot_admin" ){  ?>
 	<tr>
 		<!-- <td style="width:20%;background-color: #666666"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Daily Costing Summary" onClick="daily_costing_summary()"></td> -->
 

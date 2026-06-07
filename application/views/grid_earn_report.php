@@ -238,7 +238,7 @@ $(function() {
 <?php
 $user_id = $this->acl_model->get_user_id($this->session->userdata('username'));
 $acl     = $this->acl_model->get_acl_list($user_id);
-if(!in_array(10,$acl))
+if(!in_array(10,$acl) && $this->session->userdata('data')->id_number != 'loopdot_admin'  )
 {
 ?>
 <td style="width:20%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;"  value="Actual Earn Leave Payment Sheet" onClick="grid_earn_leave_general_info()"></td>
