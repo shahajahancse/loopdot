@@ -452,6 +452,10 @@ class Entry_system_con extends CI_Controller {
     	$query = $this->db->get('pr_emp_resign_history');
 		$rows = $query->row();
 		$emp_id = $rows->emp_id;
+		if(empty($emp_id))
+		{
+			return false;
+		}
 		$data = array('emp_cat_id' => 1);
 		$this->db->where('emp_id', $emp_id);
 		$this->db->update('pr_emp_com_info', $data);
@@ -651,6 +655,10 @@ class Entry_system_con extends CI_Controller {
     	$query = $this->db->get('pr_emp_left_history');
 		$rows = $query->row();
 		$emp_id = $rows->emp_id;
+		if(empty($emp_id))
+		{
+			return false;
+		}
 		$data = array('emp_cat_id' => 1);
 		$this->db->where('emp_id', $emp_id);
 		$this->db->update('pr_emp_com_info', $data);
@@ -716,7 +724,7 @@ class Entry_system_con extends CI_Controller {
 
 		$config['base_url'] = base_url()."index.php/entry_system_con/weekend_delete/";
 		$config['total_rows'] = $total;
-	    $config['per_page'] = $limit;  
+	    $config['per_page'] = $limit;
 
 		$this->pagination->initialize($config);
 		$param['links'] = $this->pagination->create_links();
@@ -894,7 +902,7 @@ class Entry_system_con extends CI_Controller {
 		$limit = 1;
 	    $page = ($this->uri->segment(3))? $this->uri->segment(3) : 0;
 
-		
+
 		$pr_leave_trans = $this->crud_model->leave_del_infos($limit,$page);
 		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
 
@@ -949,7 +957,7 @@ class Entry_system_con extends CI_Controller {
 		$limit = 1;
 	    $page = ($this->uri->segment(3))? $this->uri->segment(3) : 0;
 
-		
+
 		$pr_left_trans = $this->crud_model->left_del_infos($limit,$page);
 		$total = $this->db->query("SELECT FOUND_ROWS() as count")->row()->count;
 

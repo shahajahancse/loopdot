@@ -1123,14 +1123,17 @@ class Crud_model extends CI_Model{
 
     function left_delete($emp_id)
     {
-      $data = array('emp_cat_id' => 1);
-      $this->db->where('emp_id', $emp_id);
-      $this->db->update('pr_emp_com_info', $data);
+        if (empty($emp_id)) {
+            return false;
+        }
+        $data = array('emp_cat_id' => 1);
+        $this->db->where('emp_id', $emp_id);
+        $this->db->update('pr_emp_com_info', $data);
 
-      $this->db->where('emp_id', $emp_id);
-      $this->db->delete('pr_emp_left_history');
-      
-      return true;
+        $this->db->where('emp_id', $emp_id);
+        $this->db->delete('pr_emp_left_history');
+
+        return true;
     }
 
     //==========================Proxi ID====================================//
