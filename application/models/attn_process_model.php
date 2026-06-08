@@ -59,6 +59,7 @@ class Attn_process_model extends CI_Model{
 		$year_month = date("Y-m", mktime(0, 0, 0, $first_m, 1, $first_y));
 		$year_month = $year_month."-01";
 		//===================================================
+
 		$i = 0; $j = 0;
 		foreach ($all_employee->result() as $rows){
 			$emp_id			= $rows->emp_id;

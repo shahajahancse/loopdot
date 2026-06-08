@@ -145,7 +145,11 @@ class Attn_process_con extends CI_Controller {
 		$date = $this->input->post('p_start_date');
 		$spl = $this->input->post('spl');
 		$input_date = date("Y-m-d", strtotime($date));
-		$grid_emp_id = explode('xxx', $spl);
+		// $grid_emp_id = explode('xxx', $spl);
+
+		$grid_emp_id = array_filter(explode('xxx', $spl));
+		$grid_emp_id = array_values($grid_emp_id);
+
 		//print_r($grid_emp_id);exit;
 		//$this->earn_leave_process($input_date);
 		// For Shift Auto Change
