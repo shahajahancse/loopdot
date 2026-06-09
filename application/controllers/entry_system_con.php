@@ -5,7 +5,11 @@ class Entry_system_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
+		
 		/* Standard Libraries */
 		// $this->load->model('attn_process_model');
 		$this->load->model('processdb');

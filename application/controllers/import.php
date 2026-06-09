@@ -3,6 +3,10 @@
 class Import extends CI_Controller {
 	function __construct(){
 		parent::__construct();
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 	}
 
 	function index(){
@@ -123,7 +127,7 @@ class Import extends CI_Controller {
 			$sec_name	= trim($linearray[4]);
 			$line_name	= trim($linearray[5]);
 			$desig_name	= trim($linearray[6]);
-			
+
 			$sal_grade	= trim($linearray[7]);
 			$doj 		= trim($linearray[8]);
 			$dob 		= trim($linearray[9]);
@@ -155,7 +159,7 @@ class Import extends CI_Controller {
 			$com_gross	= $sal_gross;
 
 			//$unit_id = substr($emp_id, 0, 1);
-			
+
 			$unit_id = 1;
 			$emp_position_id = 1;//Stuff =1 And Worker =2
 
@@ -188,8 +192,8 @@ class Import extends CI_Controller {
 			$sal_grade_id = $this->get_salary_grade_id_by_name($sal_grade);
 			$religion_id = $this->get_religion_id_by_name($religion);*/
 			// $bonus_id = $this->get_bonus_id_by_name($bonus_name);
-			
-			
+
+
 			$dob1 = date('Y-m-d', strtotime($dob));
 			$doj1 = date('Y-m-d', strtotime($doj));
 
@@ -339,7 +343,7 @@ class Import extends CI_Controller {
 				'unit_id' => $unit_id,
 				'dept_name' => $dept_name
 			);
-			$this->db->insert('pr_dept', $data); 
+			$this->db->insert('pr_dept', $data);
 		}
 	}
 
@@ -351,7 +355,7 @@ class Import extends CI_Controller {
 				'unit_id' => $unit_id,
 				'sec_name' => $sec_name
 			);
-			$this->db->insert('pr_section', $data); 
+			$this->db->insert('pr_section', $data);
 		}
 	}
 
@@ -362,7 +366,7 @@ class Import extends CI_Controller {
 			$data = array(
 				'name_en' => $district_name
 			);
-			$this->db->insert('district', $data); 
+			$this->db->insert('district', $data);
 		}
 	}
 
@@ -386,7 +390,7 @@ class Import extends CI_Controller {
 			$data = array(
 				'gr_name' => $salgrade_name
 			);
-			$this->db->insert('pr_grade', $data); 
+			$this->db->insert('pr_grade', $data);
 		}
 	}
 	function check_religion($religion){
@@ -396,10 +400,10 @@ class Import extends CI_Controller {
 			$data = array(
 				'religion_name' => $religion_name
 			);
-			$this->db->insert('pr_religions', $data); 
+			$this->db->insert('pr_religions', $data);
 		}
 	}
-	
+
 	function check_att_bonus($bonus_name){
 		$num_row = $this->db->where('ab_rule_name',trim($bonus_name))->get('pr_attn_bonus')->num_rows();
 		if($num_row < 1){
@@ -407,7 +411,7 @@ class Import extends CI_Controller {
 			$data = array(
 				'ab_rule_name' => $bonus_name
 			);
-			$this->db->insert('pr_attn_bonus', $data); 
+			$this->db->insert('pr_attn_bonus', $data);
 		}
 	}
 

@@ -4,7 +4,11 @@ class Grid_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
+		
 		/* Standard Libraries */
 		$this->load->model('grid_model');
 		$this->load->model('acl_model');
@@ -1425,7 +1429,7 @@ class Grid_con extends CI_Controller {
 		$data['unit_id']	= $unit_id;
 		$firstdate = date("Y-m-d", strtotime($firstdate));
 		$data['firstdate']	= $firstdate;
-		
+
 		/*echo "<pre>";
 		print_r($data['values']->result()); exit();*/
 		if(is_string($data['values']))
@@ -1862,13 +1866,13 @@ class Grid_con extends CI_Controller {
 		$grid_data       = $this->input->post('spl');
 
 		$grid_emp_id = explode('xxx', trim($grid_data));
-		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate)); 
-		$grid_seconddate = date("Y-m-d", strtotime($grid_seconddate)); 
-		
+		$grid_firstdate  = date("Y-m-d", strtotime($grid_firstdate));
+		$grid_seconddate = date("Y-m-d", strtotime($grid_seconddate));
+
 		$data['values'] = $this->grid_model->grid_extra_ot_9pm($grid_emp_id);
 		$data['grid_firstdate'] = $grid_firstdate;
 		$data['grid_seconddate'] = $grid_seconddate;
-		
+
 		if(is_string($data['values']))
 		{
 			echo $data['values'];

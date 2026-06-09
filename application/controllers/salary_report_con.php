@@ -4,6 +4,10 @@ class Salary_report_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 
 		/* Standard Libraries */
 		$this->load->model('grid_model');
@@ -487,7 +491,7 @@ class Salary_report_con extends CI_Controller {
 		{
 			$this->load->view('pay_slip',$query);
 		}
-	}	
+	}
 
 	function grid_pay_slip_com()
 	{
@@ -529,7 +533,7 @@ class Salary_report_con extends CI_Controller {
 			$this->load->view('grid_pay_slip_actual',$query);
 		}
 	}
-	
+
 
 	function grid_pay_slip_non_compliance()
 	{
