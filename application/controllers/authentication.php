@@ -21,16 +21,15 @@ class Authentication extends CI_Controller {
 
 		if($this->session->userdata('logged_in')==true)
 		{
-		// print_r($this->session->all_userdata()); exit;
-			if($this->session->userdata('level')==2 || $this->session->userdata('level')==3)
-			{
-				$url = base_url()."magpie/";
-				redirect($url);
-			}
-			else
-			{
-				redirect("payroll_con");
-			}
+			// if($this->session->userdata('level')==2 || $this->session->userdata('level')==3)
+			// {
+			// 	$url = base_url()."magpie/";
+			// 	redirect($url);
+			// }
+			// else
+			// {
+			// }
+			redirect("payroll_con");
 		}
 		else
 		{
