@@ -1,3 +1,10 @@
+<?php
+$user_data = $this->session->userdata['data'];
+// echo "<pre>";
+// print_r($user_data);exit;
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -40,10 +47,10 @@ button {outline:solid 1px  #408080; resize:none; margin-right:10px; padding:2px;
 </head>
 
 <body bgcolor="#ECE9D8">
-<div align="center" style=" width:900px; overflow:hidden;" >
+<div align="center" style=" width:1000px; overflow:hidden;" >
 
 
-<div  style="width:900px;">
+<div  style="width:1000px;">
 <div id="error_id" style="display:none; color:red;">
 <?php echo $validation_errors =  validation_errors(); ?>
 </div>
@@ -53,10 +60,10 @@ if($validation_errors != '')
 	echo "<SCRIPT LANGUAGE=\"JavaScript\">alert(document.getElementById('error_id').innerHTML);</SCRIPT>";
 }
 ?>
-<form name='cominfo' class="cominfo"  enctype="multipart/form-data" method="post" action="<?php echo base_url();?>index.php/emp_info_con/personal_info_view1" >
+<form name='cominfo' id="cominfo" class="cominfo"  enctype="multipart/form-data" method="post" action="<?php echo base_url();?>index.php/emp_info_con/personal_info_view1" >
 <input type="hidden" name="units" value="1">
 <fieldset style="background:#F2F2E6;">
-<table cellpadding="0" cellspacing="3" width='900px' border='0' align='center'>
+<table cellpadding="0" cellspacing="3" width='1000px' border='0' align='center'>
 <tr>
   <td>Emp Id </td>
   <td><input name="empid" type='text' id='empid' style="width:170px;" value="<?php echo set_value('empid'); ?>"/></td>
@@ -176,11 +183,11 @@ if($validation_errors != '')
 		<td>
 			<select style="width:174px;"  id='nomini_relation' name="nomini_relation">
 
-				<?php/*  $relation = $this->processdb->get_nomini_relation();
+				< ?php/*  $relation = $this->processdb->get_nomini_relation();
 
 				foreach($relation->result() as $rows) {
 
-					if($this->input->post('nomini_relation') == $rows->id) */ {?>
+					if($this->input->post('nomini_relation') == $rows->id) */ { ?>
 
 						<option value="<?php //  echo $rows->id; ?>" selected="selected"><?php // echo $rows->nomini_relation; ?></option>
 
@@ -504,6 +511,55 @@ if($validation_errors != '')
 
     </script>
     </td>
+</tr>
+<tr>
+  <td>Process 1</td>
+  <td>
+    <select style="width:174px;" id='skill_process_one' name='skill_process_one' >
+		<option value="0">Select Process</option>	
+        <?php $skill_process = $this->db->get('pr_skill_process');
+        foreach($skill_process->result() as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+		<?php } ?>
+    </select>
+	<input type="number" style="width:50px;" id='hour_one' name="hour_one" value="0" placeholder="P/Hr">
+  </td>
+    <td>Process 2</td> 
+  <td>
+    <select style="width:174px;" id='skill_process_two' name='skill_process_two' >
+		<option value="0">Select Process</option>	
+        <?php 
+        foreach($skill_process->result() as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+		<?php } ?>
+    </select>
+	<input type="number" style="width:50px;" id='hour_two' name="hour_two" value="0" placeholder="P/Hr">
+  </td>
+</tr>
+<tr>
+  <td>Process 3</td>
+  <td>
+    <select style="width:174px;" id='skill_process_three' name='skill_process_three' >
+		<option value="0">Select Process</option>	
+        <?php 
+        foreach($skill_process->result() as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+		<?php } ?>
+    </select>
+	<input type="number" style="width:50px;" id='hour_three' name="hour_three" value="0" placeholder="P/Hr">
+  </td>
+    <td>Process 4</td>
+  <td>
+    <select style="width:174px;" id='skill_process_four' name='skill_process_four' >
+		<option value="0">Select Process</option>	
+        <?php 
+        foreach($skill_process->result() as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+		<?php } ?>
+    </select>
+	<input type="number" style="width:50px;" id='hour_four' name="hour_four" value="0" placeholder="P/Hr">
+  </td>
+</tr>
 <tr>
   <td>Att. Bonus</td><td>
       <select style="width:174px;" id='attbonus' name='attbonus' >
@@ -564,6 +620,12 @@ if($validation_errors != '')
   <td>Company Name</td>
   <td><input name="text7" type='text' id='skill_com_na' style="width:170px;" value="<?php echo set_value('text7'); ?>"/></td>
 </tr>
+
+<?php 
+	if($user_data->id_number != 'loopdot_admin'){
+
+?>
+
 <tr>
   <td class="salary_back">Gross</td>
   <td class="salary_back"><input name="text8" type='text' id='gsal'  onchange='basic_sal_cal()'  value="<?php echo set_value('text8'); ?>" style="width:170px;" style="background: #DDD;font-weight:bold;"/></td>
@@ -583,16 +645,62 @@ if($validation_errors != '')
   <td class="salary_back">Food</td>
   <td class="salary_back"><input name="text8" type='text' disabled='disabled' id='lunch_allow'  style="background: #DDD;font-weight:bold;width:170px;" /></td>
 </tr>
+<tr>
+  <td class="salary_back">Gross.</td>
+  <td class="salary_back"><input name="text9" type='text' id='com_gsal'  onchange='com_basic_sal_cal()'  value="<?php echo set_value('text9'); ?>" style="width:170px;" style="background: #DDD;font-weight:bold;"/></td>
+  <td class="salary_back">Basic.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_bsal'   style="background: #DDD;font-weight:bold;width:170px;"/></td>
+</tr>
+
+<tr>
+  <td class="salary_back">House.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_hrent'   style="background: #DDD;font-weight:bold;width:170px;" /></td>
+  <td class="salary_back">Medical.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_mallow'  style="background: #DDD;font-weight:bold;width:170px;" /></td>
+</tr>
+<tr>
+  <td class="salary_back">Transport.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_transport_allow'   style="background: #DDD;font-weight:bold;width:170px;" /></td>
+  <td class="salary_back">Food.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_lunch_allow'  style="background: #DDD;font-weight:bold;width:170px;" /></td>
+</tr>
+<?php }else{?>
+
+<tr>
+  <td class="salary_back">Gross.</td>
+  <td class="salary_back"><input name="text9" type='text' id='com_gsal'  onchange='com_basic_sal_cal()'  value="<?php echo set_value('text9'); ?>" style="width:170px;" style="background: #DDD;font-weight:bold;"/></td>
+  <td class="salary_back">Basic.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_bsal'   style="background: #DDD;font-weight:bold;width:170px;"/></td>
+</tr>
+
+<tr>
+  <td class="salary_back">House.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_hrent'   style="background: #DDD;font-weight:bold;width:170px;" /></td>
+  <td class="salary_back">Medical.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_mallow'  style="background: #DDD;font-weight:bold;width:170px;" /></td>
+</tr>
+<tr>
+  <td class="salary_back">Transport.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_transport_allow'   style="background: #DDD;font-weight:bold;width:170px;" /></td>
+  <td class="salary_back">Food.</td>
+  <td class="salary_back"><input name="text9" type='text' disabled='disabled' id='com_lunch_allow'  style="background: #DDD;font-weight:bold;width:170px;" /></td>
+</tr>
+
+<?php }?>
 </table>
  </fieldset>
 
- <div style="width:900px; height:30px; background:#9DA2A6; margin-top:2px">
+ <div style="width:1000px; height:30px; background:#9DA2A6; margin-top:2px">
 <input type="hidden" name="id_skill" id="id_skill" value="<?php echo set_value('id_skill'); ?>"   />
  <input type='button' name='add' onclick='enable_save()' value='NEW'/>&nbsp;<input type="submit" name='pi_save'   value='SAVE'  />&nbsp;<input type="submit" name="pi_edit" id="pi_edit" disabled="disabled"  value='EDIT'/></form><input style="margin-left:20px;" type='button' name='prev' onclick='com_info_prev_Search1()' value='Prev'/>Find ID :
   <input style='background-color:yellow;' type='text' size='15px' id='search_empid' name='search_empid' onchange="com_info_Search1()"  /><input type='button' name='next' onclick='com_info_next_Search1()' value='Next'/>
 
   </div>
    </div>
+
+<script>
+    window.IS_ADMIN = <?php echo ($this->session->userdata('data')->id_number === 'loopdot_admin') ? 'true' : 'false'; ?>;
+</script>
 
 <?php if($this->input->post('pi_edit')) {echo "<SCRIPT LANGUAGE=\"JavaScript\">document.cominfo.pi_edit.disabled = false; document.cominfo.pi_save.disabled = true;</SCRIPT>";} ?>
 

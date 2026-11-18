@@ -1,3 +1,10 @@
+<?php
+	$user_data = $this->session->userdata;
+	// echo "<pre>";
+	// print_r($user_data);
+	// exit;
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -181,7 +188,12 @@
 				</span>
 			</div>
 
-				<?php $salary_strc = $this->common_model->salary_structure($row->gross_sal); ?>
+				<?php 
+				//echo "<pre>"; print_r($row);exit; 
+				$user_data = $this->session->userdata['data']->id_number;
+				$salary =  $user_data == 'loopdot_admin' ? $row->com_gross_sal : $row->gross_sal;
+				// echo $salary;exit;
+				// $salary_strc = $this->common_model->salary_structure($row->gross_sal); ?>
 		
 
 			<div style="line-height:20px; font-size:13px;">
@@ -200,7 +212,7 @@
 					
 					{ ?>
 			        <tr>
-			        	<?php $salary_strc = $this->common_model->salary_structure($row->gross_sal); ?>
+			        	<?php $salary_strc = $this->common_model->salary_structure($salary); ?>
 			        	<td style="text-align:center;font-family: SutonnyMj"><?php echo $salary_strc['gross_salary'];?> </td>
 			            <td style="text-align:center; font-weight:bold;font-family: SutonnyMj"><?php echo number_format($salary_strc['basic_sal']) ;?></td>
 			            <?php  

@@ -4,7 +4,10 @@ class Earn_leave_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 		/* Standard Libraries */
 		$this->load->library('grocery_CRUD');
 		$this->load->model('earn_leave_model');
@@ -16,7 +19,7 @@ class Earn_leave_con extends CI_Controller {
 		$access_level = 7;
 		$acl = $this->acl_model->acl_check($access_level);
 	}
-	
+
 	function earn_process_form()
 	{
 
@@ -45,7 +48,7 @@ class Earn_leave_con extends CI_Controller {
 		$output = $crud->render();
 		$this->load->view('form/earn_leave_process',$output);
 	}
-	
+
 	function earn_leave_process()
 	{
 		$month = $this->input->post('month');
@@ -60,14 +63,14 @@ class Earn_leave_con extends CI_Controller {
 	{
 		$this->load->view('grid_earn_report');
 	}
-	
+
 	function grid_earn_leave_general_info()
 	{
 		$year 			= $this->input->post('year');
 		$firstdate 		= $this->input->post('firstdate');
 		$seconddate 	= $this->input->post('seconddate');
 		$grid_status 	= $this->input->post('grid_status');
-		$unit_id		= $this->input->post('unit_id');	
+		$unit_id		= $this->input->post('unit_id');
 		$grid_data 		= $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		//print_r($grid_emp_id);
@@ -77,7 +80,7 @@ class Earn_leave_con extends CI_Controller {
 		if($data["values"] == "empty")
 		{
 			echo "Requested List Is Empty.";
-			
+
 		}
 		elseif($data["values"] =="Not Process")
 		{
@@ -88,14 +91,14 @@ class Earn_leave_con extends CI_Controller {
 			$this->load->view('earn_leave_general_info_report',$data);
 		}
 	}
-	
+
 	function grid_earn_leave_payment_buyer()
 	{
 		$year 			= $this->input->post('year');
 		$firstdate 		= $this->input->post('firstdate');
 		$seconddate 	= $this->input->post('seconddate');
 		$grid_status 	= $this->input->post('grid_status');
-		$unit_id		= $this->input->post('unit_id');	
+		$unit_id		= $this->input->post('unit_id');
 		$grid_data 		= $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		//print_r($grid_emp_id);
@@ -106,7 +109,7 @@ class Earn_leave_con extends CI_Controller {
 		if($data["values"] == "empty")
 		{
 			echo "Requested List Is Empty.";
-			
+
 		}
 		elseif($data["values"] =="Not Process")
 		{
@@ -121,7 +124,7 @@ class Earn_leave_con extends CI_Controller {
 	{
 		$year			= $this->input->post('year');
 		$grid_status 	= $this->input->post('grid_status');
-		$unit_id		= $this->input->post('unit_id');	
+		$unit_id		= $this->input->post('unit_id');
 		$grid_data 		= $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		//print_r($grid_emp_id);
@@ -145,10 +148,10 @@ class Earn_leave_con extends CI_Controller {
 	{
 		$sal_year_month = $this->input->post('sal_year_month');
 		$grid_status 	= $this->input->post('grid_status');
-		$unit_id		= $this->input->post('unit_id');	
+		$unit_id		= $this->input->post('unit_id');
 		$grid_data 		= $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
-		
+
 		$data["values"] = $this->earn_leave_model->grid_earn_leave_general_info($sal_year_month, $grid_status, $grid_emp_id);
 		//print_r($data);
 		$data["unit_id"] = $unit_id;
@@ -156,28 +159,28 @@ class Earn_leave_con extends CI_Controller {
 		if($data["values"] == "empty")
 		{
 			echo "Requested List Is Empty.";
-			
+
 		}
 		else
 		{
 			$this->load->view('earn_leave_payment_report',$data);
 		}
 	}
-	
-	
+
+
 	function earn_leave_payment()
 	{
-		
+
 		$data["values"] = $this->earn_leave_model->earn_leave_payment_db();
 		echo "Data Inserted Successfully!";
 	}
-	
+
 	function grid_earn_leave_payment_at_atime()
 	{
-		
+
 		$sal_year_month = $this->input->post('sal_year_month');
 		$grid_status 	= $this->input->post('grid_status');
-		$unit_id		= $this->input->post('unit_id');	
+		$unit_id		= $this->input->post('unit_id');
 		$grid_data 		= $this->input->post('spl');
 		$grid_emp_id = explode('xxx', trim($grid_data));
 		$data["values"] = $this->earn_leave_model->grid_earn_leave_general_info($sal_year_month, $grid_status, $grid_emp_id);
@@ -186,14 +189,14 @@ class Earn_leave_con extends CI_Controller {
 		if($data["values"] == "empty")
 		{
 			echo "Requested List Is Empty.";
-			
+
 		}
 		else
 		{
 			$this->load->view('earn_leave_payment_at_atime',$data);
 		}
 	}
-	
+
 	function all_search()
 	{
 		$dept 	= $this->uri->segment(3);
@@ -203,13 +206,13 @@ class Earn_leave_con extends CI_Controller {
 		$sex	= $this->uri->segment(7);
 		$status	= $this->uri->segment(8);
 		$unit	= $this->uri->segment(9);
-		
+
 		$this->db->select('pr_emp_per_info.*');
 		$this->db->from('pr_emp_per_info');
 		$this->db->from('pr_emp_com_info');
 		$this->db->where('pr_emp_per_info.emp_id = pr_emp_com_info.emp_id');
 		$this->db->where('pr_emp_com_info.unit_id',$unit);
-		
+
 		if($dept !="Select")
 		{
 			$this->db->where("pr_emp_com_info.emp_dept_id", $dept);
@@ -249,12 +252,12 @@ class Earn_leave_con extends CI_Controller {
 		}
 		echo json_encode($responce);
 		exit;
-		
+
 	}
 	function get_all_data()
 	{
 		$units	= $this->uri->segment(3);
-		
+
 		$this->db->select('pr_emp_per_info.*');
 		$this->db->from('pr_emp_per_info');
 		$this->db->from('pr_emp_com_info');
@@ -273,9 +276,9 @@ class Earn_leave_con extends CI_Controller {
 		echo json_encode($responce);
 		exit;
 
-		
+
 	}
-	
+
 }
 
 

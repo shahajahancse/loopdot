@@ -4,6 +4,10 @@ class Setup_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 
 		/* Standard Libraries */
 		$this->load->library('grocery_CRUD');
@@ -837,6 +841,18 @@ class Setup_con extends CI_Controller {
 		$crud->set_relation( 'unit_id' , 'pr_units','unit_name' );
 		$crud->display_as( 'unit_id' , 'Unit Name' )->display_as( 'deduct_hour' , 'Deduct Hour' );
 		$crud->required_fields( 'unit_id','deduct_hour');
+		$crud->unset_delete();
+		$output = $crud->render();
+
+		$this->crud_output($output);
+	}
+	function skill_process()
+	{
+		$crud = new grocery_CRUD();
+
+		$crud->set_table('pr_skill_process');
+		$crud->set_subject('Skill_Process');
+		$crud->display_as( 'Sl' , 'Skill Process' );
 		$crud->unset_delete();
 		$output = $crud->render();
 

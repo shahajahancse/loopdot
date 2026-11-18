@@ -328,16 +328,16 @@
 				echo "</td>";
 
 				$net_pay 				= $value[$k]->net_pay;
-				$total_salary           = $total_salary + $net_pay + $att_bonus;
-				$grand_total_salary     = $grand_total_salary + $net_pay + $att_bonus;
+				$total_salary           = $total_salary + $net_pay - $ot_amount;
+				$grand_total_salary     = $grand_total_salary + $net_pay - $ot_amount;
 				echo "<td>";
-				echo $net_pay + $att_bonus;
+				echo $net_pay - $ot_amount;
 				echo "</td>";
 
-				$total_payable_salary       = $value[$k]->net_pay + $att_bonus + $ot_amount;
-				$grand_total_payable_salary = $value[$k]->net_pay + $att_bonus + $ot_amount;
+				$total_payable_salary       = $total_payable_salary  + $value[$k]->net_pay;
+				$grand_total_payable_salary = $grand_total_payable_salary + $value[$k]->net_pay;
 				echo "<td>";
-				echo $net_pay + $att_bonus + $ot_amount;
+				echo $net_pay ;
 				echo "</td>";
 
 				$transport_deduct 		      = $value[$k]->transport_deduct;
@@ -370,7 +370,7 @@
 				// echo "</td>";
 
 				echo "<td>";
-				echo $net_pay + $att_bonus + $ot_amount - $value[$k]->total_deduct;
+				echo $net_pay  - $value[$k]->total_deduct;
 				echo "</td>";
 
 				echo "<td>";
@@ -378,8 +378,8 @@
 				echo "</td>";
 
 				$total_deduction	   = $value[$k]->total_deduct;
-				$total_net_pay 		   = $total_net_pay  + $net_pay + $att_bonus + $ot_amount - $total_deduction;
-				$grand_total_net_pay   = $grand_total_net_pay + $net_pay + $att_bonus + $ot_amount - $total_deduction;
+				$total_net_pay 		   = $total_net_pay  + $net_pay  - $total_deduction;
+				$grand_total_net_pay   = $grand_total_net_pay + $net_pay  - $total_deduction;
 
 				echo "</tr>";
 				$k++;

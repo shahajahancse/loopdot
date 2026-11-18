@@ -6,6 +6,7 @@
 
   <?php $base_url = base_url();
     $base_url = base_url();
+    $user_data = $this->session->userdata('data')->id_number;
 
 	?>
 
@@ -212,7 +213,7 @@
                     <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;" value="Pay Slip" onClick="grid_pay_slip()"></td>
                     <?php } ?>
 
-                    <?php if(!in_array($user_id,$usr_arr_4)){  ?>
+                    <?php if(!in_array($user_id,$usr_arr_4) && $user_data != 'loopdot_admin'){  ?>
                     <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;" name='view' onclick='sal_summary_report()' value='Actual Salary Summary'/></td>
                     <?php } ?>
 
@@ -223,7 +224,7 @@
                 </tr>
 
                 <tr>
-                    <?php if(!in_array($user_id,$usr_arr_4)){ ?>
+                    <?php if(!in_array($user_id,$usr_arr_4) && $user_data != 'loopdot_admin'){ ?>
                     <!-- <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;"  value="Actual Salary Sheet" onClick="grid_actual_monthly_salary_sheet()"></td> -->
                     <td style="width:20%;"><input class="btn btn-primary" type="button" style="width:96%; font-size:100%;" value="Actual Salary Sheet" onClick="actual_monthly_salary_sheet()"></td>
 
@@ -236,23 +237,23 @@
                     <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;"  value="Salary Sheet BFL" onClick="grid_mix_salary_sheet()"></td>
                     <?php } ?>
 
-                    <?php if(!in_array($user_id,$usr_arr_4)){ ?>
+                    <?php if(!in_array($user_id,$usr_arr_4) && $user_data != 'loopdot_admin'){ ?>
                     <td style="width:20%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;"  value="Act. Monthly Sal. Sheet EOT" onClick="grid_actual_monthly_salary_sheet_with_eot()"></td>
                     <?php } ?>
                 </tr>
 
                 <tr>
-                <?php if(!in_array($user_id,$usr_arr_4)){  ?>
+                <?php if(!in_array($user_id,$usr_arr_4) && $user_data != 'loopdot_admin'){  ?>
                 <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;"  value="Salary Sheet" onClick="monthly_salary_sheet_nine_pm()"></td>
                 <!-- <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;"  value="Actual Salary Sheet Without Sec." onClick="grid_actual_monthly_salary_sheet_not_sec()"></td> -->
                 <?php } ?>
 
-                <?php if(!in_array($user_id,$usr_arr_2)){  ?>
+                <?php if(!in_array($user_id,$usr_arr_2) && $user_data != 'loopdot_admin'){  ?>
                 <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;" value="Pay Slip" onClick="grid_pay_slip_com()"></td>
                 <!-- <td style="width:25%;"><input class="btn btn-primary" type="button" style=" width:96%; font-size:100%;" value="Pay Slip BFL" onClick="grid_pay_slip_com_non_com_mix()"></td> -->
                 <?php } ?>
 
-                <?php if(!in_array($user_id,$usr_arr_4)){  ?>
+                <?php if(!in_array($user_id,$usr_arr_4) && $user_data != 'loopdot_admin'){  ?>
                 <td style="width:20%;"><input class="btn btn-primary" type="button" style="width:96%; font-size:100%;" value=" Actual Salary Summary" onClick="salary_summary_test()"></td>
                     <!-- <td style="width:20%;"><input class="btn btn-primary" type="button" style="width:100%; font-size:100%;" value="Salary Summary" onClick="salary_summary_compliance()"></td> -->
                 <?php } ?>

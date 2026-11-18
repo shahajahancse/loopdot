@@ -4,6 +4,10 @@ class Acl_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 
 		/* Standard Libraries */
 		$this->load->library('grocery_CRUD');

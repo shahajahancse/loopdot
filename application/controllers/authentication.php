@@ -5,35 +5,35 @@ class Authentication extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+
+		$this->load->helper('url');
 		/* Standard Libraries */
 		$this->load->model('processdb');
 		$this->load->helper('form');
-		
+
 	}
-	
-	
+
+
 	function index()
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		
+
 		if($this->session->userdata('logged_in')==true)
 		{
-		// print_r($this->session->all_userdata()); exit;
-			if($this->session->userdata('level')==2 || $this->session->userdata('level')==3)
-			{
-				$url = base_url()."magpie/";
-				redirect($url);
-			}
-			else
-			{
-				redirect("payroll_con");
-			}
+			// if($this->session->userdata('level')==2 || $this->session->userdata('level')==3)
+			// {
+			// 	$url = base_url()."magpie/";
+			// 	redirect($url);
+			// }
+			// else
+			// {
+			// }
+			redirect("payroll_con");
 		}
 		else
 		{
-			$this->load->view('admin/login'); 
+			$this->load->view('admin/login');
 		}
 	}
 }

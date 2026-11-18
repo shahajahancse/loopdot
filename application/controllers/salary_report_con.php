@@ -4,6 +4,10 @@ class Salary_report_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 
 		/* Standard Libraries */
 		$this->load->model('grid_model');
@@ -73,7 +77,8 @@ class Salary_report_con extends CI_Controller {
 		$grid_unit		= $this->input->post('unit_id');
 		$this->load->model('common_model');
 
-		$data["value"] = $this->grid_model->grid_actual_monthly_salary_sheet($sal_year_month, $grid_status, $grid_emp_id);
+		$data["value"] = $this->grid_model->grid_com_monthly_salary_sheet($sal_year_month, $grid_status, $grid_emp_id);
+		// echo "<pre>";print_r($data);exit;
 		$data["salary_month"] = $sal_year_month;
 		$data["grid_emp_id"] = $grid_emp_id;
 		$data["grid_status"]  = $grid_status;
@@ -486,7 +491,7 @@ class Salary_report_con extends CI_Controller {
 		{
 			$this->load->view('pay_slip',$query);
 		}
-	}	
+	}
 
 	function grid_pay_slip_com()
 	{
@@ -528,7 +533,7 @@ class Salary_report_con extends CI_Controller {
 			$this->load->view('grid_pay_slip_actual',$query);
 		}
 	}
-	
+
 
 	function grid_pay_slip_non_compliance()
 	{

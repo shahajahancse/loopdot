@@ -10,59 +10,46 @@ class Admin_model extends CI_Model {
 
 	function check_user_account()
 	{
+		$user_id=$this->input->post('username');
+		$password=$this->input->post('password');
+		$this->db->select('id_number');
+		$this->db->where('id_number',$user_id);
+		$this->db->where('password',$password);
+		$this->db->where('level',1);
+		$query = $this->db->get('members');
 
-			$user_id=$this->input->post('username');
-
-			$password=$this->input->post('password');
-
-			$this->db->select('id_number');
-			$this->db->where('id_number',$user_id);
-			$this->db->where('password',$password);
-			$this->db->where('level',1);
-
-			$query = $this->db->get('members');
-
-				if ($query->num_rows() > 0)
-				{
-				 	$row = $query->row();
-					$name = $row->id_number;
-					$log_data = array('admin' => $name,'admin_logged_in' => TRUE);
-				    return $log_data;
-			    }
-			    else
-			    {
-				    return false;
-			    }
-
-
+		if ($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			$name = $row->id_number;
+			$log_data = array('admin' => $name,'admin_logged_in' => TRUE);
+			return $log_data;
+		}
+		else
+		{
+			return false;
+		}
      }
 
 	function check_user_account_FE()
 	{
-
-			$user_id=$this->input->post('username');
-
-			$password=$this->input->post('password');
-
-			$this->db->select("id, id_number, level, unit_name");
-			$this->db->where('id_number',$user_id);
-			$this->db->where('password',$password);
-			$this->db->where('status ','Enable');
-
-			$query = $this->db->get('members');
-
-				if ($query->num_rows() > 0)
-				{
-					$query = $query->row();
-					$log_data = array('status' => 200, 'response' => 'success', 'data' => $query, 'logged_in' => true);
-				    return $log_data;
-			    }
-			    else
-			    {
-				   return $log_data = array('status' => 201, 'response' => 'faild', 'data' => null, 'logged_in' => false);
-			    }
-
-
+		$user_id=$this->input->post('username');
+		$password=$this->input->post('password');
+		$this->db->select("id, id_number, level, unit_name");
+		$this->db->where('id_number',$user_id);
+		$this->db->where('password',$password);
+		$this->db->where('status ','Enable');
+		$query = $this->db->get('members');
+		if ($query->num_rows() > 0)
+		{
+			$query = $query->row();
+			$log_data = array('status' => 200, 'response' => 'success', 'data' => $query, 'logged_in' => true);
+			return $log_data;
+		}
+		else
+		{
+			return $log_data = array('status' => 201, 'response' => 'faild', 'data' => null, 'logged_in' => false);
+		}
      }
 
 	 function insert_book($image)

@@ -11,7 +11,7 @@ class Earn_leave_model extends CI_Model{
 	//========================Earn Leave Model (2022-11-01)=================================
 	//======================================================================================
 	function earn_leave_process_db($grid_emp_id,$process_check,$year,$month)
-	{
+	{   
 		// echo "<pre>";print_r($grid_emp_id); exit;
 		$current_year_month= date("Y-m");
 		$date= $year.'-'.$month;
@@ -20,14 +20,14 @@ class Earn_leave_model extends CI_Model{
 			return "Failed ! You Are In $current_year_month";
 		}
 
-       // get joinig date and emp id and total present
+       // get joinig date and emp id and total present 
        $current_date = $date."-01";
 
 	   $past_year_date = date("Y-m-d",strtotime("-1 year",strtotime($current_date)));
-
+	
 	   // get earn leave eligible employee infos
 	   $result = $this->db->select('
-	   								emp_id,
+	   								emp_id, 
 	   								emp_join_date,
 	   								emp_dept_id,
 									emp_sec_id,
@@ -38,26 +38,26 @@ class Earn_leave_model extends CI_Model{
 						  ->where_in('emp_id',$grid_emp_id)
 						  ->where('emp_join_date <=',$past_year_date)
 						  ->get('pr_emp_com_info');
-
+	
 
 		if($result->num_rows > 0){
 
 			foreach($result->result() as $row){
-
+		
 				$emp_id = $row->emp_id;
 				$emp_join_date = $row->emp_join_date;
 				$gross_sal = $row->gross_sal;
-
+				
 				// seperate year , month , day
-				$d1=new DateTime($current_date);
-				$d2=new DateTime($emp_join_date);
-				$working_month = $d2->diff($d1);
+				$d1=new DateTime($current_date); 
+				$d2=new DateTime($emp_join_date);                                  
+				$working_month = $d2->diff($d1); 
 				$year  = $working_month->y;
 				$month = $working_month->m;
 				$day = $working_month->d;
 
 				// echo $total = $year." years , ".$month." months , ".$day." days";exit;
-
+				
 				if($month == '0'){
 
 					$first_year =  date("Y-m-d",strtotime("- $day days",strtotime($current_date)));
@@ -81,9 +81,9 @@ class Earn_leave_model extends CI_Model{
 					$present = $this->count_earn_leave($first_year, $last_yaer, $emp_id); //count all present
 					$total_earn_leave = round($present/18); //calculate earn leave
 
-					// echo $present;exit;
+					// echo $present;exit;	
 
-					// get last year el and earn leave
+					// get last year el and earn leave  
 					if ($year > 1) {
 						$last_leave = $this->db->select('el, earn_leave, pay_leave')
 											->where('emp_id',$emp_id)
@@ -93,13 +93,13 @@ class Earn_leave_model extends CI_Model{
 
 
 						if (!empty($last_leave)) {
-							$total_earn_leave = $total_earn_leave + ($last_leave->earn_leave - $last_leave->el);
+							$total_earn_leave = $total_earn_leave + ($last_leave->earn_leave - $last_leave->el); 
 						}
 
 					}
 
-						// echo $total_earn_leave;exit;
-
+						// echo $total_earn_leave;exit;					
+					
 					$num_row = $this->db->where('emp_id',$emp_id)->where('earn_month',$current_date)->get('pr_earn_leave')->num_rows();
 					// echo print_r($num_row);exit;
 					if($num_row == 0)
@@ -124,7 +124,7 @@ class Earn_leave_model extends CI_Model{
 						$this->db->insert('pr_earn_leave', $data);
 					}
 					else
-					{
+					{			
 						$data = array(
 							'P' 	 	 => $present,
 							'A' 	 	 => 0,
@@ -136,7 +136,7 @@ class Earn_leave_model extends CI_Model{
 							'ml' 	  	 => $ml,
 							'earn_leave' => $total_earn_leave,
 						);
-
+	
 						$this->db->where('emp_id', $emp_id)->where('earn_month', $current_date);
 						$this->db->update('pr_earn_leave', $data);
 					}
@@ -146,8 +146,8 @@ class Earn_leave_model extends CI_Model{
 
 			return "Earn Leave Process Completed Succesfully !";
 		}
-
-
+	
+		
 		//INSERT BLOCK RECORD
 		/* if($process_check == "2")
 		{
@@ -156,15 +156,15 @@ class Earn_leave_model extends CI_Model{
 		  $data_1['unit_id'] 		= $unit_id;
 		  $data_1['username'] 		= $this->session->userdata('username');
 		  $data_1['date_time'] 		= date("Y-m-d H:i:s");
-		  $this->db->insert('pr_earn_leave_block', $data_1);
+		  $this->db->insert('pr_earn_leave_block', $data_1); 
 		} */
-
+		
 	}
 
 
 	function all_leave_cal($first_year, $last_year, $emp_id)
 	{
-	// echo "<pre>"; print_r($emp_id.' '.$last_year.' '.$first_year); exit;
+	// echo "<pre>"; print_r($emp_id.' '.$last_year.' '.$first_year); exit; 
 
 		$this->db->select("
 				SUM(CASE WHEN leave_type = 'cl' THEN 1 ELSE 0 END ) AS cl,
@@ -176,8 +176,8 @@ class Earn_leave_model extends CI_Model{
 		$this->db->from('pr_leave_trans');
 		$this->db->where("emp_id",$emp_id);
 		$this->db->where("start_date BETWEEN '$last_year' AND '$first_year' ");
-		return $query = $this->db->get()->row();
-		// echo "<pre>"; print_r($query->result()->el); exit;
+		return $query = $this->db->get()->row(); 
+		// echo "<pre>"; print_r($query->result()->el); exit; 
 	}
 
 	function count_earn_leave($current_date, $past_year_date, $emp_id)
@@ -187,7 +187,7 @@ class Earn_leave_model extends CI_Model{
 		$this->db->where('emp_id',$emp_id);
 		$this->db->where('present_status',"P");
 		$this->db->where("shift_log_date BETWEEN '$past_year_date' and '$current_date'");
-		return $this->db->get()->row()->total;
+		return $this->db->get()->row()->total;  
 	}
 
 
@@ -216,13 +216,13 @@ class Earn_leave_model extends CI_Model{
 			return "Previous Month is not finally Process";
 		}
 
-		if($unit_id == 0){return ".";}
+		if($unit_id == 0){return "Please Login As an Unit User.";}
 		$num_row 	= $this->db->like('block_year',$process_year)->where('unit_id',$unit_id)->get('pr_earn_leave_block')->num_rows();
 		if($num_row > 0)
 		{
 			return "This Month Already Finally Processed.";
 		}
-
+		
 		//INSERT BLOCK RECORD
 		if($process_check == "2")
 		{
@@ -231,20 +231,20 @@ class Earn_leave_model extends CI_Model{
 		  $data_1['unit_id'] 		= $unit_id;
 		  $data_1['username'] 		= $this->session->userdata('username');
 		  $data_1['date_time'] 		= date("Y-m-d H:i:s");
-		  $this->db->insert('pr_earn_leave_block', $data_1);
+		  $this->db->insert('pr_earn_leave_block', $data_1); 
 		  //echo $this->db->last_query();
 		}
-
+		
 		$process_start_date = $process_year."-01-01";
 		$process_end_date 	= $process_year."-12-31";
-
+		
 		//================================Table Manuppulation========================
 		$table_name = "pr_earn_$process_year";
 		$table_maupulation = $this->yearly_earn_leave_table_maupulation($table_name);
-
+		
 		$earn_leave_text = $this->get_earn_leave_text();
-
-
+		
+		
 		$this->db->select('*');
 		$this->db->from('pr_emp_shift_log');
 		$this->db->from('pr_emp_com_info');
@@ -259,13 +259,13 @@ class Earn_leave_model extends CI_Model{
 		{
 			return "There are no employee to have earn leave!";
 		}
-
+		
 		foreach($query_earn_emp->result() as $rows)
 		{
 			$earn_data = array();
 			$emp_id 				= $rows->emp_id;
 			$salary_process_eligibility = $this->salary_process_eligibility($emp_id, $process_year);
-
+				
 			if($salary_process_eligibility == true)
 			{
 				$earn_data['unit_id'] 	= $unit_id;
@@ -274,19 +274,19 @@ class Earn_leave_model extends CI_Model{
 				$earn_data['sec_id'] 	= $rows->emp_sec_id;
 				$earn_data['line_id'] 	= $rows->emp_line_id;
 				$earn_data['desig_id']	= $rows->emp_desi_id;
-
+				
 				$gross_sal = $rows->gross_sal;
 				$salary_structure = $this->common_model->salary_structure($gross_sal);
 				$basic_sal = $salary_structure['basic_sal'];
-
+				
 				$earn_data['gross_sal'] 	= $gross_sal;
 				$earn_data['basic_sal'] 	= $basic_sal;
 				$earn_data['ttl_wk_days'] 	= date("z", mktime(0,0,0,12,31,$process_year)) + 1;
-
+				
 				$doj = $this->db->where("emp_id",$emp_id)->get('pr_emp_com_info')->row()->emp_join_date;
-
+	
 				$earn_data = $this->get_leave_record($emp_id, $process_year, $earn_data);
-
+				
 				$total_earn_leave_count = 0;
 				foreach($earn_leave_text as $earn_status)
 				{
@@ -296,18 +296,18 @@ class Earn_leave_model extends CI_Model{
 				}
 				$earn_leave_day_count = $this->db->where("id",2)->get('pr_earn_setup')->row()->value;
 				$total_earn_leave = floor($total_earn_leave_count / $earn_leave_day_count);
-
+				
 				$insert_update_earn_leave = $this->insert_update_earn_leave($emp_id,$earn_data,$table_name);
 		}
 		}
 		return "Earn Leave Process Completed Succesfully !";
 	}
-
+	
 	function get_earn_leave_start_date($emp_id,$doj,$process_start_date,$process_end_date)
 	{
 		$dateOneYearAdded = strtotime(date("Y-m-d", strtotime($doj)) . " +1 year");
 		$doj_one_year = date('Y-m-d', $dateOneYearAdded);
-
+		
 		if($doj_one_year < $process_start_date)
 		{
 			return $process_start_date;
@@ -322,16 +322,16 @@ class Earn_leave_model extends CI_Model{
 		}
 		//return $doj_one_year;
 	}
-
+	
 	function insert_update_earn_leave($emp_id,$earn_data,$table_name)
 	{
 		$num_row = $this->db->where('emp_id',$emp_id)->get($table_name)->num_rows();
 		$earn_data['pay_days'] 		= $earn_data['P'] + $earn_data['W'] - $earn_data['el'];
 		$earn_data['pay_days_com']	= $earn_data['P'] + $earn_data['W'] + $earn_data['H'] + $earn_data['L'] - $earn_data['el'];
-
+		
 		$earn_data['earn_leave'] 	=  round(($earn_data['pay_days']/18),2);
 		$earn_data['earn_leave_com']=  round(($earn_data['pay_days_com']/18),2);
-
+		
 		$earn_data['net_pay'] 		=  round($earn_data['earn_leave']* ($earn_data['basic_sal']/30));
 		$earn_data['net_pay_com']	=  round($earn_data['earn_leave_com']* ($earn_data['gross_sal']/30));
 		if($num_row == 0)
@@ -340,13 +340,13 @@ class Earn_leave_model extends CI_Model{
 			$this->db->insert($table_name, $earn_data);
 		}
 		else
-		{
+		{			
 			$this->db->where('emp_id', $emp_id);
 			$this->db->update($table_name, $earn_data);
 		}
 		return;
 	}
-
+	
 	function earn_leave_count($emp_id,$process_year,$earn_status)
 	{
 		//$num_row = $this->db->like('shift_log_date',$process_year)->where('emp_id',$emp_id)->where('present_status',$earn_status)->get('pr_emp_shift_log')->num_rows();
@@ -357,7 +357,7 @@ class Earn_leave_model extends CI_Model{
 		}
 		else{ return $query->num_rows();}
 	}
-
+	
 	function get_present_status($emp_id,$shift_log_date)
 	{
 		$year_month 	= date("Y-m",strtotime($shift_log_date));
@@ -366,7 +366,7 @@ class Earn_leave_model extends CI_Model{
 		$present_status = $this->db->like("att_month",$year_month)->where("emp_id",$emp_id)->get('pr_attn_monthly')->row()->$select_column;
 		return $present_status;
 	}
-
+	
 	function update_shift_log($emp_id,$shift_log_date,$present_status)
 	{
 		$data = array(
@@ -374,24 +374,24 @@ class Earn_leave_model extends CI_Model{
             );
 		$this->db->where('emp_id', $emp_id);
 		$this->db->where('shift_log_date', $shift_log_date);
-		$this->db->update('pr_emp_shift_log', $data);
+		$this->db->update('pr_emp_shift_log', $data); 
 		return;
-
+		
 	}
-
+	
 	function get_earn_leave_text()
 	{
 		$earn_leave = $this->db->where("id",1)->get('pr_earn_setup')->row()->value;
 		$earn_leave_text = str_split($earn_leave);
 		return $earn_leave_text;
-
+		
 	}
-
+	
 	function yearly_earn_leave_table_maupulation($table_name)
 	{
 		if (!$this->db->table_exists($table_name))
 		{
-		   	$this->load->dbforge();
+		   	$this->load->dbforge();	
 			$fields = array(
 			'id' 				=> array( 'type' => 'INT','constraint'=>'11','auto_increment'=>TRUE),
 			'unit_id' 			=> array( 'type' => 'INT'),
@@ -422,11 +422,11 @@ class Earn_leave_model extends CI_Model{
  								);
 				$this->dbforge->add_field($fields);
 				$this->dbforge->add_key('id', TRUE);
-				$this->dbforge->create_table($table_name);
+				$this->dbforge->create_table($table_name);		
 		}
 		return;
 	}
-
+	
 	//===================Earn Leave Report============================
 	//================================================================
 	function grid_earn_leave_general_info($fdate, $sdate, $year, $grid_status, $grid_emp_id)
@@ -441,7 +441,7 @@ class Earn_leave_model extends CI_Model{
 		$cm = substr($todate,5,2);
 		$cd = substr($todate,8,2);
 		$c_todate = date("Y-m-d", mktime(0, 0, 0, $cm, $csd, $cy));
-
+		
 		$this->db->select("pr_emp_per_info.emp_full_name,pr_designation.desig_name, pr_section.sec_name, pr_line_num.line_name, pr_emp_com_info.emp_join_date, pr_grade.gr_name,$table_name.*");
 		$this->db->from('pr_emp_per_info');
 		$this->db->from('pr_emp_com_info');
@@ -451,7 +451,7 @@ class Earn_leave_model extends CI_Model{
 		$this->db->from('pr_section');
 		$this->db->from('pr_line_num');
 		$this->db->from('pr_designation');
-
+		
 		$this->db->where_in("$table_name.emp_id", $grid_emp_id);
 		$this->db->where('pr_emp_com_info.emp_desi_id = pr_designation.desig_id');
 		$this->db->where('pr_emp_com_info.emp_dept_id = pr_dept.dept_id');
@@ -466,10 +466,10 @@ class Earn_leave_model extends CI_Model{
 		$this->db->order_by("pr_section.sec_name");
 		$this->db->order_by("pr_emp_com_info.emp_id");
 		$this->db->group_by("$table_name.emp_id");
-		$query = $this->db->get();
+		$query = $this->db->get();	
 		$num_rows = $query->num_rows();
 		if($num_rows < 1){ return "empty";}
-
+		
 		//echo $query->num_rows();
 		foreach($query->result() as $rows)
 		{
@@ -497,11 +497,11 @@ class Earn_leave_model extends CI_Model{
 			$data['earn_leave'][]		= $rows->earn_leave;
 			$data['earn_leave_com'][] 	= $rows->earn_leave_com;
 			$data['net_pay'][]			= $rows->net_pay;
-			$data['net_pay_com'][]		= $rows->net_pay_com;
+			$data['net_pay_com'][]		= $rows->net_pay_com;		
 		}
 		return $data;
 	}
-
+	
 	function grid_earn_leave_payment_buyer($fdate, $sdate, $year, $grid_status, $grid_emp_id)
 	{
 		$table_name = "pr_earn_$year";
@@ -525,7 +525,7 @@ class Earn_leave_model extends CI_Model{
 		$this->db->from('pr_section');
 		$this->db->from('pr_line_num');
 		$this->db->from('pr_designation');
-
+		
 		$this->db->where_in("$table_name.emp_id", $grid_emp_id);
 		$this->db->where('pr_emp_com_info.emp_desi_id = pr_designation.desig_id');
 		$this->db->where('pr_emp_com_info.emp_dept_id = pr_dept.dept_id');
@@ -541,7 +541,7 @@ class Earn_leave_model extends CI_Model{
 		$this->db->order_by("pr_section.sec_name");
 		$this->db->order_by("pr_emp_com_info.emp_id");
 		$this->db->group_by("$table_name.emp_id");
-		$query = $this->db->get();
+		$query = $this->db->get();	
 		$num_rows = $query->num_rows();
 		if($num_rows < 1){ return "empty";}
 		//echo $query->num_rows();
@@ -571,7 +571,7 @@ class Earn_leave_model extends CI_Model{
 			$data['earn_leave'][]		= $rows->earn_leave;
 			$data['earn_leave_com'][] 	= $rows->earn_leave_com;
 			$data['net_pay'][]			= $rows->net_pay;
-			$data['net_pay_com'][]		= $rows->net_pay_com;
+			$data['net_pay_com'][]		= $rows->net_pay_com;		
 		}
 		return $data;
 	}
@@ -591,23 +591,23 @@ class Earn_leave_model extends CI_Model{
 			$all_data["total_emp"][]=$this->db->select('emp_id')->where("line_id",$line_id)->get("$table_name")->num_rows();
 			$column_name = "gross_sal";
 			$all_data[$column_name][] = $this->get_sum_column($column_name,$line_id,$unit_id,$table_name);
-
+			
 			$column_name = "basic_sal";
 			$all_data[$column_name][] = $this->get_sum_column($column_name,$line_id,$unit_id,$table_name);
-
+			
 			$column_name = "earn_leave";
 			$all_data[$column_name][] = $this->get_sum_column($column_name,$line_id,$unit_id,$table_name);
-
+			
 			$column_name = "net_pay";
 			$all_data[$column_name][] = $this->get_sum_column($column_name,$line_id,$unit_id,$table_name);
-
+	
 		}
 		return $all_data;
 		//print_r($all_data);
 	}
 	function get_sum_column($column_name,$line_id,$unit_id,$table_name)
 	{
-
+		
 		$this->db->select_sum($column_name);
 		$this->db->from("$table_name");
 		$this->db->where('line_id', $line_id);
@@ -621,16 +621,16 @@ class Earn_leave_model extends CI_Model{
 			{
 				$result = 0;
 			}
-
+		
 		return $result;
 	}
-
+	
 	function get_earn_leave_entitle($emp_id,$year)
 	{
 		$num_row = $this->db->like('start_date',$year)->where('emp_id',$emp_id)->where('leave_type','el')->get('pr_leave_trans')->num_rows();
 		return $num_row;
 	}
-
+	
 	function get_earn_leave_paid_amount($emp_id,$year)
 	{
 		$this->db->select_sum('paid_amount');
@@ -646,7 +646,7 @@ class Earn_leave_model extends CI_Model{
 		}
 		return $result;
 	}
-
+	
 	function get_earn_leave_paid($emp_id,$year)
 	{
 		$this->db->select_sum('paid_leave');
@@ -664,7 +664,7 @@ class Earn_leave_model extends CI_Model{
 	}
 	function get_yearly_earn_leave($emp_id,$table_name)
 	{
-
+		
 		if (!$this->db->table_exists($table_name))
 		{
 		   		return 0;
@@ -681,30 +681,30 @@ class Earn_leave_model extends CI_Model{
 		$row = $query->row();
 		$earn_leave = $row->earn_leave;
 		return $earn_leave;
-	}
-
+	}	
+	
 	function earn_leave_payment_db()
 	{
-
+		
 		$count 	= $this->input->post('count');
 		$year 	= $this->input->post('year');
 		$unit_id 	= $this->input->post('unit_id');
 		$data['year'] = $year;
-
+		
 		for($i=0;$i<$count;$i++)
 		{
 			$emp_id_name 	= "emp_id$i";
 			$emp_id 		= $this->input->post($emp_id_name);
-
+			
 			$yearly_earn_name 	= "yearly_earn$i";
 			$yearly_earn 		= $this->input->post($yearly_earn_name);
-
+			
 			$earn_balance_name 	= "earn_balance$i";
 			$earn_balance		= $this->input->post($earn_balance_name);
-
+			
 			$earn_pay_name 		= "earn_pay$i";
 			$earn_pay			= $this->input->post($earn_pay_name);
-
+			
 			$paid_amount_name 	= "paid_amount$i";
 			$paid_amount		= $this->input->post($paid_amount_name);
 			if($earn_pay == "")
@@ -715,39 +715,39 @@ class Earn_leave_model extends CI_Model{
 			{
 				continue;
 			}
-
+			
 			$data['unit_id'] 	= $unit_id;
 			$data['emp_id'] 	= $emp_id;
 			$data['paid_leave'] = $earn_pay;
 			$data['paid_amount'] = $paid_amount;
-
+			
 			$this->db->insert("pr_earn_leave_paid",$data);
-
+			
 		}
 	}
-
+	
 	function grid_earn_leave_payment_at_atime_db()
 	{
-
+		
 		$count 	= $this->input->post('count');
 		$year 	= $this->input->post('year');
 		$unit_id 	= $this->input->post('unit_id');
 		$data['year'] = $year;
-
+		
 		for($i=0;$i<$count;$i++)
 		{
 			$emp_id_name 	= "emp_id$i";
 			$emp_id 		= $this->input->post($emp_id_name);
-
+			
 			$yearly_earn_name 	= "yearly_earn$i";
 			$yearly_earn 		= $this->input->post($yearly_earn_name);
-
+			
 			$earn_balance_name 	= "earn_balance$i";
 			$earn_balance		= $this->input->post($earn_balance_name);
-
+			
 			$earn_pay_name 		= "earn_pay$i";
 			$earn_pay			= $this->input->post($earn_pay_name);
-
+			
 			$paid_amount_name 	= "paid_amount$i";
 			$paid_amount		= $this->input->post($paid_amount_name);
 			if($earn_pay == "")
@@ -762,17 +762,17 @@ class Earn_leave_model extends CI_Model{
 			$data['emp_id'] 	= $emp_id;
 			$data['paid_leave'] = $earn_pay;
 			$data['paid_amount'] = $paid_amount;
-
+			
 			$this->db->insert("pr_earn_leave_paid",$data);
 		}
 	}
-
+	
 	function get_leave_record($emp_id, $process_year, $earn_data)
 	{
 		$leave_types = array('cl','sl','el','ml');
 		foreach($leave_types as $leave_type)
 		{
-			$this->db->select('emp_id');
+			$this->db->select('emp_id');	
 			$this->db->where('emp_id', $emp_id);
 			$this->db->where('leave_type', $leave_type);
 			$this->db->like('start_date', $process_year);
@@ -781,15 +781,15 @@ class Earn_leave_model extends CI_Model{
 		}
 		return $earn_data;
 	}
-
+	
 	function salary_process_eligibility($emp_id, $process_year)
 	{
 		$join_check 	    = $this->join_range_check($emp_id, $process_year);
 		$resign_check 	    = $this->resign_range_check($emp_id, $process_year);
 		$left_check 	    = $this->left_range_check($emp_id, $process_year);
 		$zero_gross_check 	= $this->zero_gross_check($emp_id);
-
-
+		
+		
 		if($join_check != false and $resign_check != false and $left_check != false and $zero_gross_check != false )
 		{
 			return true;
@@ -809,13 +809,13 @@ class Earn_leave_model extends CI_Model{
 		if($query->num_rows() > 0)
 		{
 			return true;
-		}
+		}	
 		else
 		{
-			return false;
+			return false;	
 		}
 	}
-
+	
 	function join_range_check($emp_id, $process_year)
 	{
 		$this->db->select('emp_join_date');
@@ -826,13 +826,13 @@ class Earn_leave_model extends CI_Model{
 		if($query->num_rows() > 0)
 		{
 			return true;
-		}
+		}	
 		else
 		{
-			return false;
+			return false;	
 		}
 	}
-
+	
 	function resign_range_check($emp_id, $process_year)
 	{
 		$this->db->select('resign_date');
@@ -842,7 +842,7 @@ class Earn_leave_model extends CI_Model{
 		if($query->num_rows() == 0)
 		{
 			return true;
-		}
+		}	
 		else
 		{
 			$this->db->select('resign_date');
@@ -853,14 +853,14 @@ class Earn_leave_model extends CI_Model{
 			if($query->num_rows() > 0)
 			{
 				return true;
-			}
+			}	
 			else
 			{
-				return false;
+				return false;	
 			}
 		}
 	}
-
+	
 	function left_range_check($emp_id, $process_year)
 	{
 		$this->db->select('left_date');
@@ -870,7 +870,7 @@ class Earn_leave_model extends CI_Model{
 		if($query->num_rows() == 0)
 		{
 			return true;
-		}
+		}	
 		else
 		{
 			$this->db->select('left_date');
@@ -881,10 +881,10 @@ class Earn_leave_model extends CI_Model{
 			if($query->num_rows() > 0)
 			{
 				return true;
-			}
+			}	
 			else
 			{
-				return false;
+				return false;	
 			}
 		}
 	}

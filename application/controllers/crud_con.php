@@ -6,7 +6,10 @@ class Crud_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 		/* Standard Libraries */
 
 		$this->load->model('common_model');
@@ -1275,7 +1278,7 @@ class Crud_con extends CI_Controller {
 				$this->session->set_flashdata('failure','Record Not Found in DataBase!');
 				redirect('/entry_system_con/left_delete');
 			}
-			
+
 		}
 
 		//===========================Proxi ID===================================//

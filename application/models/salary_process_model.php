@@ -317,7 +317,9 @@ class Salary_process_model extends CI_Model{
 					if ($transport == 1) {
 						$transport_deduct = 0;
 					} else {
-						if(date('Y-m-d',  strtotime($start_date)) > date('2025-01-31')){
+						if(date('Y-m-d', strtotime($start_date)) >= '2026-10-01'){
+							$transport_deduct = 1200;
+						} else if(date('Y-m-d', strtotime($start_date)) > '2025-01-31'){
 							$transport_deduct = 1000;
 						} else {
 							$transport_deduct = $trans_allow;

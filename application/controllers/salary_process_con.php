@@ -4,19 +4,23 @@ class Salary_process_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 
 		/* Standard Libraries */
 		$this->load->library('grocery_CRUD');
 		$this->load->model('salary_process_model');
 		$this->load->model('festival_bonus_model');
 		$this->load->model('log_model');
-		set_time_limit(0);
-		ini_set("memory_limit","512M");
+		ini_set('memory_limit', -1);
+		ini_set('max_execution_time', 0);
+	    set_time_limit(0);
 		$this->load->model('acl_model');
 		$access_level = 7;
 		$acl = $this->acl_model->acl_check($access_level);
 	}
-
 	function salary_process_form()
 	{
 

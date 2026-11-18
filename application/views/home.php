@@ -280,13 +280,11 @@
                 </li>
               </ul>
             </li>
+            <?php 
+              if($this->session->userdata('data')->id_number != 'loopdot_admin'){
+            ?>
             <li class="start "> <a href="javascript:;" > <i class="fa fa-tasks"></i> <span class="title">Maintenance</span> <span class="selected"></span> <span class="arrow"></span> </a>
               <ul class="sub-menu">
-               <!--  <li class="start "> <a href="javascript:;"><span class="title">Database</span> <span class="selected"></span> <span class="arrow"></span> </a>
-                  <ul class="sub-menu">
-                    <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/maintainance_con/database_backup_form" class="anchor_cls">Backup</a> </li>
-                  </ul>
-                </li> -->
                 <li class="start "> <a href="javascript:;"><span class="title">User</span> <span class="selected"></span> <span class="arrow"></span> </a>
                   <ul class="sub-menu">
                     <li class="start "> <a target="body_load" href="<?=base_url()?>index.php/acl_con/acl" class="anchor_cls">ACL</a> </li>
@@ -294,6 +292,8 @@
                 </li>
               </ul>
             </li>
+            <?php } ?>
+
             <li class="start">
                <a target="body_load" href="<?=base_url()?>index.php/payroll_con/first_body"> <i class="fa fa-phone"></i>  <span class="title">Support</span></a>
             </li>

@@ -497,6 +497,7 @@ class Processdb extends CI_Model{
 			'emp_sts_id'  		=> $this->input->post('emp_sts_id'),
 			'emp_shift'  		=> $this->input->post('empshift'),
 			'gross_sal'  		=> $this->input->post('text8'),
+			'com_gross_sal'  		=> $this->input->post('text9'),
 			'ot_entitle'  		=> $this->input->post('otentitle'),
 			'transport'  		=> $this->input->post('transport'),
 			'lunch'  			=> $this->input->post('lunch'),
@@ -504,6 +505,15 @@ class Processdb extends CI_Model{
 			'emp_join_date'		=> $ejd,
 			'salary_draw'		=> $this->input->post('saldraw'),
 			'salary_type'		=> $this->input->post('saltype'),
+			'skill_process_one'  => $this->input->post('skill_process_one'),
+			'skill_process_two'  => $this->input->post('skill_process_two'),
+			'skill_process_three'=> $this->input->post('skill_process_three'),
+			'skill_process_four' => $this->input->post('skill_process_four'),
+			'hour_one'           => $this->input->post('hour_one'),
+			'hour_two'           => $this->input->post('hour_two'),
+			'hour_three'         => $this->input->post('hour_three'),
+			'hour_four'          => $this->input->post('hour_four'),
+			
 			// 'district_id'		=> $this->input->post('emp_district'),
 			// 'zone_id'			=> $this->input->post('zone')
 		);
@@ -679,11 +689,16 @@ class Processdb extends CI_Model{
 			'salary_type'		=> $this->input->post('saltype'),
 			'wk_type_id'		=> $this->input->post('working_type'),
 			'work_process_id'	=> $this->input->post('work_process'),
-			'ot_show_in'	    => $this->input->post('ot_define')
-
-
-
-			);
+			'ot_show_in'	    => $this->input->post('ot_define'),
+			'skill_process_one'  => $this->input->post('skill_process_one'),
+			'skill_process_two'  => $this->input->post('skill_process_two'),
+			'skill_process_three'=> $this->input->post('skill_process_three'),
+			'skill_process_four' => $this->input->post('skill_process_four'),
+			'hour_one'           => $this->input->post('hour_one'),
+			'hour_two'           => $this->input->post('hour_two'),
+			'hour_three'         => $this->input->post('hour_three'),
+			'hour_four'          => $this->input->post('hour_four'),
+		);
 
 		$pr_id_proxi = array(
 			'emp_id'	=> $this->input->post('empid'),
@@ -1178,37 +1193,28 @@ class Processdb extends CI_Model{
 		$data = array();
 		// echo $emp_id;exit;
 		$this->db->select('
-				pr_emp_com_info.emp_id as emp_id,
-				pr_emp_com_info.unit_id as unit_id,
-				pr_id_proxi.proxi_id as proxi_id,
-				pr_units.unit_name as unit_name,
-				pr_dept.dept_name as dept_name,
-				pr_section.sec_name as sec_name,
-				pr_section.sec_bangla,
-				pr_line_num.line_name as line_name,
-				pr_designation.desig_name,
-				pr_designation.desig_bangla, 
-				pr_emp_operation.ope_name as ope_name, 
-				pr_emp_position.posi_name as posi_name, 
-				pr_grade.gr_name as gr_name,
-				pr_emp_status.stat_type as stat_type, 
-				pr_emp_com_info.gross_sal as gross_sal, 
-				pr_emp_com_info.emp_join_date as emp_join_date,
-				pr_emp_com_info.ot_entitle as ot_entitle,
-				pr_emp_com_info.transport as transport,
-				pr_emp_com_info.lunch as lunch,
-				pr_emp_com_info.att_bonus as att_bonus, 
-				pr_emp_com_info.salary_draw as salary_draw, 
-				pr_emp_com_info.salary_type as salary_type, 
-				pr_emp_shift.shift_name as shift_name,
-				pr_emp_com_info.com_gross_sal as com_gross_sal,
-				pr_emp_com_info.emp_sts_id,
-				pr_floor.floor_name,
-				pr_emp_nid_wk_typ.wk_type,
-				pr_emp_sts.*,
-				pr_work_process.*,
-				pr_ot_show_or_not.*
-			');
+			pr_emp_com_info.emp_id as emp_id,
+			pr_emp_com_info.unit_id as unit_id,
+			pr_id_proxi.proxi_id as proxi_id,
+			pr_units.unit_name as unit_name,
+			pr_dept.dept_name as dept_name,
+			pr_section.sec_name as sec_name,
+			pr_section.sec_bangla,
+			pr_line_num.line_name as line_name,
+			pr_designation.desig_name,
+			pr_designation.desig_bangla, 
+			pr_emp_operation.ope_name as ope_name, 
+			pr_emp_position.posi_name as posi_name, 
+			pr_grade.gr_name as gr_name,
+			pr_emp_status.stat_type as stat_type, 
+			pr_emp_com_info.*,
+			pr_emp_shift.shift_name as shift_name,
+			pr_floor.floor_name,
+			pr_emp_nid_wk_typ.wk_type,
+			pr_emp_sts.*,
+			pr_work_process.*,
+			pr_ot_show_or_not.*
+		');
 		$this->db->from('pr_emp_com_info');
 
 		$this->db->join('pr_id_proxi','pr_id_proxi.emp_id = pr_emp_com_info.emp_id','LEFT');
@@ -1247,37 +1253,46 @@ class Processdb extends CI_Model{
 				$ejd = date("d-m-Y", strtotime($ejd));
 
 				$data = array(
-				  'emp_id'		=> $row->emp_id,
-				  'proxi_id'  	=> $row->proxi_id,
-				  'dept_name'  	=> $row->dept_name,
-				  'sec_name' 	=> $row->sec_name,
-				  'line_name' 	=> $row->line_name,
-				  'desig_name'  => $row->desig_name,
-				  'ope_name'  	=> $row->ope_name,
-				  'posi_name'  	=> $row->posi_name,
-				  'gr_name'  	=> $row->gr_name,
-				  'stat_type'  	=> $row->stat_type,
-				  'shift_name'  => $row->shift_name,
-				  'gross_sal'  	=> $row->gross_sal,
-				  'ot_entitle'  => $row->ot_entitle,
-				  'transport'  	=> $row->transport,
-				  'lunch'  		=> $row->lunch,
-				  'att_bonus'  	=> $row->att_bonus,
-				  'emp_join_date' => $ejd,
-				  'salary_draw'	=> $row->salary_draw,
-				  'salary_type'	=> $row->salary_type,
-				  'com_gross_sal' => $row->com_gross_sal,
-				  'unit_name'  	=> $row->unit_name,
-				  'floor_name'	=> $row->floor_name,
-				  'wk_type' 	=> $row->wk_type,
-				  'desi_name_bn' => $row->desig_bangla,
-				  'sec_bangla' 	 => $row->sec_bangla,
-				  'emp_sts' 	 => $row->emp_sts,
-				  'work_process' => $row->process,
-				  'salary_name'  => $row->salary_name,
-				  'emp_sts_id'   => $row->emp_sts_id,
+				  'emp_id'		        => $row->emp_id,
+				  'proxi_id'  	        => $row->proxi_id,
+				  'dept_name'  	        => $row->dept_name,
+				  'sec_name' 	        => $row->sec_name,
+				  'line_name' 	        => $row->line_name,
+				  'desig_name'          => $row->desig_name,
+				  'ope_name'  	        => $row->ope_name,
+				  'posi_name'  	        => $row->posi_name,
+				  'gr_name'  	        => $row->gr_name,
+				  'stat_type'  	        => $row->stat_type,
+				  'shift_name'          => $row->shift_name,
+				  'gross_sal'  	        => $row->gross_sal,
+				  'ot_entitle'          => $row->ot_entitle,
+				  'transport'  	        => $row->transport,
+				  'lunch'  		        => $row->lunch,
+				  'att_bonus'  	        => $row->att_bonus,
+				  'emp_join_date'       => $ejd,
+				  'salary_draw'	        => $row->salary_draw,
+				  'salary_type'	        => $row->salary_type,
+				  'com_gross_sal'       => $row->com_gross_sal,
+				  'unit_name'  	        => $row->unit_name,
+				  'floor_name'	        => $row->floor_name,
+				  'wk_type' 	        => $row->wk_type,
+				  'desi_name_bn' 		=> $row->desig_bangla,
+				  'sec_bangla' 	 		=> $row->sec_bangla,
+				  'emp_sts' 	 		=> $row->emp_sts,
+				  'work_process' 		=> $row->process,
+				  'salary_name'  		=> $row->salary_name,
+				  'emp_sts_id'   		=> $row->emp_sts_id,
+				  'skill_process_one'   => $row->skill_process_one,
+				  'skill_process_two'   => $row->skill_process_two,
+				  'skill_process_three' => $row->skill_process_three,
+				  'skill_process_four'  => $row->skill_process_four,
+				  'hour_one'            => $row->hour_one,
+				  'hour_two'            => $row->hour_two,
+				  'hour_three'          => $row->hour_three,
+				  'hour_four'           => $row->hour_four,
 				);
-				// print_r($data);
+
+				// exit;
 				$unit_id = $row->unit_id;
 				$get_session_user_unit = $this->common_model->get_session_unit_id_name();
 				if($get_session_user_unit != 0)
@@ -1315,11 +1330,12 @@ class Processdb extends CI_Model{
 
 			foreach ($query4->result() as $row)
 			{
+				// echo "<pre>"; print_r($row);exit;
 				$emp_dob = $row->emp_dob;
 				$emp_dob = date("d-m-Y", strtotime($emp_dob));
 
 				$data2 = array(
-					'emp_id'				=> $row->emp_id,
+					'emp_id'				=> $row->empid,
 					'emp_pre_add'  			=> $row->emp_pre_add,
 					'emp_par_add'  			=> $row->emp_par_add,
 					'emp_degree' 			=> $row->emp_degree,
@@ -1343,8 +1359,6 @@ class Processdb extends CI_Model{
 					'bangla_nam'  		    => $row->bangla_nam,
 					'id_skill'  			=> $row->id,
 					'spouse_name' 			=> $row->spouse_name,
-					'emp_pre_add_ban'		=> $row->emp_pre_add_ban,
-					'emp_par_add_ban'		=> $row->emp_par_add_ban,
 					'nid'					=> $row->emp_n_id,
 					'bank_ac_no'			=> $row->bank_ac_no,
 					'blood_name'			=> $row->blood_name,
@@ -1369,19 +1383,6 @@ class Processdb extends CI_Model{
 			$w_process_id_name 	= $this->work_process_search();
 			$salary_id_name 	= $this->ot_show_in_search();
 			$blood_id_name 		= $this->blood_search();
-
-
-			/*print_r($unit_id_name);
-			print_r($dept_id_name);
-			print_r($sec_id_name);
-			print_r($line_id_name);
-			print_r($desig_id_name);
-			print_r($operation_id_name);
-			print_r($position_id_name);
-			print_r($salg_id_name);
-			print_r($empstat_id_name);
-			print_r($attbonus_id_name);
-			print_r($shift_id_name);*/
 
 			// print_r($other_info); exit;
 			// echo "<pre>"; print_r($other_info); exit;
@@ -1440,6 +1441,7 @@ class Processdb extends CI_Model{
 					'stat_type'  	=> $row->stat_type,
 					'shift_name'  	=> $row->shift_name,
 					'gross_sal'  	=> $row->gross_sal,
+					'com_gross_sal'  	=> $row->com_gross_sal,
 					'ot_entitle'  	=> $row->ot_entitle,
 					'transport'  	=> $row->transport,
 					'lunch'  		=> $row->lunch,

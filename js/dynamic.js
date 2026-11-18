@@ -71,67 +71,67 @@ function empty_pi(){
 }
 
 function ajaxInsert(){
-var ajaxRequest;  // The variable that makes Ajax possible!
+	var ajaxRequest;  // The variable that makes Ajax possible!
 
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
-
- var empid 	= document.getElementById('empid').value;
-
-  if(empid=='' || empid==null){
- 	alert("Please insert employee ID");
-	return;
- }
-
- var name 	= document.getElementById('name').value;
- var mname 	= document.getElementById('mname').value;
- var fname	= document.getElementById('fname').value;
- var dob 	= document.getElementById('dob').value;
- var reli 	= document.getElementById('reli').value;
- var sex 	= document.getElementById('sex').value;
- var ms 	= document.getElementById('ms').value;
- var bgroup = document.getElementById('bgroup').value;
- var padd	= document.getElementById('padd').value;
- var fadd 	= document.getElementById('fadd').value;
-
-var img = document.com_per_info.source.value;
-hostname = window.location.href;
-hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
-document.image.src = hostname + "/uploads/photo/"+img;
-document.image.height = 200;
-document.image.width = 150;
-
- var queryString="empid="+empid+"&name="+name+"&mname="+mname+"&fname="+fname+"&dob="+dob+"&reli="+reli+"&sex="+sex+"&ms="+ms+"&bgroup="+bgroup+"&img="+img+"&padd="+padd+"&fadd="+fadd;
-
- ajaxRequest.open("POST", "per_info/", true);
- ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- ajaxRequest.send(queryString);
-
-
-ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-		//empty();
-		alert(resp);
-
-
+	try{
+	// Opera 8.0+, Firefox, Safari
+	ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+	// Internet Explorer Browsers
+	try{
+		ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+	}catch (e) {
+		try{
+			ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		}catch (e){
+			// Something went wrong
+			alert("Your browser broke!");
+			return false;
+		}
 	}
-}
+	}
+
+	var empid 	= document.getElementById('empid').value;
+
+	if(empid=='' || empid==null){
+		alert("Please insert employee ID");
+		return;
+	}
+
+	var name 	= document.getElementById('name').value;
+	var mname 	= document.getElementById('mname').value;
+	var fname	= document.getElementById('fname').value;
+	var dob 	= document.getElementById('dob').value;
+	var reli 	= document.getElementById('reli').value;
+	var sex 	= document.getElementById('sex').value;
+	var ms 	= document.getElementById('ms').value;
+	var bgroup = document.getElementById('bgroup').value;
+	var padd	= document.getElementById('padd').value;
+	var fadd 	= document.getElementById('fadd').value;
+
+	var img = document.com_per_info.source.value;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	document.image.src = hostname + "/uploads/photo/"+img;
+	document.image.height = 200;
+	document.image.width = 150;
+
+	var queryString="empid="+empid+"&name="+name+"&mname="+mname+"&fname="+fname+"&dob="+dob+"&reli="+reli+"&sex="+sex+"&ms="+ms+"&bgroup="+bgroup+"&img="+img+"&padd="+padd+"&fadd="+fadd;
+
+	ajaxRequest.open("POST", "per_info/", true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxRequest.send(queryString);
+
+
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			var resp = ajaxRequest.responseText;
+			//empty();
+			alert(resp);
+
+
+		}
+	}
 }
 
 function save_linename(){
@@ -1380,8 +1380,10 @@ ajaxRequest.onreadystatechange = function(){
 			empty();
 			alert(resp);
 			return;
-			}
+		}
 		personalinfo = resp.split("-*-");
+		// console.log(personalinfo);
+		// return false;
 		document.getElementById('empid').value = personalinfo[0];
 		document.getElementById('name').value = personalinfo[1];
 		document.getElementById('mname').value = personalinfo[2];
@@ -1838,6 +1840,7 @@ function com_info_insert(){
 	var empstat = document.getElementById('empstat').value;
 	var empshift = document.getElementById('empshift').value;
 	var gsal = document.getElementById('gsal').value;
+	var com_gsal = document.getElementById('com_gsal').value;
 	var otentitle = document.getElementById('otentitle').value;
 	var transport = document.getElementById('transport').value;
 	var lunch = document.getElementById('lunch').value;
@@ -1851,80 +1854,82 @@ function com_info_insert(){
 	 return;
 	}
 
- if(sec=='Select' || sec==''){
-	 alert("Please select Section");
-	 return;
-	}
+	if(sec=='Select' || sec==''){
+		alert("Please select Section");
+		return;
+		}
 
-if(line=='Select' || line==''){
-	 alert("Please select Line number");
-	 return;
-	}
+	if(line=='Select' || line==''){
+		alert("Please select Line number");
+		return;
+		}
 
-if(desig=='Select' || desig==''){
-	 alert("Please select Designation");
-	 return;
-	}
+	if(desig=='Select' || desig==''){
+		alert("Please select Designation");
+		return;
+		}
 
-if(operation=='Select' || operation==''){
-	 alert("Please select Operation");
-	 return;
-	}
+	if(operation=='Select' || operation==''){
+		alert("Please select Operation");
+		return;
+		}
 
-if(position=='Select' || position==''){
-	 alert("Please select Position");
-	 return;
-	}
+	if(position=='Select' || position==''){
+		alert("Please select Position");
+		return;
+		}
 
-if(salg=='Select' || salg==''){
-	 alert("Please select Salary grade");
-	 return;
-	}
+	if(salg=='Select' || salg==''){
+		alert("Please select Salary grade");
+		return;
+		}
 
-if(empstat=='Select' || empstat==''){
-	 alert("Please select Employee status");
-	 return;
-	}
+	if(empstat=='Select' || empstat==''){
+		alert("Please select Employee status");
+		return;
+		}
 
-if(empshift=='Select' || empshift==''){
-	 alert("Please select Employee Shift");
-	 return;
-	}
+	if(empshift=='Select' || empshift==''){
+		alert("Please select Employee Shift");
+		return;
+		}
 
-if(otentitle=='Select' || otentitle==''){
-	 alert("Please select OT Entitle");
-	 return;
-	}
+	if(otentitle=='Select' || otentitle==''){
+		alert("Please select OT Entitle");
+		return;
+		}
 
-if(transport=='Select' || transport==''){
-	 alert("Please select Transport Entitle");
-	 return;
-	}
+	if(transport=='Select' || transport==''){
+		alert("Please select Transport Entitle");
+		return;
+		}
 
-if(lunch=='Select' || lunch==''){
-	 alert("Please select Lunch Entitle");
-	 return;
-	}
+	if(lunch=='Select' || lunch==''){
+		alert("Please select Lunch Entitle");
+		return;
+		}
 
-if(attbonus=='Select' || attbonus==''){
-	 alert("Please select Attendance bonus");
-	 return;
-	}
+	if(attbonus=='Select' || attbonus==''){
+		alert("Please select Attendance bonus");
+		return;
+		}
 
-if(saldraw=='Select' || saldraw==''){
-	 alert("Please select salary withdraw");
-	 return;
-	}
+	if(saldraw=='Select' || saldraw==''){
+		alert("Please select salary withdraw");
+		return;
+		}
 
-if(saltype=='Select' || saltype==''){
-	 alert("Please select salary type");
-	 return;
-	}
-
-
+	if(saltype=='Select' || saltype==''){
+		alert("Please select salary type");
+		return;
+		}
 
 
-	var queryString="com_empid="+com_empid+"&idcard="+idcard+"&dept="+dept+"&sec="+sec+"&line="+line+"&desig="+desig+"&operation="+operation+"&position="+position+"&salg="+salg+"&empstat="+empstat+"&empshift="+empshift+"&gsal="+gsal+"&otentitle="+otentitle+"&transport="+transport+"&lunch="+lunch+"&attbonus="+attbonus+"&ejd="+ejd+"&saldraw="+saldraw+"&saltype="+saltype;
+
+
+	var queryString="com_empid="+com_empid+"&idcard="+idcard+"&dept="+dept+"&sec="+sec+"&line="+line+"&desig="+desig+"&operation="+operation+"&position="+position+"&salg="+salg+"&empstat="+empstat+"&empshift="+empshift+"&gsal="+gsal+"&com_gsal"+com_gsal+"&otentitle="+otentitle+"&transport="+transport+"&lunch="+lunch+"&attbonus="+attbonus+"&ejd="+ejd+"&saldraw="+saldraw+"&saltype="+saltype;
+
+
 	//alert(desig);
 	ajaxRequest.open("POST", "com_info_insert/", true);
  	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1944,39 +1949,39 @@ ajaxRequest.onreadystatechange = function(){
 }
 
 function com_info_edit(){
- var ajaxRequest;  // The variable that makes Ajax possible!
+	var ajaxRequest;  // The variable that makes Ajax possible!
 
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
- // Create a function that will receive data
- // sent from the server and will update
- // div section in the same page.
+	try{
+	// Opera 8.0+, Firefox, Safari
+	ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+	// Internet Explorer Browsers
+	try{
+		ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+	}catch (e) {
+		try{
+			ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		}catch (e){
+			// Something went wrong
+			alert("Your browser broke!");
+			return false;
+		}
+	}
+	}
+	// Create a function that will receive data
+	// sent from the server and will update
+	// div section in the same page.
 
- // Now get the value from user and pass it to
- // server script.
- var com_empid = document.getElementById("com_empid").value;
- var idcard = document.getElementById('idcard').value;
- if(com_empid=='' || com_empid==null){
- 	alert("Please insert employee ID");
- }
- //else if(idcard=='' || idcard==null){
- 	//alert("Please insert ID card number");
- //}
+	// Now get the value from user and pass it to
+	// server script.
+	var com_empid = document.getElementById("com_empid").value;
+	var idcard = document.getElementById('idcard').value;
+	if(com_empid=='' || com_empid==null){
+		alert("Please insert employee ID");
+	}
+	//else if(idcard=='' || idcard==null){
+		//alert("Please insert ID card number");
+	//}
  else
  {
 
@@ -1991,6 +1996,7 @@ function com_info_edit(){
 	var empstat = document.getElementById('empstat').value;
 	var empshift = document.getElementById('empshift').value;
 	var gsal = document.getElementById('gsal').value;
+	var com_gsal = document.getElementById('com_gsal').value;
 	var otentitle = document.getElementById('otentitle').value;
 	var transport = document.getElementById('transport').value;
 	var lunch = document.getElementById('lunch').value;
@@ -2004,91 +2010,89 @@ function com_info_edit(){
 	 return;
 	}
 
- if(sec=='Select' || sec==''){
-	 alert("Please select Section");
-	 return;
+	if(sec=='Select' || sec==''){
+		alert("Please select Section");
+		return;
 	}
 
-if(line=='Select' || line==''){
-	 alert("Please select Line number");
-	 return;
+	if(line=='Select' || line==''){
+		alert("Please select Line number");
+		return;
 	}
 
-if(desig=='Select' || desig==''){
-	 alert("Please select Designation");
-	 return;
+	if(desig=='Select' || desig==''){
+		alert("Please select Designation");
+		return;
 	}
 
-if(operation=='Select' || operation==''){
-	 alert("Please select Operation");
-	 return;
+	if(operation=='Select' || operation==''){
+		alert("Please select Operation");
+		return;
 	}
 
-if(position=='Select' || position==''){
-	 alert("Please select Position");
-	 return;
+	if(position=='Select' || position==''){
+		alert("Please select Position");
+		return;
 	}
 
-if(salg=='Select' || salg==''){
-	 alert("Please select Salary grade");
-	 return;
+	if(salg=='Select' || salg==''){
+		alert("Please select Salary grade");
+		return;
 	}
 
-if(empstat=='Select' || empstat==''){
-	 alert("Please select Employee status");
-	 return;
+	if(empstat=='Select' || empstat==''){
+		alert("Please select Employee status");
+		return;
 	}
 
-if(empshift=='Select' || empshift==''){
-	 alert("Please select Employee Shift");
-	 return;
+	if(empshift=='Select' || empshift==''){
+		alert("Please select Employee Shift");
+		return;
 	}
 
-if(otentitle=='Select' || otentitle==''){
-	 alert("Please select OT Entitle");
-	 return;
+	if(otentitle=='Select' || otentitle==''){
+		alert("Please select OT Entitle");
+		return;
 	}
 
-if(transport=='Select' || transport==''){
-	 alert("Please select Transport Entitle");
-	 return;
+	if(transport=='Select' || transport==''){
+		alert("Please select Transport Entitle");
+		return;
 	}
 
-if(lunch=='Select' || lunch==''){
-	 alert("Please select Lunch Entitle");
-	 return;
+	if(lunch=='Select' || lunch==''){
+		alert("Please select Lunch Entitle");
+		return;
 	}
 
-if(attbonus=='Select' || attbonus==''){
-	 alert("Please select Attendance bonus");
-	 return;
+	if(attbonus=='Select' || attbonus==''){
+		alert("Please select Attendance bonus");
+		return;
 	}
 
-if(saldraw=='Select' || saldraw==''){
-	 alert("Please select salary withdraw");
-	 return;
+	if(saldraw=='Select' || saldraw==''){
+		alert("Please select salary withdraw");
+		return;
 	}
 
-if(saltype=='Select' || saltype==''){
-	 alert("Please select salary withdraw");
-	 return;
+	if(saltype=='Select' || saltype==''){
+		alert("Please select salary withdraw");
+		return;
+		}
+
+		var queryString="com_empid="+com_empid+"&idcard="+idcard+"&dept="+dept+"&sec="+sec+"&line="+line+"&desig="+desig+"&operation="+operation+"&position="+position+"&salg="+salg+"&empstat="+empstat+"&empshift="+empshift+"&gsal="+gsal+"&com_gsal="+com_gsal+"&otentitle="+otentitle+"&transport="+transport+"&lunch="+lunch+"&attbonus="+attbonus+"&ejd="+ejd+"&saldraw="+saldraw+"&saltype="+saltype;
+		//alert(queryString);
+		ajaxRequest.open("POST", "com_info_edit/", true);
+		ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		ajaxRequest.send(queryString);
+
+		ajaxRequest.onreadystatechange = function(){
+			if(ajaxRequest.readyState == 4){
+				var resp = ajaxRequest.responseText;
+				alert(resp);
+			}
+		}
 	}
-
-	var queryString="com_empid="+com_empid+"&idcard="+idcard+"&dept="+dept+"&sec="+sec+"&line="+line+"&desig="+desig+"&operation="+operation+"&position="+position+"&salg="+salg+"&empstat="+empstat+"&empshift="+empshift+"&gsal="+gsal+"&otentitle="+otentitle+"&transport="+transport+"&lunch="+lunch+"&attbonus="+attbonus+"&ejd="+ejd+"&saldraw="+saldraw+"&saltype="+saltype;
-	//alert(queryString);
-	ajaxRequest.open("POST", "com_info_edit/", true);
- 	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- 	ajaxRequest.send(queryString);
-
-ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-		alert(resp);
-	}
-}
-
-
-}
 }
 
 /*function com_info_delete(){
@@ -2161,40 +2165,40 @@ function com_basic_sal_cal(){
       }
    }
    //==================================BGMEA Salary Rule===================================
-//    var com_gsal = document.getElementById('com_gsal').value;
+   var com_gsal = document.getElementById('com_gsal').value;
    var d = new Date();
    var year = d.getFullYear();
    var month = d.getMonth()+1;
    var date = d.getDate();
    var curDate = year + "-" + (("0" + month).slice(-2)) + "-" + (("0" + date).slice(-2));
    if(curDate > '2025-02-01'){
-		var mallow      = 750;
-		var trans_allow = 1000;
-		var lunch_allow = 1250;
+	var com_mallow      = 750;
+	var com_trans_allow = 450;
+	var com_lunch_allow = 1250;
    } else if(curDate > '2023-11-01' && curDate < '2025-02-01'){
-		var mallow      = 750;
-		var trans_allow = 450;
-		var lunch_allow = 1250;
+	var com_mallow      = 750;
+	var com_trans_allow = 450;
+	var com_lunch_allow = 1250;
    }else{
-		var mallow      = 600;
-		var trans_allow = 350;
-		var lunch_allow = 900;
+	var com_mallow      = 600;
+	var com_trans_allow = 350;
+	var com_lunch_allow = 900;
    }
 
 	if(com_gsal == 0){
-		mallow      = 0;
-		trans_allow = 0;
-		lunch_allow = 0;
+		com_mallow      = 0;
+		com_trans_allow = 0;
+		com_lunch_allow = 0;
 	}
 
-	document.getElementById('com_mallow').value = mallow;
-	document.getElementById('com_transport_allow').value = trans_allow;
-	document.getElementById('com_lunch_allow').value = lunch_allow;
+	document.getElementById('com_mallow').value = com_mallow;
+	document.getElementById('com_transport_allow').value = com_trans_allow;
+	document.getElementById('com_lunch_allow').value = com_lunch_allow;
 
-	var com_bsal = Math.round((com_gsal - (mallow + trans_allow + lunch_allow)) / 1.5);
+	var com_bsal = Math.round((com_gsal - (com_mallow + com_trans_allow + com_lunch_allow)) / 1.5);
 	document.getElementById('com_bsal').value = com_bsal;
 	// var com_hrent = Math.round(com_bsal * 0.5);
-   var com_hrent = Math.round(com_gsal - (mallow + trans_allow + lunch_allow + com_bsal));
+    var com_hrent = Math.round(com_gsal - (com_mallow + com_trans_allow + com_lunch_allow + com_bsal));
 	document.getElementById('com_hrent').value = com_hrent;
 	//==================================LOCAL Salary Rule===================================
 }
@@ -2249,590 +2253,132 @@ function basic_sal_cal(){
 	//==================================LOCAL Salary Rule===================================
 }
 
+
 function form_check()
 {
 
 
- var ajaxRequest;  // The variable that makes Ajax possible!
+	var ajaxRequest;  // The variable that makes Ajax possible!
 
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
-
-//document.position.save_designationname.disabled = true;
-
- employee_id= document.getElementById('empid').value;
- if(employee_id=='')
- {
-	 alert("Please Insert Employee ID");
-	// enable_save();
-	 return false;
-
-	 }
-
-
-
- var queryString="employee_id="+employee_id;
-
- ajaxRequest.open("POST", "check_id/", true);
- ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- ajaxRequest.send(queryString);
-
-
-ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-
-		if(resp == 1)
-		{
-			alert("Sorry! Change your employee ID.");
+	try{
+	// Opera 8.0+, Firefox, Safari
+	ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+	// Internet Explorer Browsers
+	try{
+		ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+	}catch (e) {
+		try{
+			ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		}catch (e){
+			// Something went wrong
+			alert("Your browser broke!");
 			return false;
 		}
+	}
+	}
 
+	//document.position.save_designationname.disabled = true;
+
+	employee_id= document.getElementById('empid').value;
+	if(employee_id=='')
+	{
+		alert("Please Insert Employee ID");
+		// enable_save();
+		return false;
 
 	}
-}
+
+
+
+	var queryString="employee_id="+employee_id;
+
+	ajaxRequest.open("POST", "check_id/", true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxRequest.send(queryString);
+
+
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			var resp = ajaxRequest.responseText;
+
+			if(resp == 1)
+			{
+				alert("Sorry! Change your employee ID.");
+				return false;
+			}
+
+
+		}
+	}
 }
 
 
 function com_info_next_Search1()
 {
-
+	// alert("here");
    var ajaxRequest;  // The variable that makes Ajax possible!
 
-   try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
-   }catch (e){
-   // Internet Explorer Browsers
-   try{
-   ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-   try{
-   ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-   }catch (e){
-   // Something went wrong
-   alert("Your browser broke!");
-   return false;
-   }
-   }
-   }
- //disable_save();
- document.getElementById('search_empid').value="";
- var id_skill 	= document.getElementById('id_skill').value;
- //var new_id_skill = id_skill + 1;
-
- //alert(new_id_skill);
-
- var queryString="id_skill="+id_skill;
- hostname = window.location.href;
- hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
- var url = hostname + "index.php/emp_info_con/com_info_next_Search1/";
- ajaxRequest.open("POST", url, true);
- ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- ajaxRequest.send(queryString);
-
-
-ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-		//alert(resp);
-		if(resp == "Employee ID does not exist"){
-			alert(resp);
-			empty_pi();
-			return;
+	try{
+	// Opera 8.0+, Firefox, Safari
+	ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+	// Internet Explorer Browsers
+   	try{
+		ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+	}catch (e) {
+		try{
+			ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}catch (e){
+				// Something went wrong
+				alert("Your browser broke!");
+				return false;
 			}
-		if(resp == "Access Denied"){
-			alert(resp);
-			empty_pi();
-			return;
 		}
-		document.cominfo.pi_save.disabled = true;
- 		document.cominfo.pi_edit.disabled = false;
-      document.cominfo.pi_delete.disabled = false;
- 		document.cominfo.empstat.disabled = true;
+    }
+	//disable_save();
+	document.getElementById('search_empid').value="";
+	var id_skill 	= document.getElementById('id_skill').value;
+	//var new_id_skill = id_skill + 1;
 
-		alldata = resp.split("-*-");
-		//alert(alldata);
-		otherinfo= alldata[0].split("=*=") ;
-		//alert(otherinfo);
-		//alert(otherinfo[1]);
+	//alert(new_id_skill);
+
+	var queryString="id_skill="+id_skill;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	var url = hostname + "index.php/emp_info_con/com_info_next_Search1/";
+	ajaxRequest.open("POST", url, true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxRequest.send(queryString);
+
+
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			var resp = ajaxRequest.responseText;
+			//alert(resp);
+			if(resp == "Employee ID does not exist"){
+				alert(resp);
+				empty_pi();
+				return;
+				}
+			if(resp == "Access Denied"){
+				alert(resp);
+				empty_pi();
+				return;
+			}
+			document.cominfo.pi_save.disabled = true;
+			document.cominfo.pi_edit.disabled = false;
+			document.cominfo.pi_delete.disabled = false;
+			document.cominfo.empstat.disabled = true;
+
+			alldata = resp.split("-*-");
+			//alert(alldata);
+			otherinfo= alldata[0].split("=*=") ;
+			//alert(otherinfo);
+			//alert(otherinfo[1]);
 		document.cominfo.empid.value = otherinfo[0];
 		document.cominfo.padd.value = otherinfo[1];
 		document.cominfo.fadd.value = otherinfo[2];
-      document.cominfo.emp_last_dg.value = otherinfo[3];
-      document.cominfo.pass_year.value = otherinfo[4];
-      document.cominfo.edu_insti.value = otherinfo[5];
-      document.cominfo.skill_dept.value = otherinfo[6];
-      document.cominfo.skill_year.value = otherinfo[7];
-      document.cominfo.skill_com_na.value = otherinfo[8];
-      document.cominfo.name.value = otherinfo[9];
-      document.cominfo.fname.value = otherinfo[10];
-      document.cominfo.mname.value = otherinfo[11];
-      document.cominfo.mname_bn.value = otherinfo[12];
-      document.cominfo.fname_bn.value = otherinfo[13];
-
-      document.cominfo.dob.value = otherinfo[12];
-      document.cominfo.reli.value = otherinfo[13];
-		//alert(otherinfo[13]);
-		document.cominfo.sex.value = otherinfo[14];
-		document.cominfo.ms.value = otherinfo[15];
-		document.cominfo.bgroup.value = otherinfo[16];
-
-		var img = otherinfo[17];
-		hostname = window.location.href;
-      hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
-		document.image.src = hostname + "/uploads/photo/"+img;
-		document.image.height = 150;
-		document.image.width = 120;
-
-		document.cominfo.bname.value = otherinfo[18];
-		document.cominfo.id_skill.value = otherinfo[19];
-		document.cominfo.spouse_name.value = otherinfo[20];
-		//document.cominfo.search_empid.value = otherinfo[0];
-		com_info = alldata[1].split("=*=");
-		//alert(com_info);
-
-
-		document.cominfo.idcard.value = com_info[1];
-
-		//document.cominfo.section.value = com_info[];
-
-		//dept_id_name = alldata[2].split("===");
-		//dept_id = dept_id_name[0].split("=*=");
-		//dept_name = dept_id_name[1].split("=*=");
-		//document.cominfo.dept.options.length=0;
-		//for (i=0; i<dept_id.length; i++){
-		//	document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
-		//	}
-
-
-
-		dept_id_name = alldata[2].split("===");
-		dept_id = dept_id_name[0].split("***");
-		dept_name = dept_id_name[1].split("***");
-		document.cominfo.dept.options.length=0;
-		for (i=0; i<dept_id.length; i++){
-			if( com_info[2] == dept_name[i])
-			{
-				document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
-			}
-			else
-			document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, false);
-		}
-
-		//alert(com_info[3]);
-
-
-		sec_id_name = alldata[3].split("===");
-		//alert(sec_id_name);
-		sec_id = sec_id_name[0].split("***");
-		sec_name = sec_id_name[1].split("***");
-		document.cominfo.sec.options.length=0;
-		for (i=0; i<sec_id.length; i++){
-			if( com_info[3] == sec_name[i])
-			{
-				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false,true);
-			}
-			else
-				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false, false);
-
-		}
-
-
-		//alert(com_info[4]);
-
-
-		line_id_name = alldata[4].split("===");
-		line_id = line_id_name[0].split("***");
-		line_name = line_id_name[1].split("***");
-		document.cominfo.line.options.length=0;
-		for (i=0; i<line_id.length; i++){
-			if( com_info[4] == line_name[i])
-			{
-				//alert(line_name[i]);
-				document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false,true);
-			}
-			else
-			//alert(line_name[i]);
-			document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
-
-		}
-
-		//alert(com_info[5])
-
-		desig_id_name = alldata[5].split("===");
-		desig_id = desig_id_name[0].split("***");
-		desig_name = desig_id_name[1].split("***");
-		document.cominfo.desig.options.length=0;
-		for (i=0; i<desig_id.length; i++){
-			if( com_info[5] == desig_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false,true);
-			}
-			else
-			document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
-
-		}
-
-
-
-		operation_id_name = alldata[6].split("===");
-		//alert(operation_id_name);
-		operation_id = operation_id_name[0].split("=*=");
-		operation_name = operation_id_name[1].split("=*=");
-		document.cominfo.operation.options.length=0;
-		for (i=0; i<operation_id.length; i++){
-			if( com_info[6] == operation_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false,true);
-			}
-			else
-			document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false, false);
-
-		}
-
-		position_id_name = alldata[7].split("===");
-		position_id = position_id_name[0].split("=*=");
-		position_name = position_id_name[1].split("=*=");
-		document.cominfo.position.options.length=0;
-		for (i=0; i<position_id.length; i++){
-			if( com_info[7] == position_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false,true);
-			}
-			else
-			document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false, false);
-
-		}
-
-		salg_id_name = alldata[8].split("===");
-		salg_id = salg_id_name[0].split("***");
-		salg_name = salg_id_name[1].split("***");
-		document.cominfo.salg.options.length=0;
-		for (i=0; i<salg_id.length; i++){
-			if( com_info[8] == salg_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false,true);
-			}
-			else
-			document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
-
-		}
-
-
-
-		empstat_id_name = alldata[9].split("===");
-		empstat_id = empstat_id_name[0].split("***");
-		empstat_name = empstat_id_name[1].split("***");
-		document.cominfo.empstat.options.length=0;
-		for (i=0; i<empstat_id.length; i++){
-			if( com_info[9] == empstat_name[i])
-			{
-				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false,true);
-			}
-			else
-				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false, false);
-		}
-
-		empshift_id_name = alldata[10].split("===");
-		//alert(empshift_id_name);
-		empshift_id = empshift_id_name[0].split("***");
-		empshift_name = empshift_id_name[1].split("***");
-		document.cominfo.empshift.options.length=0;
-		for (i=0; i<empshift_id.length; i++){
-			if( com_info[10] == empshift_name[i])
-			{
-				document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false,true);
-			}
-			else
-			document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false, false);
-
-		}
-
-		attbonus_id_name = alldata[11].split("===");
-
-		attbonus_id = attbonus_id_name[0].split("***");
-		//alert(attbonus_id);
-		attbonus_name = attbonus_id_name[1].split("***");
-		//alert(com_info[15]);
-		document.cominfo.attbonus.options.length=0;
-		for (i=0; i<attbonus_id.length; i++){
-
-			if( com_info[15] == attbonus_id[i])
-			{
-				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false,true);
-			}
-			else
-				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false, false);
-			}
-
-	attbonus_id_name = alldata[11].split("===");
-	attbonus_id = attbonus_id_name[0].split("***");
-	attbonus_name = attbonus_id_name[1].split("***");
-
-		var otname=new Array();
-		var otid=new Array();
-		otname[0]="Yes";
-		otname[1]="No";
-		otid[0] =0;
-		otid[1] =1;
-
-
-
-
-	document.cominfo.transport.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[13] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-
-
-	document.cominfo.otentitle.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[12] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-		document.cominfo.lunch.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[14] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-		var stname=new Array();
-		var stid=new Array();
-		stname[0]="Fixed";
-		stname[1]="General";
-		stid[0] =1;
-		stid[1] =2;
-
-
-		document.cominfo.saltype.options.length=0;
-		for (i=0; i<=1; i++){
-			if( com_info[18] == stid[i])
-			{
-				document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, true);
-			}
-			else
-			document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, false);
-		}
-
-
-		var sdname=new Array();
-		var sdid=new Array();
-		sdname[0]="Cash";
-		sdname[1]="Bank";
-		sdid[0] =1;
-		sdid[1] =2;
-
-
-		document.cominfo.saldraw.options.length=0;
-		for (i=0; i<=1; i++){
-			if( com_info[17] == sdid[i])
-			{
-				document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, true);
-			}
-			else
-			document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, false);
-		}
-
-
-		unit_id_name = alldata[12].split("===");
-		unit_id = unit_id_name[0].split("***");
-		unit_name = unit_id_name[1].split("***");
-		//alert(unit_id);
-		//alert(unit_name);
-		//alert(com_info[20]);
-		document.cominfo.units.options.length=0;
-		for (i=0; i<unit_id.length; i++){
-			if( com_info[20] == unit_name[i])
-			{
-				document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, true);
-			}
-			else
-			document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, false);
-		}
-
-
-
-		document.getElementById('ejd').value = com_info[16];
-		//alert(com_info[11]) ;
-		document.getElementById('gsal').value = com_info[11];
-		var gsal = com_info[11];
-
-		document.getElementById('com_gsal').value = com_info[19];
-		var com_gsal = com_info[19];
-		//alert(com_gsal);
-
-		//==================================BGMEA Salary Rule===================================
-		/*var bsal = (gsal * 60) / 100;
-		document.getElementById('bsal').value = bsal;
-
-		var hrent = (gsal * 30) / 100;
-		document.getElementById('hrent').value = hrent;
-
-		var mallow = (gsal * 10) / 100;
-		document.getElementById('mallow').value = mallow;*/
-		//==================================BGMEA Salary Rule===================================
-
-		//==================================LOCAL Salary Rule===================================
-		var mallow = 250;
-		//alert(mallow);
-		document.getElementById('mallow').value = mallow;
-
-		var trans_allow = 200;
-		document.getElementById('transport_allow').value = trans_allow;
-
-		var lunch_allow = 650;
-		document.getElementById('lunch_allow').value = lunch_allow;
-
-		var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 140 * 100);
-		document.getElementById('bsal').value = bsal;
-
-		var hrent = Math.round((bsal * 40) / 100);
-		document.getElementById('hrent').value = hrent;
-
-
-
-		//alert(mallow);
-		if(com_gsal == 0)
-		{
-			mallow = 0;
-			trans_allow = 0;
-			lunch_allow = 0;
-		}
-		document.getElementById('com_mallow').value = mallow;
-
-		document.getElementById('com_transport_allow').value = trans_allow;
-
-		document.getElementById('com_lunch_allow').value = lunch_allow;
-
-		var com_bsal = Math.round((com_gsal - (mallow + trans_allow + lunch_allow)) / 140 * 100);
-		//alert(com_bsal);
-		document.getElementById('com_bsal').value = com_bsal;
-
-		var com_hrent = Math.round((com_bsal * 40) / 100);
-		document.getElementById('com_hrent').value = com_hrent;
-		//==================================LOCAL Salary Rule===================================
-		if(com_info[9] == 'Resign')
-		{
-
-			document.cominfo.pi_edit.disabled = true;
-			}
-
-	}
-}
-
-eempid = empid;
-
-}
-
-function com_info_prev_Search1()
-{
-
- var ajaxRequest;  // The variable that makes Ajax possible!
-
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
- //disable_save();
- document.getElementById('search_empid').value="";
- var id_skill 	= document.getElementById('id_skill').value;
- //var new_id_skill = id_skill + 1;
-
- //alert(new_id_skill);
-
- var queryString="id_skill="+id_skill;
- hostname = window.location.href;
-hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
- var url = hostname + "index.php/emp_info_con/com_info_prev_Search1/";
- ajaxRequest.open("POST", url, true);
- ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- ajaxRequest.send(queryString);
-
-
-ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-		//alert(resp);
-		if(resp == "Employee ID does not exist"){
-			alert(resp);
-			empty_pi();
-			return;
-			}
-		if(resp == "Access Denied"){
-			alert(resp);
-			empty_pi();
-			return;
-		}
-		document.cominfo.pi_save.disabled = true;
- 		document.cominfo.pi_edit.disabled = false;
- 		document.cominfo.empstat.disabled = true;
-
-		alldata = resp.split("-*-");
-		//alert(alldata);
-		otherinfo= alldata[0].split("=*=") ;
-		//alert(otherinfo);
-		//alert(otherinfo[1]);
-		document.cominfo.empid.value = otherinfo[0];
-		document.cominfo.padd.value = otherinfo[1];
-		document.cominfo.fadd.value = otherinfo[2];
-		//alert(otherinfo[3]);
 		document.cominfo.emp_last_dg.value = otherinfo[3];
 		document.cominfo.pass_year.value = otherinfo[4];
 		document.cominfo.edu_insti.value = otherinfo[5];
@@ -2842,389 +2388,856 @@ ajaxRequest.onreadystatechange = function(){
 		document.cominfo.name.value = otherinfo[9];
 		document.cominfo.fname.value = otherinfo[10];
 		document.cominfo.mname.value = otherinfo[11];
+		document.cominfo.mname_bn.value = otherinfo[12];
+		document.cominfo.fname_bn.value = otherinfo[13];
+
 		document.cominfo.dob.value = otherinfo[12];
-		//alert(otherinfo[13]);
 		document.cominfo.reli.value = otherinfo[13];
+			//alert(otherinfo[13]);
 		document.cominfo.sex.value = otherinfo[14];
 		document.cominfo.ms.value = otherinfo[15];
-		document.cominfo.bgroup.value = otherinfo[16];
-		var img = otherinfo[17];
-		hostname = window.location.href;
-      hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
-		document.image.src = hostname + "/uploads/photo/"+img;
-		document.image.height = 150;
-		document.image.width = 120;
+		document.cominfo.bgroup.value = otherinfo[26];
 
-		document.cominfo.bname.value = otherinfo[18];
-		document.cominfo.id_skill.value = otherinfo[19];
-		document.cominfo.spouse_name.value = otherinfo[20];
-		//document.cominfo.search_empid.value = otherinfo[0];
-		com_info = alldata[1].split("=*=");
-		//alert(com_info);
+			var img = otherinfo[17];
+			hostname = window.location.href;
+		hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+			document.image.src = hostname + "/uploads/photo/"+img;
+			document.image.height = 150;
+			document.image.width = 120;
 
-
-		document.cominfo.idcard.value = com_info[1];
-
-		//document.cominfo.section.value = com_info[];
-
-		//dept_id_name = alldata[2].split("===");
-		//dept_id = dept_id_name[0].split("=*=");
-		//dept_name = dept_id_name[1].split("=*=");
-		//document.cominfo.dept.options.length=0;
-		//for (i=0; i<dept_id.length; i++){
-		//	document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
-		//	}
+			document.cominfo.bname.value = otherinfo[18];
+			document.cominfo.id_skill.value = otherinfo[19];
+			document.cominfo.spouse_name.value = otherinfo[20];
+			//document.cominfo.search_empid.value = otherinfo[0];
+			com_info = alldata[1].split("=*=");
+			//alert(com_info);
 
 
+			document.cominfo.idcard.value = com_info[1];
 
-		dept_id_name = alldata[2].split("===");
-		dept_id = dept_id_name[0].split("***");
-		dept_name = dept_id_name[1].split("***");
-		document.cominfo.dept.options.length=0;
-		for (i=0; i<dept_id.length; i++){
-			if( com_info[2] == dept_name[i])
-			{
-				document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
+			//document.cominfo.section.value = com_info[];
+
+			//dept_id_name = alldata[2].split("===");
+			//dept_id = dept_id_name[0].split("=*=");
+			//dept_name = dept_id_name[1].split("=*=");
+			//document.cominfo.dept.options.length=0;
+			//for (i=0; i<dept_id.length; i++){
+			//	document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
+			//	}
+
+
+
+			dept_id_name = alldata[2].split("===");
+			dept_id = dept_id_name[0].split("***");
+			dept_name = dept_id_name[1].split("***");
+			document.cominfo.dept.options.length=0;
+			for (i=0; i<dept_id.length; i++){
+				if( com_info[2] == dept_name[i])
+				{
+					document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
+				}
+				else
+				document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, false);
 			}
-			else
-			document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, false);
-		}
 
-		//alert(com_info[3]);
+			//alert(com_info[3]);
 
 
-		sec_id_name = alldata[3].split("===");
-		//alert(sec_id_name);
-		sec_id = sec_id_name[0].split("***");
-		sec_name = sec_id_name[1].split("***");
-		document.cominfo.sec.options.length=0;
-		for (i=0; i<sec_id.length; i++){
-			if( com_info[3] == sec_name[i])
-			{
-				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false,true);
+			sec_id_name = alldata[3].split("===");
+			//alert(sec_id_name);
+			sec_id = sec_id_name[0].split("***");
+			sec_name = sec_id_name[1].split("***");
+			document.cominfo.sec.options.length=0;
+			for (i=0; i<sec_id.length; i++){
+				if( com_info[3] == sec_name[i])
+				{
+					document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false,true);
+				}
+				else
+					document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false, false);
 
 			}
-			else
-				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false, false);
-
-		}
 
 
-		//alert(com_info[4]);
+			//alert(com_info[4]);
 
 
-		line_id_name = alldata[4].split("===");
-		line_id = line_id_name[0].split("***");
-		line_name = line_id_name[1].split("***");
-		document.cominfo.line.options.length=0;
-		for (i=0; i<line_id.length; i++){
-			if( com_info[4] == line_name[i])
-			{
+			line_id_name = alldata[4].split("===");
+			line_id = line_id_name[0].split("***");
+			line_name = line_id_name[1].split("***");
+			document.cominfo.line.options.length=0;
+			for (i=0; i<line_id.length; i++){
+				if( com_info[4] == line_name[i])
+				{
+					//alert(line_name[i]);
+					document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false,true);
+				}
+				else
 				//alert(line_name[i]);
-				document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false,true);
+				document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
+
 			}
-			else
-			//alert(line_name[i]);
-			document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
 
-		}
+			//alert(com_info[5])
 
-		//alert(com_info[5])
+			desig_id_name = alldata[5].split("===");
+			desig_id = desig_id_name[0].split("***");
+			desig_name = desig_id_name[1].split("***");
+			document.cominfo.desig.options.length=0;
+			for (i=0; i<desig_id.length; i++){
+				if( com_info[5] == desig_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false,true);
+				}
+				else
+				document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
 
-		desig_id_name = alldata[5].split("===");
-		desig_id = desig_id_name[0].split("***");
-		desig_name = desig_id_name[1].split("***");
-		document.cominfo.desig.options.length=0;
-		for (i=0; i<desig_id.length; i++){
-			if( com_info[5] == desig_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false,true);
 			}
-			else
-			document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
-
-		}
 
 
 
-		operation_id_name = alldata[6].split("===");
-		//alert(operation_id_name);
-		operation_id = operation_id_name[0].split("=*=");
-		operation_name = operation_id_name[1].split("=*=");
-		document.cominfo.operation.options.length=0;
-		for (i=0; i<operation_id.length; i++){
-			if( com_info[6] == operation_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false,true);
+			operation_id_name = alldata[6].split("===");
+			//alert(operation_id_name);
+			operation_id = operation_id_name[0].split("=*=");
+			operation_name = operation_id_name[1].split("=*=");
+			document.cominfo.operation.options.length=0;
+			for (i=0; i<operation_id.length; i++){
+				if( com_info[6] == operation_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false,true);
+				}
+				else
+				document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false, false);
+
 			}
-			else
-			document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false, false);
 
-		}
+			position_id_name = alldata[7].split("===");
+			position_id = position_id_name[0].split("=*=");
+			position_name = position_id_name[1].split("=*=");
+			document.cominfo.position.options.length=0;
+			for (i=0; i<position_id.length; i++){
+				if( com_info[7] == position_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false,true);
+				}
+				else
+				document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false, false);
 
-		position_id_name = alldata[7].split("===");
-		position_id = position_id_name[0].split("=*=");
-		position_name = position_id_name[1].split("=*=");
-		document.cominfo.position.options.length=0;
-		for (i=0; i<position_id.length; i++){
-			if( com_info[7] == position_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false,true);
 			}
-			else
-			document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false, false);
 
-		}
+			salg_id_name = alldata[8].split("===");
+			salg_id = salg_id_name[0].split("***");
+			salg_name = salg_id_name[1].split("***");
+			document.cominfo.salg.options.length=0;
+			for (i=0; i<salg_id.length; i++){
+				if( com_info[8] == salg_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false,true);
+				}
+				else
+				document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
 
-		salg_id_name = alldata[8].split("===");
-		salg_id = salg_id_name[0].split("***");
-		salg_name = salg_id_name[1].split("***");
-		document.cominfo.salg.options.length=0;
-		for (i=0; i<salg_id.length; i++){
-			if( com_info[8] == salg_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false,true);
 			}
-			else
-			document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
-
-		}
 
 
 
-		empstat_id_name = alldata[9].split("===");
-		empstat_id = empstat_id_name[0].split("***");
-		empstat_name = empstat_id_name[1].split("***");
-		document.cominfo.empstat.options.length=0;
-		for (i=0; i<empstat_id.length; i++){
-			if( com_info[9] == empstat_name[i])
-			{
-				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false,true);
+			empstat_id_name = alldata[9].split("===");
+			empstat_id = empstat_id_name[0].split("***");
+			empstat_name = empstat_id_name[1].split("***");
+			document.cominfo.empstat.options.length=0;
+			for (i=0; i<empstat_id.length; i++){
+				if( com_info[9] == empstat_name[i])
+				{
+					document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false,true);
+				}
+				else
+					document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false, false);
 			}
-			else
-				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false, false);
-		}
 
-		empshift_id_name = alldata[10].split("===");
-		//alert(empshift_id_name);
-		empshift_id = empshift_id_name[0].split("***");
-		empshift_name = empshift_id_name[1].split("***");
-		document.cominfo.empshift.options.length=0;
-		for (i=0; i<empshift_id.length; i++){
-			if( com_info[10] == empshift_name[i])
-			{
-				document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false,true);
+			empshift_id_name = alldata[10].split("===");
+			//alert(empshift_id_name);
+			empshift_id = empshift_id_name[0].split("***");
+			empshift_name = empshift_id_name[1].split("***");
+			document.cominfo.empshift.options.length=0;
+			for (i=0; i<empshift_id.length; i++){
+				if( com_info[10] == empshift_name[i])
+				{
+					document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false,true);
+				}
+				else
+				document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false, false);
+
 			}
-			else
-			document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false, false);
 
-		}
+			attbonus_id_name = alldata[11].split("===");
+
+			attbonus_id = attbonus_id_name[0].split("***");
+			//alert(attbonus_id);
+			attbonus_name = attbonus_id_name[1].split("***");
+			//alert(com_info[15]);
+			document.cominfo.attbonus.options.length=0;
+			for (i=0; i<attbonus_id.length; i++){
+
+				if( com_info[15] == attbonus_id[i])
+				{
+					document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false,true);
+				}
+				else
+					document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false, false);
+				}
 
 		attbonus_id_name = alldata[11].split("===");
-
 		attbonus_id = attbonus_id_name[0].split("***");
-		//alert(attbonus_id);
 		attbonus_name = attbonus_id_name[1].split("***");
-		//alert(com_info[15]);
-		document.cominfo.attbonus.options.length=0;
-		for (i=0; i<attbonus_id.length; i++){
 
-			if( com_info[15] == attbonus_id[i])
+			var otname=new Array();
+			var otid=new Array();
+			otname[0]="Yes";
+			otname[1]="No";
+			otid[0] =0;
+			otid[1] =1;
+
+
+
+
+		document.cominfo.transport.options.length=0;
+			for (i=0; i<=1; i++){
+
+				if( com_info[13] == otid[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false,true);
+				}
+				else
+				document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false, false);
+			}
+
+
+
+
+		document.cominfo.otentitle.options.length=0;
+			for (i=0; i<=1; i++){
+
+				if( com_info[12] == otid[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false,true);
+				}
+				else
+				document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false, false);
+			}
+
+
+			document.cominfo.lunch.options.length=0;
+			for (i=0; i<=1; i++){
+
+				if( com_info[14] == otid[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false,true);
+				}
+				else
+				document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false, false);
+			}
+
+
+			var stname=new Array();
+			var stid=new Array();
+			stname[0]="Fixed";
+			stname[1]="General";
+			stid[0] =1;
+			stid[1] =2;
+
+
+			document.cominfo.saltype.options.length=0;
+			for (i=0; i<=1; i++){
+				if( com_info[18] == stid[i])
+				{
+					document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, true);
+				}
+				else
+				document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, false);
+			}
+
+
+			var sdname=new Array();
+			var sdid=new Array();
+			sdname[0]="Cash";
+			sdname[1]="Bank";
+			sdid[0] =1;
+			sdid[1] =2;
+
+
+			document.cominfo.saldraw.options.length=0;
+			for (i=0; i<=1; i++){
+				if( com_info[17] == sdid[i])
+				{
+					document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, true);
+				}
+				else
+				document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, false);
+			}
+
+
+			unit_id_name = alldata[12].split("===");
+			unit_id = unit_id_name[0].split("***");
+			unit_name = unit_id_name[1].split("***");
+			//alert(unit_id);
+			//alert(unit_name);
+			//alert(com_info[20]);
+			document.cominfo.units.options.length=0;
+			for (i=0; i<unit_id.length; i++){
+				if( com_info[20] == unit_name[i])
+				{
+					document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, true);
+				}
+				else
+				document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, false);
+			}
+
+
+
+			document.getElementById('ejd').value = com_info[16];
+			//alert(com_info[11]) ;
+			document.getElementById('gsal').value = com_info[11];
+			var gsal = com_info[11];
+
+			document.getElementById('com_gsal').value = com_info[19];
+			var com_gsal = com_info[19];
+			//alert(com_gsal);
+
+			//==================================BGMEA Salary Rule===================================
+			/*var bsal = (gsal * 60) / 100;
+			document.getElementById('bsal').value = bsal;
+
+			var hrent = (gsal * 30) / 100;
+			document.getElementById('hrent').value = hrent;
+
+			var mallow = (gsal * 10) / 100;
+			document.getElementById('mallow').value = mallow;*/
+			//==================================BGMEA Salary Rule===================================
+
+			//==================================LOCAL Salary Rule===================================
+			var mallow = 250;
+			//alert(mallow);
+			document.getElementById('mallow').value = mallow;
+
+			var trans_allow = 200;
+			document.getElementById('transport_allow').value = trans_allow;
+
+			var lunch_allow = 650;
+			document.getElementById('lunch_allow').value = lunch_allow;
+
+			var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 140 * 100);
+			document.getElementById('bsal').value = bsal;
+
+			var hrent = Math.round((bsal * 40) / 100);
+			document.getElementById('hrent').value = hrent;
+
+
+
+			//alert(mallow);
+			if(com_gsal == 0)
 			{
-				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false,true);
+				mallow = 0;
+				trans_allow = 0;
+				lunch_allow = 0;
 			}
-			else
-				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false, false);
-			}
+			document.getElementById('com_mallow').value = mallow;
 
-	attbonus_id_name = alldata[11].split("===");
-	attbonus_id = attbonus_id_name[0].split("***");
-	attbonus_name = attbonus_id_name[1].split("***");
+			document.getElementById('com_transport_allow').value = trans_allow;
 
-		var otname=new Array();
-		var otid=new Array();
-		otname[0]="Yes";
-		otname[1]="No";
-		otid[0] =0;
-		otid[1] =1;
+			document.getElementById('com_lunch_allow').value = lunch_allow;
 
+			var com_bsal = Math.round((com_gsal - (mallow + trans_allow + lunch_allow)) / 140 * 100);
+			//alert(com_bsal);
+			document.getElementById('com_bsal').value = com_bsal;
 
-
-
-	document.cominfo.transport.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[13] == otid[i])
+			var com_hrent = Math.round((com_bsal * 40) / 100);
+			document.getElementById('com_hrent').value = com_hrent;
+			//==================================LOCAL Salary Rule===================================
+			if(com_info[9] == 'Resign')
 			{
-				//alert(dept_name[i]);
-				document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false, false);
+
+				document.cominfo.pi_edit.disabled = true;
+				}
+
 		}
-
-
-
-
-	document.cominfo.otentitle.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[12] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-		document.cominfo.lunch.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[14] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-		var stname=new Array();
-		var stid=new Array();
-		stname[0]="Fixed";
-		stname[1]="General";
-		stid[0] =1;
-		stid[1] =2;
-
-
-		document.cominfo.saltype.options.length=0;
-		for (i=0; i<=1; i++){
-			if( com_info[18] == stid[i])
-			{
-				document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, true);
-			}
-			else
-			document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, false);
-		}
-
-
-		var sdname=new Array();
-		var sdid=new Array();
-		sdname[0]="Cash";
-		sdname[1]="Bank";
-		sdid[0] =1;
-		sdid[1] =2;
-
-
-		document.cominfo.saldraw.options.length=0;
-		for (i=0; i<=1; i++){
-			if( com_info[17] == sdid[i])
-			{
-				document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, true);
-			}
-			else
-			document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, false);
-		}
-
-		unit_id_name = alldata[12].split("===");
-		unit_id = unit_id_name[0].split("***");
-		unit_name = unit_id_name[1].split("***");
-		//alert(unit_id);
-		//alert(unit_name);
-		//alert(com_info[20]);
-		document.cominfo.units.options.length=0;
-		for (i=0; i<unit_id.length; i++){
-			if( com_info[20] == unit_name[i])
-			{
-				document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, true);
-			}
-			else
-			document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, false);
-		}
-
-
-		document.getElementById('ejd').value = com_info[16];
-		//alert(com_info[11]) ;
-		//alert(com_info[11]) ;
-		document.getElementById('gsal').value = com_info[11];
-		var gsal = com_info[11];
-
-		document.getElementById('com_gsal').value = com_info[19];
-		var com_gsal = com_info[19];
-		//alert(com_info);
-
-		//==================================BGMEA Salary Rule===================================
-		/*var bsal = (gsal * 60) / 100;
-		document.getElementById('bsal').value = bsal;
-
-		var hrent = (gsal * 30) / 100;
-		document.getElementById('hrent').value = hrent;
-
-		var mallow = (gsal * 10) / 100;
-		document.getElementById('mallow').value = mallow;*/
-		//==================================BGMEA Salary Rule===================================
-
-		//==================================LOCAL Salary Rule===================================
-		var mallow = 250;
-		//alert(mallow);
-		document.getElementById('mallow').value = mallow;
-
-		var trans_allow = 200;
-		document.getElementById('transport_allow').value = trans_allow;
-
-		var lunch_allow = 650;
-		document.getElementById('lunch_allow').value = lunch_allow;
-
-		var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 140 * 100);
-		document.getElementById('bsal').value = bsal;
-
-		var hrent = Math.round((bsal * 40) / 100);
-		document.getElementById('hrent').value = hrent;
-
-
-		if(com_gsal == 0)
-		{
-			mallow = 0;
-			trans_allow = 0;
-			lunch_allow = 0;
-		}
-		//alert(mallow);
-		document.getElementById('com_mallow').value = mallow;
-
-		document.getElementById('com_transport_allow').value = trans_allow;
-
-		document.getElementById('com_lunch_allow').value = lunch_allow;
-
-		var com_bsal = Math.round((com_gsal - (mallow + trans_allow + lunch_allow)) / 140 * 100);
-		//alert(com_bsal);
-		document.getElementById('com_bsal').value = com_bsal;
-
-		var com_hrent = Math.round((com_bsal * 40) / 100);
-		document.getElementById('com_hrent').value = com_hrent;
-		if(com_info[9] == 'Resign')
-		{
-
-			document.cominfo.pi_edit.disabled = true;
-			}
-
 	}
-}
 
-eempid = empid;
-
+	eempid = empid;
 
 }
 
-
-function com_info_Search1()
+function com_info_prev_Search1()
 {
+
+	var ajaxRequest;  // The variable that makes Ajax possible!
+
+	try{
+	// Opera 8.0+, Firefox, Safari
+	ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+	// Internet Explorer Browsers
+	try{
+		ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+	}catch (e) {
+		try{
+			ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		}catch (e){
+			// Something went wrong
+			alert("Your browser broke!");
+			return false;
+		}
+	}
+	}
+	//disable_save();
+	document.getElementById('search_empid').value="";
+	var id_skill 	= document.getElementById('id_skill').value;
+	//var new_id_skill = id_skill + 1;
+
+	//alert(new_id_skill);
+
+	var queryString="id_skill="+id_skill;
+	hostname = window.location.href;
+	hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+	var url = hostname + "index.php/emp_info_con/com_info_prev_Search1/";
+	ajaxRequest.open("POST", url, true);
+	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajaxRequest.send(queryString);
+
+
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			var resp = ajaxRequest.responseText;
+			//alert(resp);
+			if(resp == "Employee ID does not exist"){
+				alert(resp);
+				empty_pi();
+				return;
+				}
+			if(resp == "Access Denied"){
+				alert(resp);
+				empty_pi();
+				return;
+			}
+			document.cominfo.pi_save.disabled = true;
+			document.cominfo.pi_edit.disabled = false;
+			document.cominfo.empstat.disabled = true;
+
+			alldata = resp.split("-*-");
+			//alert(alldata);
+			otherinfo= alldata[0].split("=*=") ;
+			//alert(otherinfo);
+			//alert(otherinfo[1]);
+			document.cominfo.empid.value = otherinfo[0];
+			document.cominfo.padd.value = otherinfo[1];
+			document.cominfo.fadd.value = otherinfo[2];
+			//alert(otherinfo[3]);
+			document.cominfo.emp_last_dg.value = otherinfo[3];
+			document.cominfo.pass_year.value = otherinfo[4];
+			document.cominfo.edu_insti.value = otherinfo[5];
+			document.cominfo.skill_dept.value = otherinfo[6];
+			document.cominfo.skill_year.value = otherinfo[7];
+			document.cominfo.skill_com_na.value = otherinfo[8];
+			document.cominfo.name.value = otherinfo[9];
+			document.cominfo.fname.value = otherinfo[10];
+			document.cominfo.mname.value = otherinfo[11];
+			document.cominfo.dob.value = otherinfo[12];
+			//alert(otherinfo[13]);
+			document.cominfo.reli.value = otherinfo[13];
+			document.cominfo.sex.value = otherinfo[14];
+			document.cominfo.ms.value = otherinfo[15];
+			document.cominfo.bgroup.value = otherinfo[26];
+			var img = otherinfo[17];
+			hostname = window.location.href;
+		hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+			document.image.src = hostname + "/uploads/photo/"+img;
+			document.image.height = 150;
+			document.image.width = 120;
+
+			document.cominfo.bname.value = otherinfo[18];
+			document.cominfo.id_skill.value = otherinfo[19];
+			document.cominfo.spouse_name.value = otherinfo[20];
+			//document.cominfo.search_empid.value = otherinfo[0];
+			com_info = alldata[1].split("=*=");
+			//alert(com_info);
+
+
+			document.cominfo.idcard.value = com_info[1];
+
+			//document.cominfo.section.value = com_info[];
+
+			//dept_id_name = alldata[2].split("===");
+			//dept_id = dept_id_name[0].split("=*=");
+			//dept_name = dept_id_name[1].split("=*=");
+			//document.cominfo.dept.options.length=0;
+			//for (i=0; i<dept_id.length; i++){
+			//	document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
+			//	}
+
+
+
+			dept_id_name = alldata[2].split("===");
+			dept_id = dept_id_name[0].split("***");
+			dept_name = dept_id_name[1].split("***");
+			document.cominfo.dept.options.length=0;
+			for (i=0; i<dept_id.length; i++){
+				if( com_info[2] == dept_name[i])
+				{
+					document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
+				}
+				else
+				document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, false);
+			}
+
+			//alert(com_info[3]);
+
+
+			sec_id_name = alldata[3].split("===");
+			//alert(sec_id_name);
+			sec_id = sec_id_name[0].split("***");
+			sec_name = sec_id_name[1].split("***");
+			document.cominfo.sec.options.length=0;
+			for (i=0; i<sec_id.length; i++){
+				if( com_info[3] == sec_name[i])
+				{
+					document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false,true);
+
+				}
+				else
+					document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false, false);
+
+			}
+
+
+			//alert(com_info[4]);
+
+
+			line_id_name = alldata[4].split("===");
+			line_id = line_id_name[0].split("***");
+			line_name = line_id_name[1].split("***");
+			document.cominfo.line.options.length=0;
+			for (i=0; i<line_id.length; i++){
+				if( com_info[4] == line_name[i])
+				{
+					//alert(line_name[i]);
+					document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false,true);
+				}
+				else
+				//alert(line_name[i]);
+				document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
+
+			}
+
+			//alert(com_info[5])
+
+			desig_id_name = alldata[5].split("===");
+			desig_id = desig_id_name[0].split("***");
+			desig_name = desig_id_name[1].split("***");
+			document.cominfo.desig.options.length=0;
+			for (i=0; i<desig_id.length; i++){
+				if( com_info[5] == desig_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false,true);
+				}
+				else
+				document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
+
+			}
+
+
+
+			operation_id_name = alldata[6].split("===");
+			//alert(operation_id_name);
+			operation_id = operation_id_name[0].split("=*=");
+			operation_name = operation_id_name[1].split("=*=");
+			document.cominfo.operation.options.length=0;
+			for (i=0; i<operation_id.length; i++){
+				if( com_info[6] == operation_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false,true);
+				}
+				else
+				document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false, false);
+
+			}
+
+			position_id_name = alldata[7].split("===");
+			position_id = position_id_name[0].split("=*=");
+			position_name = position_id_name[1].split("=*=");
+			document.cominfo.position.options.length=0;
+			for (i=0; i<position_id.length; i++){
+				if( com_info[7] == position_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false,true);
+				}
+				else
+				document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false, false);
+
+			}
+
+			salg_id_name = alldata[8].split("===");
+			salg_id = salg_id_name[0].split("***");
+			salg_name = salg_id_name[1].split("***");
+			document.cominfo.salg.options.length=0;
+			for (i=0; i<salg_id.length; i++){
+				if( com_info[8] == salg_name[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false,true);
+				}
+				else
+				document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
+
+			}
+
+
+
+			empstat_id_name = alldata[9].split("===");
+			empstat_id = empstat_id_name[0].split("***");
+			empstat_name = empstat_id_name[1].split("***");
+			document.cominfo.empstat.options.length=0;
+			for (i=0; i<empstat_id.length; i++){
+				if( com_info[9] == empstat_name[i])
+				{
+					document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false,true);
+				}
+				else
+					document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false, false);
+			}
+
+			empshift_id_name = alldata[10].split("===");
+			//alert(empshift_id_name);
+			empshift_id = empshift_id_name[0].split("***");
+			empshift_name = empshift_id_name[1].split("***");
+			document.cominfo.empshift.options.length=0;
+			for (i=0; i<empshift_id.length; i++){
+				if( com_info[10] == empshift_name[i])
+				{
+					document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false,true);
+				}
+				else
+				document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false, false);
+
+			}
+
+			attbonus_id_name = alldata[11].split("===");
+
+			attbonus_id = attbonus_id_name[0].split("***");
+			//alert(attbonus_id);
+			attbonus_name = attbonus_id_name[1].split("***");
+			//alert(com_info[15]);
+			document.cominfo.attbonus.options.length=0;
+			for (i=0; i<attbonus_id.length; i++){
+
+				if( com_info[15] == attbonus_id[i])
+				{
+					document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false,true);
+				}
+				else
+					document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false, false);
+				}
+
+		attbonus_id_name = alldata[11].split("===");
+		attbonus_id = attbonus_id_name[0].split("***");
+		attbonus_name = attbonus_id_name[1].split("***");
+
+			var otname=new Array();
+			var otid=new Array();
+			otname[0]="Yes";
+			otname[1]="No";
+			otid[0] =0;
+			otid[1] =1;
+
+
+
+
+		document.cominfo.transport.options.length=0;
+			for (i=0; i<=1; i++){
+
+				if( com_info[13] == otid[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false,true);
+				}
+				else
+				document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false, false);
+			}
+
+
+
+
+		document.cominfo.otentitle.options.length=0;
+			for (i=0; i<=1; i++){
+
+				if( com_info[12] == otid[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false,true);
+				}
+				else
+				document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false, false);
+			}
+
+
+			document.cominfo.lunch.options.length=0;
+			for (i=0; i<=1; i++){
+
+				if( com_info[14] == otid[i])
+				{
+					//alert(dept_name[i]);
+					document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false,true);
+				}
+				else
+				document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false, false);
+			}
+
+
+			var stname=new Array();
+			var stid=new Array();
+			stname[0]="Fixed";
+			stname[1]="General";
+			stid[0] =1;
+			stid[1] =2;
+
+
+			document.cominfo.saltype.options.length=0;
+			for (i=0; i<=1; i++){
+				if( com_info[18] == stid[i])
+				{
+					document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, true);
+				}
+				else
+				document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, false);
+			}
+
+
+			var sdname=new Array();
+			var sdid=new Array();
+			sdname[0]="Cash";
+			sdname[1]="Bank";
+			sdid[0] =1;
+			sdid[1] =2;
+
+
+			document.cominfo.saldraw.options.length=0;
+			for (i=0; i<=1; i++){
+				if( com_info[17] == sdid[i])
+				{
+					document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, true);
+				}
+				else
+				document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, false);
+			}
+
+			unit_id_name = alldata[12].split("===");
+			unit_id = unit_id_name[0].split("***");
+			unit_name = unit_id_name[1].split("***");
+			//alert(unit_id);
+			//alert(unit_name);
+			//alert(com_info[20]);
+			document.cominfo.units.options.length=0;
+			for (i=0; i<unit_id.length; i++){
+				if( com_info[20] == unit_name[i])
+				{
+					document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, true);
+				}
+				else
+				document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, false);
+			}
+
+
+			document.getElementById('ejd').value = com_info[16];
+			//alert(com_info[11]) ;
+			//alert(com_info[11]) ;
+			document.getElementById('gsal').value = com_info[11];
+			var gsal = com_info[11];
+
+			document.getElementById('com_gsal').value = com_info[19];
+			var com_gsal = com_info[19];
+			//alert(com_info);
+
+			//==================================BGMEA Salary Rule===================================
+			/*var bsal = (gsal * 60) / 100;
+			document.getElementById('bsal').value = bsal;
+
+			var hrent = (gsal * 30) / 100;
+			document.getElementById('hrent').value = hrent;
+
+			var mallow = (gsal * 10) / 100;
+			document.getElementById('mallow').value = mallow;*/
+			//==================================BGMEA Salary Rule===================================
+
+			//==================================LOCAL Salary Rule===================================
+			var mallow = 250;
+			//alert(mallow);
+			document.getElementById('mallow').value = mallow;
+
+			var trans_allow = 200;
+			document.getElementById('transport_allow').value = trans_allow;
+
+			var lunch_allow = 650;
+			document.getElementById('lunch_allow').value = lunch_allow;
+
+			var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 140 * 100);
+			document.getElementById('bsal').value = bsal;
+
+			var hrent = Math.round((bsal * 40) / 100);
+			document.getElementById('hrent').value = hrent;
+
+
+			if(com_gsal == 0)
+			{
+				mallow = 0;
+				trans_allow = 0;
+				lunch_allow = 0;
+			}
+			//alert(mallow);
+			document.getElementById('com_mallow').value = com_mallow;
+
+			document.getElementById('com_transport_allow').value = com_transport_allow;
+
+			document.getElementById('com_lunch_allow').value = com_lunch_allow;
+
+			var com_bsal = Math.round((com_gsal - (com_mallow + com_trans_allow + com_lunch_allow)) / 140 * 100);
+			//alert(com_bsal);
+			document.getElementById('com_bsal').value = com_bsal;
+
+			var com_hrent = Math.round((com_bsal * 40) / 100);
+			document.getElementById('com_hrent').value = com_hrent;
+			if(com_info[9] == 'Resign')
+			{
+
+				document.cominfo.pi_edit.disabled = true;
+				}
+
+		}
+	}
+
+	eempid = empid;
+
+
+}
+
+// ===== Safe value setter =====
+function setValSafe(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (val === undefined || val === null || val === '') return;
+    el.value = val;
+}
+
+
+function com_info_Search1(){
+	// alert(IS_ADMIN);
 	var ajaxRequest;  // The variable that makes Ajax possible!
 	try{
 	   // Opera 8.0+, Firefox, Safari
@@ -3280,6 +3293,8 @@ function com_info_Search1()
 
 			alldata = resp.split("-*-");
 			otherinfo = alldata[0].split("=*=");
+			// console.log(otherinfo);
+			// return false;
 
 			document.cominfo.empid.value = otherinfo[0];
 			document.cominfo.padd.value = otherinfo[1];
@@ -3310,29 +3325,30 @@ function com_info_Search1()
 			document.cominfo.bname.value = otherinfo[21];
 			document.cominfo.id_skill.value = otherinfo[22];
 			document.cominfo.sname.value = otherinfo[23];
-			document.cominfo.n_id.value = otherinfo[26];
-			document.cominfo.bank_ac_no.value = otherinfo[27];
+			document.cominfo.n_id.value = otherinfo[24];
+			document.cominfo.bank_ac_no.value = otherinfo[25];
 			document.cominfo.child_no.value = 0;
 
 
 			com_info = alldata[1].split("=*=");
+			// console.log(com_info); return false;
 			document.cominfo.idcard.value = com_info[1];
-         document.cominfo.ejd.value = com_info[16];
+            document.cominfo.ejd.value = com_info[16];
 
 
-         blood_id_name = alldata[18].split("===");
-         blood_id = blood_id_name[0].split("***");
-         blood_name = blood_id_name[1].split("***")
-         // alert(blood_name)
-         document.cominfo.bgroup.options.length=0;
-         for (i=0; i<blood_id.length; i++){
-            if( otherinfo[28] == blood_name[i])
-            {
-               document.cominfo.bgroup.options[i]=new Option(blood_name[i],blood_id[i], false, true);
-            }else{
-               document.cominfo.bgroup.options[i]=new Option(blood_name[i],blood_id[i], false, false);
-            }
-         }
+			blood_id_name = alldata[18].split("===");
+			blood_id = blood_id_name[0].split("***");
+			blood_name = blood_id_name[1].split("***")
+			// alert(blood_name)
+			document.cominfo.bgroup.options.length=0;
+			for (i=0; i<blood_id.length; i++){
+				if( otherinfo[26] == blood_name[i])
+				{
+				document.cominfo.bgroup.options[i]=new Option(blood_name[i],blood_id[i], false, true);
+				}else{
+				document.cominfo.bgroup.options[i]=new Option(blood_name[i],blood_id[i], false, false);
+				}
+			}
 
 
 			dept_id_name = alldata[2].split("===");
@@ -3360,7 +3376,7 @@ function com_info_Search1()
 				}
 				else {
 					document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false, false);
-            }
+            	}
 			}
 
 
@@ -3374,8 +3390,8 @@ function com_info_Search1()
 					document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false,true);
 				}
 				else{
-   				document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
-            }
+   					document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
+           	 	}
 			}
 
 
@@ -3390,8 +3406,8 @@ function com_info_Search1()
 					document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false,true);
 				}
    			else{
-   				document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
-            }
+   					document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
+            	}
 			}
 
 
@@ -3420,8 +3436,8 @@ function com_info_Search1()
 				{
 					document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false,true);
 				}else{
-               document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
-            }
+               		document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
+            	}
 			}
 
 
@@ -3580,39 +3596,118 @@ function com_info_Search1()
 
 
 			document.getElementById('ejd').value = com_info[16];
-			document.getElementById('gsal').value = com_info[11];
-			var gsal = com_info[11];
+			// document.getElementById('gsal').value = com_info[11];
+			
+			document.getElementById('com_gsal').value = com_info[19];
+			// var gsal = com_info[11];
+			var com_gsal = com_info[19];
 
-			//==================================LOCAL Salary Rule===================================
-			//    var com_gsal = document.getElementById('com_gsal').value;
-			var d = new Date();
-			var year  = d.getFullYear();
-			var month = d.getMonth()+1;
-			var date  = d.getDate();
-			var curDate = year + "-" + (("0" + month).slice(-2)) + "-" + (("0" + date).slice(-2));
-			if(curDate > '2025-02-01'){
-					var mallow      = 750;
-					var trans_allow = 1000;
-					var lunch_allow = 1250;
-			}else if(curDate > '2023-11-30' && curDate < '2025-02-01'){
-					var mallow      = 750;
-					var trans_allow = 450;
-					var lunch_allow = 1250;
-			}else{
-					var mallow      = 600;
-					var trans_allow = 350;
-					var lunch_allow = 900;
-			}
-			document.getElementById('mallow').value = mallow;
-			document.getElementById('transport_allow').value = trans_allow;
+		// ================= LOCAL SALARY (ONLY NON ADMIN) =================
+        if (!IS_ADMIN) {
 
-			document.getElementById('lunch_allow').value = lunch_allow;
+            setValSafe('gsal', com_info[11]);
+            var gsal = parseFloat(com_info[11]);
 
-			var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 150 * 100);
-			document.getElementById('bsal').value = bsal;
+            var d = new Date();
+            var curDate = d.toISOString().slice(0, 10);
 
-			var hrent = Math.round((bsal * 50) / 100);
-			document.getElementById('hrent').value = hrent;
+            var mallow, trans_allow, lunch_allow;
+            var com_mallow, com_trans_allow, com_lunch_allow;
+
+            if (curDate > '2025-02-01') {
+                mallow = 750;
+                trans_allow = 450;
+                lunch_allow = 1250;
+
+                com_mallow = 750;
+                com_trans_allow = 450;
+                com_lunch_allow = 1250;
+            } else if (curDate > '2023-11-30' && curDate < '2025-02-01') {
+                mallow = 750;
+                trans_allow = 450;
+                lunch_allow = 1250;
+
+                com_mallow = 750;
+                com_trans_allow = 450;
+                com_lunch_allow = 1250;
+            } else {
+                mallow = 600;
+                trans_allow = 350;
+                lunch_allow = 900;
+
+                com_mallow = 600;
+                com_trans_allow = 350;
+                com_lunch_allow = 900;
+            }
+
+            setValSafe('mallow', mallow);
+            setValSafe('transport_allow', trans_allow);
+            setValSafe('lunch_allow', lunch_allow);
+
+            var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 150 * 100);
+            var hrent = Math.round((bsal * 50) / 100);
+
+            setValSafe('bsal', bsal);
+            setValSafe('hrent', hrent);
+        }
+		 // ================= COMPANY CALC (SAFE FOR ALL) =================
+        var com_mallow = 750;
+        var com_trans_allow = 450;
+        var com_lunch_allow = 1250;
+
+        setValSafe('com_mallow', com_mallow);
+        setValSafe('com_transport_allow', com_trans_allow);
+        setValSafe('com_lunch_allow', com_lunch_allow);
+
+        if (!isNaN(com_gsal)) {
+            var com_bsal = Math.round(
+                (com_gsal - (com_mallow + com_trans_allow + com_lunch_allow)) / 150 * 100
+            );
+            var com_hrent = Math.round((com_bsal * 50) / 100);
+
+            setValSafe('com_bsal', com_bsal);
+            setValSafe('com_hrent', com_hrent);
+        }
+			// var d = new Date();
+			// var year  = d.getFullYear();
+			// var month = d.getMonth()+1;
+			// var date  = d.getDate();
+			// var curDate = year + "-" + (("0" + month).slice(-2)) + "-" + (("0" + date).slice(-2));
+			// if(curDate > '2025-02-01'){
+			// 		var mallow      = 750;
+			// 		var trans_allow = 1000;
+			// 		var lunch_allow = 1250;
+			// 		var com_mallow      = 750;
+			// 		var com_trans_allow = 1000;
+			// 		var com_lunch_allow = 1250;
+			// }else if(curDate > '2023-11-30' && curDate < '2025-02-01'){
+			// 		var mallow      = 750;
+			// 		var trans_allow = 450;
+			// 		var lunch_allow = 1250;
+			// 		var com_mallow      = 750;
+			// 		var com_trans_allow = 450;
+			// 		var com_lunch_allow = 1250;
+			// }else{
+			// 		var com_mallow      = 600;
+			// 		var com_trans_allow = 350;
+			// 		var com_lunch_allow = 900;
+			// }
+			// document.getElementById('mallow').value = mallow;
+			// document.getElementById('transport_allow').value = trans_allow;
+			// document.getElementById('lunch_allow').value = lunch_allow;
+			// document.getElementById('com_mallow').value = com_mallow;
+			// document.getElementById('com_transport_allow').value = com_trans_allow;
+			// document.getElementById('com_lunch_allow').value = com_lunch_allow;
+
+			// var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 150 * 100);
+			// var com_bsal = Math.round((com_gsal - (com_mallow + com_trans_allow + com_lunch_allow)) / 150 * 100);
+			// document.getElementById('bsal').value = bsal;
+			// document.getElementById('com_bsal').value = com_bsal;
+
+			// var hrent = Math.round((bsal * 50) / 100);
+			// var com_hrent = Math.round((com_bsal * 50) / 100);
+			// document.getElementById('hrent').value = hrent;
+			// document.getElementById('com_hrent').value = com_hrent;
 
 			//==================================LOCAL Salary Rule===================================
 
@@ -3626,544 +3721,544 @@ function com_info_Search1()
 }
 
 
-function com_info_Search1_old(){
-   var ajaxRequest;  // The variable that makes Ajax possible!
-
-   try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
-   }catch (e){
-   // Internet Explorer Browsers
-   try{
-   ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-   try{
-   ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-   }catch (e){
-   // Something went wrong
-   alert("Your browser broke!");
-   return false;
-   }
-   }
-   }
- //disable_save();
-
- var empid 	= document.getElementById('search_empid').value;
- // alert(empid);
-
- var queryString="empid="+empid;
-
-
- hostname = window.location.href;
- hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
- url =  hostname+"/index.php/emp_info_con/com_info_search1/";
-
- // alert(url);
-
- ajaxRequest.open("POST", url, true);
- ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- ajaxRequest.send(queryString);
-
-
-ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-		//alert(resp);
-		if(resp == "Employee ID does not exist"){
-			alert(resp);
-			empty_pi();
-			return;
-		}
-		if(resp == "Access Denied"){
-			alert(resp);
-			empty_pi();
-			return;
-		}
-
-		document.cominfo.pi_save.disabled = true;
- 		document.cominfo.pi_edit.disabled = false;
-      document.cominfo.pi_delete.disabled = false;
- 		document.cominfo.empstat.disabled = true;
-
-		alldata = resp.split("-*-");
-		//alert(alldata);
-		otherinfo= alldata[0].split("=*=") ;
-		// alert(otherinfo);
-		//alert(otherinfo[1]);
-		document.cominfo.empid.value = otherinfo[0];
-		document.cominfo.padd.value = otherinfo[1];
-		document.cominfo.fadd.value = otherinfo[2];
-      document.cominfo.emp_last_dg.value = otherinfo[3];
-      document.cominfo.pass_year.value = otherinfo[4];
-      document.cominfo.edu_insti.value = otherinfo[5];
-      document.cominfo.skill_dept.value = otherinfo[6];
-      document.cominfo.skill_year.value = otherinfo[7];
-      document.cominfo.skill_com_na.value = otherinfo[8];
-      document.cominfo.name.value = otherinfo[9];
-      document.cominfo.fname.value = otherinfo[10];
-      document.cominfo.mname.value = otherinfo[11];
-      document.cominfo.mname_bn.value = otherinfo[13];
-		// alert(otherinfo[11]);
-      document.cominfo.fname_bn.value = otherinfo[12];
-		document.cominfo.dob.value = otherinfo[14];
-		document.cominfo.reli.value = otherinfo[15];
-		document.cominfo.sex.value = otherinfo[16];
-		document.cominfo.ms.value = otherinfo[17];
-		document.cominfo.bgroup.value = otherinfo[18];
-		var img = otherinfo[19];
-      hostname = window.location.href;
-      hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
-		document.image.src = hostname + "/uploads/photo/"+img;
-		document.image.height = 150;
-		document.image.width = 120;
-
-		document.cominfo.bname.value = otherinfo[20];
-		document.cominfo.id_skill.value = otherinfo[21];
-		document.cominfo.spouse_name.value = otherinfo[22];
-      document.cominfo.preadd_bn.value = otherinfo[23];
-      document.cominfo.peradd_bn.value = otherinfo[24];
-      document.cominfo.nid.value = otherinfo[25];
-      document.cominfo.baccnt.value = otherinfo[26];
-
-		com_info = alldata[1].split("=*=");
-
+// function com_info_Search1_old(){
+//    var ajaxRequest;  // The variable that makes Ajax possible!
+
+//    try{
+//    // Opera 8.0+, Firefox, Safari
+//    ajaxRequest = new XMLHttpRequest();
+//    }catch (e){
+//    // Internet Explorer Browsers
+//    try{
+//    ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+//    }catch (e) {
+//    try{
+//    ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+//    }catch (e){
+//    // Something went wrong
+//    alert("Your browser broke!");
+//    return false;
+//    }
+//    }
+//    }
+//  //disable_save();
+
+//  var empid 	= document.getElementById('search_empid').value;
+//  // alert(empid);
+
+//  var queryString="empid="+empid;
+
+
+//  hostname = window.location.href;
+//  hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+//  url =  hostname+"/index.php/emp_info_con/com_info_search1/";
+
+//  // alert(url);
+
+//  ajaxRequest.open("POST", url, true);
+//  ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//  ajaxRequest.send(queryString);
+
+
+// ajaxRequest.onreadystatechange = function(){
+// 	if(ajaxRequest.readyState == 4){
+// 		var resp = ajaxRequest.responseText;
+// 		//alert(resp);
+// 		if(resp == "Employee ID does not exist"){
+// 			alert(resp);
+// 			empty_pi();
+// 			return;
+// 		}
+// 		if(resp == "Access Denied"){
+// 			alert(resp);
+// 			empty_pi();
+// 			return;
+// 		}
+
+// 		document.cominfo.pi_save.disabled = true;
+//  		document.cominfo.pi_edit.disabled = false;
+//       document.cominfo.pi_delete.disabled = false;
+//  		document.cominfo.empstat.disabled = true;
+
+// 		alldata = resp.split("-*-");
+// 		//alert(alldata);
+// 		otherinfo= alldata[0].split("=*=") ;
+// 		// alert(otherinfo);
+// 		//alert(otherinfo[1]);
+// 		document.cominfo.empid.value = otherinfo[0];
+// 		document.cominfo.padd.value = otherinfo[1];
+// 		document.cominfo.fadd.value = otherinfo[2];
+//       document.cominfo.emp_last_dg.value = otherinfo[3];
+//       document.cominfo.pass_year.value = otherinfo[4];
+//       document.cominfo.edu_insti.value = otherinfo[5];
+//       document.cominfo.skill_dept.value = otherinfo[6];
+//       document.cominfo.skill_year.value = otherinfo[7];
+//       document.cominfo.skill_com_na.value = otherinfo[8];
+//       document.cominfo.name.value = otherinfo[9];
+//       document.cominfo.fname.value = otherinfo[10];
+//       document.cominfo.mname.value = otherinfo[11];
+//       document.cominfo.mname_bn.value = otherinfo[13];
+// 		// alert(otherinfo[11]);
+//       document.cominfo.fname_bn.value = otherinfo[12];
+// 		document.cominfo.dob.value = otherinfo[14];
+// 		document.cominfo.reli.value = otherinfo[15];
+// 		document.cominfo.sex.value = otherinfo[16];
+// 		document.cominfo.ms.value = otherinfo[17];
+// 		document.cominfo.bgroup.value = otherinfo[18];
+// 		var img = otherinfo[19];
+//       hostname = window.location.href;
+//       hostname = hostname.substring(0, (hostname.indexOf("index.php") == -1) ? hostname.length : hostname.indexOf("index.php"));
+// 		document.image.src = hostname + "/uploads/photo/"+img;
+// 		document.image.height = 150;
+// 		document.image.width = 120;
+
+// 		document.cominfo.bname.value = otherinfo[20];
+// 		document.cominfo.id_skill.value = otherinfo[21];
+// 		document.cominfo.spouse_name.value = otherinfo[22];
+//       document.cominfo.preadd_bn.value = otherinfo[23];
+//       document.cominfo.peradd_bn.value = otherinfo[24];
+//       document.cominfo.nid.value = otherinfo[25];
+//       document.cominfo.baccnt.value = otherinfo[26];
+
+// 		com_info = alldata[1].split("=*=");
+
 
 
-		document.cominfo.idcard.value = com_info[1];
-
-		//document.cominfo.section.value = com_info[];
-
-		//dept_id_name = alldata[2].split("===");
-		//dept_id = dept_id_name[0].split("=*=");
-		//dept_name = dept_id_name[1].split("=*=");
-		//document.cominfo.dept.options.length=0;
-		//for (i=0; i<dept_id.length; i++){
-		//	document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
-		//	}
-
-
-
-		dept_id_name = alldata[2].split("===");
-		dept_id = dept_id_name[0].split("***");
-		dept_name = dept_id_name[1].split("***");
-		document.cominfo.dept.options.length=0;
-		for (i=0; i<dept_id.length; i++){
-			if( com_info[2] == dept_name[i])
-			{
-				document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
-			}
-			else
-			document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, false);
-		}
-
-		//alert(com_info[3]);
-
-
-		sec_id_name = alldata[3].split("===");
-		//alert(sec_id_name);
-		sec_id = sec_id_name[0].split("***");
-		sec_name = sec_id_name[1].split("***");
-		document.cominfo.sec.options.length=0;
-		for (i=0; i<sec_id.length; i++){
-			if( com_info[3] == sec_name[i])
-			{
-				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false,true);
-			}
-			else
-				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false, false);
-
-		}
-
-      sec_name_bn = sec_id_name[2].split("***");
-      document.cominfo.sec_bn.options.length=0;
-      for (i=0; i<sec_id.length; i++){
-         if( com_info[24] == sec_name_bn[i])
-         {
-            document.cominfo.sec_bn.options[i]=new Option(sec_name_bn[i],sec_id[i], false,true);
-         }
-         else
-            document.cominfo.sec_bn.options[i]=new Option(sec_name_bn[i],sec_id[i], false, false);
-
-      }
-
-
-		//alert(com_info[4]);
-
-
-		line_id_name = alldata[4].split("===");
-		line_id = line_id_name[0].split("***");
-		line_name = line_id_name[1].split("***");
-		document.cominfo.line.options.length=0;
-		for (i=0; i<line_id.length; i++){
-			if( com_info[4] == line_name[i])
-			{
-				//alert(line_name[i]);
-				document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false,true);
-			}
-			else
-			//alert(line_name[i]);
-			document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
-
-		}
-
-		//alert(com_info[5])
-
-		desig_id_name = alldata[5].split("===");
-		desig_id = desig_id_name[0].split("***");
-		desig_name = desig_id_name[1].split("***");
-		document.cominfo.desig.options.length=0;
-		for (i=0; i<desig_id.length; i++){
-			if(com_info[5] == desig_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false,true);
-			}
-			else
-			document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
-		}
-
-      desig_id_name_bn = alldata[5].split("===");
-      desig_id_bn = desig_id_name_bn[0].split("***");
-      desig_name_bn = desig_id_name_bn[2].split("***");
-      document.cominfo.desig_bn.options.length=0;
-      for (i=0; i<desig_id_bn.length; i++){
-         if(com_info[23] == desig_name_bn[i])
-         {
-            //alert(dept_name[i]);
-            document.cominfo.desig_bn.options[i]=new Option(desig_name_bn[i],desig_id_bn[i], false,true);
-         }
-         else
-         document.cominfo.desig_bn.options[i]=new Option(desig_name_bn[i],desig_id_bn[i], false, false);
-
-      }
-
-      wk_id_name = alldata[14].split("===");
-      wk_id = wk_id_name[0].split("***");
-      wk_name = wk_id_name[1].split("***");
-      document.cominfo.working_type.options.length=0;
-      for (i=0; i<wk_id.length; i++){
-         if(com_info[22] == wk_name[i])
-         {
-            //alert(dept_name[i]);
-            document.cominfo.working_type.options[i]=new Option(wk_name[i],wk_id[i], false,true);
-         }
-         else
-         document.cominfo.working_type.options[i]=new Option(wk_name[i],wk_id[i], false, false);
-
-      }
-
-		operation_id_name = alldata[6].split("===");
-		//alert(operation_id_name);
-		operation_id = operation_id_name[0].split("=*=");
-		operation_name = operation_id_name[1].split("=*=");
-		document.cominfo.operation.options.length=0;
-		for (i=0; i<operation_id.length; i++){
-			if( com_info[6] == operation_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false,true);
-			}
-			else
-			document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false, false);
-
-		}
-
-		position_id_name = alldata[7].split("===");
-		position_id = position_id_name[0].split("=*=");
-		position_name = position_id_name[1].split("=*=");
-		document.cominfo.position.options.length=0;
-		for (i=0; i<position_id.length; i++){
-			if( com_info[7] == position_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false,true);
-			}
-			else
-			document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false, false);
-
-		}
-
-		salg_id_name = alldata[8].split("===");
-		salg_id = salg_id_name[0].split("***");
-		salg_name = salg_id_name[1].split("***");
-		document.cominfo.salg.options.length=0;
-		for (i=0; i<salg_id.length; i++){
-			if( com_info[8] == salg_name[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false,true);
-			}
-			else
-			document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
-
-		}
-
-
-
-		empstat_id_name = alldata[9].split("===");
-		empstat_id = empstat_id_name[0].split("***");
-		empstat_name = empstat_id_name[1].split("***");
-		document.cominfo.empstat.options.length=0;
-		for (i=0; i<empstat_id.length; i++){
-			if( com_info[9] == empstat_name[i])
-			{
-				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false,true);
-			}
-			else
-				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false, false);
-		}
-
-		empshift_id_name = alldata[10].split("===");
-		//alert(empshift_id_name);
-		empshift_id = empshift_id_name[0].split("***");
-		empshift_name = empshift_id_name[1].split("***");
-		document.cominfo.empshift.options.length=0;
-		for (i=0; i<empshift_id.length; i++){
-			if( com_info[10] == empshift_name[i])
-			{
-				document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false,true);
-			}
-			else
-			document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false, false);
-
-		}
-
-
-      empsts_id_name = alldata[15].split("===");
-      empsts_id = empsts_id_name[0].split("***");
-      empsts_name = empsts_id_name[1].split("***");
-      document.cominfo.empsts.options.length=0;
-      for (i=0; i<empsts_id.length; i++){
-         if( com_info[25] == empsts_name[i])
-         {
-            document.cominfo.empsts.options[i]=new Option(empsts_name[i],empsts_id[i], false,true);
-         }
-         else
-         document.cominfo.empsts.options[i]=new Option(empsts_name[i],empsts_id[i], false, false);
-      }
-
-      w_process_id_name = alldata[16].split("===");
-      process_id = w_process_id_name[0].split("***");
-      process_name = w_process_id_name[1].split("***");
-      document.cominfo.work_process.options.length=0;
-      for (i=0; i<process_id.length; i++){
-         if( com_info[26] == process_name[i])
-         {
-            document.cominfo.work_process.options[i]=new Option(process_name[i],process_id[i], false,true);
-         }
-         else
-         document.cominfo.work_process.options[i]=new Option(process_name[i],process_id[i], false, false);
-      }
-
-      salary_id_name = alldata[17].split("===");
-      salary_id = salary_id_name[0].split("***");
-      salary_name = salary_id_name[1].split("***");
-      document.cominfo.ot_define.options.length=0;
-      for (i=0; i<salary_id.length; i++){
-         if( com_info[27] == salary_name[i])
-         {
-            document.cominfo.ot_define.options[i]=new Option(salary_name[i],salary_id[i], false,true);
-         }
-         else
-         document.cominfo.ot_define.options[i]=new Option(salary_name[i],salary_id[i], false, false);
-      }
-
-		attbonus_id_name = alldata[11].split("===");
-
-		attbonus_id = attbonus_id_name[0].split("***");
-		//alert(attbonus_id);
-		attbonus_name = attbonus_id_name[1].split("***");
-		//alert(com_info[15]);
-		document.cominfo.attbonus.options.length=0;
-		for (i=0; i<attbonus_id.length; i++){
-
-			if( com_info[15] == attbonus_id[i])
-			{
-				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false,true);
-			}
-			else
-				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false, false);
-			}
-
-		attbonus_id_name = alldata[11].split("===");
-		attbonus_id = attbonus_id_name[0].split("***");
-		attbonus_name = attbonus_id_name[1].split("***");
-
-		var otname=new Array();
-		var otid=new Array();
-		otname[0]="Yes";
-		otname[1]="No";
-		otid[0] =0;
-		otid[1] =1;
-
-
-
-
-	document.cominfo.transport.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[13] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-
-
-	document.cominfo.otentitle.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[12] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-		document.cominfo.lunch.options.length=0;
-		for (i=0; i<=1; i++){
-
-			if( com_info[14] == otid[i])
-			{
-				//alert(dept_name[i]);
-				document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false,true);
-			}
-			else
-			document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false, false);
-		}
-
-
-		var stname=new Array();
-		var stid=new Array();
-		stname[0]="Fixed";
-		stname[1]="General";
-		stid[0] =1;
-		stid[1] =2;
-
-
-		document.cominfo.saltype.options.length=0;
-		for (i=0; i<=1; i++){
-			if( com_info[18] == stid[i])
-			{
-				document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, true);
-			}
-			else
-			document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, false);
-		}
-
-
-		var sdname=new Array();
-		var sdid=new Array();
-		sdname[0]="Cash";
-		sdname[1]="Bank";
-		sdid[0] =1;
-		sdid[1] =2;
-
-
-		document.cominfo.saldraw.options.length=0;
-		for (i=0; i<=1; i++){
-			if( com_info[17] == sdid[i])
-			{
-				document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, true);
-			}
-			else
-			document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, false);
-		}
-
-		unit_id_name = alldata[12].split("===");
-		unit_id = unit_id_name[0].split("***");
-		unit_name = unit_id_name[1].split("***");
-
-
-		document.cominfo.units.options.length=0;
-		for (i=0; i<unit_id.length; i++){
-			if( com_info[20] == unit_name[i])
-			{
-				document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, true);
-			}
-			else
-			document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, false);
-		}
-
-      floor_id_name = alldata[13].split("===");
-      floor_id = floor_id_name[0].split("***");
-      floor_name = floor_id_name[1].split("***");
-
-
-      document.cominfo.floor_name.options.length=0;
-      for (i=0; i<floor_id.length; i++){
-         if(com_info[21] == floor_name[i])
-         {
-            document.cominfo.floor_name.options[i]=new Option(floor_name[i],floor_id[i], false, true);
-         }
-         else
-         document.cominfo.floor_name.options[i]=new Option(floor_name[i],floor_id[i], false, false);
-      }
-
-
-
-		document.getElementById('ejd').value = com_info[16];
-		//alert(com_info);
-		//alert(com_info[11]) ;
-		document.getElementById('gsal').value = com_info[11];
-		var gsal = com_info[11];
-
-		document.getElementById('com_gsal').value = com_info[19];
-		var com_gsal = com_info[19];
-		//alert(com_info);
-
-		//==================================BGMEA Salary Rule===================================
-
-		var mallow      = 600;
-		var trans_allow = 350;
-      var lunch_allow = 900;
-
-      document.getElementById('mallow').value = mallow;
-		document.getElementById('transport_allow').value = trans_allow;
-
-		document.getElementById('lunch_allow').value = lunch_allow;
-
-		var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 1.5);
-		document.getElementById('bsal').value = bsal;
-
-		// var hrent = Math.round(bsal * 0.5);
-      var hrent = Math.round(gsal - (mallow + trans_allow + lunch_allow + bsal));
-		document.getElementById('hrent').value = hrent;
-
-		if(com_gsal == 0){
-			mallow = 0;
-			trans_allow = 0;
-			lunch_allow = 0;
-		}
-		document.getElementById('com_mallow').value = mallow;
-		document.getElementById('com_transport_allow').value = trans_allow;
-		document.getElementById('com_lunch_allow').value = lunch_allow;
-
-		var com_bsal = Math.round((com_gsal - (mallow + trans_allow + lunch_allow)) / 1.5);
-		document.getElementById('com_bsal').value = com_bsal;
-
-		// var com_hrent = Math.round(com_bsal * 0.5);
-      var com_hrent = Math.round(com_gsal - (mallow + trans_allow + lunch_allow + com_bsal));
-		document.getElementById('com_hrent').value = com_hrent;
-		//==================================LOCAL Salary Rule===================================
-		if(com_info[9] == 'Resign')
-		{
-			//document.cominfo.pi_edit.disabled = true;
-		}
-
-	}
-}
-
-eempid = empid;
-
-	}
+// 		document.cominfo.idcard.value = com_info[1];
+
+// 		//document.cominfo.section.value = com_info[];
+
+// 		//dept_id_name = alldata[2].split("===");
+// 		//dept_id = dept_id_name[0].split("=*=");
+// 		//dept_name = dept_id_name[1].split("=*=");
+// 		//document.cominfo.dept.options.length=0;
+// 		//for (i=0; i<dept_id.length; i++){
+// 		//	document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
+// 		//	}
+
+
+
+// 		dept_id_name = alldata[2].split("===");
+// 		dept_id = dept_id_name[0].split("***");
+// 		dept_name = dept_id_name[1].split("***");
+// 		document.cominfo.dept.options.length=0;
+// 		for (i=0; i<dept_id.length; i++){
+// 			if( com_info[2] == dept_name[i])
+// 			{
+// 				document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, true);
+// 			}
+// 			else
+// 			document.cominfo.dept.options[i]=new Option(dept_name[i],dept_id[i], false, false);
+// 		}
+
+// 		//alert(com_info[3]);
+
+
+// 		sec_id_name = alldata[3].split("===");
+// 		//alert(sec_id_name);
+// 		sec_id = sec_id_name[0].split("***");
+// 		sec_name = sec_id_name[1].split("***");
+// 		document.cominfo.sec.options.length=0;
+// 		for (i=0; i<sec_id.length; i++){
+// 			if( com_info[3] == sec_name[i])
+// 			{
+// 				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false,true);
+// 			}
+// 			else
+// 				document.cominfo.sec.options[i]=new Option(sec_name[i],sec_id[i], false, false);
+
+// 		}
+
+//       sec_name_bn = sec_id_name[2].split("***");
+//       document.cominfo.sec_bn.options.length=0;
+//       for (i=0; i<sec_id.length; i++){
+//          if( com_info[24] == sec_name_bn[i])
+//          {
+//             document.cominfo.sec_bn.options[i]=new Option(sec_name_bn[i],sec_id[i], false,true);
+//          }
+//          else
+//             document.cominfo.sec_bn.options[i]=new Option(sec_name_bn[i],sec_id[i], false, false);
+
+//       }
+
+
+// 		//alert(com_info[4]);
+
+
+// 		line_id_name = alldata[4].split("===");
+// 		line_id = line_id_name[0].split("***");
+// 		line_name = line_id_name[1].split("***");
+// 		document.cominfo.line.options.length=0;
+// 		for (i=0; i<line_id.length; i++){
+// 			if( com_info[4] == line_name[i])
+// 			{
+// 				//alert(line_name[i]);
+// 				document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false,true);
+// 			}
+// 			else
+// 			//alert(line_name[i]);
+// 			document.cominfo.line.options[i]=new Option(line_name[i],line_id[i], false, false);
+
+// 		}
+
+// 		//alert(com_info[5])
+
+// 		desig_id_name = alldata[5].split("===");
+// 		desig_id = desig_id_name[0].split("***");
+// 		desig_name = desig_id_name[1].split("***");
+// 		document.cominfo.desig.options.length=0;
+// 		for (i=0; i<desig_id.length; i++){
+// 			if(com_info[5] == desig_name[i])
+// 			{
+// 				//alert(dept_name[i]);
+// 				document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.desig.options[i]=new Option(desig_name[i],desig_id[i], false, false);
+// 		}
+
+//       desig_id_name_bn = alldata[5].split("===");
+//       desig_id_bn = desig_id_name_bn[0].split("***");
+//       desig_name_bn = desig_id_name_bn[2].split("***");
+//       document.cominfo.desig_bn.options.length=0;
+//       for (i=0; i<desig_id_bn.length; i++){
+//          if(com_info[23] == desig_name_bn[i])
+//          {
+//             //alert(dept_name[i]);
+//             document.cominfo.desig_bn.options[i]=new Option(desig_name_bn[i],desig_id_bn[i], false,true);
+//          }
+//          else
+//          document.cominfo.desig_bn.options[i]=new Option(desig_name_bn[i],desig_id_bn[i], false, false);
+
+//       }
+
+//       wk_id_name = alldata[14].split("===");
+//       wk_id = wk_id_name[0].split("***");
+//       wk_name = wk_id_name[1].split("***");
+//       document.cominfo.working_type.options.length=0;
+//       for (i=0; i<wk_id.length; i++){
+//          if(com_info[22] == wk_name[i])
+//          {
+//             //alert(dept_name[i]);
+//             document.cominfo.working_type.options[i]=new Option(wk_name[i],wk_id[i], false,true);
+//          }
+//          else
+//          document.cominfo.working_type.options[i]=new Option(wk_name[i],wk_id[i], false, false);
+
+//       }
+
+// 		operation_id_name = alldata[6].split("===");
+// 		//alert(operation_id_name);
+// 		operation_id = operation_id_name[0].split("=*=");
+// 		operation_name = operation_id_name[1].split("=*=");
+// 		document.cominfo.operation.options.length=0;
+// 		for (i=0; i<operation_id.length; i++){
+// 			if( com_info[6] == operation_name[i])
+// 			{
+// 				//alert(dept_name[i]);
+// 				document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.operation.options[i]=new Option(operation_name[i],operation_id[i], false, false);
+
+// 		}
+
+// 		position_id_name = alldata[7].split("===");
+// 		position_id = position_id_name[0].split("=*=");
+// 		position_name = position_id_name[1].split("=*=");
+// 		document.cominfo.position.options.length=0;
+// 		for (i=0; i<position_id.length; i++){
+// 			if( com_info[7] == position_name[i])
+// 			{
+// 				//alert(dept_name[i]);
+// 				document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.position.options[i]=new Option(position_name[i],position_id[i], false, false);
+
+// 		}
+
+// 		salg_id_name = alldata[8].split("===");
+// 		salg_id = salg_id_name[0].split("***");
+// 		salg_name = salg_id_name[1].split("***");
+// 		document.cominfo.salg.options.length=0;
+// 		for (i=0; i<salg_id.length; i++){
+// 			if( com_info[8] == salg_name[i])
+// 			{
+// 				//alert(dept_name[i]);
+// 				document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.salg.options[i]=new Option(salg_name[i],salg_id[i], false, false);
+
+// 		}
+
+
+
+// 		empstat_id_name = alldata[9].split("===");
+// 		empstat_id = empstat_id_name[0].split("***");
+// 		empstat_name = empstat_id_name[1].split("***");
+// 		document.cominfo.empstat.options.length=0;
+// 		for (i=0; i<empstat_id.length; i++){
+// 			if( com_info[9] == empstat_name[i])
+// 			{
+// 				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false,true);
+// 			}
+// 			else
+// 				document.cominfo.empstat.options[i]=new Option(empstat_name[i],empstat_id[i], false, false);
+// 		}
+
+// 		empshift_id_name = alldata[10].split("===");
+// 		//alert(empshift_id_name);
+// 		empshift_id = empshift_id_name[0].split("***");
+// 		empshift_name = empshift_id_name[1].split("***");
+// 		document.cominfo.empshift.options.length=0;
+// 		for (i=0; i<empshift_id.length; i++){
+// 			if( com_info[10] == empshift_name[i])
+// 			{
+// 				document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.empshift.options[i]=new Option(empshift_name[i],empshift_id[i], false, false);
+
+// 		}
+
+
+//       empsts_id_name = alldata[15].split("===");
+//       empsts_id = empsts_id_name[0].split("***");
+//       empsts_name = empsts_id_name[1].split("***");
+//       document.cominfo.empsts.options.length=0;
+//       for (i=0; i<empsts_id.length; i++){
+//          if( com_info[25] == empsts_name[i])
+//          {
+//             document.cominfo.empsts.options[i]=new Option(empsts_name[i],empsts_id[i], false,true);
+//          }
+//          else
+//          document.cominfo.empsts.options[i]=new Option(empsts_name[i],empsts_id[i], false, false);
+//       }
+
+//       w_process_id_name = alldata[16].split("===");
+//       process_id = w_process_id_name[0].split("***");
+//       process_name = w_process_id_name[1].split("***");
+//       document.cominfo.work_process.options.length=0;
+//       for (i=0; i<process_id.length; i++){
+//          if( com_info[26] == process_name[i])
+//          {
+//             document.cominfo.work_process.options[i]=new Option(process_name[i],process_id[i], false,true);
+//          }
+//          else
+//          document.cominfo.work_process.options[i]=new Option(process_name[i],process_id[i], false, false);
+//       }
+
+//       salary_id_name = alldata[17].split("===");
+//       salary_id = salary_id_name[0].split("***");
+//       salary_name = salary_id_name[1].split("***");
+//       document.cominfo.ot_define.options.length=0;
+//       for (i=0; i<salary_id.length; i++){
+//          if( com_info[27] == salary_name[i])
+//          {
+//             document.cominfo.ot_define.options[i]=new Option(salary_name[i],salary_id[i], false,true);
+//          }
+//          else
+//          document.cominfo.ot_define.options[i]=new Option(salary_name[i],salary_id[i], false, false);
+//       }
+
+// 		attbonus_id_name = alldata[11].split("===");
+
+// 		attbonus_id = attbonus_id_name[0].split("***");
+// 		//alert(attbonus_id);
+// 		attbonus_name = attbonus_id_name[1].split("***");
+// 		//alert(com_info[15]);
+// 		document.cominfo.attbonus.options.length=0;
+// 		for (i=0; i<attbonus_id.length; i++){
+
+// 			if( com_info[15] == attbonus_id[i])
+// 			{
+// 				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false,true);
+// 			}
+// 			else
+// 				document.cominfo.attbonus.options[i]=new Option(attbonus_name[i],attbonus_id[i], false, false);
+// 			}
+
+// 		attbonus_id_name = alldata[11].split("===");
+// 		attbonus_id = attbonus_id_name[0].split("***");
+// 		attbonus_name = attbonus_id_name[1].split("***");
+
+// 		var otname=new Array();
+// 		var otid=new Array();
+// 		otname[0]="Yes";
+// 		otname[1]="No";
+// 		otid[0] =0;
+// 		otid[1] =1;
+
+
+
+
+// 	document.cominfo.transport.options.length=0;
+// 		for (i=0; i<=1; i++){
+
+// 			if( com_info[13] == otid[i])
+// 			{
+// 				//alert(dept_name[i]);
+// 				document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.transport.options[i]=new Option(otname[i],otid[i], false, false);
+// 		}
+
+
+
+
+// 	document.cominfo.otentitle.options.length=0;
+// 		for (i=0; i<=1; i++){
+
+// 			if( com_info[12] == otid[i])
+// 			{
+// 				//alert(dept_name[i]);
+// 				document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.otentitle.options[i]=new Option(otname[i],otid[i], false, false);
+// 		}
+
+
+// 		document.cominfo.lunch.options.length=0;
+// 		for (i=0; i<=1; i++){
+
+// 			if( com_info[14] == otid[i])
+// 			{
+// 				//alert(dept_name[i]);
+// 				document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false,true);
+// 			}
+// 			else
+// 			document.cominfo.lunch.options[i]=new Option(otname[i],otid[i], false, false);
+// 		}
+
+
+// 		var stname=new Array();
+// 		var stid=new Array();
+// 		stname[0]="Fixed";
+// 		stname[1]="General";
+// 		stid[0] =1;
+// 		stid[1] =2;
+
+
+// 		document.cominfo.saltype.options.length=0;
+// 		for (i=0; i<=1; i++){
+// 			if( com_info[18] == stid[i])
+// 			{
+// 				document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, true);
+// 			}
+// 			else
+// 			document.cominfo.saltype.options[i]=new Option(stname[i],stid[i], false, false);
+// 		}
+
+
+// 		var sdname=new Array();
+// 		var sdid=new Array();
+// 		sdname[0]="Cash";
+// 		sdname[1]="Bank";
+// 		sdid[0] =1;
+// 		sdid[1] =2;
+
+
+// 		document.cominfo.saldraw.options.length=0;
+// 		for (i=0; i<=1; i++){
+// 			if( com_info[17] == sdid[i])
+// 			{
+// 				document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, true);
+// 			}
+// 			else
+// 			document.cominfo.saldraw.options[i]=new Option(sdname[i],sdid[i], false, false);
+// 		}
+
+// 		unit_id_name = alldata[12].split("===");
+// 		unit_id = unit_id_name[0].split("***");
+// 		unit_name = unit_id_name[1].split("***");
+
+
+// 		document.cominfo.units.options.length=0;
+// 		for (i=0; i<unit_id.length; i++){
+// 			if( com_info[20] == unit_name[i])
+// 			{
+// 				document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, true);
+// 			}
+// 			else
+// 			document.cominfo.units.options[i]=new Option(unit_name[i],unit_id[i], false, false);
+// 		}
+
+//       floor_id_name = alldata[13].split("===");
+//       floor_id = floor_id_name[0].split("***");
+//       floor_name = floor_id_name[1].split("***");
+
+
+//       document.cominfo.floor_name.options.length=0;
+//       for (i=0; i<floor_id.length; i++){
+//          if(com_info[21] == floor_name[i])
+//          {
+//             document.cominfo.floor_name.options[i]=new Option(floor_name[i],floor_id[i], false, true);
+//          }
+//          else
+//          document.cominfo.floor_name.options[i]=new Option(floor_name[i],floor_id[i], false, false);
+//       }
+
+
+
+// 		document.getElementById('ejd').value = com_info[16];
+// 		//alert(com_info);
+// 		//alert(com_info[11]) ;
+// 		document.getElementById('gsal').value = com_info[11];
+// 		var gsal = com_info[11];
+
+// 		document.getElementById('com_gsal').value = com_info[19];
+// 		var com_gsal = com_info[19];
+// 		//alert(com_info);
+
+// 		//==================================BGMEA Salary Rule===================================
+
+// 		var mallow      = 600;
+// 		var trans_allow = 350;
+//       var lunch_allow = 900;
+
+//       document.getElementById('mallow').value = mallow;
+// 		document.getElementById('transport_allow').value = trans_allow;
+
+// 		document.getElementById('lunch_allow').value = lunch_allow;
+
+// 		var bsal = Math.round((gsal - (mallow + trans_allow + lunch_allow)) / 1.5);
+// 		document.getElementById('bsal').value = bsal;
+
+// 		// var hrent = Math.round(bsal * 0.5);
+//       var hrent = Math.round(gsal - (mallow + trans_allow + lunch_allow + bsal));
+// 		document.getElementById('hrent').value = hrent;
+
+// 		if(com_gsal == 0){
+// 			mallow = 0;
+// 			trans_allow = 0;
+// 			lunch_allow = 0;
+// 		}
+// 		document.getElementById('com_mallow').value = mallow;
+// 		document.getElementById('com_transport_allow').value = trans_allow;
+// 		document.getElementById('com_lunch_allow').value = lunch_allow;
+
+// 		var com_bsal = Math.round((com_gsal - (mallow + trans_allow + lunch_allow)) / 1.5);
+// 		document.getElementById('com_bsal').value = com_bsal;
+
+// 		// var com_hrent = Math.round(com_bsal * 0.5);
+//       var com_hrent = Math.round(com_gsal - (mallow + trans_allow + lunch_allow + com_bsal));
+// 		document.getElementById('com_hrent').value = com_hrent;
+// 		//==================================LOCAL Salary Rule===================================
+// 		if(com_info[9] == 'Resign')
+// 		{
+// 			//document.cominfo.pi_edit.disabled = true;
+// 		}
+
+// 	}
+// }
+
+// eempid = empid;
+
+// }
 
 
 function com_info_Search(){

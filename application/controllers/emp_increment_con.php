@@ -4,6 +4,10 @@ class Emp_increment_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
 		
 		/* Standard Libraries */
 		$this->load->model('processdb');
@@ -12,22 +16,22 @@ class Emp_increment_con extends CI_Controller {
 		//$access_level = 1;
 		//$acl = $this->acl_model->acl_check($access_level);
 	}
-	
+
 	function check_id()
 	{
 		$result = $this->processdb->check_id_db();
 		echo $result;
-	}	
-	
+	}
+
 	function increment_info()
 	{
 		$this->load->library('form_validation');
-		
+
 		$this->form_validation->set_rules('empid', 'Employee ID', 'trim|required');
 		$this->form_validation->set_rules('empstat', 'Employee Status', 'trim');
 		$this->form_validation->set_rules('text8', 'Gross Salary', 'trim');
 		$this->form_validation->set_rules('empid', 'Employee ID', 'trim|callback_emp_id_existance_check');
-			
+
 		if($this->input->post('pi_edit') != '')
 		{
 			$this->form_validation->set_rules('empstat', 'Employee Status', 'trim|callback_emp_status_check_for_add');
@@ -38,9 +42,9 @@ class Emp_increment_con extends CI_Controller {
 		{
 			$this->form_validation->set_rules('idcard', 'Punch Card No.', 'trim');
 		}
-		
+
 		$this->form_validation->set_error_delimiters("","");
-		
+
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->load->view('form/incre_info');
@@ -65,8 +69,8 @@ class Emp_increment_con extends CI_Controller {
 			}
 		}
 	}
-	
-	
+
+
 	function effective_date_check_for_add($entdate)
 	{
 		$empid 				= $this->input->post('empid');
@@ -81,7 +85,7 @@ class Emp_increment_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	function emp_status_check_for_add($empsts)
 	{
 		//echo $empsts;
@@ -95,7 +99,7 @@ class Emp_increment_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	function gross_salary_check_for_add($gross_salary)
 	{
 		$empid 				= $this->input->post('empid');
@@ -110,7 +114,7 @@ class Emp_increment_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	function gross_salary_check_for_promotion($gross_salary)
 	{
 		$empid 				= $this->input->post('empid');
@@ -125,8 +129,8 @@ class Emp_increment_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
-	
+
+
 	function any_change_check_for_promotion($dept)
 	{
 		$empid 				= $this->input->post('empid');
@@ -141,7 +145,7 @@ class Emp_increment_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	function emp_id_existance_check($emp_id)
 	{
 		$check = $this->processdb->emp_id_existance_check($emp_id);
@@ -155,7 +159,7 @@ class Emp_increment_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
+
 	function newemp_id_existance_check($emp_id)
 	{
 		$check = $this->processdb->emp_id_existance_check($emp_id);
@@ -169,10 +173,10 @@ class Emp_increment_con extends CI_Controller {
 			return TRUE;
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	function com_incre_prom_search()
 	{
 		$result = $this->processdb->com_incre_prom_search();
@@ -184,30 +188,30 @@ class Emp_increment_con extends CI_Controller {
 		$result = $this->inc_prom_pun_model->increment_entry_brows();
 		return $result;
 	}
-	
+
 	function increment_entry()
 	{
 		$result = $this->inc_prom_pun_model->increment_entry();
 		return $result;
 	}
-	
+
 	function dept()
 	{
 		$result = $this->processdb->com_all_info();
 		echo $result;
 	}
-	
+
 	//================================================Promotion entry==========================================
 	function promotion_info()
 	{
 		$this->load->library('form_validation');
-		
+
 		$this->form_validation->set_rules('empid', 'Employee ID', 'trim|required');
 		$this->form_validation->set_rules('entdate', 'Effective Date', 'trim|required');
 		$this->form_validation->set_rules('dob', 'Date of Birth', 'trim');
 		$this->form_validation->set_rules('text8', 'Gross Salary', 'trim|required');
 		$this->form_validation->set_rules('empid', 'Employee ID', 'trim|callback_emp_id_existance_check');
-			
+
 	 	if($this->input->post('pi_edit') != '')
 		{
 			$this->form_validation->set_rules('empstat', 'Employee Status', 'trim|callback_emp_status_check_for_add');
@@ -220,9 +224,9 @@ class Emp_increment_con extends CI_Controller {
 		{
 			$this->form_validation->set_rules('idcard', 'Punch Card No.', 'trim');
 		}
-		
+
 		$this->form_validation->set_error_delimiters("","");
-		
+
 		if ($this->form_validation->run() == FALSE)
 		{
 			$this->load->view('form/prom_info');
@@ -251,12 +255,12 @@ class Emp_increment_con extends CI_Controller {
 			}
 		}
 	}
-	
+
 	function promotion_entry()
 	{
 		$result = $this->inc_prom_pun_model->promotion_entry();
 		return $result;
 	}
-	
+
 }
 

@@ -4,7 +4,11 @@ class Maintainance_con extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
+		if($this->session->userdata('logged_in')==FALSE)
+		{
+			redirect('authentication');
+		}
+
 		/* Standard Libraries */
 		$this->load->model('acl_model');
 		$access_level = 9;
@@ -18,14 +22,14 @@ class Maintainance_con extends CI_Controller {
 		$this->load->view('form/db_backup');
 	}
 	//-------------------------------------------------------------------------------------------------------
-	// Full Database Backup 
+	// Full Database Backup
 	//-------------------------------------------------------------------------------------------------------
 	function database_backup()
 	{
 		ini_set("memory_limit","-1M");
 		// Load the DB utility class
 		$this->load->dbutil();
-		
+
 		$prefs = array(
                 //'tables'      => array('table1', 'table2'),  // Array of tables to backup.
                 'ignore'      => array(),           // List of tables to omit from the backup
@@ -36,11 +40,11 @@ class Maintainance_con extends CI_Controller {
                 'newline'     => "\n"               // Newline character used in backup file
               );
 
-		$this->dbutil->backup($prefs); 
-		
+		$this->dbutil->backup($prefs);
+
 		// Backup your entire database and assign it to a variable
 		$backup =& $this->dbutil->backup();
-		
+
 		// Load the file helper and write the file to your server
 		$this->load->helper('file');
 		$date = date("d-m-Y");
@@ -49,9 +53,9 @@ class Maintainance_con extends CI_Controller {
 		$download_file = "$date.zip";
 		// Load the download helper and send the file to your desktop
 		$this->load->helper('download');
-		force_download($download_file ,$backup); 
+		force_download($download_file ,$backup);
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------------
 	// Delete all information of Employees including teporary table
 	//-------------------------------------------------------------------------------------------------------
@@ -69,9 +73,9 @@ class Maintainance_con extends CI_Controller {
 		{
 			$id = $rows->emp_id;
 			echo "$i # ".$rows->emp_id.' => ';
-			
-		
-		
+
+
+
 			$this->db->where('emp_id',$id);
 			$this->db->delete('pr_emp_com_info');
 			$this->db->where('emp_id',$id);
@@ -95,7 +99,7 @@ class Maintainance_con extends CI_Controller {
 				{
 					echo "Delete failed";
 				}
-			} 
+			}
 			else
 			{
 				echo "Delete failed";
@@ -103,9 +107,9 @@ class Maintainance_con extends CI_Controller {
 			echo '<br>';
 			$i++;
 		}
-		
-		
+
+
 	}*/
-	
+
 }
 

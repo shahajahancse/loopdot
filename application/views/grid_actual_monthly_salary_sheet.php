@@ -355,8 +355,8 @@
 				echo $net_pay + $att_bonus;
 				echo "</td>";
 
-				$total_payable_salary       = $value[$k]->net_pay + $att_bonus + $ot_amount;
-				$grand_total_payable_salary = $value[$k]->net_pay + $att_bonus + $ot_amount;
+				$total_payable_salary       = $total_payable_salary  + $value[$k]->net_pay + $att_bonus + $ot_amount;
+				$grand_total_payable_salary = $grand_total_payable_salary + $value[$k]->net_pay + $att_bonus + $ot_amount;
 				echo "<td>";
 				echo $net_pay + $att_bonus + $ot_amount;
 				echo "</td>";

@@ -15,7 +15,7 @@ class Grid_model extends CI_Model{
 	}
 
 	// new salary report generate
-		function grid_actual_monthly_salary_sheet($sal_year_month, $grid_status, $grid_emp_id)
+	function grid_actual_monthly_salary_sheet($sal_year_month, $grid_status, $grid_emp_id)
 	{
 		$year  = substr($sal_year_month,0,4);
 		$month = substr($sal_year_month,5,2);
@@ -59,6 +59,54 @@ class Grid_model extends CI_Model{
 		$this->db->where('pr_emp_per_info.emp_id = pr_pay_scale_sheet.emp_id');
 		$this->db->where('pr_emp_per_info.emp_id = pr_emp_add.emp_id');
 		$this->db->where("pr_pay_scale_sheet.salary_month = '$sal_year_month'");
+		$this->db->order_by("pr_emp_com_info.emp_id","ASC");
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function grid_com_monthly_salary_sheet($sal_year_month, $grid_status, $grid_emp_id)
+	{
+		$year  = substr($sal_year_month,0,4);
+		$month = substr($sal_year_month,5,2);
+		$lastday = date("t", mktime(0, 0, 0, $month, 1, $year));
+
+		$lastday = date("Y-m-d", mktime(0, 0, 0, $month, $lastday, $year));
+
+		$this->db->select(' pr_line_num.*,
+							pr_emp_per_info.emp_full_name,
+							pr_emp_per_info.bangla_nam,
+							pr_emp_per_info.bank_ac_no,
+							pr_designation.desig_name,
+							pr_designation.desig_bangla, 
+							pr_section.*, 
+							pr_emp_com_info.emp_join_date,
+							pr_emp_com_info.ot_show_in,
+							pr_emp_com_info.ot_entitle,
+							pr_grade.gr_name,
+							pr_grade.gr_name_bn,
+							pr_pay_scale_sheet_com.*,
+							pr_line_num.line_name, 
+							pr_emp_add.mobile'
+						 );
+		$this->db->from('pr_emp_per_info');
+		$this->db->from('pr_emp_com_info');
+		$this->db->from('pr_grade');
+		$this->db->from('pr_pay_scale_sheet_com');
+		$this->db->from('pr_dept');
+		$this->db->from('pr_section');
+		$this->db->from('pr_line_num');
+		$this->db->from('pr_designation');
+		$this->db->from('pr_emp_add');
+
+		$this->db->where_in('pr_emp_com_info.emp_id', $grid_emp_id);
+		$this->db->where('pr_pay_scale_sheet_com.desig_id = pr_designation.desig_id');
+		$this->db->where('pr_pay_scale_sheet_com.dept_id = pr_dept.dept_id');
+		$this->db->where('pr_pay_scale_sheet_com.sec_id = pr_section.sec_id');
+		$this->db->where('pr_pay_scale_sheet_com.line_id = pr_line_num.line_id');
+		$this->db->where('pr_emp_per_info.emp_id = pr_emp_com_info.emp_id');
+		$this->db->where('pr_emp_com_info.emp_sal_gra_id = pr_grade.gr_id');
+		$this->db->where('pr_emp_per_info.emp_id = pr_pay_scale_sheet_com.emp_id');
+		$this->db->where('pr_emp_per_info.emp_id = pr_emp_add.emp_id');
+		$this->db->where("pr_pay_scale_sheet_com.salary_month = '$sal_year_month'");
 		$this->db->order_by("pr_emp_com_info.emp_id","ASC");
 		$query = $this->db->get();
 		return $query->result();
@@ -3810,26 +3858,17 @@ class Grid_model extends CI_Model{
 	{
 		//print_r($grid_emp_id) ;
 		$this->db->select('
-				pr_grade.*,
-				pr_line_num.*,
-				pr_emp_com_info.emp_id,
-				pr_emp_com_info.gross_sal,
-				pr_emp_per_info.emp_full_name,
-				pr_emp_per_info.spouse_name, 
-				pr_emp_per_info.bangla_nam, 
-				pr_emp_per_info.emp_fname,
-				pr_emp_per_info.emp_mname, 
-				pr_designation.desig_name, 
-				pr_designation.desig_bangla, 
-				pr_emp_com_info.emp_join_date, 
-				pr_emp_com_info.emp_sal_gra_id, 
-				pr_dept.dept_name, 
-				pr_dept.dept_bangla, 
-				pr_section.sec_name, 
-				pr_section.sec_bangla, 
-				pr_id_proxi.proxi_id, 
-				pr_emp_add.*, 
-			');
+			pr_grade.*,
+			pr_line_num.*,
+			pr_emp_com_info.*, 
+			pr_dept.dept_name, 
+			pr_dept.dept_bangla, 
+			pr_section.sec_name, 
+			pr_section.sec_bangla, 
+			pr_id_proxi.proxi_id, 
+			pr_emp_add.*, 
+			pr_emp_per_info.*,
+		');
 		$this->db->from('pr_emp_per_info');
 		$this->db->from('pr_emp_com_info');
 		$this->db->from('pr_designation');
@@ -3856,7 +3895,7 @@ class Grid_model extends CI_Model{
 		$this->db->order_by("pr_emp_com_info.emp_id");
 		$this->db->group_by("pr_emp_com_info.emp_id");
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		// echo "<pre>";print_r($this->db->last_query());exit;
 		if($query->num_rows() == 0)
 		{
 			return "Employee ID range does not exist!";
