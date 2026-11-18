@@ -23,11 +23,16 @@ class Payroll_con extends CI_Controller {
 	}
 
 	function index(){
+		$filter_date = $this->input->post('filter_date');
+		if(empty($filter_date)){
+			$filter_date = $this->input->get('filter_date');
+		}
 
-		$date = $this->db->select("")->get('dash_board_date')->row()->date;
-		$grid_date = date('d-m-y',strtotime($date));
-		list($date, $month, $year) = explode('-', trim($grid_date));
-		$report_date = date("Y-m-d", mktime(0, 0, 0, $month, $date, $year));
+		if(!empty($filter_date)){
+			$report_date = date("Y-m-d", strtotime($filter_date));
+		} else {
+			$report_date = date("Y-m-d");
+		}
 
 		$unit_id = 1;
 
@@ -39,6 +44,7 @@ class Payroll_con extends CI_Controller {
 
 		$data_manage['username'] = $this->session->userdata('username');
 		$data['username'] = $this->session->userdata('username');
+		$data['report_date'] = $report_date;
 
 		$unit_id = $this->common_model->get_session_unit_id_name();
 		if($unit_id != 0){
@@ -48,6 +54,8 @@ class Payroll_con extends CI_Controller {
 			$data['unit_name'] = $this->common_model->company_information("company_name_english");
 			$data_manage['unit_name'] = $this->common_model->company_information("company_name_english");
 		}
+		$data_manage['unit_id'] = ($unit_id != 0) ? $unit_id : 1;
+		$data['unit_id'] = ($unit_id != 0) ? $unit_id : 1;
 		// echo "<pre>"; print_r($data); exit;
 		if($data['username']=='Management'){
 			$this->load->view('management-land',$data_manage);
@@ -55,6 +63,39 @@ class Payroll_con extends CI_Controller {
 		}else{
 			$this->load->view('home',$data);
 		}
+	}
+
+	function get_attendance_summary_ajax()
+	{
+		$filter_date = $this->input->post('filter_date');
+		if(empty($filter_date)){
+			$filter_date = $this->input->get('filter_date');
+		}
+		if(empty($filter_date)){
+			$filter_date = date("Y-m-d");
+		}else{
+			$filter_date = date("Y-m-d", strtotime($filter_date));
+		}
+
+		$all_id = $this->mars_model->all_emp_id();
+		$attendance_summary = $this->mars_model->weekly_attendance_summary_2($filter_date, $all_id);
+
+		$response = array(
+			'status' => 'success',
+			'filter_date' => $filter_date,
+			'filter_date_formatted' => date('d M Y', strtotime($filter_date)),
+			'all_emp' => isset($attendance_summary['all_emp']) ? (int)$attendance_summary['all_emp'] : 0,
+			'all_male' => isset($attendance_summary['all_male']) ? (int)$attendance_summary['all_male'] : 0,
+			'all_female' => isset($attendance_summary['all_female']) ? (int)$attendance_summary['all_female'] : 0,
+			'all_present' => isset($attendance_summary['all_present']) ? (int)$attendance_summary['all_present'] : 0,
+			'all_absent' => isset($attendance_summary['all_absent']) ? (int)$attendance_summary['all_absent'] : 0,
+			'all_leave' => isset($attendance_summary['all_leave']) ? (int)$attendance_summary['all_leave'] : 0,
+			'all_late' => isset($attendance_summary['all_late']) ? (int)$attendance_summary['all_late'] : 0,
+		);
+
+		header('Content-Type: application/json');
+		echo json_encode($response);
+		exit;
 	}
 
 	function main_header()

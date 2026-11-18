@@ -106,7 +106,7 @@
 
 </head> <!-- END HEAD -->
 
-  <body class="" style="background-color: #450D3C !important;">
+  <body class="" style="background-color: #f4f6f9 !important;">
     <!-- <div id="loading">
       <img id="loading-image" src="<?=base_url()?>awedget/assets/img/icon/loading.gif" alt="Loading..." />
     </div> -->
@@ -169,15 +169,6 @@
     <div class="page-sidebar" id="main-menu">
       <!-- BEGIN MINI-PROFILE -->
       <div class="page-sidebar-wrapper" id="main-menu-wrapper">
-        <!-- <div class="slimScrollDiv"> -->
-        <div class="user-info-wrapper text-center" style=" padding-bottom: 10px; border-bottom: 1px solid #db0424;">        
-          <div class="user-info" style="background-color: white; ">
-              <span class="label label-success"> 
-                <strong><?=$unit_name?></strong>
-              </span>
-          </div>
-        </div>
-
         <!-- BEGIN SIDEBAR MENU -->
           <ul class="pull-left">
             <li class="start active"> 

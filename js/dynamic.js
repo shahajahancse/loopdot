@@ -57,6 +57,7 @@ function empty_pi(){
 	document.getElementById('com_hrent').value = "";
 	document.getElementById('com_mallow').value = "";
 
+	clearProcessValues();
 }
 
  function empty_edu_skill(){
@@ -2766,6 +2767,7 @@ function com_info_next_Search1()
 				document.cominfo.pi_edit.disabled = true;
 				}
 
+			setProcessValues(com_info);
 		}
 	}
 
@@ -3219,6 +3221,7 @@ function com_info_prev_Search1()
 				document.cominfo.pi_edit.disabled = true;
 				}
 
+			setProcessValues(com_info);
 		}
 	}
 
@@ -3233,6 +3236,58 @@ function setValSafe(id, val) {
     if (!el) return;
     if (val === undefined || val === null || val === '') return;
     el.value = val;
+}
+
+function setProcessValues(com_info) {
+	if (!com_info) return;
+	var p1 = (com_info[29] !== undefined && com_info[29] !== '') ? String(com_info[29]).trim() : "0";
+	var p2 = (com_info[30] !== undefined && com_info[30] !== '') ? String(com_info[30]).trim() : "0";
+	var p3 = (com_info[31] !== undefined && com_info[31] !== '') ? String(com_info[31]).trim() : "0";
+	var p4 = (com_info[32] !== undefined && com_info[32] !== '') ? String(com_info[32]).trim() : "0";
+
+	var h1 = (com_info[33] !== undefined && com_info[33] !== '') ? String(com_info[33]).trim() : "0";
+	var h2 = (com_info[34] !== undefined && com_info[34] !== '') ? String(com_info[34]).trim() : "0";
+	var h3 = (com_info[35] !== undefined && com_info[35] !== '') ? String(com_info[35]).trim() : "0";
+	var h4 = (com_info[36] !== undefined && com_info[36] !== '') ? String(com_info[36]).trim() : "0";
+
+	var s1 = document.getElementById('skill_process_one');
+	var s2 = document.getElementById('skill_process_two');
+	var s3 = document.getElementById('skill_process_three');
+	var s4 = document.getElementById('skill_process_four');
+
+	if (s1) {
+		s1.value = p1;
+		if (s1.selectedIndex === -1) s1.value = "0";
+	}
+	if (s2) {
+		s2.value = p2;
+		if (s2.selectedIndex === -1) s2.value = "0";
+	}
+	if (s3) {
+		s3.value = p3;
+		if (s3.selectedIndex === -1) s3.value = "0";
+	}
+	if (s4) {
+		s4.value = p4;
+		if (s4.selectedIndex === -1) s4.value = "0";
+	}
+
+	if (document.getElementById('hour_one')) document.getElementById('hour_one').value = h1;
+	if (document.getElementById('hour_two')) document.getElementById('hour_two').value = h2;
+	if (document.getElementById('hour_three')) document.getElementById('hour_three').value = h3;
+	if (document.getElementById('hour_four')) document.getElementById('hour_four').value = h4;
+}
+
+function clearProcessValues() {
+	if (document.getElementById('skill_process_one')) document.getElementById('skill_process_one').value = 0;
+	if (document.getElementById('skill_process_two')) document.getElementById('skill_process_two').value = 0;
+	if (document.getElementById('skill_process_three')) document.getElementById('skill_process_three').value = 0;
+	if (document.getElementById('skill_process_four')) document.getElementById('skill_process_four').value = 0;
+
+	if (document.getElementById('hour_one')) document.getElementById('hour_one').value = 0;
+	if (document.getElementById('hour_two')) document.getElementById('hour_two').value = 0;
+	if (document.getElementById('hour_three')) document.getElementById('hour_three').value = 0;
+	if (document.getElementById('hour_four')) document.getElementById('hour_four').value = 0;
 }
 
 
@@ -3715,6 +3770,8 @@ function com_info_Search1(){
 			{
 				document.cominfo.pi_edit.disabled = false;
 			}
+
+			setProcessValues(com_info);
 		}
 	}
 	eempid = empid;
@@ -5309,6 +5366,7 @@ function enable_save(){
 	document.cominfo.pi_save.disabled = false;
 	document.cominfo.empstat.disabled = false;
 	document.cominfo.pi_edit.disabled = true;
+	clearProcessValues();
 	document.cominfo.empid.focus();
 }
 

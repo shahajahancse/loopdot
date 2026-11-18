@@ -49,15 +49,38 @@ class Mars_con extends CI_Controller {
 
 	function daily_attendance_summary()
 	{
-		$grid_date = $this->uri->segment(3);
-		// list($date, $month, $year) = explode('-', trim($grid_date));
-		// $report_date = date("Y-m-d", mktime(0, 0, 0, $month, $date, $year));
+		$grid_date = $this->input->post('report_date');
+		if(empty($grid_date)){
+			$grid_date = $this->input->post('grid_date');
+		}
+		if(empty($grid_date)){
+			$grid_date = $this->uri->segment(3);
+		}
+		if(empty($grid_date)){
+			$grid_date = date("Y-m-d");
+		}
 		$report_date = date("Y-m-d", strtotime($grid_date));
 
-		$category = $this->uri->segment(4);
-		$unit_id = $this->uri->segment(5);
-		// echo $grid_date.$category.$unit_id;
-		// exit;
+		$category = $this->input->post('category');
+		if(empty($category)){
+			$category = $this->uri->segment(4);
+		}
+		if(empty($category)){
+			$category = 'Section';
+		}
+
+		$unit_id = $this->input->post('unit_id');
+		if(empty($unit_id)){
+			$unit_id = $this->uri->segment(5);
+		}
+		if(empty($unit_id)){
+			$this->load->model('common_model');
+			$unit_id = $this->common_model->get_session_unit_id_name();
+			if(empty($unit_id)){
+				$unit_id = 1;
+			}
+		}
+
 		if($category =='Department'){
 			$data['values'] = $this->mars_model->department_attendance_summary_other($report_date, $unit_id);
 			// $data['values'] = $this->mars_model->department_attendance_summary($report_date, $unit_id);

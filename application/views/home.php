@@ -102,11 +102,29 @@
     color: #683091;
 }
 
+.page-sidebar,
+.page-sidebar-wrapper,
+#main-menu,
+#main-menu-wrapper,
+#main-menu-wrapper > ul,
+.page-sidebar .page-sidebar-wrapper > ul {
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+}
+
+.user-info-wrapper {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
   </style>
 
 </head> <!-- END HEAD -->
 
-  <body class="" style="background-color: #450D3C !important;">
+  <body class="" >
     <!-- <div id="loading">
       <img id="loading-image" src="<?=base_url()?>awedget/assets/img/icon/loading.gif" alt="Loading..." />
     </div> -->
@@ -178,17 +196,8 @@
     <div class="page-sidebar" id="main-menu">
       <!-- BEGIN MINI-PROFILE -->
       <div class="page-sidebar-wrapper" id="main-menu-wrapper">
-        <!-- <div class="slimScrollDiv"> -->
-        <div class="user-info-wrapper text-center" style=" padding-bottom: 10px; border-bottom: 1px solid #db0424;">
-          <!-- <div class="user-info" style="background-color: white; ">
-              <span class="label label-success">
-                <strong><?=$unit_name?></strong>
-              </span>
-          </div> -->
-        </div>
-
         <!-- BEGIN SIDEBAR MENU -->
-          <ul class="pull-left">
+          <ul>
             <li class="start active">
                <a target="body_load" href="<?=base_url()?>index.php/emp_info_con/at_a_glance_info_view"> <i class="fa fa-tachometer"></i><span class="title">DashBoard</span></a>
             </li>
@@ -215,6 +224,7 @@
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/salary_grade" target="body_load" class="anchor_cls">Salary Grade</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/shift_schedule" target="body_load" class="anchor_cls">Shift Schedules</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/shift_management" target="body_load" class="anchor_cls">Shift Manage</a> </li>
+                    <li class="start "> <a href="<?=base_url()?>index.php/setup_con/skill_process" target="body_load" class="anchor_cls">Skill Process</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/leave_setup" target="body_load" class="anchor_cls">Leave</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/bonus_setup" target="body_load" class="anchor_cls">Bonus</a> </li>
                     <li class="start "> <a href="<?=base_url()?>index.php/setup_con/weekend_allowance_setup" target="body_load" class="anchor_cls">Weekend Allowance</a> </li>
@@ -522,6 +532,402 @@
       color:#fff;
     }
 
+    /* Lock outer window from scrolling */
+    html, body {
+      height: 100% !important;
+      max-height: 100vh !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Fixed Top Navbar */
+    .header.navbar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 60px !important;
+      min-height: 60px !important;
+      z-index: 1000 !important;
+      margin: 0 !important;
+    }
+
+    /* Page container under navbar */
+    .page-container {
+      position: fixed !important;
+      top: 60px !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      height: calc(100vh - 60px) !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    }
+
+    /* Left Sidebar: Independent scrollbar */
+    /* Left Sidebar: Independent scrollbar */
+    .page-sidebar {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      width: 250px !important;
+      height: 100% !important;
+      max-height: 100% !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      z-index: 99 !important;
+      background-color: #ffffff !important;
+      -webkit-overflow-scrolling: touch;
+      padding-top: 0px !important;
+      padding-bottom: 55px !important;
+      border-right: 1px solid #e5e9ec !important;
+      box-sizing: border-box !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper {
+      width: 100% !important;
+      padding-top: 0px !important;
+      margin-top: 0px !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul {
+      float: none !important;
+      width: 100% !important;
+      padding: 0px !important;
+      margin: 0px !important;
+      list-style: none !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul > li {
+      width: 100% !important;
+      float: none !important;
+      display: block !important;
+    }
+
+    /* Top-level sidebar links (Normal state) */
+    .page-sidebar .page-sidebar-wrapper > ul > li > a {
+      width: 100% !important;
+      display: block !important;
+      box-sizing: border-box !important;
+      padding: 10px 18px 10px 24px !important;
+      font-size: 13.5px !important;
+      position: relative !important;
+      background-color: transparent !important;
+      color: #683091 !important;
+      border-left: 4px solid transparent !important;
+      transition: all 0.15s ease-in-out;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul > li > a i,
+    .page-sidebar .page-sidebar-wrapper > ul > li > a span.title {
+      color: #683091 !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul > li > a > .arrow:before,
+    .page-sidebar .page-sidebar-wrapper > ul > li > a > .arrow.open:before {
+      float: right !important;
+      margin-right: 5px !important;
+      margin-top: 2px !important;
+      color: #683091 !important;
+    }
+
+    /* 1. Active color for top-level menu (Dashboard, Support, etc.) - matching scrollbar color */
+    .page-sidebar .page-sidebar-wrapper > ul > li.active > a {
+      background-color: rgba(148, 36, 184, 0.4) !important;
+      color: #450D3C !important;
+      font-weight: bold !important;
+      border-left: 4px solid rgba(148, 36, 184, 0.85) !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul > li.active > a i,
+    .page-sidebar .page-sidebar-wrapper > ul > li.active > a span.title {
+      color: #450D3C !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul > li.active > a .arrow:before,
+    .page-sidebar .page-sidebar-wrapper > ul > li.active > a .arrow.open:before {
+      color: #450D3C !important;
+    }
+
+    /* Open folder menu (HRM, Payroll, etc.) - transparent background, NOT active */
+    .page-sidebar .page-sidebar-wrapper > ul > li.open > a {
+      background-color: transparent !important;
+      color: #683091 !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul > li.open > a i,
+    .page-sidebar .page-sidebar-wrapper > ul > li.open > a span.title,
+    .page-sidebar .page-sidebar-wrapper > ul > li.open > a .arrow:before,
+    .page-sidebar .page-sidebar-wrapper > ul > li.open > a .arrow.open:before {
+      color: #683091 !important;
+    }
+
+    /* Top-level hover effect - matching scrollbar color */
+    .page-sidebar .page-sidebar-wrapper > ul > li > a:hover,
+    .page-sidebar .page-sidebar-wrapper > ul > li:hover > a {
+      background-color: rgba(148, 36, 184, 0.28) !important;
+      color: #450D3C !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper > ul > li > a:hover i,
+    .page-sidebar .page-sidebar-wrapper > ul > li > a:hover span.title,
+    .page-sidebar .page-sidebar-wrapper > ul > li:hover > a i,
+    .page-sidebar .page-sidebar-wrapper > ul > li:hover > a span.title,
+    .page-sidebar .page-sidebar-wrapper > ul > li > a:hover .arrow:before,
+    .page-sidebar .page-sidebar-wrapper > ul > li > a:hover .arrow.open:before {
+      color: #450D3C !important;
+    }
+
+    /* 2. Expanded sub-menus background must be pure white (NO green anywhere) */
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li a,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li ul.sub-menu,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li ul.sub-menu li,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li ul.sub-menu li a,
+    .page-sidebar .page-sidebar-wrapper > ul > li.active > ul.sub-menu,
+    .page-sidebar .page-sidebar-wrapper > ul > li.open > ul.sub-menu,
+    .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu li.active,
+    .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu li.open {
+      background-color: #ffffff !important;
+      background: #ffffff !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu {
+      width: 100% !important;
+      padding: 4px 0 !important;
+      margin: 0 !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu > li {
+      width: 100% !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* 3. Sub-menu items brought further LEFT */
+    /* Level 1 sub-menu items (Emp Information, Setup, Entry System, etc.) */
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu > li > a {
+      width: 100% !important;
+      display: block !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      margin-left: 0 !important;
+      padding: 7px 15px 7px 36px !important;
+      font-size: 13px !important;
+      position: relative !important;
+      color: #683091 !important;
+      background-color: #ffffff !important;
+      border-left: 4px solid transparent !important;
+      transition: all 0.15s ease-in-out;
+    }
+
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu > li > a > .arrow:before,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu > li > a > .arrow.open:before {
+      float: right !important;
+      margin-right: 5px !important;
+      margin-top: 2px !important;
+      color: #683091 !important;
+    }
+
+    /* Level 2 sub-menu items (Company Information, Floor, Department, Section, Line, Designation, etc.) */
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li > ul.sub-menu > li > a,
+    .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > a,
+    .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
+      width: 100% !important;
+      display: block !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      margin-left: 0 !important;
+      padding: 6px 12px 6px 48px !important;
+      font-size: 12.5px !important;
+      position: relative !important;
+      color: #683091 !important;
+      background-color: #ffffff !important;
+      border-left: 4px solid transparent !important;
+      transition: all 0.15s ease-in-out;
+    }
+
+    /* Sub-menu hover effect - matching scrollbar color */
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li > a:hover,
+    .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu > li > a:hover,
+    .page-sidebar .page-sidebar-wrapper > ul > li > ul.sub-menu li > ul.sub-menu > li > a:hover,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li:hover > a {
+      background: rgba(148, 36, 184, 0.2) !important;
+      background-color: rgba(148, 36, 184, 0.2) !important;
+      color: #450D3C !important;
+    }
+
+    /* Active clicked sub-menu leaf item: Background & left bar matching scrollbar color */
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li > a.mactive,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li > a.active,
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li.active > a.anchor_cls {
+      background-color: rgba(148, 36, 184, 0.32) !important;
+      color: #450D3C !important;
+      font-weight: 700 !important;
+      border-left: 4px solid rgba(148, 36, 184, 0.85) !important;
+      box-shadow: none !important;
+    }
+
+    .page-sidebar .page-sidebar-wrapper ul.sub-menu li.open > a:not(.mactive) {
+      border-left: 4px solid transparent !important;
+      font-weight: 600 !important;
+      color: #683091 !important;
+    }
+
+    .user-info-wrapper {
+      display: none !important;
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    /* Sleek scrollbar for left menu - automatically shows ONLY when content overflows (e.g. sub-menu expanded) */
+    .page-sidebar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 36, 184, 0.4) transparent;
+    }
+
+    .page-sidebar::-webkit-scrollbar {
+      width: 5px !important;
+    }
+    .page-sidebar::-webkit-scrollbar-track {
+      background: transparent !important;
+    }
+    .page-sidebar::-webkit-scrollbar-thumb {
+      background: rgba(148, 36, 184, 0.4) !important;
+      border-radius: 4px !important;
+    }
+    .page-sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 36, 184, 0.75) !important;
+    }
+
+    /* Ensure slimScroll wrapper doesn't force height when menu is collapsed */
+    .page-sidebar .slimScrollDiv {
+      height: auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      overflow: visible !important;
+      width: 100% !important;
+    }
+    .page-sidebar-wrapper,
+    #main-menu-wrapper {
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      width: 100% !important;
+    }
+
+    /* Hide slimScroll fake scrollbar */
+    .page-sidebar .slimScrollBar,
+    .page-sidebar .slimScrollRail {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    /* Condensed / mini menu */
+    body.condense-menu .page-sidebar,
+    .page-sidebar.mini {
+      width: 50px !important;
+      overflow: visible !important;
+    }
+
+    /* Footer Widget at bottom of left sidebar */
+    .footer-widget {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 250px !important;
+      height: 36px !important;
+      line-height: 26px !important;
+      padding: 5px 10px !important;
+      background-color: #683091 !important;
+      color: #ffffff !important;
+      z-index: 105 !important;
+      display: block !important;
+      box-sizing: border-box !important;
+    }
+
+    .footer-widget .copyrights {
+      width: 100% !important;
+      color: #ffffff !important;
+      font-size: 11px !important;
+      line-height: 24px !important;
+    }
+
+    .footer-widget .copyrights span,
+    .footer-widget .copyrights a {
+      color: #ffffff !important;
+      font-size: 11px !important;
+      text-decoration: none !important;
+    }
+
+    .footer-widget .copyrights img {
+      vertical-align: middle !important;
+      margin-right: 2px !important;
+    }
+
+    body.condense-menu .footer-widget {
+      display: none !important;
+    }
+
+    /* Right Content Area (Body): Independent scrollbar */
+    .page-content {
+      position: absolute !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 250px !important;
+      margin-left: 0 !important;
+      height: 100% !important;
+      max-height: 100% !important;
+      min-height: 0 !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      background-color: #f4f6f9 !important;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Sleek modern scrollbar for page body */
+    .page-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .page-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    .page-content::-webkit-scrollbar-thumb {
+      background: #b8c4d1;
+      border-radius: 4px;
+    }
+    .page-content::-webkit-scrollbar-thumb:hover {
+      background: #8e9cae;
+    }
+
+    body.condense-menu .page-content,
+    .condensed-layout.page-content {
+      left: 50px !important;
+      margin-left: 0 !important;
+    }
+
+    .page-content .content {
+      padding: 0px !important;
+      min-height: auto !important;
+    }
+
+    #container {
+      margin-bottom: 0px !important;
+    }
+
 </style>
 
 <div class="page-content">
@@ -534,8 +940,8 @@
       <div class="modal-body"> Widget settings form goes here </div>
     </div> -->
     <div class="clearfix"></div>
-    <div class="content">
-      <div id="container" style="margin-bottom: 100px;">
+    <div class="content" style="padding-bottom: 0px;">
+      <div id="container" style="margin-bottom: 0px;">
         <iframe id="idIframe" width="100%" src="<?= base_url()?>index.php/emp_info_con/at_a_glance_info_view" name="body_load" style="border:0px solid;" scrolling="no" onload="iframeLoaded()"></iframe>
       </div>
     </div>
@@ -606,21 +1012,28 @@
 <script src="<?=base_url()?>awedget/assets/js/jquery.bongabdo.js"></script>
 <!-- <script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script> -->
 <script type="text/javascript">
-  var iFrameID = document.getElementById('idIframe');
-   // iFrameID.style.backgroundColor = 'green';
   function iframeLoaded() {
-      var iFrameID = document.getElementById('idIframe');
-
-        if(iFrameID){
-        // iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
-        var autoheight = iFrameID.contentWindow.document.body.scrollHeight;
-        if(autoheight < '500'){
-          iFrameID.height = "500px";
-        }else{
-          iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
+    var iFrameID = document.getElementById('idIframe');
+    if (iFrameID) {
+      try {
+        var doc = iFrameID.contentWindow.document;
+        iFrameID.style.height = '100px';
+        var autoheight = Math.max(
+          (doc.body ? doc.body.scrollHeight : 0),
+          (doc.documentElement ? doc.documentElement.scrollHeight : 0)
+        );
+        if (autoheight > 0) {
+          iFrameID.style.height = (autoheight + 15) + "px";
         }
+      } catch(e) {
+        iFrameID.style.height = "100%";
+      }
     }
   }
+
+  $(window).on('resize', function () {
+    iframeLoaded();
+  });
 </script>
 <script>
   // $(function () {
@@ -1222,24 +1635,38 @@ function loadOffices(data){
 <script>
 
  $(document).ready(function() {
+    if ($.fn.slimScroll) {
+      try {
+        $('#main-menu-wrapper').slimScroll({destroy: true});
+        $('#main-menu-wrapper').css({overflow: 'visible', height: 'auto', width: '100%'});
+      } catch(e) {}
+    }
 
-    $("#main-menu ul > li").click(function(e) {
-        $(this).siblings('li.active').removeClass("active");
-        $(this).find('li.open').removeClass("open");
-        $(this).addClass("active");
-     });
+    $("#main-menu-wrapper > ul > li > a").click(function(e) {
+      if ($(this).next('ul.sub-menu').length === 0) {
+        // Clicked top-level leaf item (DashBoard)
+        $("#main-menu-wrapper > ul > li").removeClass("active open");
+        $("#main-menu-wrapper > ul > li > ul.sub-menu").slideUp(200);
+        $("#main-menu-wrapper > ul > li .arrow").removeClass("open active");
 
-    // $("#main-menu ul li").click(function(e) {
-    //     $(this).find('li.open').removeClass("open");
-    //     $(this).addClass("active");
-    //  });
+        $(this).parent().addClass("active");
 
+        $('#main-menu ul.sub-menu a').removeClass('mactive active');
+        $('#main-menu ul.sub-menu li').removeClass('active');
+      }
+    });
 
+    $('#main-menu').on('click', '.anchor_cls, ul.sub-menu a', function(e){
+      if ($(this).next('ul.sub-menu').length > 0) {
+        return; // Don't highlight expandable headers as leaf active
+      }
+      // Remove active from DashBoard and other top-level items
+      $("#main-menu-wrapper > ul > li").removeClass("active");
 
-    $('.anchor_cls').on('click', function(){
-      $('#main-menu ul > li').siblings('ul li').find("a.mactive").removeClass("mactive");
-      $(this).parent().siblings().find('.mactive').removeClass('mactive');
-      $(this).addClass('mactive');
+      $('#main-menu ul.sub-menu a').removeClass('mactive active');
+      $('#main-menu ul.sub-menu li').removeClass('active');
+      $(this).addClass('mactive active');
+      $(this).closest('li').addClass('active');
     });
  });
  </script>

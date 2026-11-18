@@ -8325,7 +8325,7 @@ class Grid_model extends CI_Model{
 
 	function grid_general_info($grid_emp_id)
 	{
-		$this->db->select('pr_emp_edu.emp_pass_yr,pr_emp_position.posi_name,pr_emp_add.*,pr_emp_com_info.emp_id, pr_emp_per_info.*, pr_dept.dept_name, pr_section.sec_name, pr_line_num.line_name, pr_designation.desig_name,  pr_emp_com_info.emp_join_date,pr_grade.gr_name, pr_emp_com_info.gross_sal');
+		$this->db->select('pr_emp_edu.emp_pass_yr,pr_emp_position.posi_name,pr_emp_add.*,pr_emp_com_info.emp_id, pr_emp_per_info.*, pr_dept.dept_name, pr_section.sec_name, pr_line_num.line_name, pr_designation.desig_name,  pr_emp_com_info.emp_join_date,pr_grade.gr_name, pr_emp_com_info.gross_sal, pr_emp_com_info.skill_process_one, pr_emp_com_info.skill_process_two, pr_emp_com_info.skill_process_three, pr_emp_com_info.skill_process_four, pr_emp_com_info.hour_one, pr_emp_com_info.hour_two, pr_emp_com_info.hour_three, pr_emp_com_info.hour_four');
 
 		$this->db->from('pr_emp_com_info');
 		$this->db->where_in('pr_emp_com_info.emp_id', $grid_emp_id);
@@ -8345,6 +8345,14 @@ class Grid_model extends CI_Model{
 		//echo $this->db->last_query();
 		/*echo "<pre>";
 		print_r($query->result()); exit;*/
+
+		$skill_processes_query = $this->db->get('pr_skill_process');
+		$process_map = array();
+		if ($skill_processes_query->num_rows() > 0) {
+			foreach($skill_processes_query->result() as $p_row){
+				$process_map[$p_row->id] = $p_row->skill_process;
+			}
+		}
 
 		foreach($query->result() as $rows)
 		{
@@ -8368,10 +8376,61 @@ class Grid_model extends CI_Model{
 			$data["emp_dob"][] 		= $rows->emp_dob;
 			$data["gross_sal"][] 	= $rows->gross_sal;
 			$data["gr_name"][]		= $rows->gr_name;
+
+			// Process 1
+			if (!empty($rows->skill_process_one) && isset($process_map[$rows->skill_process_one])) {
+				$p_text = $process_map[$rows->skill_process_one];
+				if (!empty($rows->hour_one) && $rows->hour_one > 0) {
+					$p_text .= " (" . $rows->hour_one . ")";
+				}
+				$data["process_1"][] = $p_text;
+			} else {
+				$data["process_1"][] = '0';
+			}
+
+			// Process 2
+			if (!empty($rows->skill_process_two) && isset($process_map[$rows->skill_process_two])) {
+				$p_text = $process_map[$rows->skill_process_two];
+				if (!empty($rows->hour_two) && $rows->hour_two > 0) {
+					$p_text .= " (" . $rows->hour_two . ")";
+				}
+				$data["process_2"][] = $p_text;
+			} else {
+				$data["process_2"][] = '0';
+			}
+
+			// Process 3
+			if (!empty($rows->skill_process_three) && isset($process_map[$rows->skill_process_three])) {
+				$p_text = $process_map[$rows->skill_process_three];
+				if (!empty($rows->hour_three) && $rows->hour_three > 0) {
+					$p_text .= " (" . $rows->hour_three . ")";
+				}
+				$data["process_3"][] = $p_text;
+			} else {
+				$data["process_3"][] = '0';
+			}
+
+			// Process 4
+			if (!empty($rows->skill_process_four) && isset($process_map[$rows->skill_process_four])) {
+				$p_text = $process_map[$rows->skill_process_four];
+				if (!empty($rows->hour_four) && $rows->hour_four > 0) {
+					$p_text .= " (" . $rows->hour_four . ")";
+				}
+				$data["process_4"][] = $p_text;
+			} else {
+				$data["process_4"][] = '0';
+			}
+
+			$emp_processes = array();
+			if ($data["process_1"][count($data["process_1"])-1] !== '0') $emp_processes[] = $data["process_1"][count($data["process_1"])-1];
+			if ($data["process_2"][count($data["process_2"])-1] !== '0') $emp_processes[] = $data["process_2"][count($data["process_2"])-1];
+			if ($data["process_3"][count($data["process_3"])-1] !== '0') $emp_processes[] = $data["process_3"][count($data["process_3"])-1];
+			if ($data["process_4"][count($data["process_4"])-1] !== '0') $emp_processes[] = $data["process_4"][count($data["process_4"])-1];
+			$data["process"][] = !empty($emp_processes) ? implode(', ', $emp_processes) : '0';
 		}
 		/*echo "<pre>";
 		print_r($data);exit;*/
-		if($data)
+		if(isset($data))
 		{
 			return $data;
 		}

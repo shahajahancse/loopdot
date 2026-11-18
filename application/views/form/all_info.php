@@ -13,7 +13,7 @@ $user_data = $this->session->userdata['data'];
 
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>css/calendar.css" />
 
-<script type="text/javascript" src="<?php echo base_url();?>js/dynamic.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/dynamic.js?v=<?php echo time(); ?>"></script>
 
 <script src="<?php echo base_url(); ?>js/calendar_eu.js" type="text/javascript"></script>
 
@@ -512,28 +512,27 @@ if($validation_errors != '')
     </script>
     </td>
 </tr>
+<?php $skill_processes = $this->db->get('pr_skill_process')->result(); ?>
 <tr>
   <td>Process 1</td>
   <td>
     <select style="width:174px;" id='skill_process_one' name='skill_process_one' >
 		<option value="0">Select Process</option>	
-        <?php $skill_process = $this->db->get('pr_skill_process');
-        foreach($skill_process->result() as $rows) { ?>
-		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+        <?php foreach($skill_processes as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>" <?php echo set_select('skill_process_one', $rows->id); ?>><?php echo $rows->skill_process; ?></option>	
 		<?php } ?>
     </select>
-	<input type="number" style="width:50px;" id='hour_one' name="hour_one" value="0" placeholder="P/Hr">
+	<input type="number" style="width:50px;" id='hour_one' name="hour_one" value="<?php echo set_value('hour_one', '0'); ?>" placeholder="P/Hr">
   </td>
     <td>Process 2</td> 
   <td>
     <select style="width:174px;" id='skill_process_two' name='skill_process_two' >
 		<option value="0">Select Process</option>	
-        <?php 
-        foreach($skill_process->result() as $rows) { ?>
-		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+        <?php foreach($skill_processes as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>" <?php echo set_select('skill_process_two', $rows->id); ?>><?php echo $rows->skill_process; ?></option>	
 		<?php } ?>
     </select>
-	<input type="number" style="width:50px;" id='hour_two' name="hour_two" value="0" placeholder="P/Hr">
+	<input type="number" style="width:50px;" id='hour_two' name="hour_two" value="<?php echo set_value('hour_two', '0'); ?>" placeholder="P/Hr">
   </td>
 </tr>
 <tr>
@@ -541,23 +540,21 @@ if($validation_errors != '')
   <td>
     <select style="width:174px;" id='skill_process_three' name='skill_process_three' >
 		<option value="0">Select Process</option>	
-        <?php 
-        foreach($skill_process->result() as $rows) { ?>
-		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+        <?php foreach($skill_processes as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>" <?php echo set_select('skill_process_three', $rows->id); ?>><?php echo $rows->skill_process; ?></option>	
 		<?php } ?>
     </select>
-	<input type="number" style="width:50px;" id='hour_three' name="hour_three" value="0" placeholder="P/Hr">
+	<input type="number" style="width:50px;" id='hour_three' name="hour_three" value="<?php echo set_value('hour_three', '0'); ?>" placeholder="P/Hr">
   </td>
     <td>Process 4</td>
   <td>
     <select style="width:174px;" id='skill_process_four' name='skill_process_four' >
 		<option value="0">Select Process</option>	
-        <?php 
-        foreach($skill_process->result() as $rows) { ?>
-		<option value="<?php echo $rows->id; ?>"><?php echo $rows->skill_process; ?></option>	
+        <?php foreach($skill_processes as $rows) { ?>
+		<option value="<?php echo $rows->id; ?>" <?php echo set_select('skill_process_four', $rows->id); ?>><?php echo $rows->skill_process; ?></option>	
 		<?php } ?>
     </select>
-	<input type="number" style="width:50px;" id='hour_four' name="hour_four" value="0" placeholder="P/Hr">
+	<input type="number" style="width:50px;" id='hour_four' name="hour_four" value="<?php echo set_value('hour_four', '0'); ?>" placeholder="P/Hr">
   </td>
 </tr>
 <tr>
@@ -693,7 +690,7 @@ if($validation_errors != '')
  <div style="width:1000px; height:30px; background:#9DA2A6; margin-top:2px">
 <input type="hidden" name="id_skill" id="id_skill" value="<?php echo set_value('id_skill'); ?>"   />
  <input type='button' name='add' onclick='enable_save()' value='NEW'/>&nbsp;<input type="submit" name='pi_save'   value='SAVE'  />&nbsp;<input type="submit" name="pi_edit" id="pi_edit" disabled="disabled"  value='EDIT'/></form><input style="margin-left:20px;" type='button' name='prev' onclick='com_info_prev_Search1()' value='Prev'/>Find ID :
-  <input style='background-color:yellow;' type='text' size='15px' id='search_empid' name='search_empid' onchange="com_info_Search1()"  /><input type='button' name='next' onclick='com_info_next_Search1()' value='Next'/>
+  <input style='background-color:yellow;' type='text' size='15px' id='search_empid' name='search_empid' onchange="com_info_Search1()" onkeyup="if(event.keyCode===13){com_info_Search1();}" /><input type='button' name='next' onclick='com_info_next_Search1()' value='Next'/>
 
   </div>
    </div>

@@ -1,6 +1,11 @@
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
 <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+<style>
+.sal th, .sal td {
+	white-space: nowrap;
+}
+</style>
 </head>
 
 <!-- <body style="width:800px;"> -->
@@ -36,7 +41,7 @@ for ( $counter = 1; $counter <= $page; $counter ++)
 
 <tr height="85px">
 
-<td colspan="22" style="text-align:center;">
+<td colspan="26" style="text-align:center;">
  
 <?php
 $this->load->view("head_english");?>
@@ -65,6 +70,10 @@ Section Wise All Employee List
 <th>Sec.</th>
 <th>Desi.</th>
 <th>Line.</th>
+<th>Process 1</th>
+<th>Process 2</th>
+<th>Process 3</th>
+<th>Process 4</th>
 <th>Date of Birth</th>
 <th>Joining Date</th>
 <th>Sal. Grade</th>
@@ -155,6 +164,22 @@ Section Wise All Employee List
 	
 	echo "<td >";
 	echo $values["line_name"][$k];
+	echo "</td>";
+	
+	echo "<td style='text-align:center;'>";
+	echo !empty($values["process_1"][$k]) ? $values["process_1"][$k] : '0';
+	echo "</td>";
+	
+	echo "<td style='text-align:center;'>";
+	echo !empty($values["process_2"][$k]) ? $values["process_2"][$k] : '0';
+	echo "</td>";
+	
+	echo "<td style='text-align:center;'>";
+	echo !empty($values["process_3"][$k]) ? $values["process_3"][$k] : '0';
+	echo "</td>";
+	
+	echo "<td style='text-align:center;'>";
+	echo !empty($values["process_4"][$k]) ? $values["process_4"][$k] : '0';
 	echo "</td>";
 	
 	
