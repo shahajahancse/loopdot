@@ -9,7 +9,7 @@
             table.sal {
                 border-collapse: collapse;
                 width: 95%;
-                max-width: 900px;
+                max-width: 950px;
                 margin: 0 auto;
                 font-family: Arial, sans-serif;
                 font-size: 11px;
@@ -59,7 +59,7 @@
                             <th style="width: 60px; text-align: center;">Female</th>
                             <th style="width: 60px; text-align: center;">Leave</th>
                             <th style="width: 60px; text-align: center;">Late</th>
-                            <th style="width: 75px; text-align: center;">Remarks</th>
+                            <th style="width: 90px; text-align: center;">Gross Salary</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +71,7 @@
                         $all_late = 0;
                         $all_male = 0;
                         $all_female = 0;
+                        $all_gross_sal = 0;
 
                         $count = count($values["cat_name"]);
                         $sl = 1;
@@ -78,8 +79,16 @@
                         for ($i = 0; $i < $count; $i++) {
                             $total_emp = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_emp'])) ? intval($values["daily_att_sum"][$i]['all_emp']) : 0;
 
-                            // Skip sections with totally 0 manpower
-                            if ($total_emp <= 0) {
+                            $is_special = in_array($values["cat_name"][$i], array(
+                                'Sewing Jr. Operator',
+                                'Sewing Asst. Op',
+                                'Line Iron Man',
+                                'Jr. Input Man',
+                                'Sewing Staff'
+                            ));
+
+                            // Skip sections with totally 0 manpower unless it is one of the 5 requested designations
+                            if ($total_emp <= 0 && !$is_special) {
                                 continue;
                             }
 
@@ -133,7 +142,9 @@
                             $all_late += $late;
                             echo "</td>";
 
-                            echo "<td style='text-align:center;'></td>";
+                            $gross_sal = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['total_gross_sal'])) ? floatval($values["daily_att_sum"][$i]['total_gross_sal']) : 0;
+                            $all_gross_sal += $gross_sal;
+                            echo "<td style='text-align:right; padding-right:8px;'>" . number_format($gross_sal) . "</td>";
 
                             echo "</tr>";
                         }
@@ -209,7 +220,7 @@
                                 }
                                 ?>
                             </td>
-                            <td></td>
+                            <td style="text-align:right; padding-right:8px;"><?php echo number_format($all_gross_sal); ?></td>
                         </tr>
                     </tfoot>
                 </table>

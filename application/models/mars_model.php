@@ -250,43 +250,108 @@ class Mars_model extends CI_Model{
 	function section_attendance_summary($report_date, $unit_id){
 		$query = $this->db->select()->where('unit_id', $unit_id)->order_by('sec_name')->get('pr_section');
 		$data = array();
-		foreach($query->result() as $rows){
-			$data['cat_name'][] = $rows->sec_name;
 
-			$all_emp_id = $this->get_section_emp_by_id($rows->sec_id, $unit_id);
-			// print_r($all_emp_id);
-			// exit;
+		// 4 specific designation IDs to exclude from regular sections and display separately
+		// 91 = Jr. Sew. M/c. Op. (Sewing Jr. Operator)
+		// 89 = Asst. Sew. M/c. Op. (Sewing Asst. Op)
+		// 92 = Line Ironman (Line Iron Man)
+		// 79 = Jr.Input Man (Jr. Input Man)
+		$special_desig_ids = array(91, 89, 92, 79);
+
+		// Find sewing section id if any
+		$sewing_sec = $this->db->select('sec_id')->where('unit_id', $unit_id)->where('sec_name', 'Sewing')->get('pr_section')->row();
+		$sewing_sec_id = !empty($sewing_sec) ? $sewing_sec->sec_id : 24;
+
+		foreach($query->result() as $rows){
+			// Skip the main Sewing section from regular loop as its employees are covered under special designations and Sewing Staff
+			if($rows->sec_id == $sewing_sec_id || strtolower(trim($rows->sec_name)) == 'sewing'){
+				continue;
+			}
+
+			$all_emp_id = $this->get_section_emp_by_id_excluding($rows->sec_id, $unit_id, $special_desig_ids);
 			if(!empty($all_emp_id)){
+				$data['cat_name'][] = $rows->sec_name;
 				$data['daily_att_sum'][] = $this->daily_attendance_summary($report_date, $all_emp_id);
 			}else{
+				$data['cat_name'][] = $rows->sec_name;
 				$data['daily_att_sum'][] = '';
 			}
-
-			/*
-			$emp_desig = array(
-								0 => array(21),
-								1 => array(115),
-								2 => array(78,79,112),
-								3 => array(76),
-								4 => array(102)
-             					); */
-			$emp_desig =	$this->get_department_section_line_unit_wise($unit_id);
-
-			//echo $emp_desig[0]."---";
-			for($i=0; $i<12; $i++){
-				$all_desig_emp_id_by_section = $this->desig_emp_id_by_section($rows->sec_id,$emp_desig[$i]);
-				//echo  $all_desig_emp_id_by_line."---";
-				if(!empty($all_desig_emp_id_by_section)){
-					$data['remarks_daily_att_sum'][$i][] = $this->daily_attendance_summary($report_date, $all_desig_emp_id_by_section);
-				}else{
-					$data['remarks_daily_att_sum'][$i][] = "null";
-				}
-				//echo $i;
-			}
 		}
-		// print_r($data);exit;
-		return $data;
 
+		// 1. Sewing Jr. Operator (desig_id: 91)
+		$emp_jr_op = $this->get_emp_by_desig_id(array(91), $unit_id);
+		$data['cat_name'][] = 'Sewing Jr. Operator';
+		$data['daily_att_sum'][] = !empty($emp_jr_op) ? $this->daily_attendance_summary($report_date, $emp_jr_op) : '';
+
+		// 2. Sewing Asst. Op (desig_id: 89)
+		$emp_asst_op = $this->get_emp_by_desig_id(array(89), $unit_id);
+		$data['cat_name'][] = 'Sewing Asst. Op';
+		$data['daily_att_sum'][] = !empty($emp_asst_op) ? $this->daily_attendance_summary($report_date, $emp_asst_op) : '';
+
+		// 3. Line Iron Man (desig_id: 92)
+		$emp_iron = $this->get_emp_by_desig_id(array(92), $unit_id);
+		$data['cat_name'][] = 'Line Iron Man';
+		$data['daily_att_sum'][] = !empty($emp_iron) ? $this->daily_attendance_summary($report_date, $emp_iron) : '';
+
+		// 4. Jr. Input Man (desig_id: 79)
+		$emp_input = $this->get_emp_by_desig_id(array(79), $unit_id);
+		$data['cat_name'][] = 'Jr. Input Man';
+		$data['daily_att_sum'][] = !empty($emp_input) ? $this->daily_attendance_summary($report_date, $emp_input) : '';
+
+		// 5. Sewing Staff (staff level of Sewing section)
+		$emp_sewing_staff = $this->get_sewing_staff_emp_ids($sewing_sec_id, $unit_id, $special_desig_ids);
+		$data['cat_name'][] = 'Sewing Staff';
+		$data['daily_att_sum'][] = !empty($emp_sewing_staff) ? $this->daily_attendance_summary($report_date, $emp_sewing_staff) : '';
+
+		return $data;
+	}
+
+	function get_section_emp_by_id_excluding($sec_id, $unit_id, $exclude_desig_ids)
+	{
+		$this->db->select('emp_id')
+		         ->where('unit_id', $unit_id)
+		         ->where('emp_sec_id', $sec_id);
+		if(!empty($exclude_desig_ids)){
+			$this->db->where_not_in('emp_desi_id', $exclude_desig_ids);
+		}
+		$query = $this->db->get('pr_emp_com_info');
+		$data = array();
+		foreach($query->result() as $rows)
+		{
+			$data[] = $rows->emp_id;
+		}
+		return $data;
+	}
+
+	function get_emp_by_desig_id($desig_ids, $unit_id)
+	{
+		$query = $this->db->select('emp_id')
+		                  ->where('unit_id', $unit_id)
+		                  ->where_in('emp_desi_id', $desig_ids)
+		                  ->get('pr_emp_com_info');
+		$data = array();
+		foreach($query->result() as $rows)
+		{
+			$data[] = $rows->emp_id;
+		}
+		return $data;
+	}
+
+	function get_sewing_staff_emp_ids($sewing_sec_id, $unit_id, $exclude_desig_ids)
+	{
+		$this->db->select('emp_id')
+		         ->where('unit_id', $unit_id)
+		         ->where('emp_sec_id', $sewing_sec_id);
+		if(!empty($exclude_desig_ids)){
+			$this->db->where_not_in('emp_desi_id', $exclude_desig_ids);
+		}
+		$query = $this->db->get('pr_emp_com_info');
+		$data = array();
+		foreach($query->result() as $rows)
+		{
+			$data[] = $rows->emp_id;
+		}
+		return $data;
 	}
 
 	function get_section_emp_by_id($sec_id, $unit_id)
@@ -828,6 +893,7 @@ class Mars_model extends CI_Model{
 			$data['all_late'] 		= 0;
 			$data['all_male'] 		= 0;
 			$data['all_female'] 	= 0;
+			$data['total_gross_sal'] = 0;
 		}else{
 			$data['all_emp'] = $query->num_rows();
 			//echo $this->db->last_query();
@@ -883,6 +949,12 @@ class Mars_model extends CI_Model{
 			$this->db->where_in("pr_emp_per_info.emp_id", $all_emp_id);
 			$this->db->where("pr_emp_per_info.emp_sex = 2");
 			$data['all_female'] = $this->db->get()->num_rows();
+
+			$this->db->select_sum("gross_sal");
+			$this->db->from("pr_emp_com_info");
+			$this->db->where_in("emp_id", $all_emp_id);
+			$gross_query = $this->db->get()->row();
+			$data['total_gross_sal'] = !empty($gross_query->gross_sal) ? $gross_query->gross_sal : 0;
 		}
 		return $data;
 	}
