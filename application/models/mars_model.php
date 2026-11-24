@@ -323,6 +323,49 @@ class Mars_model extends CI_Model{
 		return $data;
 	}
 
+	function designation_attendance_summary($report_date, $unit_id){
+		$sql = "SELECT 
+			COALESCE(NULLIF(TRIM(d.desig_name), ''), 'Others') as desig_name,
+			COUNT(DISTINCT l.emp_id) as all_emp,
+			COUNT(DISTINCT CASE WHEN l.in_time != '00:00:00' THEN l.emp_id END) as all_present,
+			COUNT(DISTINCT lt.emp_id) as all_leave,
+			COUNT(DISTINCT CASE WHEN l.in_time = '00:00:00' AND lt.emp_id IS NULL AND c.emp_cat_id != 4 THEN l.emp_id END) as all_absent,
+			COUNT(DISTINCT CASE WHEN p.emp_sex = 1 THEN l.emp_id END) as all_male,
+			COUNT(DISTINCT CASE WHEN p.emp_sex = 2 THEN l.emp_id END) as all_female,
+			COUNT(DISTINCT CASE WHEN l.late_status = 1 THEN l.emp_id END) as all_late,
+			SUM(c.gross_sal) as total_gross_sal
+		FROM pr_emp_shift_log l
+		JOIN pr_emp_com_info c ON l.emp_id = c.emp_id
+		LEFT JOIN pr_emp_per_info p ON l.emp_id = p.emp_id
+		LEFT JOIN pr_designation d ON c.emp_desi_id = d.desig_id
+		LEFT JOIN pr_leave_trans lt ON l.emp_id = lt.emp_id AND lt.start_date = ?
+		WHERE l.shift_log_date = ?
+		  AND l.present_status != 'W'
+		  AND c.emp_cat_id NOT IN (2,3,4)
+		  AND c.unit_id = ?
+		GROUP BY COALESCE(NULLIF(TRIM(d.desig_name), ''), 'Others')
+		ORDER BY desig_name ASC";
+
+		$query = $this->db->query($sql, array($report_date, $report_date, $unit_id));
+
+		$data = array();
+		$data['by_designation'] = array();
+		foreach($query->result_array() as $row){
+			$data['by_designation'][] = array(
+				'desig_name'      => $row['desig_name'],
+				'all_emp'         => intval($row['all_emp']),
+				'all_present'     => intval($row['all_present']),
+				'all_absent'      => intval($row['all_absent']),
+				'all_male'        => intval($row['all_male']),
+				'all_female'      => intval($row['all_female']),
+				'all_leave'       => intval($row['all_leave']),
+				'all_late'        => intval($row['all_late']),
+				'total_gross_sal' => floatval($row['total_gross_sal']),
+			);
+		}
+		return $data;
+	}
+
 	function get_section_emp_by_id_excluding($sec_id, $unit_id, $exclude_desig_ids)
 	{
 		$this->db->select('emp_id')

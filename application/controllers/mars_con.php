@@ -65,7 +65,9 @@ class Mars_con extends CI_Controller {
 		if(empty($category)){
 			$category = $this->uri->segment(4);
 		}
-		if(empty($category)){
+		// Security whitelist check for category to prevent XSS / invalid input
+		$allowed_categories = array('Section', 'Department', 'Line');
+		if(empty($category) || !in_array($category, $allowed_categories)){
 			$category = 'Section';
 		}
 
@@ -76,17 +78,17 @@ class Mars_con extends CI_Controller {
 		if(empty($unit_id)){
 			$this->load->model('common_model');
 			$unit_id = $this->common_model->get_session_unit_id_name();
-			if(empty($unit_id)){
-				$unit_id = 1;
-			}
 		}
+		$unit_id = !empty($unit_id) ? max(1, (int)$unit_id) : 1;
 
+		$data['values'] = array();
 		if($category =='Department'){
 			$data['values'] = $this->mars_model->department_attendance_summary_other($report_date, $unit_id);
 			// $data['values'] = $this->mars_model->department_attendance_summary($report_date, $unit_id);
 		}
-		elseif($category =='Section'){
-			$data['values'] = $this->mars_model->section_attendance_summary($report_date, $unit_id);
+		elseif($category =='Section' || $category == 'Designation'){
+			$data['values'] = $this->mars_model->designation_attendance_summary($report_date, $unit_id);
+			$category = 'Designation';
 		}
 		elseif($category =='Line'){
 			$data['values'] = $this->mars_model->line_attendance_summary($report_date, $unit_id);

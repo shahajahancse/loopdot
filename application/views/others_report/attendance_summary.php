@@ -44,14 +44,14 @@
             <!--Report title goes here-->
             <div align="center" style="margin:0 auto; overflow:hidden; font-family: 'Times New Roman', Times, serif;">
                 <span style="font-size:14px; font-weight:bold;">
-                    <?php echo $title; ?> of <?php echo $report_date; ?>
+                    <?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?> of <?php echo htmlspecialchars($report_date, ENT_QUOTES, 'UTF-8'); ?>
                 </span>
                 <br /><br />
                 <table class="sal" border="1" cellpadding="0" cellspacing="0" align="center">
                     <thead>
                         <tr>
                             <th style="width: 35px; text-align: center;">SL</th>
-                            <th style="text-align: left; padding-left: 10px;"><?php echo $category; ?> Name</th>
+                            <th style="text-align: left; padding-left: 10px;"><?php echo htmlspecialchars($category, ENT_QUOTES, 'UTF-8'); ?> Name</th>
                             <?php if ($category == 'Section' && isset($values['by_section'])) { ?>
                             <th style="text-align: left; padding-left: 10px;">Designation</th>
                             <?php } ?>
@@ -76,7 +76,33 @@
                         $all_female = 0;
                         $all_gross_sal = 0;
 
-                        if ($category == 'Section' && isset($values['by_section'])) {
+                        if (isset($values['by_designation'])) {
+                            $sl = 1;
+                            foreach ($values['by_designation'] as $d) {
+                                $all_emp       += $d['all_emp'];
+                                $all_present   += $d['all_present'];
+                                $all_absent    += $d['all_absent'];
+                                $all_male      += $d['all_male'];
+                                $all_female    += $d['all_female'];
+                                $all_leave     += $d['all_leave'];
+                                $all_late      += $d['all_late'];
+                                $all_gross_sal += $d['total_gross_sal'];
+
+                                $row_bg = ($sl % 2 == 0) ? "style='background-color:#F7F7F7;'" : "";
+                                echo "<tr {$row_bg}>";
+                                echo "<td style='text-align:center;'>" . $sl++ . "</td>";
+                                echo "<td style='padding-left:10px; text-align:left;'>" . htmlspecialchars($d['desig_name'], ENT_QUOTES, 'UTF-8') . "</td>";
+                                echo "<td style='text-align:center;'>" . $d['all_emp'] . "</td>";
+                                echo "<td style='text-align:center;'>" . $d['all_present'] . "</td>";
+                                echo "<td style='text-align:center;'>" . $d['all_absent'] . "</td>";
+                                echo "<td style='text-align:center;'>" . $d['all_male'] . "</td>";
+                                echo "<td style='text-align:center;'>" . $d['all_female'] . "</td>";
+                                echo "<td style='text-align:center;'>" . $d['all_leave'] . "</td>";
+                                echo "<td style='text-align:center;'>" . $d['all_late'] . "</td>";
+                                echo "<td style='text-align:right; padding-right:8px;'>" . number_format($d['total_gross_sal']) . "</td>";
+                                echo "</tr>";
+                            }
+                        } elseif ($category == 'Section' && isset($values['by_section'])) {
                             $sl = 1;
                             foreach ($values['by_section'] as $sec) {
                                 $desig_count = count($sec['desigs']);
@@ -147,7 +173,7 @@
                                 }
 
                                 echo "<td style='text-align:center;'>" . $sl++ . "</td>";
-                                echo "<td style='padding-left:10px; text-align:left;'>" . $values["cat_name"][$i] . "</td>";
+                                echo "<td style='padding-left:10px; text-align:left;'>" . htmlspecialchars($values["cat_name"][$i], ENT_QUOTES, 'UTF-8') . "</td>";
 
                                 echo "<td style='text-align:center;'>";
                                 echo $total_emp;
