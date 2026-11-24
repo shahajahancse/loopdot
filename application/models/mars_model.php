@@ -248,61 +248,78 @@ class Mars_model extends CI_Model{
 
 
 	function section_attendance_summary($report_date, $unit_id){
-		$query = $this->db->select()->where('unit_id', $unit_id)->order_by('sec_name')->get('pr_section');
-		$data = array();
+		$sql = "SELECT 
+			s.sec_id, 
+			s.sec_name, 
+			COALESCE(NULLIF(TRIM(d.desig_name), ''), 'Others') as desig_name,
+			COUNT(DISTINCT l.emp_id) as all_emp,
+			COUNT(DISTINCT CASE WHEN l.in_time != '00:00:00' THEN l.emp_id END) as all_present,
+			COUNT(DISTINCT lt.emp_id) as all_leave,
+			COUNT(DISTINCT CASE WHEN l.in_time = '00:00:00' AND lt.emp_id IS NULL AND c.emp_cat_id != 4 THEN l.emp_id END) as all_absent,
+			COUNT(DISTINCT CASE WHEN p.emp_sex = 1 THEN l.emp_id END) as all_male,
+			COUNT(DISTINCT CASE WHEN p.emp_sex = 2 THEN l.emp_id END) as all_female,
+			COUNT(DISTINCT CASE WHEN l.late_status = 1 THEN l.emp_id END) as all_late,
+			SUM(c.gross_sal) as total_gross_sal
+		FROM pr_emp_shift_log l
+		JOIN pr_emp_com_info c ON l.emp_id = c.emp_id
+		LEFT JOIN pr_emp_per_info p ON l.emp_id = p.emp_id
+		JOIN pr_section s ON c.emp_sec_id = s.sec_id
+		LEFT JOIN pr_designation d ON c.emp_desi_id = d.desig_id
+		LEFT JOIN pr_leave_trans lt ON l.emp_id = lt.emp_id AND lt.start_date = ?
+		WHERE l.shift_log_date = ?
+		  AND l.present_status != 'W'
+		  AND c.emp_cat_id NOT IN (2,3,4)
+		  AND c.unit_id = ?
+		GROUP BY s.sec_id, COALESCE(NULLIF(TRIM(d.desig_name), ''), 'Others')
+		ORDER BY s.sec_name ASC, desig_name ASC";
 
-		// 4 specific designation IDs to exclude from regular sections and display separately
-		// 91 = Jr. Sew. M/c. Op. (Sewing Jr. Operator)
-		// 89 = Asst. Sew. M/c. Op. (Sewing Asst. Op)
-		// 92 = Line Ironman (Line Iron Man)
-		// 79 = Jr.Input Man (Jr. Input Man)
-		$special_desig_ids = array(91, 89, 92, 79);
+		$query = $this->db->query($sql, array($report_date, $report_date, $unit_id));
 
-		// Find sewing section id if any
-		$sewing_sec = $this->db->select('sec_id')->where('unit_id', $unit_id)->where('sec_name', 'Sewing')->get('pr_section')->row();
-		$sewing_sec_id = !empty($sewing_sec) ? $sewing_sec->sec_id : 24;
-
-		foreach($query->result() as $rows){
-			// Skip the main Sewing section from regular loop as its employees are covered under special designations and Sewing Staff
-			if($rows->sec_id == $sewing_sec_id || strtolower(trim($rows->sec_name)) == 'sewing'){
-				continue;
+		$sections = array();
+		foreach($query->result_array() as $row){
+			$sec_name = $row['sec_name'];
+			if(!isset($sections[$sec_name])){
+				$sections[$sec_name] = array(
+					'sec_id'   => $row['sec_id'],
+					'sec_name' => $sec_name,
+					'desigs'   => array(),
+					'subtotal' => array(
+						'all_emp'         => 0,
+						'all_present'     => 0,
+						'all_absent'      => 0,
+						'all_male'        => 0,
+						'all_female'      => 0,
+						'all_leave'       => 0,
+						'all_late'        => 0,
+						'total_gross_sal' => 0,
+					)
+				);
 			}
 
-			$all_emp_id = $this->get_section_emp_by_id_excluding($rows->sec_id, $unit_id, $special_desig_ids);
-			if(!empty($all_emp_id)){
-				$data['cat_name'][] = $rows->sec_name;
-				$data['daily_att_sum'][] = $this->daily_attendance_summary($report_date, $all_emp_id);
-			}else{
-				$data['cat_name'][] = $rows->sec_name;
-				$data['daily_att_sum'][] = '';
-			}
+			$sections[$sec_name]['desigs'][] = array(
+				'desig_name'      => $row['desig_name'],
+				'all_emp'         => intval($row['all_emp']),
+				'all_present'     => intval($row['all_present']),
+				'all_absent'      => intval($row['all_absent']),
+				'all_male'        => intval($row['all_male']),
+				'all_female'      => intval($row['all_female']),
+				'all_leave'       => intval($row['all_leave']),
+				'all_late'        => intval($row['all_late']),
+				'total_gross_sal' => floatval($row['total_gross_sal']),
+			);
+
+			$sections[$sec_name]['subtotal']['all_emp']         += intval($row['all_emp']);
+			$sections[$sec_name]['subtotal']['all_present']     += intval($row['all_present']);
+			$sections[$sec_name]['subtotal']['all_absent']      += intval($row['all_absent']);
+			$sections[$sec_name]['subtotal']['all_male']        += intval($row['all_male']);
+			$sections[$sec_name]['subtotal']['all_female']      += intval($row['all_female']);
+			$sections[$sec_name]['subtotal']['all_leave']       += intval($row['all_leave']);
+			$sections[$sec_name]['subtotal']['all_late']        += intval($row['all_late']);
+			$sections[$sec_name]['subtotal']['total_gross_sal'] += floatval($row['total_gross_sal']);
 		}
 
-		// 1. Sewing Jr. Operator (desig_id: 91)
-		$emp_jr_op = $this->get_emp_by_desig_id(array(91), $unit_id);
-		$data['cat_name'][] = 'Sewing Jr. Operator';
-		$data['daily_att_sum'][] = !empty($emp_jr_op) ? $this->daily_attendance_summary($report_date, $emp_jr_op) : '';
-
-		// 2. Sewing Asst. Op (desig_id: 89)
-		$emp_asst_op = $this->get_emp_by_desig_id(array(89), $unit_id);
-		$data['cat_name'][] = 'Sewing Asst. Op';
-		$data['daily_att_sum'][] = !empty($emp_asst_op) ? $this->daily_attendance_summary($report_date, $emp_asst_op) : '';
-
-		// 3. Line Iron Man (desig_id: 92)
-		$emp_iron = $this->get_emp_by_desig_id(array(92), $unit_id);
-		$data['cat_name'][] = 'Line Iron Man';
-		$data['daily_att_sum'][] = !empty($emp_iron) ? $this->daily_attendance_summary($report_date, $emp_iron) : '';
-
-		// 4. Jr. Input Man (desig_id: 79)
-		$emp_input = $this->get_emp_by_desig_id(array(79), $unit_id);
-		$data['cat_name'][] = 'Jr. Input Man';
-		$data['daily_att_sum'][] = !empty($emp_input) ? $this->daily_attendance_summary($report_date, $emp_input) : '';
-
-		// 5. Sewing Staff (staff level of Sewing section)
-		$emp_sewing_staff = $this->get_sewing_staff_emp_ids($sewing_sec_id, $unit_id, $special_desig_ids);
-		$data['cat_name'][] = 'Sewing Staff';
-		$data['daily_att_sum'][] = !empty($emp_sewing_staff) ? $this->daily_attendance_summary($report_date, $emp_sewing_staff) : '';
-
+		$data = array();
+		$data['by_section'] = array_values($sections);
 		return $data;
 	}
 

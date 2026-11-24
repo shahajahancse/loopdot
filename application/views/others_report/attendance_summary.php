@@ -9,7 +9,7 @@
             table.sal {
                 border-collapse: collapse;
                 width: 95%;
-                max-width: 950px;
+                max-width: 1000px;
                 margin: 0 auto;
                 font-family: Arial, sans-serif;
                 font-size: 11px;
@@ -52,6 +52,9 @@
                         <tr>
                             <th style="width: 35px; text-align: center;">SL</th>
                             <th style="text-align: left; padding-left: 10px;"><?php echo $category; ?> Name</th>
+                            <?php if ($category == 'Section' && isset($values['by_section'])) { ?>
+                            <th style="text-align: left; padding-left: 10px;">Designation</th>
+                            <?php } ?>
                             <th style="width: 60px; text-align: center;">Total</th>
                             <th style="width: 65px; text-align: center;">Present</th>
                             <th style="width: 65px; text-align: center;">Absent</th>
@@ -73,86 +76,132 @@
                         $all_female = 0;
                         $all_gross_sal = 0;
 
-                        $count = count($values["cat_name"]);
-                        $sl = 1;
+                        if ($category == 'Section' && isset($values['by_section'])) {
+                            $sl = 1;
+                            foreach ($values['by_section'] as $sec) {
+                                $desig_count = count($sec['desigs']);
+                                if ($desig_count == 0) {
+                                    continue;
+                                }
 
-                        for ($i = 0; $i < $count; $i++) {
-                            $total_emp = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_emp'])) ? intval($values["daily_att_sum"][$i]['all_emp']) : 0;
+                                $has_subtotal = ($desig_count > 1);
+                                $sec_rowspan = $desig_count + ($has_subtotal ? 1 : 0);
 
-                            $is_special = in_array($values["cat_name"][$i], array(
-                                'Sewing Jr. Operator',
-                                'Sewing Asst. Op',
-                                'Line Iron Man',
-                                'Jr. Input Man',
-                                'Sewing Staff'
-                            ));
+                                foreach ($sec['desigs'] as $idx => $d) {
+                                    $all_emp       += $d['all_emp'];
+                                    $all_present   += $d['all_present'];
+                                    $all_absent    += $d['all_absent'];
+                                    $all_male      += $d['all_male'];
+                                    $all_female    += $d['all_female'];
+                                    $all_leave     += $d['all_leave'];
+                                    $all_late      += $d['all_late'];
+                                    $all_gross_sal += $d['total_gross_sal'];
 
-                            // Skip sections with totally 0 manpower unless it is one of the 5 requested designations
-                            if ($total_emp <= 0 && !$is_special) {
-                                continue;
+                                    echo "<tr>";
+                                    if ($idx === 0) {
+                                        echo "<td rowspan='{$sec_rowspan}' style='text-align:center; vertical-align:middle; font-weight:bold;'>" . $sl++ . "</td>";
+                                        echo "<td rowspan='{$sec_rowspan}' style='padding-left:10px; text-align:left; vertical-align:middle; font-weight:bold;'>" . htmlspecialchars($sec['sec_name']) . "</td>";
+                                    }
+                                    echo "<td style='padding-left:10px; text-align:left;'>" . htmlspecialchars($d['desig_name']) . "</td>";
+                                    echo "<td style='text-align:center;'>" . $d['all_emp'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $d['all_present'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $d['all_absent'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $d['all_male'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $d['all_female'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $d['all_leave'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $d['all_late'] . "</td>";
+                                    echo "<td style='text-align:right; padding-right:8px;'>" . number_format($d['total_gross_sal']) . "</td>";
+                                    echo "</tr>";
+                                }
+
+                                if ($has_subtotal) {
+                                    $sub = $sec['subtotal'];
+                                    echo "<tr style='background-color:#EFEFEF; font-weight:bold;'>";
+                                    echo "<td style='padding-left:10px; text-align:left; font-style:italic;'>Sub Total</td>";
+                                    echo "<td style='text-align:center;'>" . $sub['all_emp'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $sub['all_present'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $sub['all_absent'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $sub['all_male'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $sub['all_female'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $sub['all_leave'] . "</td>";
+                                    echo "<td style='text-align:center;'>" . $sub['all_late'] . "</td>";
+                                    echo "<td style='text-align:right; padding-right:8px;'>" . number_format($sub['total_gross_sal']) . "</td>";
+                                    echo "</tr>";
+                                }
                             }
+                        } else {
+                            $count = isset($values["cat_name"]) ? count($values["cat_name"]) : 0;
+                            $sl = 1;
 
-                            if ($sl % 2 == 1) {
-                                echo "<tr>";
-                            } else {
-                                echo "<tr style='background-color:#F7F7F7;'>";
+                            for ($i = 0; $i < $count; $i++) {
+                                $total_emp = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_emp'])) ? intval($values["daily_att_sum"][$i]['all_emp']) : 0;
+
+                                if ($total_emp <= 0) {
+                                    continue;
+                                }
+
+                                if ($sl % 2 == 1) {
+                                    echo "<tr>";
+                                } else {
+                                    echo "<tr style='background-color:#F7F7F7;'>";
+                                }
+
+                                echo "<td style='text-align:center;'>" . $sl++ . "</td>";
+                                echo "<td style='padding-left:10px; text-align:left;'>" . $values["cat_name"][$i] . "</td>";
+
+                                echo "<td style='text-align:center;'>";
+                                echo $total_emp;
+                                $all_emp += $total_emp;
+                                echo "</td>";
+
+                                echo "<td style='text-align:center;'>";
+                                $present = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_present'])) ? intval($values["daily_att_sum"][$i]['all_present']) : 0;
+                                echo $present;
+                                $all_present += $present;
+                                echo "</td>";
+
+                                echo "<td style='text-align:center;'>";
+                                $absent = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_absent'])) ? intval($values["daily_att_sum"][$i]['all_absent']) : 0;
+                                echo $absent;
+                                $all_absent += $absent;
+                                echo "</td>";
+
+                                echo "<td style='text-align:center;'>";
+                                $male = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_male'])) ? intval($values["daily_att_sum"][$i]['all_male']) : 0;
+                                echo $male;
+                                $all_male += $male;
+                                echo "</td>";
+
+                                echo "<td style='text-align:center;'>";
+                                $female = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_female'])) ? intval($values["daily_att_sum"][$i]['all_female']) : 0;
+                                echo $female;
+                                $all_female += $female;
+                                echo "</td>";
+
+                                echo "<td style='text-align:center;'>";
+                                $leave = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_leave'])) ? intval($values["daily_att_sum"][$i]['all_leave']) : 0;
+                                echo $leave;
+                                $all_leave += $leave;
+                                echo "</td>";
+
+                                echo "<td style='text-align:center;'>";
+                                $late = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_late'])) ? intval($values["daily_att_sum"][$i]['all_late']) : 0;
+                                echo $late;
+                                $all_late += $late;
+                                echo "</td>";
+
+                                $gross_sal = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['total_gross_sal'])) ? floatval($values["daily_att_sum"][$i]['total_gross_sal']) : 0;
+                                $all_gross_sal += $gross_sal;
+                                echo "<td style='text-align:right; padding-right:8px;'>" . number_format($gross_sal) . "</td>";
+
+                                echo "</tr>";
                             }
-
-                            echo "<td style='text-align:center;'>" . $sl++ . "</td>";
-                            echo "<td style='padding-left:10px; text-align:left;'>" . $values["cat_name"][$i] . "</td>";
-
-                            echo "<td style='text-align:center;'>";
-                            echo $total_emp;
-                            $all_emp += $total_emp;
-                            echo "</td>";
-
-                            echo "<td style='text-align:center;'>";
-                            $present = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_present'])) ? intval($values["daily_att_sum"][$i]['all_present']) : 0;
-                            echo $present;
-                            $all_present += $present;
-                            echo "</td>";
-
-                            echo "<td style='text-align:center;'>";
-                            $absent = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_absent'])) ? intval($values["daily_att_sum"][$i]['all_absent']) : 0;
-                            echo $absent;
-                            $all_absent += $absent;
-                            echo "</td>";
-
-                            echo "<td style='text-align:center;'>";
-                            $male = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_male'])) ? intval($values["daily_att_sum"][$i]['all_male']) : 0;
-                            echo $male;
-                            $all_male += $male;
-                            echo "</td>";
-
-                            echo "<td style='text-align:center;'>";
-                            $female = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_female'])) ? intval($values["daily_att_sum"][$i]['all_female']) : 0;
-                            echo $female;
-                            $all_female += $female;
-                            echo "</td>";
-
-                            echo "<td style='text-align:center;'>";
-                            $leave = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_leave'])) ? intval($values["daily_att_sum"][$i]['all_leave']) : 0;
-                            echo $leave;
-                            $all_leave += $leave;
-                            echo "</td>";
-
-                            echo "<td style='text-align:center;'>";
-                            $late = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['all_late'])) ? intval($values["daily_att_sum"][$i]['all_late']) : 0;
-                            echo $late;
-                            $all_late += $late;
-                            echo "</td>";
-
-                            $gross_sal = (!empty($values["daily_att_sum"][$i]) && isset($values["daily_att_sum"][$i]['total_gross_sal'])) ? floatval($values["daily_att_sum"][$i]['total_gross_sal']) : 0;
-                            $all_gross_sal += $gross_sal;
-                            echo "<td style='text-align:right; padding-right:8px;'>" . number_format($gross_sal) . "</td>";
-
-                            echo "</tr>";
                         }
                         ?>
                     </tbody>
                     <tfoot>
                         <tr style="font-weight:bold; text-align:center; background-color:#EAEAEA;">
-                            <td colspan="2" style="text-align:center;">Total</td>
+                            <td colspan="<?php echo ($category == 'Section' && isset($values['by_section'])) ? 3 : 2; ?>" style="text-align:center;">Total</td>
                             <td><?php echo $all_emp; ?></td>
                             <td>
                                 <?php
